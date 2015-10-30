@@ -72,6 +72,95 @@ public class MainController {
 		return verifiedInfo;
 	}
 	
+	public boolean doBAMSUpdateBalance(String accountNumber, double amount)
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doBAMSUpdatePasswd(String accountNumber, String newPasswd)
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doDisplay(String[] displayContent)
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be int
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doEatCash()
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doBAMSTransfer(String accountNumber, String destAccountNumber, double amount)
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doEjectEnvelop()
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	public boolean doEatEnvelop()
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	
+	
 	
 	/**
 	 * @param args
