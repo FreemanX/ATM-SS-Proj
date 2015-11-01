@@ -32,6 +32,7 @@ public class MainController {
 	private LinkedList<Session> sessionLog;
 	private MainController mainController = new MainController();
 
+	
 	/**
 	 * 
 	 */
@@ -160,7 +161,16 @@ public class MainController {
 		return isSuccess;
 	}
 	
-	
+	public boolean printAdvice()
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
 	
 	/**
 	 * @param args
