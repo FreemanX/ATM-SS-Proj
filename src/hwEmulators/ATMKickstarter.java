@@ -4,16 +4,14 @@ import java.util.logging.Logger;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
-
 //======================================================================
 // ATMKickstarter
 public class ATMKickstarter {
-    private static Logger log = null;
+	private static Logger log = null;
 
-
-    //------------------------------------------------------------
-    // main
-    public static void main(String args[]) {
+	// ------------------------------------------------------------
+	// main
+	public static void main(String args[]) {
 		// create and configure logger
 		ConsoleHandler conHd = new ConsoleHandler();
 		conHd.setFormatter(new ATMSSLogFormatter());
@@ -24,8 +22,8 @@ public class ATMKickstarter {
 
 		// create components
 		CardReader cardReader = new CardReader("cr");
-		Keypad     keypad     = new Keypad("kp");
-		ATMSS      atmss      = new ATMSS("atmss");
+		Keypad keypad = new Keypad("kp");
+		ATMSS atmss = new ATMSS("atmss");
 
 		// connect components
 		atmss.setCardReader(cardReader);
@@ -37,12 +35,11 @@ public class ATMKickstarter {
 		keypad.start();
 		cardReader.start();
 		atmss.start();
-    } // main
+	} // main
 
-
-    //------------------------------------------------------------
-    // getLogger
-    public static Logger getLogger() {
+	// ------------------------------------------------------------
+	// getLogger
+	public static Logger getLogger() {
 		return log;
-    } // getLogger
+	} // getLogger
 } // ATMKickstarter
