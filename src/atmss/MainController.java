@@ -162,7 +162,7 @@ public class MainController {
 		return isSuccess;
 	}
 	
-	public boolean printAdvice()
+	public boolean doPrintAdvice()
 	{
 		boolean isSuccess = false;
 
@@ -171,6 +171,24 @@ public class MainController {
 		 */
 
 		return isSuccess;
+	}
+	
+	public String doGetKeyInput()
+	{
+		String userInput = "";
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return userInput;
+	}
+	
+	public void setTimmer()
+	{
+		/*
+		 * Implement the process here.
+		 */
 	}
 	
 	/**
