@@ -44,6 +44,7 @@ public class BAMSHandler {
 	 */
 	public String login(String cardNo, String pin) {
 		String urlStr = prefix + "login.php?cardNo=" + cardNo + "&pin=" + pin;
+		System.err.println(urlStr);
 		String credential = sendRequest(urlStr);
 		return credential;
 	} // login
