@@ -8,3 +8,10 @@
 2. The sample codes provided by Joe are also included for now. Those code can only be > reference as mentioned in the lecture.
 
 ==============
+
+
+### Notice
+There is a "mistake" in BAMSHandler.java, line 134.
+"toAcc=" should be "&toAcc=", whenever you try to use the transfer method, append a "&" behind the cred.
+e.g
+handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)

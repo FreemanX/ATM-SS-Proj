@@ -21,7 +21,7 @@ $fromAcc = $_GET["fromAcc"];
 $toAcc = $_GET["toAcc"];
 $cred = $_GET["cred"];
 $amount = intval($_GET["amount"]);
-
+//echo $_SERVER['REQUEST_URI'];
 $requestResult = -1;
 $verified = false;
 
