@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 public class ATMSS extends Thread {
 	private String id;
 	private Logger log = null;
+	private CashDispenser cashDispenser = null;
 	private CardReader cardReader = null;
 	private Keypad keypad = null;
 	private ATMSSDBugConsole console = null;
@@ -29,6 +30,10 @@ public class ATMSS extends Thread {
 
 	public void setKeypad(Keypad kp) {
 		keypad = kp;
+	}
+	
+	public void setCashDispenser(CashDispenser cd){
+		cashDispenser = cd;
 	}
 
 	// ------------------------------------------------------------
