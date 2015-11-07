@@ -25,7 +25,8 @@ public class CardReader extends Thread {
 	private MBox atmssMBox = null;
 	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
-
+	private boolean enabled = true;
+	
 	// ------------------------------------------------------------
 	// CardReader
 	public CardReader(String id) {
@@ -42,6 +43,10 @@ public class CardReader extends Thread {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
+	
+	public void setCardReaderEnable(boolean isEnable) {
+		this.enabled = isEnable;
+	}
 
 	// ------------------------------------------------------------
 	// MyFrame
@@ -168,6 +173,7 @@ public class CardReader extends Thread {
 			msgPanel.add(msgScrollPane);
 			return msgPanel;
 		} // createMsgPanel
+
 	} // MyPanel
-	
+
 } // CardReader

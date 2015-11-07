@@ -16,22 +16,28 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepositCollector extends Thread{
+public class DepositCollector extends Thread {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
 	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
+	private boolean enable = true;
 
-	public DepositCollector (String id) {
+	public DepositCollector(String id) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		log = ATMKickstarter.getLogger();
-
+		
 		MyFrame myFrame = new MyFrame("Deposit Collector");
 	}
 
+	public void setDepositCollectorEnable(boolean isEnable)
+	{
+		this.enable = isEnable;
+	}
+	
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();

@@ -22,6 +22,8 @@ public class AdvicePrinter extends Thread {
 	private JTextArea textArea = null;
 	private MyFrame myFrame = null;
 
+	
+	
 	public AdvicePrinter(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
@@ -31,6 +33,7 @@ public class AdvicePrinter extends Thread {
 		textArea.setEditable(false);
 		MyFrame myFrame = new MyFrame("Advice Printer");
 	}
+
 
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;

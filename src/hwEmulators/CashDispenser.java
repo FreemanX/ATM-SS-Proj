@@ -17,17 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class CashDispenser extends Thread {
-
 	private String id;
-
 	private Logger log = null;
-
 	private ATMSS atmss = null;
-
 	private MBox atmssMBox = null;
-
 	private JTextArea textArea = null;
-
 	// ------------------------------------------------------------
 
 	// CashDispenser
@@ -44,8 +38,7 @@ public class CashDispenser extends Thread {
 
 	} // CashDispenser
 
-	// ------------------------------------------------------------
-
+	
 	// setATMSS
 
 	public void setATMSS(ATMSS newAtmss) {

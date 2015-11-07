@@ -16,11 +16,10 @@ public class Keypad extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	// ------------------------------------------------------------------
+	private boolean enabled = true;
 
 	// ------------------------------------------------------------------
-	private boolean enabled = false;
-	
-	//------------------------------------------------------------------
 	// Listener
 	class MyListener implements ActionListener {
 
@@ -34,7 +33,7 @@ public class Keypad extends Thread {
 			}
 		}
 	} // listener
-	
+
 	// ------------------------------------------------------------
 	// Keypad
 	public Keypad(String id) {
@@ -51,7 +50,7 @@ public class Keypad extends Thread {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
-	
+
 	// toggle keypad listening state
 	public void setKeypadEnable(boolean isEnable) {
 		enabled = isEnable;
