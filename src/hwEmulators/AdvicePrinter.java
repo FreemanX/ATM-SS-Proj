@@ -29,7 +29,7 @@ public class AdvicePrinter extends Thread {
 		log = ATMKickstarter.getLogger();
 
 		// create textArea and frame
-		textArea = new JTextArea(20, 17);
+		textArea = new JTextArea(20, 30);
 		textArea.setEditable(false);
 		MyFrame myFrame = new MyFrame("Advice Printer");
 	}
@@ -60,11 +60,11 @@ public class AdvicePrinter extends Thread {
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
-			setLocation(1240, 100);
+			setLocation(UIManager.x, UIManager.y + 400);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
-			setSize(200, 400);
+			setSize(350, 400);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -83,8 +83,8 @@ public class AdvicePrinter extends Thread {
 				}
 			});
 			JScrollPane textScrollPane = new JScrollPane(textArea);
-			add(clearButton);
 			add(textScrollPane);
+			add(clearButton);
 		} // MyPanel
 
 	}

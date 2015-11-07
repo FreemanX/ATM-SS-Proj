@@ -39,7 +39,7 @@ public class KeypadController extends HardwareController {
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
-	public boolean shutdonw() throws Exception {
+	public boolean shutdown() throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}

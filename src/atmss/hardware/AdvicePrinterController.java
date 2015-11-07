@@ -90,7 +90,7 @@ public class AdvicePrinterController extends HardwareController {
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
-	public boolean shutdonw() {
+	public boolean shutdown() {
 		// TODO Auto-generated method stub
 		return false;
 	}

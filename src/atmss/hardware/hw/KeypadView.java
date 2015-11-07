@@ -4,6 +4,7 @@
 package atmss.hardware.hw;
 
 import atmss.hardware.hw.exceptioins.HardwareException;
+import hwEmulators.Keypad;
 
 /**
  * @author freeman
@@ -11,11 +12,12 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  */
 public class KeypadView extends HardwareView {
 
+	private Keypad keypad;
 	/**
 	 * 
 	 */
-	public KeypadView() {
-		// TODO Auto-generated constructor stub
+	public KeypadView(Keypad keypad) {
+		this.keypad = keypad;
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +43,7 @@ public class KeypadView extends HardwareView {
 	 */
 	@Override
 	public boolean shutdown() throws HardwareException {
-		// TODO Auto-generated method stub
+		keypad.setKeypadEnable(false);
 		return false;
 	}
 
