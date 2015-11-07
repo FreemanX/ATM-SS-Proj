@@ -16,14 +16,11 @@ public class Keypad extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
-<<<<<<< HEAD
 
 	// ------------------------------------------------------------------
-=======
 	private boolean enabled = false;
 	
 	//------------------------------------------------------------------
->>>>>>> 43c9f9c5f0bc61689b972b18fb560bfa1d3eefd2
 	// Listener
 	class MyListener implements ActionListener {
 

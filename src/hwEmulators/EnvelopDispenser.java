@@ -75,8 +75,6 @@ public class EnvelopDispenser extends Thread{
 			add(labelPanel);
 			add(msgPanel);			
 		}
-<<<<<<< HEAD
-=======
 			
 		// ----------------------------------------
 		// createButtonPanel
@@ -111,8 +109,6 @@ public class EnvelopDispenser extends Thread{
 			labelPanel.add(msgLabel);
 			return labelPanel;
 		} // createLabelPanel
-				
->>>>>>> 43c9f9c5f0bc61689b972b18fb560bfa1d3eefd2
 		
 		// ----------------------------------------
 		// createMsgPanel
