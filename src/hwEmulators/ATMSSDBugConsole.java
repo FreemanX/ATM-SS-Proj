@@ -32,7 +32,7 @@ public class ATMSSDBugConsole {
 		log = ATMKickstarter.getLogger();
 
 		// create textArea and frame
-		textArea = new JTextArea(21, 50);
+		textArea = new JTextArea(20, 48);
 		textArea.setEditable(false);
 		myFrame = new MyFrame("ATMSS-Console");
 	} // ATMSSDBugConsole
@@ -60,12 +60,11 @@ public class ATMSSDBugConsole {
 		public MyFrame(String title) {
 			setTitle(title);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setLocation(300, 100);
+			setLocation(UIManager.x + 350, UIManager.y + 400);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
-			
-			setSize(700, 385);
 			pack();
+			setSize(550, 400);
 			setResizable(false);
 			setVisible(true);
 		} // MyFrame

@@ -144,7 +144,7 @@ public class CardReader extends Thread {
 				public void actionPerformed(ActionEvent event) {
 					log.info(id + ": Sending " + textField.getText());
 					msgTextArea.append("Sending " + textField.getText() + "\n");
-					atmssMBox.send(new Msg("CardReader", 1, textField.getText()));
+					atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
 				}
 			});
 			resetButton.addActionListener(new ActionListener() {

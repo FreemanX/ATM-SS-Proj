@@ -14,11 +14,13 @@ public class ATMKickstarter {
 	private static Logger log = null;
 
 	// HW components
-	CashDispenser cashDispenser;
-	CardReader cardReader;
-	Keypad keypad;
 	AdvicePrinter advicePrinter;
+	CardReader cardReader;
+	CashDispenser cashDispenser;
 	DepositCollector depositCollector;
+	Display display;
+	EnvelopDispenser envelopDispenser;
+	Keypad keypad;	
 	ATMSS atmss;
 	
 	// view components
@@ -40,34 +42,39 @@ public class ATMKickstarter {
 		log.setLevel(Level.INFO);
 
 		// create components
-		cashDispenser = new CashDispenser("cd");
-		cardReader = new CardReader("cr");
-		keypad = new Keypad("kp");
 		advicePrinter = new AdvicePrinter("ap");
+		cardReader = new CardReader("cr");
+		cashDispenser = new CashDispenser("cd");
 		depositCollector = new DepositCollector("dc");
+		display = new Display("ds");
+		envelopDispenser = new EnvelopDispenser("ed");
+		keypad = new Keypad("kp");
 		atmss = new ATMSS("atmss");
 
-		EnvelopDispenser envelopDispenser = new EnvelopDispenser("ed");
-
 		// connect components
-		atmss.setCashDispenser(cashDispenser);
+		atmss.setAdvicePrinter(advicePrinter);
 		atmss.setCardReader(cardReader);
-		atmss.setKeypad(keypad);
+		atmss.setCashDispenser(cashDispenser);
 		atmss.setDepositCollector(depositCollector);
-		cardReader.setATMSS(atmss);
-		keypad.setATMSS(atmss);
+		atmss.setDisplay(display);
+		atmss.setKeypad(keypad);
+		atmss.setEnvelopDispenser(envelopDispenser);
 		advicePrinter.setATMSS(atmss);
+		cardReader.setATMSS(atmss);
 		cashDispenser.setATMSS(atmss);
 		depositCollector.setATMSS(atmss);
+		display.setATMSS(atmss);
 		envelopDispenser.setATMSS(atmss);
+		keypad.setATMSS(atmss);
 
 		// start the components
-		cashDispenser.start();
-		keypad.start();
-		cardReader.start();
 		atmss.start();
 		advicePrinter.start();
+		cardReader.start();
+		cashDispenser.start();
 		depositCollector.start();
+		display.start();
+		keypad.start();
 		envelopDispenser.start();
 		
 		// setup views
