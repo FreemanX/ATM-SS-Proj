@@ -27,7 +27,9 @@ public class ATMKickstarter {
 		AdvicePrinter advicePrinter = new AdvicePrinter("ap");
 		DepositCollector depositCollector = new DepositCollector("dc");
 		ATMSS atmss = new ATMSS("atmss");
-		
+
+		EnvelopDispenser envelopDispenser = new EnvelopDispenser("ed");
+
 
 		// connect components
 		atmss.setCashDispenser(cashDispenser);
@@ -37,7 +39,9 @@ public class ATMKickstarter {
 		cardReader.setATMSS(atmss);
 		keypad.setATMSS(atmss);
 		advicePrinter.setATMSS(atmss);
+
 		depositCollector.setATMSS(atmss);
+		envelopDispenser.setATMSS(atmss);
 		
 		// start the components
 		cashDispenser.start();
@@ -46,6 +50,7 @@ public class ATMKickstarter {
 		atmss.start();
 		advicePrinter.start();
 		depositCollector.start();
+		envelopDispenser.start();
 	} // main
 
 	// ------------------------------------------------------------
