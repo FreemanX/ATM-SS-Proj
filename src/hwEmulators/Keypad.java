@@ -53,8 +53,8 @@ public class Keypad extends Thread {
 	} // setATMSS
 	
 	// toggle keypad listening state
-	public void toggleKeypad() {
-		enabled = !enabled;
+	public void setKeypadEnable(boolean isEnable) {
+		enabled = isEnable;
 	}
 
 	// ------------------------------------------------------------
