@@ -12,6 +12,7 @@ import javax.swing.text.DefaultCaret;
 import com.sun.org.apache.xpath.internal.functions.Function;
 import com.sun.org.apache.xpath.internal.patterns.FunctionPattern;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -51,6 +52,7 @@ public class Keypad extends Thread {
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
+			setSize(350, 320);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -65,28 +67,34 @@ public class Keypad extends Thread {
 		public MyPanel() {
 			JPanel functionPannel = createFunctionsPanel();
 			JPanel numPannel1 = createNumPannel1();
-			
-			
+			JPanel numPannel2 = createNumPannel2();
+			JPanel numPannel3 = createNumPannel3();
+			JPanel numPannel4 = createNumPannel4();
 			this.add(functionPannel);
 			this.add(numPannel1);
-			
+			this.add(numPannel2);
+			this.add(numPannel3);
+			this.add(numPannel4);
 		} // MyPanel
-		
-		private JPanel createFunctionsPanel()
-		{
+
+		private JPanel createFunctionsPanel() {
 			JButton cancelButton = new JButton("CANCEL");
 			JButton clearButton = new JButton("CLEAR");
 			JButton enterButton = new JButton("ENTER");
-			
+
+			cancelButton.setPreferredSize(new Dimension(100, 40));
+			clearButton.setPreferredSize(new Dimension(100, 40));
+			enterButton.setPreferredSize(new Dimension(100, 40));
+
 			cancelButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					log.info(id + ": Sending \"CANCEL\"");
 					atmssMBox.send(new Msg("Keypad", 2, "CANCEL"));
 				}
 			});
-			
+
 			clearButton.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
@@ -94,9 +102,9 @@ public class Keypad extends Thread {
 					atmssMBox.send(new Msg("Keypad", 2, "CLEAR"));
 				}
 			});
-			
+
 			enterButton.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
@@ -104,29 +112,33 @@ public class Keypad extends Thread {
 					atmssMBox.send(new Msg("Keypad", 2, "ENTER"));
 				}
 			});
-			
+
 			JPanel functionPannel = new JPanel();
 			functionPannel.add(cancelButton);
 			functionPannel.add(clearButton);
 			functionPannel.add(enterButton);
 			return functionPannel;
 		}
-		
-		private JPanel createNumPannel1()
-		{
-			JButton num1 = new JButton("1");
-			JButton num2 = new JButton("2");
-			JButton num3 = new JButton("3");
-			
-			num1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
+
+		private JPanel createNumPannel1() {
+			JPanel numPannel1 = new JPanel();
+			JButton[] num = new JButton[3];
+			for (int i = 0; i < 3; i++) {
+				num[i] = new JButton(Integer.toString(i+1));
+				num[i].setPreferredSize(new Dimension(100, 40));
+			}
+
+			num[0].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
 					log.info(id + ": Sending \"1\"");
 					atmssMBox.send(new Msg("Keypad", 2, "1"));
 				}
 			});
-			
-			num2.addActionListener(new ActionListener() {
-				
+			num[1].addActionListener(new ActionListener() {
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
@@ -134,9 +146,8 @@ public class Keypad extends Thread {
 					atmssMBox.send(new Msg("Keypad", 2, "2"));
 				}
 			});
-			
-			num3.addActionListener(new ActionListener() {
-				
+			num[2].addActionListener(new ActionListener() {
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
@@ -144,14 +155,124 @@ public class Keypad extends Thread {
 					atmssMBox.send(new Msg("Keypad", 2, "3"));
 				}
 			});
-			
-			JPanel numPannel1 = new JPanel();
-			numPannel1.add(num1);
-			numPannel1.add(num2);
-			numPannel1.add(num3);
+			for (int i = 0; i < 3; i++)
+				numPannel1.add(num[i]);
+
 			return numPannel1;
 		}
 		
+		private JPanel createNumPannel2() {
+			JPanel numPannel2 = new JPanel();
+			JButton[] num = new JButton[3];
+			for (int i = 0; i < 3; i++) {
+				num[i] = new JButton(Integer.toString(i+4));
+				num[i].setPreferredSize(new Dimension(100, 40));
+			}
+
+			num[0].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \"1\"");
+					atmssMBox.send(new Msg("Keypad", 2, "4"));
+				}
+			});
+			num[1].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \"2\"");
+					atmssMBox.send(new Msg("Keypad", 2, "5"));
+				}
+			});
+			num[2].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \"3\"");
+					atmssMBox.send(new Msg("Keypad", 2, "6"));
+				}
+			});
+			for (int i = 0; i < 3; i++)
+				numPannel2.add(num[i]);
+
+			return numPannel2;
+		}
 		
+		private JPanel createNumPannel3() {
+			JPanel numPannel3 = new JPanel();
+			JButton[] num = new JButton[3];
+			for (int i = 0; i < 3; i++) {
+				num[i] = new JButton(Integer.toString(i+7));
+				num[i].setPreferredSize(new Dimension(100, 40));
+			}
+
+			num[0].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \"1\"");
+					atmssMBox.send(new Msg("Keypad", 2, "7"));
+				}
+			});
+			num[1].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \"2\"");
+					atmssMBox.send(new Msg("Keypad", 2, "8"));
+				}
+			});
+			num[2].addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \"3\"");
+					atmssMBox.send(new Msg("Keypad", 2, "9"));
+				}
+			});
+			for (int i = 0; i < 3; i++)
+				numPannel3.add(num[i]);
+
+			return numPannel3;
+		}
+		
+		private JPanel createNumPannel4() {
+			JButton num0 = new JButton("0");
+			JButton numPoint = new JButton(".");
+
+
+			num0.setPreferredSize(new Dimension(100, 40));
+			numPoint.setPreferredSize(new Dimension(100, 40));
+
+			num0.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+					log.info(id + ": Sending \"0\"");
+					atmssMBox.send(new Msg("Keypad", 2, "0"));
+				}
+			});
+
+			numPoint.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					log.info(id + ": Sending \".\"");
+					atmssMBox.send(new Msg("Keypad", 2, "."));
+				}
+			});
+
+			JPanel functionPannel = new JPanel();
+			functionPannel.add(num0);
+			functionPannel.add(numPoint);
+			return functionPannel;
+		}
+
 	} // MyPanel
 } // Keypad

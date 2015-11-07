@@ -60,7 +60,7 @@ public class ATMSSDBugConsole {
 		public MyFrame(String title) {
 			setTitle(title);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setLocation(300, 100);
+			setLocation(300, 160);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
