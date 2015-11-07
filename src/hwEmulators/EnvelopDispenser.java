@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -20,6 +21,7 @@ public class EnvelopDispenser extends Thread{
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
 	private JTextArea msgTextArea = null;
+	//private JLabel msgLabel = null;
 	
 	// ------------------------------------------------------------
 	// EnvelopDispenser
@@ -79,36 +81,19 @@ public class EnvelopDispenser extends Thread{
 			// assign actions to button
 			enjectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-					Timer timer = new Timer();
-					TimerTask tt1 = new TimerTask(){
-						public void run() {
-							log.info(id + ": Sending \"" +enjectButton.getText() + "\"");
-							msgTextArea.append("Preparing for ejecting...\n");
-							atmssMBox.send(new Msg("EnvelopDispenser", 7, enjectButton.getText()));
-						}
-					};
-					timer.schedule(tt1, 500);					
+					log.info(id + ": Sending \"" +enjectButton.getText() + "\"");
+					msgTextArea.append("Preparing for ejecting...\n");
+					//msgLabel.setText("Preparing for ejecting...");
+					atmssMBox.send(new Msg("EnvelopDispenser", 7, enjectButton.getText()));
 					
-					TimerTask tt2 = new TimerTask(){
-						public void run() {
-							msgTextArea.append("Enjecting an envelop...\n");
-						}
-					};
-					timer.schedule(tt2, 5000);
+					msgTextArea.append("Enjecting an envelop...\n");
+					//msgLabel.setText("Enjecting an envelop...");
 					
-					TimerTask tt3 = new TimerTask(){
-						public void run() {
-							msgTextArea.append("Envelop ejected!\n");
-						}
-					};
-					timer.schedule(tt3, 10000);	
+					msgTextArea.append("Envelop ejected!\n");
+					//msgLabel.setText("Envelop ejected!");
 					
-					TimerTask tt4 = new TimerTask(){
-						public void run() {
-							msgTextArea.append("Working\n");
-						}
-					};
-					timer.schedule(tt4, 11000);					
+					msgTextArea.append("Working\n");
+					//msgLabel.setText("Working");				
 				}
 			});
 				
@@ -129,9 +114,13 @@ public class EnvelopDispenser extends Thread{
 			msgTextArea.setEditable(false);
 			JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
 			
+			//msgLabel = new JLabel();
+			
 			// create the msg panel and add the text area into it
 			JPanel msgPanel = new JPanel();
-			msgPanel.add(msgScrollPane);			
+			msgPanel.add(msgScrollPane);	
+			//msgPanel.add(msgLabel);
+			//msgLabel.setText("Working");
 			msgTextArea.append("Working\n");
 			return msgPanel;
 		} // createMsgPanel
