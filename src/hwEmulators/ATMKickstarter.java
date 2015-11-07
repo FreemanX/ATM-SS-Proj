@@ -1,6 +1,9 @@
 package hwEmulators;
 
 import java.util.logging.Logger;
+
+import atmss.MainController;
+
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
@@ -9,9 +12,24 @@ import java.util.logging.Level;
 public class ATMKickstarter {
 	private static Logger log = null;
 
+	// HW components
+	CashDispenser cashDispenser;
+	CardReader cardReader;
+	Keypad keypad;
+	AdvicePrinter advicePrinter;
+	DepositCollector depositCollector;
+	ATMSS atmss;
+	
+	// atm controller
+	MainController controller;
+
 	// ------------------------------------------------------------
 	// main
 	public static void main(String args[]) {
+		new ATMKickstarter();
+	} // main
+
+	public ATMKickstarter() {
 		// create and configure logger
 		ConsoleHandler conHd = new ConsoleHandler();
 		conHd.setFormatter(new ATMSSLogFormatter());
@@ -19,14 +37,14 @@ public class ATMKickstarter {
 		log.setUseParentHandlers(false);
 		log.addHandler(conHd);
 		log.setLevel(Level.INFO);
-		
+
 		// create components
-		CashDispenser cashDispenser = new CashDispenser("cd");
-		CardReader cardReader = new CardReader("cr");
-		Keypad keypad = new Keypad("kp");
-		AdvicePrinter advicePrinter = new AdvicePrinter("ap");
-		DepositCollector depositCollector = new DepositCollector("dc");
-		ATMSS atmss = new ATMSS("atmss");
+		cashDispenser = new CashDispenser("cd");
+		cardReader = new CardReader("cr");
+		keypad = new Keypad("kp");
+		advicePrinter = new AdvicePrinter("ap");
+		depositCollector = new DepositCollector("dc");
+		atmss = new ATMSS("atmss");
 
 		EnvelopDispenser envelopDispenser = new EnvelopDispenser("ed");
 
@@ -41,7 +59,7 @@ public class ATMKickstarter {
 		cashDispenser.setATMSS(atmss);
 		depositCollector.setATMSS(atmss);
 		envelopDispenser.setATMSS(atmss);
-		
+
 		// start the components
 		cashDispenser.start();
 		keypad.start();
@@ -50,7 +68,9 @@ public class ATMKickstarter {
 		advicePrinter.start();
 		depositCollector.start();
 		envelopDispenser.start();
-	} // main
+	}
+	
+	public Keypad getKeypad() { return keypad; }
 
 	// ------------------------------------------------------------
 	// getLogger

@@ -16,17 +16,25 @@ public class Keypad extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+<<<<<<< HEAD
 
 	// ------------------------------------------------------------------
+=======
+	private boolean enabled = false;
+	
+	//------------------------------------------------------------------
+>>>>>>> 43c9f9c5f0bc61689b972b18fb560bfa1d3eefd2
 	// Listener
 	class MyListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String cmd = e.getActionCommand();
-			System.out.println(cmd);
-			log.info("Sending \"" + cmd + "\"");
-			atmssMBox.send(new Msg("Keypad", 2, cmd));
+			if (enabled) { // only notify when true
+				String cmd = e.getActionCommand();
+				System.out.println(cmd);
+				log.info("Sending \"" + cmd + "\"");
+				atmssMBox.send(new Msg("Keypad", 2, cmd));
+			}
 		}
 	} // listener
 	
@@ -46,6 +54,11 @@ public class Keypad extends Thread {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
+	
+	// toggle keypad listening state
+	public void toggleKeypad() {
+		enabled = !enabled;
+	}
 
 	// ------------------------------------------------------------
 	// MyFrame
@@ -94,7 +107,6 @@ public class Keypad extends Thread {
 			cancelButton.setPreferredSize(new Dimension(100, 40));
 			clearButton.setPreferredSize(new Dimension(100, 40));
 			enterButton.setPreferredSize(new Dimension(100, 40));
-			cancelButton.setName("candcel");
 
 			cancelButton.addActionListener(listener);
 
