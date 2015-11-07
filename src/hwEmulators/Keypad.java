@@ -23,6 +23,7 @@ public class Keypad extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	private boolean enabled = false;
 	
 	//------------------------------------------------------------------
 	// Listener
@@ -30,10 +31,12 @@ public class Keypad extends Thread {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String cmd = e.getActionCommand();
-			System.out.println(cmd);
-			log.info("Sending \"" + cmd + "\"");
-			atmssMBox.send(new Msg("Keypad", 2, cmd));
+			if (enabled) { // only notify when true
+				String cmd = e.getActionCommand();
+				System.out.println(cmd);
+				log.info("Sending \"" + cmd + "\"");
+				atmssMBox.send(new Msg("Keypad", 2, cmd));
+			}
 		}
 	} // listener
 
@@ -53,6 +56,11 @@ public class Keypad extends Thread {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
+	
+	// toggle keypad listening state
+	public void toggleKeypad() {
+		enabled = !enabled;
+	}
 
 	// ------------------------------------------------------------
 	// MyFrame

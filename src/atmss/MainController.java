@@ -31,15 +31,16 @@ public class MainController {
 	private String[] userAccounts;
 	private int timmer;
 	private LinkedList<Session> sessionLog;
-	private MainController mainController = new MainController();
-
+	private static MainController self = new MainController();
 	
 	/**
 	 * 
 	 */
-	public MainController() {
+	private MainController() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public static MainController getInstance() { return self; }
 
 	public boolean AutherizePassed()
 	{
@@ -196,7 +197,7 @@ public class MainController {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	private void handleUserRequest() {

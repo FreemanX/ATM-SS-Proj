@@ -10,12 +10,11 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  *
  */
 public class KeypadController extends HardwareController {
-
 	/**
 	 * 
 	 */
 	public KeypadController() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/* (non-Javadoc)
