@@ -63,8 +63,9 @@ public class ATMSSDBugConsole {
 			setLocation(300, 100);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
+			
+			setSize(700, 385);
 			pack();
-			setSize(580, 385);
 			setResizable(false);
 			setVisible(true);
 		} // MyFrame
