@@ -1,53 +1,30 @@
-<?php 
+<?php
+require_once("settings.php");
+require_once("credManager.php");
 
-	//------------------------------------------------------------
-	// card2cred
-	function card2cred($card) {
-	    $result=strrev($card);
-	    return $result;
-	} // card2cred
+$cardNo = $_GET["cardNo"];
+$pin = $_GET["pin"];
 
+$credential = "ERROR";
 
-	//------------------------------------------------------------
-	// cred2card
-	function cred2card($cred) {
-	    $result=strrev($cred);
-	    return $result;
-	} // cred2card
-
-	
-	$cardNo = $_GET["cardNo"];
-	$pin = $_GET["pin"];
-	
+if (!empty($cardNo) && !empty($pin)) {
 	// open connection to DB
-	$dbhost = 'localhost';
-	$dbuser = '';
-	$dbpass = '';
-	$dbname = 'test';
-	$conn = mysql_connect($dbhost,$dbuser,$dbpass) or die();
+	$conn = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
 	mysql_select_db($dbname);
 
-
 	// get records from "cards" table
-	$result = mysql_query("SELECT * FROM cards")
-	or die(mysql_error());
+	$sql = sprintf("SELECT * FROM cards WHERE card_no = '%s' AND pin = 
+'%s'", mysql_real_escape_string($cardNo), mysql_real_escape_string($pin));
+	$result = mysql_query($sql) or die(mysql_error());
 
-
-	// search for a matching record
-	$credential="ERROR";
-	while($row = mysql_fetch_array($result)) {
-	    if ($row['card_no']==$_GET["cardNo"] && $row['pin']==$_GET["pin"]) {
-		$credential=card2cred($cardNo);
-		break;
-	    }
+	if (mysql_num_rows($result) == 1) {
+		$credential = card2cred($cardNo);
 	}
+}
 
+// return the credential result
+echo $credential;
 
-	// return the credential result
-	echo $credential;
-
-	// close the connection to DB
-	mysql_close($conn);
-
-
+// close the connection to DB
+mysql_close($conn);
 ?>
