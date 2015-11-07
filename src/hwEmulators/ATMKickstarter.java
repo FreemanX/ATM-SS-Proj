@@ -19,7 +19,7 @@ public class ATMKickstarter {
 		log.setUseParentHandlers(false);
 		log.addHandler(conHd);
 		log.setLevel(Level.INFO);
-
+		
 		// create components
 		CardReader cardReader = new CardReader("cr");
 		Keypad keypad = new Keypad("kp");

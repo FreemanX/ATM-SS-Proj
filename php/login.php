@@ -21,8 +21,8 @@
 	
 	// open connection to DB
 	$dbhost = 'localhost';
-	$dbuser = 'root';
-	$dbpass = '19940802';
+	$dbuser = '';
+	$dbpass = '';
 	$dbname = 'test';
 	$conn = mysql_connect($dbhost,$dbuser,$dbpass) or die();
 	mysql_select_db($dbname);
