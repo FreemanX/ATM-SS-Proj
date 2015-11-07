@@ -3,6 +3,7 @@ package hwEmulators;
 import java.util.logging.Logger;
 
 import atmss.MainController;
+import atmss.hardware.hw.KeypadView;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -20,8 +21,8 @@ public class ATMKickstarter {
 	DepositCollector depositCollector;
 	ATMSS atmss;
 	
-	// atm controller
-	MainController controller;
+	// view components
+	KeypadView keypadView;
 
 	// ------------------------------------------------------------
 	// main
@@ -68,9 +69,10 @@ public class ATMKickstarter {
 		advicePrinter.start();
 		depositCollector.start();
 		envelopDispenser.start();
+		
+		// setup views
+		keypadView = new KeypadView(keypad);
 	}
-	
-	public Keypad getKeypad() { return keypad; }
 
 	// ------------------------------------------------------------
 	// getLogger

@@ -29,7 +29,7 @@ public abstract class HardwareController {
 	
 	public abstract boolean reset() throws Exception;
 	
-	public abstract boolean shutdonw() throws Exception;
+	public abstract boolean shutdown() throws Exception;
 	
 	abstract void HandleException(HardwareException ex) throws Exception;
 
