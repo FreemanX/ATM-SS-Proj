@@ -23,6 +23,7 @@ public class ATMKickstarter {
 		// create components
 		CardReader cardReader = new CardReader("cr");
 		Keypad keypad = new Keypad("kp");
+		AdvicePrinter advicePrinter = new AdvicePrinter("ap");
 		ATMSS atmss = new ATMSS("atmss");
 
 		// connect components
@@ -30,11 +31,13 @@ public class ATMKickstarter {
 		atmss.setKeypad(keypad);
 		cardReader.setATMSS(atmss);
 		keypad.setATMSS(atmss);
-
+		advicePrinter.setATMSS(atmss);
+		
 		// start the components
 		keypad.start();
 		cardReader.start();
 		atmss.start();
+		advicePrinter.start();
 	} // main
 
 	// ------------------------------------------------------------
