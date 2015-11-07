@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +16,8 @@ public class Keypad extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
-	
-	//------------------------------------------------------------------
+
+	// ------------------------------------------------------------------
 	// Listener
 	class MyListener implements ActionListener {
 
@@ -30,7 +29,7 @@ public class Keypad extends Thread {
 			atmssMBox.send(new Msg("Keypad", 2, cmd));
 		}
 	} // listener
-
+	
 	// ------------------------------------------------------------
 	// Keypad
 	public Keypad(String id) {
@@ -70,6 +69,7 @@ public class Keypad extends Thread {
 	// MyPanel
 	private class MyPanel extends JPanel {
 		MyListener listener = null;
+
 		// ----------------------------------------
 		// MyPanel
 		public MyPanel(MyListener listener) {
@@ -113,7 +113,7 @@ public class Keypad extends Thread {
 			JPanel numPannel1 = new JPanel();
 			JButton[] num = new JButton[3];
 			for (int i = 0; i < 3; i++) {
-				num[i] = new JButton(Integer.toString(i+1));
+				num[i] = new JButton(Integer.toString(i + 1));
 				num[i].setPreferredSize(new Dimension(100, 40));
 			}
 
@@ -125,12 +125,12 @@ public class Keypad extends Thread {
 
 			return numPannel1;
 		}
-		
+
 		private JPanel createNumPannel2() {
 			JPanel numPannel2 = new JPanel();
 			JButton[] num = new JButton[3];
 			for (int i = 0; i < 3; i++) {
-				num[i] = new JButton(Integer.toString(i+4));
+				num[i] = new JButton(Integer.toString(i + 4));
 				num[i].setPreferredSize(new Dimension(100, 40));
 			}
 
@@ -142,12 +142,12 @@ public class Keypad extends Thread {
 
 			return numPannel2;
 		}
-		
+
 		private JPanel createNumPannel3() {
 			JPanel numPannel3 = new JPanel();
 			JButton[] num = new JButton[3];
 			for (int i = 0; i < 3; i++) {
-				num[i] = new JButton(Integer.toString(i+7));
+				num[i] = new JButton(Integer.toString(i + 7));
 				num[i].setPreferredSize(new Dimension(100, 40));
 			}
 
@@ -159,11 +159,10 @@ public class Keypad extends Thread {
 
 			return numPannel3;
 		}
-		
+
 		private JPanel createNumPannel4() {
 			JButton num0 = new JButton("0");
 			JButton numPoint = new JButton(".");
-
 
 			num0.setPreferredSize(new Dimension(100, 40));
 			numPoint.setPreferredSize(new Dimension(100, 40));
@@ -187,6 +186,5 @@ public class Keypad extends Thread {
 		}
 
 	} // MyPanel
-	
-	
+
 } // Keypad

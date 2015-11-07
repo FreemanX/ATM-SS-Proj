@@ -91,17 +91,17 @@ public class CardReader extends Thread {
 			// assign actions to buttons
 			card1Button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-					textField.setText("6-8-9");
+					textField.setText("981358459216");
 				}
 			});
 			card2Button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-					textField.setText("9-8-6-7-D");
+					textField.setText("981370846450");
 				}
 			});
 			card3Button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-					textField.setText("GNUELYC");
+					textField.setText("981398412504");
 				}
 			});
 
@@ -169,4 +169,5 @@ public class CardReader extends Thread {
 			return msgPanel;
 		} // createMsgPanel
 	} // MyPanel
+	
 } // CardReader

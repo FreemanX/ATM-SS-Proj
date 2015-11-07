@@ -9,12 +9,12 @@ import atmss.hardware.hw.exceptioins.AdvicePrinterException;
  * @author freeman
  *
  */
-public class AdvicePrinter extends Hardware {
+public class AdvicePrinterView extends HardwareView {
 
 	/**
 	 * 
 	 */
-	public AdvicePrinter() {
+	public AdvicePrinterView() {
 		// TODO Auto-generated constructor stub
 	}
 

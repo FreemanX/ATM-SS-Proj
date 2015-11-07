@@ -9,12 +9,12 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  * @author freeman
  *
  */
-public class Display extends Hardware {
+public class CardReaderView extends HardwareView {
 
 	/**
 	 * 
 	 */
-	public Display() {
+	public CardReaderView() {
 		// TODO Auto-generated constructor stub
 	}
 

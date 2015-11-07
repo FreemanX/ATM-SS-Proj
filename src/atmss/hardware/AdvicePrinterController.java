@@ -6,7 +6,7 @@ package atmss.hardware;
 import java.util.LinkedList;
 
 import atmss.Operation;
-import atmss.hardware.hw.AdvicePrinter;
+import atmss.hardware.hw.AdvicePrinterView;
 import atmss.hardware.hw.exceptioins.AdvicePrinterException;
 import atmss.hardware.hw.exceptioins.HardwareException;
 
@@ -16,7 +16,7 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  */
 public class AdvicePrinterController extends HardwareController {
 
-	private AdvicePrinter advicePrinter = new AdvicePrinter();
+	private AdvicePrinterView advicePrinter = new AdvicePrinterView();
 
 	/**
 	 * 

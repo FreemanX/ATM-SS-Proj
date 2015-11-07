@@ -9,12 +9,12 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  * @author freeman
  *
  */
-public abstract class Hardware {
+public abstract class HardwareView {
 
 	/**
 	 * 
 	 */
-	public Hardware() {
+	public HardwareView() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -9,12 +9,12 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  * @author freeman
  *
  */
-public class Keypad extends Hardware {
+public class DepositCollectorView extends HardwareView {
 
 	/**
 	 * 
 	 */
-	public Keypad() {
+	public DepositCollectorView() {
 		// TODO Auto-generated constructor stub
 	}
 
