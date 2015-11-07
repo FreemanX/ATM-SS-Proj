@@ -1,21 +1,27 @@
 package hwEmulators;
 
 import java.util.logging.Logger;
-import java.awt.GridLayout;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
 
 
 //======================================================================
 // EnvelopDispenser
-public class EnvelopDispenser extends Thread{
+public class EnvelopDispenser extends Thread{	
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
-	//private JTextArea msgTextArea = null;
+	private JTextArea msgTextArea = null;
 	private JLabel msgLabel = null;
 	
 	// ------------------------------------------------------------
@@ -45,10 +51,9 @@ public class EnvelopDispenser extends Thread{
 			setTitle(title);
 			setLocation(960, 640);
 			MyPanel myPanel = new MyPanel();
-			myPanel.setLayout(new GridLayout(2,1));
 			add(myPanel);
 			pack();
-			setSize(200, 75);
+			setSize(310, 380);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -61,63 +66,67 @@ public class EnvelopDispenser extends Thread{
 		// MyPanel
 		public MyPanel() {
 			// create the panels
-//			JPanel buttonPanel = createButtonPanel();
+			JPanel buttonPanel = createButtonPanel();
+			JPanel labelPanel = createLabelPanel();
 			JPanel msgPanel = createMsgPanel();
-			
+						
 			// add the panels
-//			add(buttonPanel);
-			add(msgPanel);
+			add(buttonPanel);
+			add(labelPanel);
+			add(msgPanel);			
 		}
 			
 		// ----------------------------------------
 		// createButtonPanel
-//		private JPanel createButtonPanel() {
-//			// create the buttons
-//			JButton enjectButton = new JButton("Eject Envelop");
-//			// assign actions to button
-//			enjectButton.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent event) {
-//					log.info(id + ": Sending \"" +enjectButton.getText() + "\"");
-//					//msgTextArea.append("Preparing for ejecting...\n");
-//					msgLabel.setText("Preparing for ejecting...");
-//					atmssMBox.send(new Msg("EnvelopDispenser", 7, enjectButton.getText()));
-//					
-//					//msgTextArea.append("Enjecting an envelop...\n");
-//					msgLabel.setText("Enjecting an envelop...");
-//					
-//					//msgTextArea.append("Envelop ejected!\n");
-//					msgLabel.setText("Envelop ejected!");
-//					
-//					//msgTextArea.append("Working\n");
-//					msgLabel.setText("Working");				
-//				}
-//			});
-//				
-//			// create the panel and add the buttons to the panel
-//			JPanel buttonPanel = new JPanel();
-//			buttonPanel.add(enjectButton);
-//
-//			// create the panel and add the buttons to the panel
-//			return buttonPanel;
-//		} // createButtonPanel
+		private JPanel createButtonPanel() {
+			// create the buttons
+			JButton clearButton = new JButton("Clear");
+			// assign actions to button
+			clearButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+					msgTextArea.setText("");
+					msgLabel.setText("Working");
+					
+					log.info(id + ": Sending \"" +clearButton.getText() + "\"");										
+					atmssMBox.send(new Msg("EnvelopDispenser", 7, clearButton.getText()));
+									
+				}
+			});
+				
+			// create the panel and add the buttons to the panel
+			JPanel buttonPanel = new JPanel();
+			buttonPanel.add(clearButton);
+			return buttonPanel;
+		} // createButtonPanel
 			
+		// ----------------------------------------
+		// createLabelPanel
+		private JPanel createLabelPanel() {
+			JPanel labelPanel = new JPanel();
+			
+			// create the msg label
+			msgLabel = new JLabel("Working");	
+			labelPanel.add(msgLabel);
+			return labelPanel;
+		} // createLabelPanel
+				
 		
 		// ----------------------------------------
 		// createMsgPanel
 		private JPanel createMsgPanel() {
-			// create the msg text area
-			//msgTextArea = new JTextArea(15, 25);
-			//msgTextArea.setEditable(false);
-			//JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
+			JPanel msgPanel = new JPanel();
 			
-			msgLabel = new JLabel();
+			// create the msg text area
+			msgTextArea = new JTextArea(15, 25);
+			msgTextArea.setEditable(false);
+			JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
 			
 			// create the msg panel and add the text area into it
-			JPanel msgPanel = new JPanel();
-			//msgPanel.add(msgScrollPane);	
-			msgPanel.add(msgLabel);
-			msgLabel.setText("Working");
-			//msgTextArea.append("Working\n");
+			msgPanel.add(msgScrollPane);			
+			msgTextArea.append("Preparing for ejecting...\n");										
+			msgTextArea.append("Enjecting an envelop...\n");
+			msgTextArea.append("Envelop ejected!\n");			
+			
 			return msgPanel;
 		} // createMsgPanel
 	} // MyPanel
