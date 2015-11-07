@@ -21,13 +21,19 @@ public class ATMKickstarter {
 		log.setLevel(Level.INFO);
 		
 		// create components
+		CashDispenser cashDispenser = new CashDispenser("cd");
 		CardReader cardReader = new CardReader("cr");
 		Keypad keypad = new Keypad("kp");
 		AdvicePrinter advicePrinter = new AdvicePrinter("ap");
 		ATMSS atmss = new ATMSS("atmss");
+<<<<<<< HEAD
 		EnvelopDispenser envelopDispenser = new EnvelopDispenser("ed");
+=======
+		
+>>>>>>> bc949ad9adcef74f4391e887df35e32b78f65bba
 
 		// connect components
+		atmss.setCashDispenser(cashDispenser);
 		atmss.setCardReader(cardReader);
 		atmss.setKeypad(keypad);
 		cardReader.setATMSS(atmss);
@@ -36,6 +42,7 @@ public class ATMKickstarter {
 		envelopDispenser.setATMSS(atmss);
 		
 		// start the components
+		cashDispenser.start();
 		keypad.start();
 		cardReader.start();
 		atmss.start();
