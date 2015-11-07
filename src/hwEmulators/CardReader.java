@@ -50,11 +50,11 @@ public class CardReader extends Thread {
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
-			setLocation(0, 100);
+			setLocation(UIManager.x + 900, UIManager.y);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
-			setSize(300, 385);
+			setSize(350, 280);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -159,7 +159,7 @@ public class CardReader extends Thread {
 		// createMsgPanel
 		private JPanel createMsgPanel() {
 			// create the msg text area
-			msgTextArea = new JTextArea(15, 25);
+			msgTextArea = new JTextArea(6, 30);
 			msgTextArea.setEditable(false);
 			JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
 
