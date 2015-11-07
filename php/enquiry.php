@@ -14,7 +14,7 @@ require_once("settings.php");
 require_once("credManager.php");
 require_once("sqlHelper.php");
 
-$cardNo = $_GET["cardNo"];
+$cardNo = $_GET["cardno"];
 $accNo = $_GET["accNo"];
 $cred = $_GET["cred"];
 
