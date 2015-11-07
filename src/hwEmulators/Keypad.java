@@ -27,14 +27,6 @@ public class Keypad extends Thread {
 	//------------------------------------------------------------------
 	// Listener
 	class MyListener implements ActionListener {
-		
-		Logger log = null;
-		MBox mbox = null;
-		
-		public MyListener(Logger log, MBox mbox) {
-			this.log = log;
-			this.mbox = mbox;
-		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -70,7 +62,7 @@ public class Keypad extends Thread {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(880, 100);
-			MyPanel myPanel = new MyPanel(new MyListener(log, atmssMBox));
+			MyPanel myPanel = new MyPanel(new MyListener());
 			add(myPanel);
 			pack();
 			setSize(350, 320);
