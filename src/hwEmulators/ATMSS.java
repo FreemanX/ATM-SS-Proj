@@ -10,6 +10,7 @@ public class ATMSS extends Thread {
 	private CashDispenser cashDispenser = null;
 	private CardReader cardReader = null;
 	private Keypad keypad = null;
+	private DepositCollector depositCollector = null;
 	private ATMSSDBugConsole console = null;
 	private MBox mbox = null;
 
@@ -31,13 +32,17 @@ public class ATMSS extends Thread {
 	public void setKeypad(Keypad kp) {
 		keypad = kp;
 	}
-	
-	public void setCashDispenser(CashDispenser cd){
+
+	public void setCashDispenser(CashDispenser cd) {
 		cashDispenser = cd;
 	}
 
+	public void setDepositCollector(DepositCollector dc) {
+		depositCollector = dc;
+	}
+
 	// ------------------------------------------------------------
-	// getters
+	// getterss
 	public MBox getMBox() {
 		return mbox;
 	}
