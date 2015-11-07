@@ -9,8 +9,9 @@ public class ATMSS extends Thread {
 	private Logger log = null;
 	private CardReader cardReader = null;
 	private Keypad keypad = null;
+	private EnvelopDispenser envelopDispenser = null;
 	private ATMSSDBugConsole console = null;
-	private MBox mbox = null;
+	private MBox mbox = null;	
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -29,6 +30,10 @@ public class ATMSS extends Thread {
 
 	public void setKeypad(Keypad kp) {
 		keypad = kp;
+	}
+	
+	public void setEnvelopDispenser(EnvelopDispenser ed) {
+		envelopDispenser = ed;
 	}
 
 	// ------------------------------------------------------------
