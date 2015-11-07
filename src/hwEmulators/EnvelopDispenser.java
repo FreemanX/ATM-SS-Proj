@@ -68,39 +68,6 @@ public class EnvelopDispenser extends Thread{
 //			add(buttonPanel);
 			add(msgPanel);
 		}
-			
-		// ----------------------------------------
-		// createButtonPanel
-//		private JPanel createButtonPanel() {
-//			// create the buttons
-//			JButton enjectButton = new JButton("Eject Envelop");
-//			// assign actions to button
-//			enjectButton.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent event) {
-//					log.info(id + ": Sending \"" +enjectButton.getText() + "\"");
-//					//msgTextArea.append("Preparing for ejecting...\n");
-//					msgLabel.setText("Preparing for ejecting...");
-//					atmssMBox.send(new Msg("EnvelopDispenser", 7, enjectButton.getText()));
-//					
-//					//msgTextArea.append("Enjecting an envelop...\n");
-//					msgLabel.setText("Enjecting an envelop...");
-//					
-//					//msgTextArea.append("Envelop ejected!\n");
-//					msgLabel.setText("Envelop ejected!");
-//					
-//					//msgTextArea.append("Working\n");
-//					msgLabel.setText("Working");				
-//				}
-//			});
-//				
-//			// create the panel and add the buttons to the panel
-//			JPanel buttonPanel = new JPanel();
-//			buttonPanel.add(enjectButton);
-//
-//			// create the panel and add the buttons to the panel
-//			return buttonPanel;
-//		} // createButtonPanel
-			
 		
 		// ----------------------------------------
 		// createMsgPanel
