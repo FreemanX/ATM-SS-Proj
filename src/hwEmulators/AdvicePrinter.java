@@ -27,7 +27,7 @@ public class AdvicePrinter extends Thread {
 		log = ATMKickstarter.getLogger();
 
 		// create textArea and frame
-		textArea = new JTextArea(21, 50);
+		textArea = new JTextArea(20, 17);
 		textArea.setEditable(false);
 		MyFrame myFrame = new MyFrame("Advice Printer");
 	}
@@ -75,8 +75,9 @@ public class AdvicePrinter extends Thread {
 			JButton clearButton = new JButton("Clear");
 			clearButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-					textArea.append("fa651fsd6g516dsg6");
-					}
+					textArea.setText("");
+					;
+				}
 			});
 			JScrollPane textScrollPane = new JScrollPane(textArea);
 			add(clearButton);
