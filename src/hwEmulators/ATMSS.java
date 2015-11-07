@@ -33,13 +33,12 @@ public class ATMSS extends Thread {
 		keypad = kp;
 	}
 	
-<<<<<<< HEAD
 	public void setEnvelopDispenser(EnvelopDispenser ed) {
 		envelopDispenser = ed;
-=======
+	}
+
 	public void setCashDispenser(CashDispenser cd){
 		cashDispenser = cd;
->>>>>>> bc949ad9adcef74f4391e887df35e32b78f65bba
 	}
 
 	// ------------------------------------------------------------
