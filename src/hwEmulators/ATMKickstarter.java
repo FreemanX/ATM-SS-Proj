@@ -30,7 +30,6 @@ public class ATMKickstarter {
 
 		EnvelopDispenser envelopDispenser = new EnvelopDispenser("ed");
 
-
 		// connect components
 		atmss.setCashDispenser(cashDispenser);
 		atmss.setCardReader(cardReader);

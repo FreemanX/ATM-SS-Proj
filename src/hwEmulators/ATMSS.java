@@ -13,7 +13,8 @@ public class ATMSS extends Thread {
 	private DepositCollector depositCollector = null;
 	private ATMSSDBugConsole console = null;
 	private MBox mbox = null;
-
+	private EnvelopDispenser envelopDispenser = null;
+	
 	// ------------------------------------------------------------
 	// ATMSS
 	public ATMSS(String id) {
@@ -39,7 +40,11 @@ public class ATMSS extends Thread {
 
 	public void setDepositCollector(DepositCollector dc) {
 		depositCollector = dc;
+	}	
+	public void setEnvelopDispenser(EnvelopDispenser ed) {
+		envelopDispenser = ed;
 	}
+
 
 	// ------------------------------------------------------------
 	// getterss
