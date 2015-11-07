@@ -100,7 +100,6 @@ public class Keypad extends Thread {
 			cancelButton.setPreferredSize(new Dimension(100, 40));
 			clearButton.setPreferredSize(new Dimension(100, 40));
 			enterButton.setPreferredSize(new Dimension(100, 40));
-			cancelButton.setName("candcel");
 
 			cancelButton.addActionListener(listener);
 
