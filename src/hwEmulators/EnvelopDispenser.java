@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
+
 //======================================================================
 // EnvelopDispenser
 public class EnvelopDispenser extends Thread{	

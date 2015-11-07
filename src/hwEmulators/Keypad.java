@@ -23,6 +23,19 @@ public class Keypad extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	
+	//------------------------------------------------------------------
+	// Listener
+	class MyListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			System.out.println(cmd);
+			log.info("Sending \"" + cmd + "\"");
+			atmssMBox.send(new Msg("Keypad", 2, cmd));
+		}
+	} // listener
 
 	// ------------------------------------------------------------
 	// Keypad
@@ -49,7 +62,7 @@ public class Keypad extends Thread {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(880, 100);
-			MyPanel myPanel = new MyPanel();
+			MyPanel myPanel = new MyPanel(new MyListener());
 			add(myPanel);
 			pack();
 			setSize(350, 320);
@@ -62,9 +75,11 @@ public class Keypad extends Thread {
 	// ------------------------------------------------------------
 	// MyPanel
 	private class MyPanel extends JPanel {
+		MyListener listener = null;
 		// ----------------------------------------
 		// MyPanel
-		public MyPanel() {
+		public MyPanel(MyListener listener) {
+			this.listener = listener;
 			JPanel functionPannel = createFunctionsPanel();
 			JPanel numPannel1 = createNumPannel1();
 			JPanel numPannel2 = createNumPannel2();
@@ -86,32 +101,11 @@ public class Keypad extends Thread {
 			clearButton.setPreferredSize(new Dimension(100, 40));
 			enterButton.setPreferredSize(new Dimension(100, 40));
 
-			cancelButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					log.info(id + ": Sending \"CANCEL\"");
-					atmssMBox.send(new Msg("Keypad", 2, "CANCEL"));
-				}
-			});
+			cancelButton.addActionListener(listener);
 
-			clearButton.addActionListener(new ActionListener() {
+			clearButton.addActionListener(listener);
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"CLEAR\"");
-					atmssMBox.send(new Msg("Keypad", 2, "CLEAR"));
-				}
-			});
-
-			enterButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"ENTER\"");
-					atmssMBox.send(new Msg("Keypad", 2, "ENTER"));
-				}
-			});
+			enterButton.addActionListener(listener);
 
 			JPanel functionPannel = new JPanel();
 			functionPannel.add(cancelButton);
@@ -128,33 +122,9 @@ public class Keypad extends Thread {
 				num[i].setPreferredSize(new Dimension(100, 40));
 			}
 
-			num[0].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"1\"");
-					atmssMBox.send(new Msg("Keypad", 2, "1"));
-				}
-			});
-			num[1].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"2\"");
-					atmssMBox.send(new Msg("Keypad", 2, "2"));
-				}
-			});
-			num[2].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"3\"");
-					atmssMBox.send(new Msg("Keypad", 2, "3"));
-				}
-			});
+			num[0].addActionListener(listener);
+			num[1].addActionListener(listener);
+			num[2].addActionListener(listener);
 			for (int i = 0; i < 3; i++)
 				numPannel1.add(num[i]);
 
@@ -169,33 +139,9 @@ public class Keypad extends Thread {
 				num[i].setPreferredSize(new Dimension(100, 40));
 			}
 
-			num[0].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"1\"");
-					atmssMBox.send(new Msg("Keypad", 2, "4"));
-				}
-			});
-			num[1].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"2\"");
-					atmssMBox.send(new Msg("Keypad", 2, "5"));
-				}
-			});
-			num[2].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"3\"");
-					atmssMBox.send(new Msg("Keypad", 2, "6"));
-				}
-			});
+			num[0].addActionListener(listener);
+			num[1].addActionListener(listener);
+			num[2].addActionListener(listener);
 			for (int i = 0; i < 3; i++)
 				numPannel2.add(num[i]);
 
@@ -210,33 +156,9 @@ public class Keypad extends Thread {
 				num[i].setPreferredSize(new Dimension(100, 40));
 			}
 
-			num[0].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"1\"");
-					atmssMBox.send(new Msg("Keypad", 2, "7"));
-				}
-			});
-			num[1].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"2\"");
-					atmssMBox.send(new Msg("Keypad", 2, "8"));
-				}
-			});
-			num[2].addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"3\"");
-					atmssMBox.send(new Msg("Keypad", 2, "9"));
-				}
-			});
+			num[0].addActionListener(listener);
+			num[1].addActionListener(listener);
+			num[2].addActionListener(listener);
 			for (int i = 0; i < 3; i++)
 				numPannel3.add(num[i]);
 
@@ -251,12 +173,7 @@ public class Keypad extends Thread {
 			num0.setPreferredSize(new Dimension(100, 40));
 			numPoint.setPreferredSize(new Dimension(100, 40));
 
-			num0.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent event) {
-					log.info(id + ": Sending \"0\"");
-					atmssMBox.send(new Msg("Keypad", 2, "0"));
-				}
-			});
+			num0.addActionListener(listener);
 
 			numPoint.addActionListener(new ActionListener() {
 
@@ -275,4 +192,6 @@ public class Keypad extends Thread {
 		}
 
 	} // MyPanel
+	
+	
 } // Keypad

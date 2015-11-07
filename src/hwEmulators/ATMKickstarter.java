@@ -38,7 +38,7 @@ public class ATMKickstarter {
 		cardReader.setATMSS(atmss);
 		keypad.setATMSS(atmss);
 		advicePrinter.setATMSS(atmss);
-
+		cashDispenser.setATMSS(atmss);
 		depositCollector.setATMSS(atmss);
 		envelopDispenser.setATMSS(atmss);
 		

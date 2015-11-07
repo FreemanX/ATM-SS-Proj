@@ -6,8 +6,8 @@
  *		cred,
  *		newPin
  * return
- *		negative number - transfer failed
- *		1 - transfer success
+ *		negative number - failed
+ *		1 - success
  */
 
 require_once("settings.php");
