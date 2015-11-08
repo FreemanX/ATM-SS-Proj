@@ -65,7 +65,7 @@ public class AdvicePrinter extends Thread {
 			add(myPanel);
 			pack();
 			setSize(350, 400);
-			setResizable(false);
+			setResizable(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
 		} // MyFrame
