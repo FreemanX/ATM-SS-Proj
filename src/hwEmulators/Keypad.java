@@ -9,9 +9,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import atmss.hardware.hw.KeypadView;
+
 //======================================================================
 // Keypad
 public class Keypad extends Thread {
+	private KeypadView view;
+	
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
@@ -54,6 +58,10 @@ public class Keypad extends Thread {
 	// toggle keypad listening state
 	public void setKeypadEnable(boolean isEnable) {
 		enabled = isEnable;
+	}
+
+	public void setView(KeypadView view) {
+		this.view = view;
 	}
 
 	// ------------------------------------------------------------

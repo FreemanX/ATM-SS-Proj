@@ -13,11 +13,24 @@ import hwEmulators.Keypad;
 public class KeypadView extends HardwareView {
 
 	private Keypad keypad;
+	private String buf = "";
+	private boolean inputDone = false;
 	/**
 	 * 
 	 */
 	public KeypadView(Keypad keypad) {
 		this.keypad = keypad;
+		this.keypad.setView(this);
+	}
+
+	public String readUserInput() {
+		buf = "";
+		keypad.setKeypadEnable(true);
+		while (!inputDone) {
+			// wait...
+		}
+		keypad.setKeypadEnable(false);
+		return buf;
 	}
 
 	/* (non-Javadoc)
