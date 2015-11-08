@@ -49,11 +49,11 @@ public class EnvelopDispenser extends Thread{
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
-			setLocation(960, 640);
+			setLocation(UIManager.x, UIManager.y);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
-			setSize(310, 380);
+			setSize(350, 200);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -71,9 +71,9 @@ public class EnvelopDispenser extends Thread{
 			JPanel msgPanel = createMsgPanel();
 						
 			// add the panels
+			add(msgPanel);
 			add(buttonPanel);
-			add(labelPanel);
-			add(msgPanel);			
+			add(labelPanel);	
 		}
 			
 		// ----------------------------------------
@@ -88,7 +88,7 @@ public class EnvelopDispenser extends Thread{
 					msgLabel.setText("Working");
 					
 					log.info(id + ": Sending \"" +clearButton.getText() + "\"");										
-					atmssMBox.send(new Msg("EnvelopDispenser", 7, clearButton.getText()));
+					atmssMBox.send(new Msg("EnvelopDispenser", 6, clearButton.getText()));
 									
 				}
 			});
@@ -116,7 +116,7 @@ public class EnvelopDispenser extends Thread{
 			JPanel msgPanel = new JPanel();
 			
 			// create the msg text area
-			msgTextArea = new JTextArea(15, 25);
+			msgTextArea = new JTextArea(6, 30);
 			msgTextArea.setEditable(false);
 			JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
 			

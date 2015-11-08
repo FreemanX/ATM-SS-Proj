@@ -7,13 +7,17 @@ import java.util.logging.Logger;
 public class ATMSS extends Thread {
 	private String id;
 	private Logger log = null;
-	private CashDispenser cashDispenser = null;
-	private CardReader cardReader = null;
-	private Keypad keypad = null;
-	private DepositCollector depositCollector = null;
-	private ATMSSDBugConsole console = null;
 	private MBox mbox = null;
+	private ATMSSDBugConsole console = null;
+
+	// HW components
+	private AdvicePrinter advicePrinter = null;
+	private CardReader cardReader = null;
+	private CashDispenser cashDispenser = null;
+	private DepositCollector depositCollector = null;
+	private Display display = null;
 	private EnvelopDispenser envelopDispenser = null;
+	private Keypad keypad = null;
 	
 	// ------------------------------------------------------------
 	// ATMSS
@@ -26,12 +30,12 @@ public class ATMSS extends Thread {
 
 	// ------------------------------------------------------------
 	// setters
+	public void setAdvicePrinter(AdvicePrinter ap) {
+		advicePrinter = ap;
+	}
+	
 	public void setCardReader(CardReader cr) {
 		cardReader = cr;
-	}
-
-	public void setKeypad(Keypad kp) {
-		keypad = kp;
 	}
 
 	public void setCashDispenser(CashDispenser cd) {
@@ -40,14 +44,22 @@ public class ATMSS extends Thread {
 
 	public void setDepositCollector(DepositCollector dc) {
 		depositCollector = dc;
-	}	
+	}
+	
+	public void setDisplay(Display ds) {
+		display = ds;
+	}
+	
 	public void setEnvelopDispenser(EnvelopDispenser ed) {
 		envelopDispenser = ed;
 	}
-
+	
+	public void setKeypad(Keypad kp) {
+		keypad = kp;
+	}
 
 	// ------------------------------------------------------------
-	// getterss
+	// getters
 	public MBox getMBox() {
 		return mbox;
 	}

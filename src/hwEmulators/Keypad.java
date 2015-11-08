@@ -33,7 +33,7 @@ public class Keypad extends Thread {
 				String cmd = e.getActionCommand();
 				System.out.println(cmd);
 				log.info("Sending \"" + cmd + "\"");
-				atmssMBox.send(new Msg("Keypad", 2, cmd));
+				atmssMBox.send(new Msg("Keypad", 7, cmd));
 			}
 		}
 	} // listener
@@ -71,7 +71,7 @@ public class Keypad extends Thread {
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
-			setLocation(880, 100);
+			setLocation(UIManager.x + 900, UIManager.y + 480);
 			MyPanel myPanel = new MyPanel(new MyListener());
 			add(myPanel);
 			pack();

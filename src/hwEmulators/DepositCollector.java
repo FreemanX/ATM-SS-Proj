@@ -48,11 +48,11 @@ public class DepositCollector extends Thread {
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
-			setLocation(0, 100);
+			setLocation(UIManager.x, UIManager.y + 200);
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
-			setSize(300, 385);
+			setSize(350, 200);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -68,8 +68,8 @@ public class DepositCollector extends Thread {
 			JPanel msgPanel = createMsgPanel();
 
 			// add the panels
-			add(buttonPanel);
 			add(msgPanel);
+			add(buttonPanel);
 		} // MyPanel
 
 		private JPanel createButtonPanel() {
@@ -81,7 +81,7 @@ public class DepositCollector extends Thread {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					log.info(id + ": Sending \"Put in envelop\"");
-					atmssMBox.send(new Msg("Deposit collector", 2,
+					atmssMBox.send(new Msg("Deposit collector", 4,
 							"Put in envelop"));
 				}
 			});
@@ -92,7 +92,7 @@ public class DepositCollector extends Thread {
 
 		private JPanel createMsgPanel() {
 			// create the msg text area
-			msgTextArea = new JTextArea(15, 25);
+			msgTextArea = new JTextArea(6, 30);
 			msgTextArea.setEditable(false);
 			JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
 
