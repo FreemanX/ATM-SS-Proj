@@ -27,7 +27,7 @@ public class ExceptionEmulator extends Thread {
 			setTitle(title);
 			initComponents();
 			pack();
-			setLocation(1200, 100);
+			setLocation(1480, 80);
 			setResizable(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -37,123 +37,141 @@ public class ExceptionEmulator extends Thread {
 			// TODO add your handling code here:
 			APStatus.setText("Normal");
 			log.info(id + ": Setting " + APStatus.getText());
-			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
+			atmssMBox.send(new Msg("Advice Printer is fine(100)", 1, APStatus.getText()));
+			atmss.setHWStatus(AdvicePrinter.type, 100);
 		}
 
 		private void APFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			APStatus.setText("Out of service");			
 			log.info(id + ": Setting " + APStatus.getText());
-			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
+			atmssMBox.send(new Msg("Advice Printer Exception(199)", 1, APStatus.getText()));
+			atmss.setHWStatus(AdvicePrinter.type, 199);
 		}
 
 		private void APOutOfResourceActionPerformed(java.awt.event.ActionEvent evt) {
 			APStatus.setText("No paper or ink");
 			log.info(id + ": Setting " + APStatus.getText());
-			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
+			atmssMBox.send(new Msg("Advice Printer Exception(101)", 1, APStatus.getText()));
+			atmss.setHWStatus(AdvicePrinter.type, 101);
 		}
 
 		private void APPaperJamActionPerformed(java.awt.event.ActionEvent evt) {
 			APStatus.setText("Paper jamed");
 			log.info(id + ": Setting " + APStatus.getText());
-			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
+			atmssMBox.send(new Msg("Advice Printer Exception(103)", 1, APStatus.getText()));
+			atmss.setHWStatus(AdvicePrinter.type, 103);
 		}
 
 		private void CDInsufficientCashActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			CDStatus.setText("Insufficient Cash");
 			log.info(id + ": Setting " + CDStatus.getText());
-			atmssMBox.send(new Msg("Cash Dispenser Exception", 3, CDStatus.getText()));
+			atmssMBox.send(new Msg("Cash Dispenser Exception(301)", 3, CDStatus.getText()));
+			atmss.setHWStatus(CashDispenser.type, 301);
 		}
 
 		private void CDNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			CDStatus.setText("Normal");
 			log.info(id + ": Setting " + CDStatus.getText());
-			atmssMBox.send(new Msg("Cash Dispenser Exception", 3, CDStatus.getText()));
+			atmssMBox.send(new Msg("Cash Dispenser Normal(300)", 3, CDStatus.getText()));
+			atmss.setHWStatus(CashDispenser.type, 300);
 		}
 
 		private void CDFaitalActionPerformed(java.awt.event.ActionEvent evt) {
 			CDStatus.setText("Out of service");
 			log.info(id + ": Setting " + CDStatus.getText());
-			atmssMBox.send(new Msg("Cash Dispenser Exception", 3, CDStatus.getText()));
+			atmssMBox.send(new Msg("Cash Dispenser Exception(399 or 302)", 3, CDStatus.getText()));
+			atmss.setHWStatus(CashDispenser.type, 399);
 		}
 
 		private void CRFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			CRStatus.setText("Out of service");
 			log.info(id + ": Setting " + CRStatus.getText());
-			atmssMBox.send(new Msg("Card Reader Exception", 2, CRStatus.getText()));
+			atmssMBox.send(new Msg("Card Reader Exception(299)", 2, CRStatus.getText()));
+			atmss.setHWStatus(CardReader.type, 299);
 		}
 
 		private void CRNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			CRStatus.setText("Normal");
 			log.info(id + ": Setting " + CRStatus.getText());
-			atmssMBox.send(new Msg("Card Reader Exception", 2, CRStatus.getText()));
+			atmssMBox.send(new Msg("Card Reader Normal(200)", 2, CRStatus.getText()));
+			atmss.setHWStatus(CardReader.type, 200);
 		}
 
 		private void DCNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			DCStatus.setText("Normal");
 			log.info(id + ": Setting " + DCStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 4, DCStatus.getText()));
+			atmssMBox.send(new Msg("Deposit Collector Normal(400)", 4, DCStatus.getText()));
+			atmss.setHWStatus(DepositCollector.type, 400);
 		}
 
 		private void DCFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			DCStatus.setText("Out of service");
 			log.info(id + ": Setting " + DCStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 4, DCStatus.getText()));
+			atmssMBox.send(new Msg("Deposit Collector Exception(499)", 4, DCStatus.getText()));
+			atmss.setHWStatus(DepositCollector.type, 499);
 		}
 
 		private void DisNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			DisStatus.setText("Normal");
 			log.info(id + ": Setting " + DisStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 5, DisStatus.getText()));
+			atmssMBox.send(new Msg("Display Normal(500)", 5, DisStatus.getText()));
+			atmss.setHWStatus(Display.type, 500);
 		}
 
 		private void DisFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			DisStatus.setText("Out of service");
 			log.info(id + ": Setting " + DisStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 5, DisStatus.getText()));
+			atmssMBox.send(new Msg("Display Exception(599)", 5, DisStatus.getText()));
+			atmss.setHWStatus(Display.type, 599);
 		}
 
 		private void EDNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			EDStatus.setText("Normal");
 			log.info(id + ": Setting " + EDStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 6, EDStatus.getText()));
+			atmssMBox.send(new Msg("Envelop Dispenser Normal(600)", 6, EDStatus.getText()));
+			atmss.setHWStatus(EnvelopDispenser.type, 600);
 		}
 
 		private void EDFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			EDStatus.setText("Out of service");
 			log.info(id + ": Setting " + EDStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 6, EDStatus.getText()));
+			atmssMBox.send(new Msg("Envelop Dispenser Exception(699)", 6, EDStatus.getText()));
+			atmss.setHWStatus(EnvelopDispenser.type, 699);
 		}
 
 		private void EDNoEvelopActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			EDStatus.setText("No Envelop");
 			log.info(id + ": Setting " + EDStatus.getText());
-			atmssMBox.send(new Msg("Deposit Collector Exception", 6, EDStatus.getText()));
+			atmssMBox.send(new Msg("Envelop Dispenser Exception(601)", 6, EDStatus.getText()));
+			atmss.setHWStatus(EnvelopDispenser.type, 601);
 		}
 
 		private void KPNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			KPStatus.setText("Normal");
 			log.info(id + ": Setting " + KPStatus.getText());
-			atmssMBox.send(new Msg("Keypad Exception", 7, KPStatus.getText()));
+			atmssMBox.send(new Msg("Keypad Normal(700)", 7, KPStatus.getText()));
+			atmss.setHWStatus(Keypad.type, 700);
 		}
 
 		private void KPFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
 			KPStatus.setText("Out of service");		
 			log.info(id + ": Setting " + KPStatus.getText());
-			atmssMBox.send(new Msg("Keypad Exception", 7, KPStatus.getText()));
+			atmssMBox.send(new Msg("Keypad Exception(799)", 7, KPStatus.getText()));
+			atmss.setHWStatus(Keypad.type, 799);
 		}
 
 		private void initComponents() {

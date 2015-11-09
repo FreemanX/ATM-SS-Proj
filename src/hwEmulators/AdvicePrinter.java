@@ -21,9 +21,9 @@ public class AdvicePrinter extends Thread {
 	private MBox atmssMBox = null;
 	private JTextArea textArea = null;
 	private MyFrame myFrame = null;
+	public final static int type = 1;
+	private int status = 100;
 
-	
-	
 	public AdvicePrinter(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
@@ -34,6 +34,13 @@ public class AdvicePrinter extends Thread {
 		MyFrame myFrame = new MyFrame("Advice Printer");
 	}
 
+	public int getAPStatus() {
+		return status;
+	}
+
+	protected void setAPStatus(int Status) {
+		this.status = Status;
+	}
 
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;

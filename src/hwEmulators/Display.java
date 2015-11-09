@@ -7,23 +7,33 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class Display extends Thread{
+public class Display extends Thread {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
 	private JTextArea textArea = null;
 	private MyFrame myFrame = null;
-	
+	public final static int type = 5;
+	private int status = 500;
+
 	public Display(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
 
 		// create frame
-		textArea = new JTextArea(21,48);
+		textArea = new JTextArea(21, 48);
 		textArea.setEditable(false);
 		MyFrame myFrame = new MyFrame("Display");
 	} // Display
+
+	public int getDisStatus() {
+		return status;
+	}
+
+	protected void setDisStatus(int Status) {
+		this.status = Status;
+	}
 
 	// ------------------------------------------------------------
 	// setATMSS
@@ -31,7 +41,7 @@ public class Display extends Thread{
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
-	
+
 	// ------------------------------------------------------------
 	// append
 	public void append(String str) {
@@ -39,13 +49,13 @@ public class Display extends Thread{
 		textArea.append("\n");
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	} // append
-	
+
 	// ------------------------------------------------------------
 	// clear
 	public void clear() {
 		textArea.setText("");
 	} // clear
-	
+
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
 		// MyFrame
@@ -61,7 +71,7 @@ public class Display extends Thread{
 			setVisible(true);
 		} // MyFrame
 	} // MyFrame
-	
+
 	private class MyPanel extends JPanel {
 		// ----------------------------------------
 		// MyPanel

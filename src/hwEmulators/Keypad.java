@@ -15,11 +15,13 @@ import atmss.hardware.hw.KeypadView;
 // Keypad
 public class Keypad extends Thread {
 	private KeypadView view;
-	
+
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	public final static int type = 7;
+	private int status = 700;
 	// ------------------------------------------------------------------
 	private boolean enabled = true;
 
@@ -47,6 +49,14 @@ public class Keypad extends Thread {
 		// create frame
 		MyFrame myFrame = new MyFrame("Keypad");
 	} // Keypad
+
+	public int getKPStatus() {
+		return status;
+	}
+
+	protected void setKPStatus(int Status) {
+		this.status = Status;
+	}
 
 	// ------------------------------------------------------------
 	// setATMSS

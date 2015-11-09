@@ -26,7 +26,9 @@ public class CardReader extends Thread {
 	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
 	private boolean enabled = true;
-	
+	public final static int type = 2;
+	private int status = 200;
+
 	// ------------------------------------------------------------
 	// CardReader
 	public CardReader(String id) {
@@ -37,13 +39,21 @@ public class CardReader extends Thread {
 		MyFrame myFrame = new MyFrame("Card Reader");
 	} // CardReader
 
+	public int getCRStatus() {
+		return status;
+	}
+
+	protected void setCRStatus(int Status) {
+		this.status = Status;
+	}
+
 	// ------------------------------------------------------------
 	// setATMSS
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
-	
+
 	public void setCardReaderEnable(boolean isEnable) {
 		this.enabled = isEnable;
 	}

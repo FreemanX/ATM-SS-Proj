@@ -15,16 +15,26 @@ public class CashDispenser extends Thread {
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
 	private JTextArea textArea = null;
-	
+	public final static int type = 3;
+	private int status = 300;
+
 	// ------------------------------------------------------------
 	// CashDispenser
 	public CashDispenser(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
-		
+
 		// create frame
 		MyFrame myFrame = new MyFrame("Cash Dispenser");
 	} // CashDispenser
+
+	public int getCDStatus() {
+		return status;
+	}
+
+	protected void setCDStatus(int Status) {
+		this.status = Status;
+	}
 
 	// ------------------------------------------------------------
 	// setATMSS
@@ -63,8 +73,7 @@ public class CashDispenser extends Thread {
 			collectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					log.info(id + ": Sending \"Collect Cash\"");
-					atmssMBox.send(new Msg("Cash Dispenser", 3,
-					"Dispense cash"));
+					atmssMBox.send(new Msg("Cash Dispenser", 3, "Dispense cash"));
 					textArea.setText("Yeah! Cash collected!");
 				}
 			});
@@ -74,7 +83,7 @@ public class CashDispenser extends Thread {
 		}
 
 		private JPanel createMsgPanel() {
-			textArea = new JTextArea(6,30);
+			textArea = new JTextArea(6, 30);
 			textArea.setEditable(false);
 			JScrollPane msgScrollPane = new JScrollPane(textArea);
 			JPanel msgPanel = new JPanel();

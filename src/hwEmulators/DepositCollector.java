@@ -24,20 +24,29 @@ public class DepositCollector extends Thread {
 	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
 	private boolean enable = true;
+	public final static int type = 4;
+	private int status = 400;
 
 	public DepositCollector(String id) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		log = ATMKickstarter.getLogger();
-		
+
 		MyFrame myFrame = new MyFrame("Deposit Collector");
 	}
 
-	public void setDepositCollectorEnable(boolean isEnable)
-	{
+	public int getDCStatus() {
+		return status;
+	}
+
+	protected void setDCStatus(int Status) {
+		this.status = Status;
+	}
+
+	public void setDepositCollectorEnable(boolean isEnable) {
 		this.enable = isEnable;
 	}
-	
+
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
@@ -81,8 +90,7 @@ public class DepositCollector extends Thread {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					log.info(id + ": Sending \"Put in envelop\"");
-					atmssMBox.send(new Msg("Deposit collector", 4,
-							"Put in envelop"));
+					atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
 				}
 			});
 
