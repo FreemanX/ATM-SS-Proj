@@ -7,24 +7,18 @@ import javax.swing.JPanel;
 
 public class ExceptionEmulator extends Thread {
 	private String id;
-	// private Logger log = null;
-	// private ATMSS atmss = null;
-	// private MBox atmssMBox = null;
+	private Logger log = null;
+	private ATMSS atmss = null;
+	private MBox atmssMBox = null;
 
-	public ExceptionEmulator(String id) {
+	public ExceptionEmulator(String id, ATMSS atmss) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
-		// log = ATMKickstarter.getLogger();
-
+		log = ATMKickstarter.getLogger();
+		this.atmss = atmss;
+		atmssMBox = atmss.getMBox();		
 		MyFrame myFrame = new MyFrame("Exception Emulator");
 	}
-
-	// ------------------------------------------------------------
-	// setATMSS
-	// public void setATMSS(ATMSS newAtmss) {
-	// atmss = newAtmss;
-	// atmssMBox = atmss.getMBox();
-	// } // setATMSS
 
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
@@ -41,86 +35,125 @@ public class ExceptionEmulator extends Thread {
 
 		private void APNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			APStatus.setText("Normal");
+			log.info(id + ": Setting " + APStatus.getText());
+			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
 		}
 
 		private void APFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			APStatus.setText("Out of service");			
+			log.info(id + ": Setting " + APStatus.getText());
+			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
 		}
 
-		private void CDStatusActionPerformed(java.awt.event.ActionEvent evt) {
-			// TODO add your handling code here:
+		private void APOutOfResourceActionPerformed(java.awt.event.ActionEvent evt) {
+			APStatus.setText("No paper or ink");
+			log.info(id + ": Setting " + APStatus.getText());
+			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
+		}
+
+		private void APPaperJamActionPerformed(java.awt.event.ActionEvent evt) {
+			APStatus.setText("Paper jamed");
+			log.info(id + ": Setting " + APStatus.getText());
+			atmssMBox.send(new Msg("Advice Printer Exception", 1, APStatus.getText()));
 		}
 
 		private void CDInsufficientCashActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			CDStatus.setText("Insufficient Cash");
+			log.info(id + ": Setting " + CDStatus.getText());
+			atmssMBox.send(new Msg("Cash Dispenser Exception", 3, CDStatus.getText()));
 		}
 
 		private void CDNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			CDStatus.setText("Normal");
+			log.info(id + ": Setting " + CDStatus.getText());
+			atmssMBox.send(new Msg("Cash Dispenser Exception", 3, CDStatus.getText()));
 		}
 
-		private void CRStatusActionPerformed(java.awt.event.ActionEvent evt) {
-			// TODO add your handling code here:
+		private void CDFaitalActionPerformed(java.awt.event.ActionEvent evt) {
+			CDStatus.setText("Out of service");
+			log.info(id + ": Setting " + CDStatus.getText());
+			atmssMBox.send(new Msg("Cash Dispenser Exception", 3, CDStatus.getText()));
 		}
 
 		private void CRFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			CRStatus.setText("Out of service");
+			log.info(id + ": Setting " + CRStatus.getText());
+			atmssMBox.send(new Msg("Card Reader Exception", 2, CRStatus.getText()));
 		}
 
 		private void CRNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			CRStatus.setText("Normal");
+			log.info(id + ": Setting " + CRStatus.getText());
+			atmssMBox.send(new Msg("Card Reader Exception", 2, CRStatus.getText()));
 		}
 
 		private void DCNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			DCStatus.setText("Normal");
+			log.info(id + ": Setting " + DCStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 4, DCStatus.getText()));
 		}
 
 		private void DCFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
-		}
-
-		private void DCStatusActionPerformed(java.awt.event.ActionEvent evt) {
-			// TODO add your handling code here:
+			DCStatus.setText("Out of service");
+			log.info(id + ": Setting " + DCStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 4, DCStatus.getText()));
 		}
 
 		private void DisNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			DisStatus.setText("Normal");
+			log.info(id + ": Setting " + DisStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 5, DisStatus.getText()));
 		}
 
 		private void DisFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
-		}
-
-		private void DisStatusActionPerformed(java.awt.event.ActionEvent evt) {
-			// TODO add your handling code here:
+			DisStatus.setText("Out of service");
+			log.info(id + ": Setting " + DisStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 5, DisStatus.getText()));
 		}
 
 		private void EDNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			EDStatus.setText("Normal");
+			log.info(id + ": Setting " + EDStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 6, EDStatus.getText()));
 		}
 
 		private void EDFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
-		}
-
-		private void EDStatusActionPerformed(java.awt.event.ActionEvent evt) {
-			// TODO add your handling code here:
+			EDStatus.setText("Out of service");
+			log.info(id + ": Setting " + EDStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 6, EDStatus.getText()));
 		}
 
 		private void EDNoEvelopActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			EDStatus.setText("No Envelop");
+			log.info(id + ": Setting " + EDStatus.getText());
+			atmssMBox.send(new Msg("Deposit Collector Exception", 6, EDStatus.getText()));
 		}
 
 		private void KPNormalActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
+			KPStatus.setText("Normal");
+			log.info(id + ": Setting " + KPStatus.getText());
+			atmssMBox.send(new Msg("Keypad Exception", 7, KPStatus.getText()));
 		}
 
 		private void KPFatalErrorActionPerformed(java.awt.event.ActionEvent evt) {
 			// TODO add your handling code here:
-		}
-
-		private void KPStatusActionPerformed(java.awt.event.ActionEvent evt) {
-			// TODO add your handling code here:
+			KPStatus.setText("Out of service");		
+			log.info(id + ": Setting " + KPStatus.getText());
+			atmssMBox.send(new Msg("Keypad Exception", 7, KPStatus.getText()));
 		}
 
 		private void initComponents() {
@@ -177,8 +210,18 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			APOutOfResource.setText("Out of Resource");
+			APOutOfResource.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					APOutOfResourceActionPerformed(evt);
+				}
+			});
 
 			APPaperJam.setText("Paper Jam");
+			APPaperJam.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					APPaperJamActionPerformed(evt);
+				}
+			});
 
 			APFatalError.setText("Fatal Error");
 			APFatalError.addActionListener(new java.awt.event.ActionListener() {
@@ -188,8 +231,8 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			APStatus.setForeground(new java.awt.Color(255, 0, 0));
-			APStatus.setText("Status");
-
+			APStatus.setText("Normal");
+			APStatus.setEditable(false);
 			CRLable.setText("Card Reader");
 
 			CRNormal.setText("Normal status");
@@ -207,12 +250,8 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			CRStatus.setForeground(new java.awt.Color(255, 51, 51));
-			CRStatus.setText("Status");
-			CRStatus.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					CRStatusActionPerformed(evt);
-				}
-			});
+			CRStatus.setText("Normal");
+			CRStatus.setEditable(false);
 
 			CDLable.setText("Cash Dispenser");
 
@@ -231,14 +270,15 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			CDStatus.setForeground(new java.awt.Color(255, 51, 51));
-			CDStatus.setText("Status");
-			CDStatus.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					CDStatusActionPerformed(evt);
-				}
-			});
+			CDStatus.setText("Normal");
+			CDStatus.setEditable(false);
 
 			CDFaital.setText("Fatal Error");
+			CDFaital.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					CDFaitalActionPerformed(evt);
+				}
+			});
 
 			DCLable.setText("Deposit Collector");
 
@@ -257,12 +297,8 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			DCStatus.setForeground(new java.awt.Color(255, 51, 51));
-			DCStatus.setText("Status");
-			DCStatus.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					DCStatusActionPerformed(evt);
-				}
-			});
+			DCStatus.setText("Normal");
+			DCStatus.setEditable(false);
 
 			DisLable.setText("Display");
 
@@ -281,12 +317,8 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			DisStatus.setForeground(new java.awt.Color(255, 51, 51));
-			DisStatus.setText("Status");
-			DisStatus.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					DisStatusActionPerformed(evt);
-				}
-			});
+			DisStatus.setText("Normal");
+			DisStatus.setEditable(false);
 
 			EDLable.setText("Envelop Disoenser");
 
@@ -305,12 +337,8 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			EDStatus.setForeground(new java.awt.Color(255, 51, 51));
-			EDStatus.setText("Status");
-			EDStatus.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					EDStatusActionPerformed(evt);
-				}
-			});
+			EDStatus.setText("Normal");
+			EDStatus.setEditable(false);
 
 			EDNoEvelop.setText("No Envelop");
 			EDNoEvelop.addActionListener(new java.awt.event.ActionListener() {
@@ -336,12 +364,8 @@ public class ExceptionEmulator extends Thread {
 			});
 
 			KPStatus.setForeground(new java.awt.Color(255, 51, 51));
-			KPStatus.setText("Status");
-			KPStatus.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					KPStatusActionPerformed(evt);
-				}
-			});
+			KPStatus.setText("Normal");
+			KPStatus.setEditable(false);
 
 			javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
 			jPanel8.setLayout(jPanel8Layout);
@@ -653,8 +677,5 @@ public class ExceptionEmulator extends Thread {
 
 	} // MyFrame
 
-	public static void main(String[] args) {
-		new ExceptionEmulator("Exception Emulator").run();
-	}
 
 }

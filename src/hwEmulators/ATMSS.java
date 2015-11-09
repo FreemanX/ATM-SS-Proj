@@ -9,6 +9,7 @@ public class ATMSS extends Thread {
 	private Logger log = null;
 	private MBox mbox = null;
 	private ATMSSDBugConsole console = null;
+	private ExceptionEmulator exceptionEmulator = null;
 
 	// HW components
 	private AdvicePrinter advicePrinter = null;
@@ -18,6 +19,7 @@ public class ATMSS extends Thread {
 	private Display display = null;
 	private EnvelopDispenser envelopDispenser = null;
 	private Keypad keypad = null;
+	
 	
 	// ------------------------------------------------------------
 	// ATMSS
@@ -56,6 +58,11 @@ public class ATMSS extends Thread {
 	
 	public void setKeypad(Keypad kp) {
 		keypad = kp;
+	}
+	
+	public void setExceptionEmulator(ExceptionEmulator ee)
+	{
+		this.exceptionEmulator = ee;
 	}
 
 	// ------------------------------------------------------------

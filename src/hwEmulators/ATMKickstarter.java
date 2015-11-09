@@ -22,7 +22,7 @@ public class ATMKickstarter {
 	EnvelopDispenser envelopDispenser;
 	Keypad keypad;	
 	ATMSS atmss;
-	
+	ExceptionEmulator exceptionEmulator;
 	// view components
 	KeypadView keypadView;
 
@@ -40,7 +40,7 @@ public class ATMKickstarter {
 		log.setUseParentHandlers(false);
 		log.addHandler(conHd);
 		log.setLevel(Level.INFO);
-
+		
 		// create components
 		advicePrinter = new AdvicePrinter("ap");
 		cardReader = new CardReader("cr");
@@ -50,7 +50,7 @@ public class ATMKickstarter {
 		envelopDispenser = new EnvelopDispenser("ed");
 		keypad = new Keypad("kp");
 		atmss = new ATMSS("atmss");
-
+		exceptionEmulator = new ExceptionEmulator("ee", atmss);
 		// connect components
 		atmss.setAdvicePrinter(advicePrinter);
 		atmss.setCardReader(cardReader);
@@ -59,6 +59,7 @@ public class ATMKickstarter {
 		atmss.setDisplay(display);
 		atmss.setKeypad(keypad);
 		atmss.setEnvelopDispenser(envelopDispenser);
+		atmss.setExceptionEmulator(exceptionEmulator);
 		advicePrinter.setATMSS(atmss);
 		cardReader.setATMSS(atmss);
 		cashDispenser.setATMSS(atmss);
@@ -76,6 +77,7 @@ public class ATMKickstarter {
 		display.start();
 		keypad.start();
 		envelopDispenser.start();
+		exceptionEmulator.start();
 		
 		// setup views
 		keypadView = new KeypadView(keypad);
