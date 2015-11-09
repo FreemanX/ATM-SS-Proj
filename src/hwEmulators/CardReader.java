@@ -163,7 +163,7 @@ public class CardReader extends Thread {
 						log.info(id + ": Sending " + textField.getText());
 						msgTextArea.append("Sending " + textField.getText() + "\n");
 						atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
-					}else{
+					} else {
 						msgTextArea.append("Please insert a card!\n");
 					}
 				}
