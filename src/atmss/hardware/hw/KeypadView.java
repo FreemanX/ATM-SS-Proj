@@ -15,6 +15,7 @@ public class KeypadView extends HardwareView {
 	private Keypad keypad;
 	private String buf = "";
 	private boolean inputDone = false;
+
 	/**
 	 * 
 	 */
@@ -30,10 +31,25 @@ public class KeypadView extends HardwareView {
 			// wait...
 		}
 		keypad.setKeypadEnable(false);
+		setInputDone(false);
 		return buf;
 	}
 
-	/* (non-Javadoc)
+	public void appendBuf(String input) {
+		this.buf = this.buf + input;
+	}
+
+	public void clearBuf() {
+		this.buf = "";
+	}
+
+	public void setInputDone(boolean isDone) {
+		this.inputDone = isDone;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -42,7 +58,9 @@ public class KeypadView extends HardwareView {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -51,7 +69,9 @@ public class KeypadView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -60,7 +80,9 @@ public class KeypadView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

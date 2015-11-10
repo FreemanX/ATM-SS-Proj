@@ -4,17 +4,18 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import atmss.hardware.hw.KeypadView;
+
 import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import atmss.hardware.hw.KeypadView;
-
-//======================================================================
+// ======================================================================
 // Keypad
 public class Keypad extends Thread {
-	private KeypadView view;
+	private KeypadView keypadView;
 
 	private String id;
 	private Logger log = null;
@@ -23,7 +24,7 @@ public class Keypad extends Thread {
 	public final static int type = 7;
 	private int status = 700;
 	// ------------------------------------------------------------------
-	private boolean enabled = true;
+	private boolean enabled = false;
 
 	// ------------------------------------------------------------------
 	// Listener
@@ -31,11 +32,26 @@ public class Keypad extends Thread {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (enabled) { // only notify when true
+			if (enabled && status == 700) { // only notify when true
 				String cmd = e.getActionCommand();
 				System.out.println(cmd);
 				log.info("Sending \"" + cmd + "\"");
 				atmssMBox.send(new Msg("Keypad", 7, cmd));
+				if (cmd == "CANCLE") {
+					keypadView.clearBuf();
+					keypadView.appendBuf(cmd);
+					keypadView.setInputDone(true);
+				} else if (cmd == "CLEAR") {
+					keypadView.clearBuf();
+				} else if (cmd == "ENTER") {
+					keypadView.setInputDone(true);
+				} else {
+					keypadView.appendBuf(cmd);
+				}
+			} else if (!enabled && status == 700) {
+				atmssMBox.send(new Msg("Keypad", 7, "Keypad is not enabled!"));
+			} else if (status != 700) {
+				atmssMBox.send(new Msg("Keypad", 7, "Keypad is out of service!"));
 			}
 		}
 	} // listener
@@ -71,7 +87,7 @@ public class Keypad extends Thread {
 	}
 
 	public void setView(KeypadView view) {
-		this.view = view;
+		this.keypadView = view;
 	}
 
 	// ------------------------------------------------------------

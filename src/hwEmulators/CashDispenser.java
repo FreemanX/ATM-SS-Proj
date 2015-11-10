@@ -145,7 +145,7 @@ public class CashDispenser extends Thread {
 
 		private JPanel createButtonPanel() {
 			JButton collectButton = new JButton("Collect Cash");
-			JButton resetButton = new JButton("Reset");
+			JButton resetButton = new JButton("Clear");
 
 			collectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
