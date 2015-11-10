@@ -210,16 +210,8 @@ public class Keypad extends Thread {
 			numPoint.setPreferredSize(new Dimension(100, 40));
 
 			num0.addActionListener(listener);
+			numPoint.addActionListener(listener);
 
-			numPoint.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \".\"");
-					atmssMBox.send(new Msg("Keypad", 2, "."));
-				}
-			});
 
 			JPanel functionPannel = new JPanel();
 			functionPannel.add(num0);
