@@ -9,6 +9,7 @@ import atmss.Operation;
 import atmss.hardware.hw.AdvicePrinterView;
 import atmss.hardware.hw.exceptioins.AdvicePrinterException;
 import atmss.hardware.hw.exceptioins.HardwareException;
+import hwEmulators.AdvicePrinter;
 
 /**
  * @author freeman
@@ -16,18 +17,18 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  */
 public class AdvicePrinterController extends HardwareController {
 
-	private AdvicePrinterView advicePrinter = new AdvicePrinterView();
+	private AdvicePrinterView advicePrinter;
 
 	/**
 	 * 
 	 */
-	public AdvicePrinterController() {
+	public AdvicePrinterController(AdvicePrinter AP) {
 		// TODO Auto-generated constructor stub
+		advicePrinter = new AdvicePrinterView(AP);
 	}
 
 	// Non-overrided methods:
-	public boolean printAdvice(LinkedList<Operation> operations)
-			throws Exception {
+	public boolean printAdvice(LinkedList<Operation> operations) throws Exception {
 		boolean isSuccess = false;
 		try {
 			String[] strLines = new String[operations.size()];
@@ -44,13 +45,13 @@ public class AdvicePrinterController extends HardwareController {
 		return isSuccess;
 	}
 
-	public boolean checkInventory() throws Exception {
+	public int checkInventory() throws Exception {
 		try {
 			return advicePrinter.checkInventory();
 		} catch (AdvicePrinterException ex) {
 			this.HandleException(ex);
 		}
-		return false;
+		return -1;
 	}
 
 	/*
@@ -62,13 +63,8 @@ public class AdvicePrinterController extends HardwareController {
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
 		boolean isSuccess = false;
-		try {
-			this.status = advicePrinter.checkStatus();
-			isSuccess = true;
-		} catch (AdvicePrinterException ex) {
-			this.HandleException(ex);
-			isSuccess = false;
-		}
+		this.status = advicePrinter.checkStatus();
+		isSuccess = true;
 		return isSuccess;
 	}
 

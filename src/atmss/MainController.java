@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import atmss.bams.*;
 import atmss.hardware.*;
 import atmss.process.*;
+import hwEmulators.AdvicePrinter;
 
 /**
  * @author freeman
@@ -19,7 +20,7 @@ public class MainController {
 	private CardReaderController cardReaderController = new CardReaderController();
 	private KeypadController keypadController = new KeypadController();
 	private DepositCollectorController depositCollectorController = new DepositCollectorController();
-	private AdvicePrinterController advicePrinterController = new AdvicePrinterController();
+	private AdvicePrinterController advicePrinterController;
 	private DisplayController displayController = new DisplayController();
 	private EnvelopDispenserController envelopDispenserController = new EnvelopDispenserController();
 	private EnquryController enquryController;
@@ -31,19 +32,22 @@ public class MainController {
 	private String[] userAccounts;
 	private int timmer;
 	private LinkedList<Session> sessionLog;
-	private static MainController self = new MainController();
-	
+
+	// TODO Singleton need to be implemented
+	// private static MainController self = new MainController();
+
 	/**
 	 * 
 	 */
-	private MainController() {
+	private MainController(AdvicePrinter AP) {
 		// TODO Auto-generated constructor stub
+		advicePrinterController = new AdvicePrinterController(AP);
 	}
-	
-	public static MainController getInstance() { return self; }
 
-	public boolean AutherizePassed()
-	{
+	// TODO Singleton need to be implemented
+	// public static MainController getInstance() { return self; }
+
+	public boolean AutherizePassed() {
 		boolean passwdIsRight = false;
 
 		/*
@@ -52,30 +56,58 @@ public class MainController {
 
 		return passwdIsRight;
 	}
-	
-	public Double doBAMSCheckBalance(String accountNumber)
-	{
+
+	public Double doBAMSCheckBalance(String accountNumber) {
 		double balance = 0;
-		
+
 		/*
 		 * Implement the process here.
 		 */
-		
+
 		return balance;
 	}
-	
-	public String doBAMSVerifyDestAccount(String desAccountNumber)
-	{
-		String verifiedInfo = "False"; 
+
+	public String doBAMSVerifyDestAccount(String desAccountNumber) {
+		String verifiedInfo = "False";
 		/*
-		 * Implement the process here.
-		 * If the account is OK then
-		 * verifiedInfo = "<name>/<desAccountNumber>";
+		 * Implement the process here. If the account is OK then verifiedInfo =
+		 * "<name>/<desAccountNumber>";
 		 */
 		return verifiedInfo;
 	}
-	
-	public boolean doBAMSUpdateBalance(String accountNumber, double amount)
+
+	public boolean doBAMSUpdateBalance(String accountNumber, double amount) {
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+
+	public boolean doBAMSUpdatePasswd(String accountNumber, String newPasswd) {
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+
+	public boolean doDisplay(String[] displayContent) {
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+
+	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be
+											// int
 	{
 		boolean isSuccess = false;
 
@@ -85,9 +117,8 @@ public class MainController {
 
 		return isSuccess;
 	}
-	
-	public boolean doBAMSUpdatePasswd(String accountNumber, String newPasswd)
-	{
+
+	public boolean doEatCash() {
 		boolean isSuccess = false;
 
 		/*
@@ -96,9 +127,8 @@ public class MainController {
 
 		return isSuccess;
 	}
-	
-	public boolean doDisplay(String[] displayContent)
-	{
+
+	public boolean doBAMSTransfer(String accountNumber, String destAccountNumber, double amount) {
 		boolean isSuccess = false;
 
 		/*
@@ -107,9 +137,8 @@ public class MainController {
 
 		return isSuccess;
 	}
-	
-	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be int
-	{
+
+	public boolean doEjectEnvelop() {
 		boolean isSuccess = false;
 
 		/*
@@ -118,9 +147,8 @@ public class MainController {
 
 		return isSuccess;
 	}
-	
-	public boolean doEatCash()
-	{
+
+	public boolean doEatEnvelop() {
 		boolean isSuccess = false;
 
 		/*
@@ -129,9 +157,8 @@ public class MainController {
 
 		return isSuccess;
 	}
-	
-	public boolean doBAMSTransfer(String accountNumber, String destAccountNumber, double amount)
-	{
+
+	public boolean doPrintAdvice() {
 		boolean isSuccess = false;
 
 		/*
@@ -140,42 +167,8 @@ public class MainController {
 
 		return isSuccess;
 	}
-	
-	public boolean doEjectEnvelop()
-	{
-		boolean isSuccess = false;
 
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-	
-	public boolean doEatEnvelop()
-	{
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-	
-	public boolean doPrintAdvice()
-	{
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-	
-	public String doGetKeyInput()
-	{
+	public String doGetKeyInput() {
 		String userInput = "";
 
 		/*
@@ -184,20 +177,19 @@ public class MainController {
 
 		return userInput;
 	}
-	
-	public void setTimmer()
-	{
+
+	public void setTimmer() {
 		/*
 		 * Implement the process here.
 		 */
 	}
-	
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void handleUserRequest() {
@@ -229,13 +221,13 @@ public class MainController {
 		/*
 		 * Implement the process here.
 		 */
-		if (currentSession != null) // Session constrains 
+		if (currentSession != null) // Session constrains
 			isSuccess = sessionLog.add(currentSession);
 
 		return isSuccess;
 	}
-	
-	private boolean initAll() //Initiate all for serving next guest
+
+	private boolean initAll() // Initiate all for serving next guest
 	{
 		boolean isSuccess = false;
 

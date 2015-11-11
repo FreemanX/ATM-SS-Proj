@@ -4,56 +4,51 @@
 package atmss.hardware.hw;
 
 import atmss.hardware.hw.exceptioins.AdvicePrinterException;
+import hwEmulators.AdvicePrinter;
 
 /**
  * @author freeman
  *
  */
 public class AdvicePrinterView extends HardwareView {
+	private AdvicePrinter _advicePrinter;
 
 	/**
 	 * 
 	 */
-	public AdvicePrinterView() {
+	public AdvicePrinterView(AdvicePrinter ap) {
 		// TODO Auto-generated constructor stub
+		this._advicePrinter = ap;
+		checkStatus();
 	}
 
-	public boolean print(String[] advice) throws AdvicePrinterException{
+	public boolean print(String[] advice) throws AdvicePrinterException {
 		boolean isSuccess = false;
 		/*
 		 * TODO call the hardware to do
 		 */
-		// try{
-		// Call the printer to print out things
-		// isSuccess = true;
-		// }catch(Some Exceptons ex from hardware)
-		// {
-		// isSuccess = false;
-		// swich(ex){
-		// case: ex1
-		// {
-		// this.throwException(Code1, Msg1);
-		// break;
-		// }
-		// case: ex2
-		// {
-		// this.throwException(Code2, Msg2);
-		// break;
-		// }
-		// default:
-		// throw ex;
-		// break;
-		// }
-		// }
+		int currentStatus = checkStatus();
+		if (currentStatus == 100) {
+			for (String str : advice) {
+				this._advicePrinter.println(str);
+			}
+			isSuccess = true;
+		} else {
+			throwException(currentStatus);
+		}
+
 		return isSuccess;
 	}
 
-	public boolean checkInventory() throws AdvicePrinterException {
-		boolean isSuccess = false;
+	public int checkInventory() throws AdvicePrinterException {
 		/*
 		 * TODO call the hardware to do
 		 */
-		return isSuccess;
+		int res = this._advicePrinter.getResource();
+		if (res < 1) {
+			throwException(this._advicePrinter.getAPStatus());
+		}
+		return res;
 	}
 
 	/*
@@ -62,9 +57,9 @@ public class AdvicePrinterView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
-	public int checkStatus() throws AdvicePrinterException {
+	public int checkStatus() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._advicePrinter.getAPStatus();
 	}
 
 	/*
@@ -95,9 +90,9 @@ public class AdvicePrinterView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
-	void throwException(int Code, String Msg) throws AdvicePrinterException {
+	void throwException(int Code) throws AdvicePrinterException {
 		// TODO Auto-generated method stub
-		throw new AdvicePrinterException(Code, Msg);
+		throw new AdvicePrinterException(Code);
 	}
 
 }

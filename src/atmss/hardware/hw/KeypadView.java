@@ -86,7 +86,7 @@ public class KeypadView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
-	void throwException(int Code, String Msg) throws HardwareException {
+	void throwException(int Code) throws HardwareException {
 		// TODO Auto-generated method stub
 
 	}

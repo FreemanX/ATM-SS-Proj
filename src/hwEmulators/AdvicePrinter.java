@@ -23,6 +23,7 @@ public class AdvicePrinter extends Thread {
 	private MyFrame myFrame = null;
 	public final static int type = 1;
 	private int status = 100;
+	private int resource = 10000;
 
 	public AdvicePrinter(String id) {
 		this.id = id;
@@ -38,8 +39,23 @@ public class AdvicePrinter extends Thread {
 		return status;
 	}
 
+	public int getResource() {
+		if (resource < 1)
+			this.status = 101;
+		return resource;
+	}
+
 	protected void setAPStatus(int Status) {
 		this.status = Status;
+		if (status == 100) {
+			resource = 10000;
+		} else if (status == 101 || status == 102) {
+			this.resource = 0;
+		} else if (status == 103) {
+			// TODO simulate Paper jam
+		} else {
+			// TODO simulate out of service
+		}
 	}
 
 	public void setATMSS(ATMSS newAtmss) {
@@ -50,9 +66,14 @@ public class AdvicePrinter extends Thread {
 	// ------------------------------------------------------------
 	// print
 	public void print(String str) {
-		textArea.append(str);
-		textArea.setCaretPosition(textArea.getDocument().getLength());
-	} // println
+		if (getResource() > 0) {
+			textArea.append(str);
+			textArea.setCaretPosition(textArea.getDocument().getLength());
+			resource--;
+		} else {
+			textArea.setText(">>>>>>>>>>>>>Out of service:No resources");
+		}
+	} // print
 
 	// ------------------------------------------------------------
 	// println

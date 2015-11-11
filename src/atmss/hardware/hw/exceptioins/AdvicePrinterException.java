@@ -8,7 +8,8 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class AdvicePrinterException extends HardwareException {
-
+	private final static int AP_NORMAL_CODE = 100;
+	private final static String[] AP_MSG = { "", "Out of resources", "Out of resources", "Paper Jamed" };
 	/**
 	 * 
 	 */
@@ -23,11 +24,12 @@ public class AdvicePrinterException extends HardwareException {
 	}
 
 	/**
-	 * @param code (range:[100~199])
+	 * @param code
+	 *            (range:[100~199])
 	 * @param msg
 	 */
-	public AdvicePrinterException(int code, String msg) {
-		super(code, msg);
+	public AdvicePrinterException(int code) {
+		super(code, AP_MSG[code - AP_NORMAL_CODE]);
 		// TODO Auto-generated constructor stub
 	}
 
