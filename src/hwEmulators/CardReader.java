@@ -43,6 +43,10 @@ public class CardReader extends Thread {
 		MyFrame myFrame = new MyFrame("Card Reader");
 	} // CardReader
 
+	public String getCard() {
+		return cardToSend;
+	}
+
 	public int getCRStatus() {
 		return status;
 	}
@@ -152,7 +156,7 @@ public class CardReader extends Thread {
 			// create the two buttons
 			JButton sendButton = new JButton("Send to ATMSS");
 			JButton ejectButton = new JButton("Eject card");
-			JButton resetButton = new JButton("Reset");
+			JButton resetButton = new JButton("Clear");
 
 			// assign actions to buttons
 			sendButton.addActionListener(new ActionListener() {

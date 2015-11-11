@@ -21,18 +21,44 @@ public class DepositCollector extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
-	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
-	private boolean enable = true;
 	public final static int type = 4;
 	private int status = 400;
+	private boolean slotIsOpen = false;
+	private boolean hasEnvelop = false;
 
 	public DepositCollector(String id) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		log = ATMKickstarter.getLogger();
 
-		MyFrame myFrame = new MyFrame("Deposit Collector");
+		MyFrame myFrame = new MyFrame("Deposit Collector\n");
+	}
+
+	public void openSlot() {
+		this.msgTextArea.append("Slop opens, waiting for envelop...\n");
+		this.slotIsOpen = true;
+	}
+
+	public boolean getHasEnvelop() {
+		return this.hasEnvelop;
+	}
+
+	protected void setHasEnvelop(boolean has) {
+		this.hasEnvelop = has;
+	}
+
+	public void closeSlot(boolean isTimeout) {
+		if (isTimeout)
+			this.msgTextArea.append("Time out! Slop closes, nothing input\n");
+		else
+			this.msgTextArea.append("Slop closes, envelop received\n");
+		setHasEnvelop(false);
+		this.slotIsOpen = false;
+	}
+
+	public boolean checkSlot() {
+		return this.slotIsOpen;
 	}
 
 	public int getDCStatus() {
@@ -41,10 +67,6 @@ public class DepositCollector extends Thread {
 
 	protected void setDCStatus(int Status) {
 		this.status = Status;
-	}
-
-	public void setDepositCollectorEnable(boolean isEnable) {
-		this.enable = isEnable;
 	}
 
 	public void setATMSS(ATMSS newAtmss) {
@@ -84,17 +106,28 @@ public class DepositCollector extends Thread {
 		private JPanel createButtonPanel() {
 			JPanel buttonPanel = new JPanel();
 			JButton putInBtn = new JButton("Put in envelop");
-			putInBtn.addActionListener(new ActionListener() {
+			JButton clearBtn = new JButton("Clear");
 
+			putInBtn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					log.info(id + ": Sending \"Put in envelop\"");
-					atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
+					if (slotIsOpen) {
+						log.info(id + ": Sending \"Put in envelop\"");
+						atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
+						setHasEnvelop(true);
+					}
+				}
+			});
+
+			clearBtn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					msgTextArea.setText("");
 				}
 			});
 
 			buttonPanel.add(putInBtn);
+			buttonPanel.add(clearBtn);
 			return buttonPanel;
 		}
 

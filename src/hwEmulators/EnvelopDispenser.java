@@ -21,11 +21,11 @@ public class EnvelopDispenser extends Thread {
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
 	private JTextArea msgTextArea = null;
-	private JLabel msgLabel = null;
 	public final static int type = 6;
 	private int status = 600;
+	private int numOfEnvelop = 10000;
 
-	// ------------------------------------------------------------
+	// ------------------------------------- -----------------------
 	// EnvelopDispenser
 	public EnvelopDispenser(String id) {
 		this.id = id;
@@ -41,6 +41,11 @@ public class EnvelopDispenser extends Thread {
 
 	protected void setEDStatus(int Status) {
 		this.status = Status;
+		if (status == 601) {
+			numOfEnvelop = 0;
+		} else if (status == 600) {
+			numOfEnvelop = 10000;
+		}
 	}
 
 	// ------------------------------------------------------------
@@ -49,6 +54,20 @@ public class EnvelopDispenser extends Thread {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
+
+	public boolean ejectEnvelop() {
+		if (numOfEnvelop > 0) {
+			msgTextArea.append("Preparing for ejecting...\n");
+			msgTextArea.append("Enjecting an envelop...\n");
+			msgTextArea.append("Envelop ejected!\n");
+			numOfEnvelop--;
+			return true;
+		} else {
+			this.status = 601;
+			msgTextArea.append("There's no envelop!");
+			return false;
+		}
+	}
 
 	// ------------------------------------------------------------
 	// MyFrame
@@ -78,13 +97,11 @@ public class EnvelopDispenser extends Thread {
 		public MyPanel() {
 			// create the panels
 			JPanel buttonPanel = createButtonPanel();
-			JPanel labelPanel = createLabelPanel();
 			JPanel msgPanel = createMsgPanel();
 
 			// add the panels
 			add(msgPanel);
 			add(buttonPanel);
-			add(labelPanel);
 		}
 
 		// ----------------------------------------
@@ -96,11 +113,7 @@ public class EnvelopDispenser extends Thread {
 			clearButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					msgTextArea.setText("");
-					msgLabel.setText("Working");
-
-					log.info(id + ": Sending \"" + clearButton.getText() + "\"");
 					atmssMBox.send(new Msg("EnvelopDispenser", 6, clearButton.getText()));
-
 				}
 			});
 
@@ -111,17 +124,6 @@ public class EnvelopDispenser extends Thread {
 		} // createButtonPanel
 
 		// ----------------------------------------
-		// createLabelPanel
-		private JPanel createLabelPanel() {
-			JPanel labelPanel = new JPanel();
-
-			// create the msg label
-			msgLabel = new JLabel("Working");
-			labelPanel.add(msgLabel);
-			return labelPanel;
-		} // createLabelPanel
-
-		// ----------------------------------------
 		// createMsgPanel
 		private JPanel createMsgPanel() {
 			JPanel msgPanel = new JPanel();
@@ -130,13 +132,7 @@ public class EnvelopDispenser extends Thread {
 			msgTextArea = new JTextArea(6, 30);
 			msgTextArea.setEditable(false);
 			JScrollPane msgScrollPane = new JScrollPane(msgTextArea);
-
-			// create the msg panel and add the text area into it
 			msgPanel.add(msgScrollPane);
-			msgTextArea.append("Preparing for ejecting...\n");
-			msgTextArea.append("Enjecting an envelop...\n");
-			msgTextArea.append("Envelop ejected!\n");
-
 			return msgPanel;
 		} // createMsgPanel
 	} // MyPanel
