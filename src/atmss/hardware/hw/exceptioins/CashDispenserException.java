@@ -8,7 +8,8 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class CashDispenserException extends HardwareException {
-
+	private final static int NORMAL_CODE = 300;
+	private final static String[] CD_MSG = { "", "Insuffient number of 500 notes", "No cash" };
 	/**
 	 * 
 	 */
@@ -18,17 +19,15 @@ public class CashDispenserException extends HardwareException {
 	 * 
 	 */
 	public CashDispenserException() {
-		// TODO Auto-generated constructor stub
-		super();
+		super(NORMAL_CODE + 99, "Fatal Error");
 	}
 
 	/**
-	 * @param code (range:[600~699])
-	 * @param msg
+	 * @param code
+	 * 
 	 */
-	public CashDispenserException(int code, String msg) {
-		super(code, msg);
-		// TODO Auto-generated constructor stub
+	public CashDispenserException(int code) {
+		super(code, CD_MSG[code - NORMAL_CODE]);
 	}
 
 }

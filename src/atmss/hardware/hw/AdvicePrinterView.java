@@ -92,7 +92,10 @@ public class AdvicePrinterView extends HardwareView {
 	@Override
 	void throwException(int Code) throws AdvicePrinterException {
 		// TODO Auto-generated method stub
-		throw new AdvicePrinterException(Code);
+		if (Code == 199)
+			throw new AdvicePrinterException();
+		else
+			throw new AdvicePrinterException(Code);
 	}
-
+	
 }

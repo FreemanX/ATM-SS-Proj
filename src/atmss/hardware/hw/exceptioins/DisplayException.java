@@ -8,7 +8,8 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class DisplayException extends HardwareException {
-
+	private final static int NORMAL_CODE = 500;
+	private final static String[] DIS_MSG = { "" };
 	/**
 	 * 
 	 */
@@ -18,17 +19,14 @@ public class DisplayException extends HardwareException {
 	 * 
 	 */
 	public DisplayException() {
-		// TODO Auto-generated constructor stub
-		super();
+		super(NORMAL_CODE + 99, "Fatal Error");
 	}
 
 	/**
-	 * @param code (range:[500~599])
-	 * @param msg
+	 * @param code
 	 */
-	public DisplayException(int code, String msg) {
-		super(code, msg);
-		// TODO Auto-generated constructor stub
+	public DisplayException(int code) {
+		super(code, DIS_MSG[code - NORMAL_CODE]);
 	}
 
 }

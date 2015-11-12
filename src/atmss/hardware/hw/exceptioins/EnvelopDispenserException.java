@@ -8,7 +8,8 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class EnvelopDispenserException extends HardwareException {
-
+	private final static int NORMAL_CODE = 600;
+	private final static String[] ED_MSG = { "", "No envelop" };
 	/**
 	 * 
 	 */
@@ -18,17 +19,15 @@ public class EnvelopDispenserException extends HardwareException {
 	 * 
 	 */
 	public EnvelopDispenserException() {
-		// TODO Auto-generated constructor stub
-		super();
+		super(NORMAL_CODE + 99, "Fatal Error");
 	}
 
 	/**
-	 * @param code (range:[200~299])
-	 * @param msg
+	 * @param code
+	 * 
 	 */
-	public EnvelopDispenserException(int code, String msg) {
-		super(code, msg);
-		// TODO Auto-generated constructor stub
+	public EnvelopDispenserException(int code) {
+		super(code, ED_MSG[code - NORMAL_CODE]);
 	}
 
 }

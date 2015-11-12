@@ -8,7 +8,8 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class DepositCollectorException extends HardwareException {
-
+	private final static int NORMAL_CODE = 400;
+	private final static String[] DC_MSG = { "", "Not Envelop" };
 	/**
 	 * 
 	 */
@@ -18,17 +19,15 @@ public class DepositCollectorException extends HardwareException {
 	 * 
 	 */
 	public DepositCollectorException() {
-		// TODO Auto-generated constructor stub
-		super();
+		super(NORMAL_CODE + 99, "Fatal Error");
 	}
 
 	/**
-	 * @param code (range:[400~499])
-	 * @param msg
+	 * @param code
+	 * 
 	 */
-	public DepositCollectorException(int code, String msg) {
-		super(code, msg);
-		// TODO Auto-generated constructor stub
+	public DepositCollectorException(int code) {
+		super(code, DC_MSG[code - NORMAL_CODE]);
 	}
 
 }

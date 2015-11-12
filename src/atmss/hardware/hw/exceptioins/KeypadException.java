@@ -8,7 +8,8 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class KeypadException extends HardwareException {
-
+	private final static int NORMAL_CODE = 700;
+	private final static String[] KP_MSG = { "" };
 	/**
 	 * 
 	 */
@@ -19,16 +20,14 @@ public class KeypadException extends HardwareException {
 	 */
 	public KeypadException() {
 		// TODO Auto-generated constructor stub
-		super();
+		super(NORMAL_CODE + 99, "Fatal Error");
 	}
 
 	/**
-	 * @param code (range:[700~799])
-	 * @param msg
+	 * @param code
 	 */
-	public KeypadException(int code, String msg) {
-		super(code, msg);
-		// TODO Auto-generated constructor stub
+	public KeypadException(int code) {
+		super(code, KP_MSG[code - NORMAL_CODE]);
 	}
 
 }

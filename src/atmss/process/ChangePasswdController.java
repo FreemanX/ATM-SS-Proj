@@ -6,7 +6,7 @@ package atmss.process;
 import atmss.MainController;
 
 /**
- * @author freeman
+ * @author DJY
  *
  */
 public class ChangePasswdController extends ProcessController {

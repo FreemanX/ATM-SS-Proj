@@ -3,14 +3,14 @@
  */
 package atmss.hardware.hw;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.hw.exceptioins.CardReaderException;
 
 /**
  * @author freeman
  *
  */
 public class CardReaderView extends HardwareView {
-
+	
 	/**
 	 * 
 	 */
@@ -22,7 +22,7 @@ public class CardReaderView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
-	public int checkStatus() throws HardwareException {
+	public int checkStatus() throws CardReaderException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -31,7 +31,7 @@ public class CardReaderView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
-	public boolean reset() throws HardwareException {
+	public boolean reset() throws CardReaderException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -40,7 +40,7 @@ public class CardReaderView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
-	public boolean shutdown() throws HardwareException {
+	public boolean shutdown() throws CardReaderException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -49,7 +49,7 @@ public class CardReaderView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
-	void throwException(int Code) throws HardwareException {
+	void throwException(int Code) throws CardReaderException {
 		// TODO Auto-generated method stub
 
 	}

@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import atmss.*;
 
 /**
- * @author freeman
+ * @author Lihui
  *
  */
 public abstract class ProcessController {
@@ -17,8 +17,7 @@ public abstract class ProcessController {
 	MainController _mainController;
 
 	public ProcessController() {
-		System.err
-				.println("You have to pass me AccountNumbre and Maincontroller...");
+		System.err.println("You have to pass me AccountNumbre and Maincontroller...");
 	}
 
 	public ProcessController(String AccountNumber, MainController MainController) {

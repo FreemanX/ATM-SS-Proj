@@ -20,12 +20,12 @@ public abstract class HardwareException extends Exception {
 	 * 
 	 */
 	public HardwareException() {
-		// TODO Auto-generated constructor stub
 		System.out
 				.println("You must specify the ExceptionCode and ExceptionMsg");
 	}
 
 	public HardwareException(int code, String msg) {
+		
 		this.ExceptionCode = code;
 		this.ExceptioinMsg = msg;
 	}

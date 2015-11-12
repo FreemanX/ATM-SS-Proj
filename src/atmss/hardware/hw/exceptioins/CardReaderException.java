@@ -8,7 +8,9 @@ package atmss.hardware.hw.exceptioins;
  *
  */
 public class CardReaderException extends HardwareException {
-
+	private final static int NORMAL_CODE = 200;
+	private final static String[] CR_MSG = { "", "Can not recognize Card", "Card storage full",
+			"Damaged card or not right card" };
 	/**
 	 * 
 	 */
@@ -18,17 +20,15 @@ public class CardReaderException extends HardwareException {
 	 * 
 	 */
 	public CardReaderException() {
-		// TODO Auto-generated constructor stub
-		super();
+		super(NORMAL_CODE + 99, "Fatal Error");
 	}
 
 	/**
-	 * @param code (range:[300~399])
-	 * @param msg
+	 * @param code
+	 * 
 	 */
-	public CardReaderException(int code, String msg) {
-		super(code, msg);
-		// TODO Auto-generated constructor stub
+	public CardReaderException(int code) {
+		super(code, CR_MSG[code - NORMAL_CODE]);
 	}
 
 }
