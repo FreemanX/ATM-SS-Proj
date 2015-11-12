@@ -14,9 +14,6 @@
 1. All classes defined in phase 1 have been created, yet the methods, attributes and detailed code of those classes are still empty. Some methods may be changed later. The class diagram has been updated accordingly. 
 2. The sample codes provided by Joe are also included for now. Those code can only be > reference as mentioned in the lecture.
 
-==============
-
-
 ###======================Nov 11, 2015 Freeman======================
 So far what we have done:
 0. All the finctions of hardware emulators have finished. They are not fully tested though, maybe modified little in the future.
