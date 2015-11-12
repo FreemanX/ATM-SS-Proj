@@ -50,17 +50,11 @@ public abstract class UtilTimer extends Thread {
 
 		public boolean startTimer() { // return true if timeout
 			initTimmer();
-			while (continues && elapsedTime < duration * 1000) {
+			while (this.continues && elapsedTime < duration * 1000) {
 				elapsedTime = (new Date()).getTime() - startTime;
+
 			}
 			return true;
-			// try {
-			// sleep(duration * 1000);
-			// return true;
-			// } catch (InterruptedException e) {
-			// return false;
-			// }
-
 		}
 	}
 
@@ -68,6 +62,7 @@ public abstract class UtilTimer extends Thread {
 		if (timerTask()) {
 			tt.setContinues(false);
 			tt.interrupt();
+			System.out.println("Time task finished");
 			return true;
 		} else {
 			return false;
@@ -90,7 +85,6 @@ public abstract class UtilTimer extends Thread {
 		};
 
 		tm.start();
-
 	}
 
 	public boolean myTask() {
@@ -104,5 +98,5 @@ public abstract class UtilTimer extends Thread {
 		}
 		return isSuccess;
 	}
-	
+
 }
