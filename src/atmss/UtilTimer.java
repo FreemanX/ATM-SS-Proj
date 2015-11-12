@@ -25,18 +25,21 @@ public class UtilTimer {
 
 	public boolean startTimer() {
 		initTimmer();
-		System.out.println("Start...");
+
 		while (elapsedTime < duration * 1000) {
 			elapsedTime = (new Date()).getTime() - startTime;
 		}
-		System.out.println("Time out");
+
 		return true;
 	}
 
 	public static void main(String[] args) {
 
-		UtilTimer t1 = new UtilTimer(5);
-		t1.startTimer();
+		UtilTimer t1 = new UtilTimer(5); // Set the duration as 5s
+		System.out.println("Start...");
+		if (t1.startTimer()) {
+			System.out.println("Time out");
+		}
 	}
 
 }
