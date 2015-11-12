@@ -25,7 +25,6 @@ public class CardReader extends Thread {
 	private MBox atmssMBox = null;
 	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
-	private boolean enabled = true;
 	public final static int type = 2;
 	private int status = 200;
 	private final String Card1 = "981358459216";
@@ -61,10 +60,6 @@ public class CardReader extends Thread {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
-
-	public void setCardReaderEnable(boolean isEnable) {
-		this.enabled = isEnable;
-	}
 
 	// ------------------------------------------------------------
 	// MyFrame
