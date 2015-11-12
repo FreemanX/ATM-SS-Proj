@@ -1,4 +1,11 @@
-# HKBU COMP4007 ATM-SS-Project
+# HKBU COMP4007 ATM-SS-Project Group 5
+
+## Development rules
+
+0. If you want to add or change any public methods or attributes to the classes defined in the class diagram, you must inform the team in WeChat first and make sure everyone agrees on these changes. Then you can push the code and everyone pulls the latest version. 
+
+1. The code you are about to push to GitHub must be compatible with the latest version on GitHub. You should also update the development log clearly list out what you have done and inform the team in WeChat.
+
 
 ## Development log
 ###======================Nov 1, 2015 Freeman======================
