@@ -35,14 +35,15 @@
 <a id="development-rules" class="anchor" href="#development-rules" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development rules</h2>
 
 <ol>
-<li>If you want to add or change any public methods or attributes to the classes defined in the class diagram, you must inform the team in WeChat first and make sure everyone agrees on these changes. Then you can push the code and everyone pulls the latest version. </li>
-<li>The code you are about to push to GitHub must be compatible with the latest version on GitHub. You should also update the development log clearly list out what you have done and inform the team in WeChat.</li>
+<li><p>If you want to add or change any public methods or attributes to the classes defined in the class diagram, you must inform the team in WeChat first and make sure everyone agrees on these changes. Then you can push the code and everyone pulls the latest version. </p></li>
+<li><p>The code you are about to push to GitHub must be compatible with the latest version on GitHub. You should also update the development log clearly list out what you have done and inform the team in WeChat.</p></li>
 </ol>
 
 <h2>
 <a id="development-log" class="anchor" href="#development-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development log</h2>
 
-<p>======================Nov 1st, 2015 Freeman======================</p>
+<h3>
+<a id="nov-1-2015-freeman" class="anchor" href="#nov-1-2015-freeman" aria-hidden="true"><span class="octicon octicon-link"></span></a>======================Nov 1, 2015 Freeman======================</h3>
 
 <ol>
 <li>Project website launched! <img class="emoji" title=":stuck_out_tongue_closed_eyes:" alt=":stuck_out_tongue_closed_eyes:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61d.png" height="20" width="20" align="absmiddle">
@@ -50,6 +51,43 @@
 <li>All classes defined in phase 1 have been created, yet the methods, attributes and detailed code of those classes are still empty. Some methods may be changed later. The class diagram has been updated accordingly. </li>
 <li>The sample codes provided by Joe are also included for now. Those code can only be &gt; reference as mentioned in the lecture.</li>
 </ol>
+
+<h1></h1>
+
+<h3>
+<a id="nov-11-2015-freeman" class="anchor" href="#nov-11-2015-freeman" aria-hidden="true"><span class="octicon octicon-link"></span></a>======================Nov 11, 2015 Freeman======================</h3>
+
+<p>So far what we have done:
+0. All the finctions of hardware emulators have finished. They are not fully tested though, maybe modified little in the future.
+    To Check:
+        0.1. Add functions for them accroding to the requirnment
+        0.2. When the status of a emulator is set to be not working by Exceptioin emulator, all the functions (functionnal buttons) of the corresponding hw should be disabled
+        0.3. The status of a hardware emulator can be changed by ATM-SS or Exceptioin emulator independently. The status lables on the Exception emulator should be synchronized.</p>
+
+<ol>
+<li>Tony has finished the php part, need to be tested by handler.</li>
+</ol>
+
+<h3>
+<a id="nov-12-2015-freeman" class="anchor" href="#nov-12-2015-freeman" aria-hidden="true"><span class="octicon octicon-link"></span></a>======================Nov 12, 2015 Freeman======================</h3>
+
+<ol>
+<li>Hardware Exception finished. The logic has changed a little.
+0.1 For each specific Exception has two constructors. 
+    The default constructor is for Unknown ones(not defined in the doc from Google drive) and Faltal errors.
+    Another constructor will only take the exception code as parameter, all the massage of a specific hardware is defined in the MSG string
+0.2 When the HardwareView creates a exception using the throwExceptin method need to check the status of the hardware emulator and see if it's Out of service status or say Fatal error that those statuses end with '99' will call the default constructor of cooresponding exception class, otherwise, it will call another constractor and pass the status as exception code to it.</li>
+</ol>
+
+<h2>
+<a id="notice" class="anchor" href="#notice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notice</h2>
+
+<p>There is a "mistake" in BAMSHandler.java, line 134.
+"toAcc=" should be "&amp;toAcc=", whenever you try to use the transfer method, append a "&amp;" behind the cred.</p>
+
+<p>e.g</p>
+
+<p>handler.transfer(cardNo, cred + "&amp;", accNo, toAcc, amount)</p>
         </section>
 
         <aside id="sidebar">
