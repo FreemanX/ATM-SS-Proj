@@ -42,6 +42,11 @@ public class CardReader extends Thread {
 		MyFrame myFrame = new MyFrame("Card Reader");
 	} // CardReader
 
+	public void ejectCard() {
+		cardToSend = "";
+		msgTextArea.append("Card Ejected!/n");
+	}
+
 	public String getCard() {
 		return cardToSend;
 	}

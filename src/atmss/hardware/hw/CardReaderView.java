@@ -21,13 +21,18 @@ public class CardReaderView extends HardwareView {
 		this._cardReader = CR;
 	}
 
+	public void ejectCard()
+	{
+		
+	}
+	
 	/* (non-Javadoc)
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
 	public int checkStatus() throws CardReaderException {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._cardReader.getCRStatus();
 	}
 
 	/* (non-Javadoc)
