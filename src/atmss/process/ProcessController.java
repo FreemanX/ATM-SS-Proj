@@ -3,7 +3,7 @@
  */
 package atmss.process;
 
-import java.util.LinkedList;
+import java.util.*;
 import atmss.*;
 
 /**
@@ -12,7 +12,7 @@ import atmss.*;
  */
 public abstract class ProcessController {
 
-	String _accountNumber;
+	String _cardNumber;
 	LinkedList<Operation> operationCache;
 	MainController _mainController;
 
@@ -20,19 +20,19 @@ public abstract class ProcessController {
 		System.err.println("You have to pass me AccountNumbre and Maincontroller...");
 	}
 
-	public ProcessController(String AccountNumber, MainController MainController) {
+	public ProcessController(String CardNumber, MainController MainController) {
 		// TODO Auto-generated constructor stub
-		this.initialization(AccountNumber, MainController);
+		this.initialization(CardNumber, MainController);
 	}
 
-	void initialization(String AccountNumber, MainController MainController) {
-		this._accountNumber = AccountNumber;
+	void initialization(String CardNumber, MainController MainController) {
+		this._cardNumber = CardNumber;
 		this._mainController = MainController;
 		operationCache = new LinkedList<>();
 	}
 
-	public void setAccountNumber(String AccountNumber) {
-		this._accountNumber = AccountNumber;
+	public void setCardNumber(String CardNumber) {
+		this._cardNumber = CardNumber;
 	}
 
 	public LinkedList<Operation> getOperationCache() {
