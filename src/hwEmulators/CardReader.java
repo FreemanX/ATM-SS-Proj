@@ -31,6 +31,7 @@ public class CardReader extends Thread {
 	private final String Card2 = "981370846450";
 	private final String Card3 = "Joker from poker";
 	private String cardToSend = "";
+	private boolean waitForTaken = false;
 
 	// ------------------------------------------------------------
 	// CardReader
@@ -43,8 +44,17 @@ public class CardReader extends Thread {
 	} // CardReader
 
 	public void ejectCard() {
-		cardToSend = "";
-		msgTextArea.append("Card Ejected!/n");
+		waitForTaken = true;
+		msgTextArea.append("Card" + this.cardToSend + " Ejected, please take the card/n");
+		log.info(id + ": Ejecting " + this.cardToSend);
+		atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
+	}
+
+	public void eatCard() {
+		waitForTaken = false;
+		msgTextArea.append("Card retained/n");
+		log.info(id + ": Retain " + this.cardToSend);
+		atmssMBox.send(new Msg("CardReader", 2, ": Retain " + this.cardToSend));
 	}
 
 	public String getCard() {
@@ -155,7 +165,7 @@ public class CardReader extends Thread {
 		private JPanel createSendResetPanel() {
 			// create the two buttons
 			JButton sendButton = new JButton("Send to ATMSS");
-			JButton ejectButton = new JButton("Eject card");
+			JButton takeButton = new JButton("Take Card");
 			JButton resetButton = new JButton("Clear");
 
 			// assign actions to buttons
@@ -165,26 +175,26 @@ public class CardReader extends Thread {
 					cardToSend = textField.getText();
 					if (cardToSend.length() > 0) {
 						log.info(id + ": Sending " + textField.getText());
-						msgTextArea.append("Sending " + textField.getText() + "\n");
 						atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
+						msgTextArea.append("Sending " + textField.getText() + "\n");
 					} else {
 						msgTextArea.append("Please insert a card!\n");
 					}
 				}
 			});
-			ejectButton.addActionListener(new ActionListener() {
+			takeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					if (cardToSend.length() > 0) {
+					if (waitForTaken && cardToSend.length() > 0) {
 						textField.setText("");
 						msgTextArea.append("Card Ejected\n");
 						atmssMBox.send(new Msg("CardReader", CardReader.type, "Eject card: " + cardToSend));
 						log.info(id + ": Ejecting " + cardToSend);
 						cardToSend = "";
 					} else {
-						msgTextArea.append("There's nothing in here!\n");
-						atmssMBox.send(new Msg("CardReader", 2, "Try to eject nothing"));
+						msgTextArea.append("Nothing to take!/n");
+						atmssMBox.send(new Msg("CardReader", 2, "Nothing to take!/n"));
 					}
 
 				}
@@ -199,7 +209,7 @@ public class CardReader extends Thread {
 			// create sendResetPanel and add the two buttons into it
 			JPanel sendResetPanel = new JPanel();
 			sendResetPanel.add(sendButton);
-			sendResetPanel.add(ejectButton);
+			sendResetPanel.add(takeButton);
 			sendResetPanel.add(resetButton);
 			return sendResetPanel;
 		} // createSendResetPanel

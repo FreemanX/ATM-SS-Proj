@@ -3,7 +3,6 @@
  */
 package atmss.hardware.hw;
 
-import atmss.hardware.hw.exceptioins.AdvicePrinterException;
 import atmss.hardware.hw.exceptioins.CardReaderException;
 import hwEmulators.CardReader;
 
@@ -13,6 +12,7 @@ import hwEmulators.CardReader;
  */
 public class CardReaderView extends HardwareView {
 	private CardReader _cardReader;
+
 	/**
 	 * 
 	 */
@@ -21,12 +21,17 @@ public class CardReaderView extends HardwareView {
 		this._cardReader = CR;
 	}
 
-	public void ejectCard()
-	{
-		
+	public void ejectCard() {
+		this._cardReader.ejectCard();
 	}
-	
-	/* (non-Javadoc)
+
+	public void retainCard() {
+		this._cardReader.eatCard();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -35,7 +40,9 @@ public class CardReaderView extends HardwareView {
 		return this._cardReader.getCRStatus();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -44,7 +51,9 @@ public class CardReaderView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -53,7 +62,9 @@ public class CardReaderView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
