@@ -31,16 +31,6 @@ So far what we have done:
 	    Another constructor will only take the exception code as parameter, all the massage of a specific hardware is defined in the MSG string
 	0.2 When the HardwareView creates a exception using the throwExceptin method need to check the status of the hardware emulator and see if it's Out of service status or say Fatal error that those statuses end with '99' will call the default constructor of cooresponding exception class, otherwise, it will call another constractor and pass the status as exception code to it.
 
-	
-	
-## Notice
-There is a "mistake" in BAMSHandler.java, line 134.
-"toAcc=" should be "&toAcc=", whenever you try to use the transfer method, append a "&" behind the cred.
-
-e.g
-
-handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
-
 
 ###======================Nov 13, 2015 LIHUI======================
 0. Almost complete DepositProcessController except for the timer
@@ -115,3 +105,14 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 	"public void doCDCheckInventory()":
 	when a withdraw is complete the ATM needs to check its cash inventory.
 	Is it automatically done? Currently, I am calling it after the cash get ejected.
+	
+
+	
+	
+## Notice
+There is a "mistake" in BAMSHandler.java, line 134.
+"toAcc=" should be "&toAcc=", whenever you try to use the transfer method, append a "&" behind the cred.
+
+e.g
+
+handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
