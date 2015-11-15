@@ -40,3 +40,63 @@ There is a "mistake" in BAMSHandler.java, line 134.
 e.g
 
 handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
+
+
+###======================Nov 13, 2015 LIHUI======================
+0. Almost complete DepositProcessController except for the timer
+1. New methods needed in MainController:
+    1.1 printReiceipt
+    1.2 doBAMSCheckAccounts
+
+###======================Nov 15, 2015 DJY======================
+0.	Almost finished ChangePasswdController.java and WithDrawController.java,
+	made some changes to Display emulator so that it now has two areas.
+1.	Assumptions on the Display:
+	it has two display areas, upper area and lower area,
+	the upper area displays String[] line by line, 
+	the current method "public boolean doDisplay(String[] contents)" is in charge of this area,
+	can only replace the content with the new one.
+	the lower area displays one line of String,
+	need new methods in MainController to take care of this area,
+	can append new content to the previous String, or clear all.
+2.	Assumptions on the methods that return a boolean:
+	such as "public boolean doDisplay(String[] contents)",
+	when being called, if the hardware has error or cannot response in time,
+	then it should return a false immediately.
+	In other words, the MainController should be in charge of "timeout" issue.
+3.	Needed methods:
+	3.0	"public String[] doBAMSCheckAccounts()":
+		normally returns an array of account number;
+		when the relevant hardware/BAMS get timeout/error,
+		returns a null or empty array immediately, so that the caller will know it failed.
+		It is the same method required by LIHUI, although I prefer the name "doBAMSGetAccounts".
+		Or should it take (String CardNumber) as its parameter???????
+	3.1	"public String getPasswordFromUser()":
+		normally returns a String of password format;
+		keeps asking for user input if the format is wrong,
+		and when the relevant hardware/user get timeout/error,
+		returns an empty String immediately.
+	3.2 "public boolean doBAMSUpdatePasswd(String cardNumber, String oldPassword, String newPassword)":
+		change the current method "doBAMSUpdatePasswd(String accountNumber, String newPasswd)",
+		because the password is card related and old password is needed.
+	3.3 "public int getWithdrawAmountFromUser()":
+		normally returns an positive integer that can be divided by 100;
+		keeps asking for user input if the format is wrong, 
+		and when the relevant hardware/user get timeout/error,
+		returns 0 immediately.
+	3.4 "public boolean doBAMSWithdraw(accountNumber, withdrawAmount)":
+		returns true if BAMS approve the withdraw;
+		returns false if BAMS disapprove it or get timeout/error;
+	3.5 "public boolean collectInTime()":
+		normally returns true if the cash is collected;
+		returns false when cash is not collected in time.
+4.	Current method: "public String doGetKeyInput()":
+	should return a single character,
+	and when the relevant hardware/user get timeout/error,
+	should return empty String immediately.
+5.	Concerns:
+	Hardware like display can fail at any time but how can a processController know?
+	Now the processController can only know this when calling the corresponding method,
+	but the display can still fail after being called at any time.
+6.	Shall we change the name "WithDrawController" to "WithdrawController" ?
+
