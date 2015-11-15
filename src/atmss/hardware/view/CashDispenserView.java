@@ -9,12 +9,12 @@ import atmss.hardware.exceptioins.HardwareException;
  * @author freeman
  *
  */
-public class CashDispenser extends HardwareView {
+public class CashDispenserView extends HardwareView {
 
 	/**
 	 * 
 	 */
-	public CashDispenser() {
+	public CashDispenserView() {
 		// TODO Auto-generated constructor stub
 	}
 
