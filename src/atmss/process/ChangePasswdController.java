@@ -41,7 +41,7 @@ public class ChangePasswdController extends ProcessController {
 			return false;
 		}
 		while (true) {
-			oldPassword = _mainController.getPasswordFromUser();
+			// TODO: oldPassword = _mainController.getPasswordFromUser();
 			if (oldPassword.isEmpty()) {
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
@@ -52,7 +52,7 @@ public class ChangePasswdController extends ProcessController {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
-			newPassword = _mainController.getPasswordFromUser();
+			// TODO: newPassword = _mainController.getPasswordFromUser();
 			if (newPassword.isEmpty()) {
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
@@ -63,7 +63,7 @@ public class ChangePasswdController extends ProcessController {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
-			confirmPassword = _mainController.getPasswordFromUser();
+			// TODO: confirmPassword = _mainController.getPasswordFromUser();
 			if (confirmPassword.isEmpty()) {
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
@@ -85,7 +85,7 @@ public class ChangePasswdController extends ProcessController {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		result = _mainController.doBAMSUpdatePasswd(_cardNumber, oldPassword, newPassword);
+		// TODO: result = _mainController.doBAMSUpdatePasswd(_cardNumber, oldPassword, newPassword);
 		
 		// display the result
 		if (result) {

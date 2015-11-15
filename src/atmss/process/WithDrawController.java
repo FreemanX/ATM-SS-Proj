@@ -30,12 +30,13 @@ public class WithDrawController extends ProcessController{
 	}
 
 	public Boolean doWithDraw() {
+		String[] accountNumbers = new String[4];
 		String accountNumber = "";
 		int withdrawAmount = 0;
 		boolean result = false;
 		
 		// get account numbers from the CardReader
-		String[] accountNumbers = this._mainController.doBAMSCheckAccounts();
+		// TODO: accountNumbers = this._mainController.doBAMSCheckAccounts();
 		if (accountNumbers == null || accountNumbers.length == 0) {
 			recordOperation(FAILED_FROM_CARDREADER);
 			return false;
@@ -71,7 +72,7 @@ public class WithDrawController extends ProcessController{
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		withdrawAmount = _mainController.getWithdrawAmountFromUser();
+		// TODO: withdrawAmount = _mainController.getWithdrawAmountFromUser();
 		if (withdrawAmount == 0) {
 			recordOperation(FAILED_FROM_KEYPAD);
 			return false;
@@ -83,7 +84,7 @@ public class WithDrawController extends ProcessController{
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		result = _mainController.doBAMSWithdraw(accountNumber, withdrawAmount);
+		// TODO: result = _mainController.doBAMSWithdraw(accountNumber, withdrawAmount);
 		
 		// -> display the result
 		// failed
@@ -104,15 +105,17 @@ public class WithDrawController extends ProcessController{
 			recordOperation(FAILED_FROM_CASHDISPENSER);
 			return false;
 		}
+		/*// TODO: 
 		if (_mainController.collectInTime()) {
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
-		}
+		}*/
 		if (!_mainController.doEatCash()) {
 			recordOperation(FAILED_FROM_CASHDISPENSER);
 			return false;
 		}
 		// <- display the result
+		return result;
 	}
 	
 	private void recordOperation(String AccountNumber, int Amount) {
