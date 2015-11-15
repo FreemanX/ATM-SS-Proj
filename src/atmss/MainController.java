@@ -124,7 +124,7 @@ public class MainController extends Thread {
 			return false;
 		}
 	}
-	
+
 	public int doAPCheckInventory() {
 		try {
 			return this.advicePrinterController.checkInventory();
@@ -144,14 +144,20 @@ public class MainController extends Thread {
 	}
 
 	// >>>>>>>>>>>>>>>>>>2 Functions of card reader <<<<<<<<<<<<<<<<<<<
-	
-	public String doCRGetCardNumebr()
-	{
+
+	public String doCRGetCardNumebr() {
 		return this.cardReaderController.getCardNumber();
 	}
-	
-	
-	
+
+	public int doCRGetstatus() {
+		try {
+			return this.cardReaderController.getStatus();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return -1; // Returns -1 means that there's a problem with CR
+		}
+	}
+
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
 	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be
 	// int

@@ -21,7 +21,7 @@ public class CardReaderController extends HardwareController {
 	 */
 	public CardReaderController(CardReader CR) {
 		// TODO Auto-generated constructor stub
-		
+
 		this.cardReaderView = new CardReaderView(CR);
 	}
 
@@ -50,6 +50,26 @@ public class CardReaderController extends HardwareController {
 		return cardNumber;
 	}
 
+	public boolean ejectCard() throws Exception {
+		try {
+			this.cardReaderView.ejectCard();
+			return true;
+		} catch (CardReaderException e) {
+			HandleException(e);
+			return false;
+		}
+	}
+
+	public boolean retainCard() throws Exception {
+		try {
+			this.cardReaderView.retainCard();
+			return true;
+		} catch (CardReaderException e) {
+			HandleException(e);
+			return false;
+		}
+	}
+
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
@@ -63,7 +83,6 @@ public class CardReaderController extends HardwareController {
 			HandleException(e);
 		}
 		return isSuccess;
-
 	}
 
 	/*
