@@ -109,3 +109,9 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 	Pay some attention to that part.
 3.  A question here: if a user type "CANCEL" button when he can, the whole process will end. 
 	Should we handle that part in the process controller or we have another one to handle it?
+
+###======================Nov 15, 2015 DJY======================
+0.	Need this method or not?
+	"public void doCDCheckInventory()":
+	when a withdraw is complete the ATM needs to check its cash inventory.
+	Is it automatically done? Currently, I am calling it after the cash get ejected.
