@@ -110,7 +110,7 @@ public class WithDrawController extends ProcessController{
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
 		}*/
-		if (!_mainController.doEatCash()) {
+		if (!_mainController.doRetainCash()) {
 			recordOperation(FAILED_FROM_CASHDISPENSER);
 			return false;
 		}
