@@ -100,3 +100,12 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 	but the display can still fail after being called at any time.
 6.	Shall we change the name "WithDrawController" to "WithdrawController" ?
 
+###======================Nov 15, 2015 SXM======================
+0.  Almost finished the EnquiryController and TransferController part in atmss.process package.
+1.  The timer part has not been added.
+2.  The GUI part of Exception Emulator seems not good on my computer. 
+	Some contents are blocked and cannot be seen.
+	I don't know whether it is my PC's problem or the program's problem.
+	Pay some attention to that part.
+3.  A question here: if a user type "CANCEL" button when he can, the whole process will end. 
+	Should we handle that part in the process controller or we have another one to handle it?
