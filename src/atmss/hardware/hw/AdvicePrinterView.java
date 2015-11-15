@@ -19,23 +19,15 @@ public class AdvicePrinterView extends HardwareView {
 	public AdvicePrinterView(AdvicePrinter ap) {
 		// TODO Auto-generated constructor stub
 		this._advicePrinter = ap;
-		checkStatus();
 	}
 
 	public boolean print(String[] advice) throws AdvicePrinterException {
 		boolean isSuccess = false;
-		/*
-		 * TODO call the hardware to do
-		 */
-		int currentStatus = checkStatus();
-		if (currentStatus == 100) {
-			for (String str : advice) {
-				this._advicePrinter.println(str);
-			}
-			isSuccess = true;
-		} else {
-			throwException(currentStatus);
+		for (String str : advice) {
+			checkStatus();
+			this._advicePrinter.println(str);
 		}
+		isSuccess = true;
 
 		return isSuccess;
 	}
@@ -57,9 +49,13 @@ public class AdvicePrinterView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
-	public int checkStatus() {
-		// TODO Auto-generated method stub
-		return this._advicePrinter.getAPStatus();
+	public int checkStatus() throws AdvicePrinterException {
+		
+		int currStatus = this._advicePrinter.getAPStatus();
+		if (currStatus % 100 != 0)
+			throwException(currStatus);
+		return currStatus;
+
 	}
 
 	/*
@@ -96,5 +92,5 @@ public class AdvicePrinterView extends HardwareView {
 		else
 			throw new AdvicePrinterException(Code);
 	}
-	
+
 }

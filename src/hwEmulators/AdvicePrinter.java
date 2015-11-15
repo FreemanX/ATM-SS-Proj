@@ -66,18 +66,24 @@ public class AdvicePrinter extends Thread {
 	// ------------------------------------------------------------
 	// print
 	public void print(String str) {
-		if (getResource() > 0) {
+		if (getResource() > 1) {
 			textArea.append(str);
 			textArea.setCaretPosition(textArea.getDocument().getLength());
 			resource--;
 		} else {
-			textArea.setText(">>>>>>>>>>>>>Out of service:No resources");
+			this.status = 101;
+			textArea.append(">>>>>>>>>>>>>Out of service:No resources");
 		}
 	} // print
 
 	// ------------------------------------------------------------
 	// println
 	public void println(String str) {
+		try {
+			sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		print(str);
 		textArea.append("\n");
 		textArea.setCaretPosition(textArea.getDocument().getLength());

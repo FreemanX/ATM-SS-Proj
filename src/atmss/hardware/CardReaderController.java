@@ -3,7 +3,10 @@
  */
 package atmss.hardware;
 
+import atmss.hardware.hw.CardReaderView;
+import atmss.hardware.hw.exceptioins.CardReaderException;
 import atmss.hardware.hw.exceptioins.HardwareException;
+import hwEmulators.CardReader;
 
 /**
  * @author freeman
@@ -11,30 +14,61 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  */
 public class CardReaderController extends HardwareController {
 	private String cardNumber = "";
+	private CardReaderView cardReaderView;
+
 	/**
 	 * 
 	 */
-	public CardReaderController() {
+	public CardReaderController(CardReader CR) {
 		// TODO Auto-generated constructor stub
+		
+		this.cardReaderView = new CardReaderView(CR);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
-	
-	public String getCard()
-	{
-		//TODO not finished
+
+	public String readCard() throws Exception {
+		try {
+			return this.cardReaderView.readCard();
+		} catch (CardReaderException e) {
+			HandleException(e);
+			return "";
+		}
+
+	}
+
+	public void initCR() {
+		this.cardNumber = "";
+	}
+
+	public String getCardNumber() {
+		// TODO not finished
 		return cardNumber;
 	}
-	
+
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		boolean isSuccess = false;
+		try {
+			this.status = this.cardReaderView.checkStatus();
+			isSuccess = true;
+		} catch (CardReaderException e) {
+			// TODO Auto-generated catch block
+			isSuccess = false;
+			HandleException(e);
+		}
+		return isSuccess;
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -43,7 +77,9 @@ public class CardReaderController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -52,13 +88,36 @@ public class CardReaderController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.exceptioins.HardwareException)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
+	 * exceptioins.HardwareException)
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
+		if (ex.getClass().getName().equals("CardReaderException")) {
+			int exType = ex.getExceptionCode();
+			// TODO handle ex and report to MainController;
+			switch (exType) {
+			case 201:
+				// No need for our system to handle
+				System.err.println(">>>>>>>>>>>Can not recorgnize card");
+				break;
+			case 202:
+				System.err.println(">>>>>>>>>>>Card storage full");
+				break;
+			case 299:
+				System.err.println(">>>>>>>>>>>Hardware failure");
+				break;
+			default:
+				throw ex;
+			}
 
+		} else {
+			throw ex;
+		}
 	}
 
 }

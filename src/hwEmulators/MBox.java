@@ -34,7 +34,6 @@ public class MBox {
 		if (--msgCnt <= 0) {
 			while (true) {
 				try {
-
 					log.fine(id + ": waiting");
 					System.out.println(id + ": waiting");
 					wait();

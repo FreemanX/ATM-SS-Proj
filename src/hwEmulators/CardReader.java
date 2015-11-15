@@ -23,6 +23,7 @@ public class CardReader extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	private MBox _crViewMBox = null;
 	private JTextField textField = null;
 	private JTextArea msgTextArea = null;
 	public final static int type = 2;
@@ -48,6 +49,10 @@ public class CardReader extends Thread {
 		msgTextArea.append("Card" + this.cardToSend + " Ejected, please take the card/n");
 		log.info(id + ": Ejecting " + this.cardToSend);
 		atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
+	}
+
+	public void setCRViewBox(MBox CRViewMBox) {
+		this._crViewMBox = CRViewMBox;
 	}
 
 	public void eatCard() {
@@ -176,12 +181,14 @@ public class CardReader extends Thread {
 					if (cardToSend.length() > 0) {
 						log.info(id + ": Sending " + textField.getText());
 						atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
+						_crViewMBox.send(new Msg("CardReader", 2, textField.getText()));
 						msgTextArea.append("Sending " + textField.getText() + "\n");
 					} else {
 						msgTextArea.append("Please insert a card!\n");
 					}
 				}
 			});
+
 			takeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

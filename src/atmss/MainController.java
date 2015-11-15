@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import atmss.bams.*;
 import atmss.hardware.*;
 import atmss.process.*;
-import hwEmulators.AdvicePrinter;
+import hwEmulators.*;
 
 /**
  * @author freeman
@@ -17,7 +17,7 @@ import hwEmulators.AdvicePrinter;
 public class MainController extends Thread {
 
 	private CashDispenserController cashDispenserController = new CashDispenserController();
-	private CardReaderController cardReaderController = new CardReaderController();
+	private CardReaderController cardReaderController;
 	private KeypadController keypadController = new KeypadController();
 	private DepositCollectorController depositCollectorController = new DepositCollectorController();
 	private AdvicePrinterController advicePrinterController;
@@ -39,9 +39,10 @@ public class MainController extends Thread {
 	/**
 	 * 
 	 */
-	private MainController(AdvicePrinter AP) {
+	public MainController(AdvicePrinter AP, CardReader CR) {
 		// TODO Auto-generated constructor stub
-		advicePrinterController = new AdvicePrinterController(AP);
+		this.advicePrinterController = new AdvicePrinterController(AP);
+		this.cardReaderController = new CardReaderController(CR);
 	}
 
 	// TODO Singleton need to be implemented
@@ -182,24 +183,29 @@ public class MainController extends Thread {
 	public void run() {
 		while (true) {
 			// 1 Wait for card insert
-			if (this.cardReaderController.getCard().length() > 0) {
+			if (this.cardReaderController.getCardNumber().length() > 0) {
 				// TODO 2 Authenticate pin
-				// TODO 2.1 Take user input from keypad and update display accordingly
+				// TODO 2.1 Take user input from keypad and update display
+				// accordingly
 				// TODO 2.2 Sent the pin and account number to server
-				// TODO 2.3 Get the authentication result 
-				// TODO	3 if right pin
-					//TODO Display options and wait for user selection
-					//TODO Create that process controller and wait for process finishes
-					//TODO Display options and wait for user selecti on
-					
-				//TODO 3 else
-					//TODO check if it has been 3 times' error
-						//TODO if yes, retain card and display bank contact info
-					//TODO else
-						//TODO reinput the pin and input pin counter++
-				
+				// TODO 2.3 Get the authentication result
+				// TODO 3 if right pin
+				// TODO Display options and wait for user selection
+				// TODO Create that process controller and wait for process
+				// finishes
+				// TODO Display options and wait for user selection
+				// TODO If user does not choose eject card
+				// TODO Create corresponding process for user
+				// TODO Else
+				// TODO call cardReader controller to eject card
+				// TODO 3 else
+				// TODO check if it has been 3 times' error
+				// TODO if yes, retain card and display bank contact info
+				// TODO else
+				// TODO reinput the pin and input pin counter++
+
 			} else {
-				return;
+				continue;
 			}
 		}
 	}
@@ -242,7 +248,7 @@ public class MainController extends Thread {
 	private boolean initAll() // Initiate all for serving next guest
 	{
 		boolean isSuccess = false;
-
+		this.cardReaderController.initCR();
 		/*
 		 * Implement the process here.
 		 */

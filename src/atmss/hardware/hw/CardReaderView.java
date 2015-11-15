@@ -5,6 +5,8 @@ package atmss.hardware.hw;
 
 import atmss.hardware.hw.exceptioins.CardReaderException;
 import hwEmulators.CardReader;
+import hwEmulators.MBox;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -12,6 +14,7 @@ import hwEmulators.CardReader;
  */
 public class CardReaderView extends HardwareView {
 	private CardReader _cardReader;
+	private MBox cardReaderMBox = new MBox("cardReaderView");
 
 	/**
 	 * 
@@ -19,19 +22,30 @@ public class CardReaderView extends HardwareView {
 	public CardReaderView(CardReader CR) {
 		// TODO Auto-generated constructor stub
 		this._cardReader = CR;
+		this._cardReader.setCRViewBox(this.cardReaderMBox);
 	}
 
-	
-	
-	public String getCardNumer() {
+	public String readCard() throws CardReaderException {
+		checkStatus();
+		Msg msg = this.cardReaderMBox.receive();
+		if (msg.getSender().equals("CardReader") && msg.getType() == 2)
+			return msg.getDetails();
+		else
+			return null;
+	}
+
+	public String getCardNumer() throws CardReaderException {
+		checkStatus();
 		return this._cardReader.getCard();
 	}
 
-	public void ejectCard() {
+	public void ejectCard() throws CardReaderException {
+		checkStatus();
 		this._cardReader.ejectCard();
 	}
 
-	public void retainCard() {
+	public void retainCard() throws CardReaderException {
+		checkStatus();
 		this._cardReader.eatCard();
 	}
 
@@ -43,7 +57,10 @@ public class CardReaderView extends HardwareView {
 	@Override
 	public int checkStatus() throws CardReaderException {
 		// TODO Auto-generated method stub
-		return this._cardReader.getCRStatus();
+		int currStatus = this._cardReader.getCRStatus();
+		if (currStatus % 100 != 0)
+			throwException(currStatus);
+		return currStatus;
 	}
 
 	/*

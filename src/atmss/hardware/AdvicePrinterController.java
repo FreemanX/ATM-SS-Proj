@@ -50,8 +50,9 @@ public class AdvicePrinterController extends HardwareController {
 			return advicePrinter.checkInventory();
 		} catch (AdvicePrinterException ex) {
 			this.HandleException(ex);
+			return -1;
 		}
-		return -1;
+
 	}
 
 	/*
@@ -63,8 +64,15 @@ public class AdvicePrinterController extends HardwareController {
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
 		boolean isSuccess = false;
-		this.status = advicePrinter.checkStatus();
-		isSuccess = true;
+		try {
+			this.status = advicePrinter.checkStatus();
+			isSuccess = true;
+		} catch (AdvicePrinterException e) {
+			// TODO Auto-generated catch block
+			isSuccess = false;
+			HandleException(e);
+		}
+
 		return isSuccess;
 	}
 
@@ -100,10 +108,25 @@ public class AdvicePrinterController extends HardwareController {
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
 		if (ex.getClass().getName().equals("AdvicePrinterException")) {
-			// handle ex;
-			// report to MainController;
-			// isSuccess = true;
-			//
+			int exType = ex.getExceptionCode();
+			// TODO handle ex and report to MainController;
+			switch (exType) {
+			case 101:
+				System.err.println(">>>>>>>>>>>Out of paper");
+				break;
+			case 102:
+				System.err.println(">>>>>>>>>>>Out of ink");
+				break;
+			case 103:
+				System.err.println(">>>>>>>>>>>Paper jam");
+				break;
+			case 199:
+				System.err.println(">>>>>>>>>>>Hardware failure");
+				break;
+			default:
+				throw ex;
+			}
+
 		} else {
 			throw ex;
 		}
