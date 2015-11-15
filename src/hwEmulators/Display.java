@@ -12,7 +12,8 @@ public class Display extends Thread {
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
-	private JTextArea textArea = null;
+	private JTextArea upperArea = null;
+	private JTextArea lowerArea = null;
 	private MyFrame myFrame = null;
 	public final static int type = 5;
 	private int status = 500;
@@ -22,8 +23,10 @@ public class Display extends Thread {
 		log = ATMKickstarter.getLogger();
 
 		// create frame
-		textArea = new JTextArea(21, 48);
-		textArea.setEditable(false);
+		upperArea = new JTextArea(19, 48);
+		upperArea.setEditable(false);
+		lowerArea = new JTextArea(2, 48);
+		lowerArea.setEditable(false);
 		MyFrame myFrame = new MyFrame("Display");
 	} // Display
 
@@ -42,20 +45,29 @@ public class Display extends Thread {
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
+	// ------------------------------------------------------------	
+	// display
+	public void display(String[] lines) {
+		upperArea.setText("");
+		for (int i = 0; i < lines.length; i++) {
+			upperArea.append(lines[i]);
+			upperArea.append("\n");
+			upperArea.setCaretPosition(upperArea.getDocument().getLength());
+		}
+	} // display
+
 	// ------------------------------------------------------------
 	// append
 	public void append(String str) {
-		textArea.append(str);
-		textArea.append("\n");
-		textArea.setCaretPosition(textArea.getDocument().getLength());
+		lowerArea.append(str);
 	} // append
-
+	
 	// ------------------------------------------------------------
 	// clear
 	public void clear() {
-		textArea.setText("");
+		lowerArea.setText("");
 	} // clear
-
+	
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
 		// MyFrame
@@ -76,8 +88,10 @@ public class Display extends Thread {
 		// ----------------------------------------
 		// MyPanel
 		public MyPanel() {
-			JScrollPane textScrollPane = new JScrollPane(textArea);
-			add(textScrollPane);
+			//JScrollPane upperPane = new JScrollPane(upperArea);
+			add(upperArea);
+			//JScrollPane lowerPane = new JScrollPane(upperArea);
+			add(lowerArea);
 		} // MyPanel
 	} // MyPanel
 } // Display
