@@ -18,6 +18,8 @@ public class WithDrawController extends ProcessController{
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_BAMS = "Failed to get approval from BAMS";
 	private final String FAILED_FROM_CASHDISPENSER = "No response from the cash dispenser";
+	private final String FAILED_FROM_CD_COLLECTION = "The cash dispenser cannot retain the cash";
+	private final String FAILED_FROM_USER_COLLECTION = "The cash was not collected by the card holder";
 	private final String ERROR_BAD_CHOICE_HEADER = "Not a valid choice! Please choose your account:";
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
 	private final String[] PROMPT_FOR_AMOUNT = {"Please input your withdraw amount:"};
@@ -93,7 +95,7 @@ public class WithDrawController extends ProcessController{
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
-			recordOperation(FAILED_FROM_BAMS);
+			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS);
 			return false;
 		}
 		// succeeded
@@ -102,20 +104,34 @@ public class WithDrawController extends ProcessController{
 			return false;
 		}
 		if (!_mainController.doEjectCash(withdrawAmount)) {
-			recordOperation(FAILED_FROM_CASHDISPENSER);
+			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CASHDISPENSER);
 			return false;
 		}
-		/*// TODO: 
-		if (_mainController.collectInTime()) {
+		
+		if (result) { // if (_mainController.collectInTime()) {
+			// TODO _mainController.doCDCheckInventory();
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
-		}*/
-		if (!_mainController.doRetainCash()) {
-			recordOperation(FAILED_FROM_CASHDISPENSER);
+		} else {
+			if (!_mainController.doRetainCash()) {
+				// TODO _mainController.doCDCheckInventory();
+				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_COLLECTION);
+				return false;
+			}
+			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_USER_COLLECTION);
 			return false;
 		}
 		// <- display the result
-		return result;
+	}
+	
+	private void recordOperation(String AccountNumber, int Amount, String FailedReason) {
+		String description = 
+				"Card Number: " + _cardNumber + "; " + 
+				"Account Number: " + AccountNumber + "; " +
+				"Amount: " + Amount + "; " +
+				"Result: " + "Failed; " + 
+				"Reason: " + FailedReason;
+		operationCache.add(new Operation(OPERATION_NAME, description));
 	}
 	
 	private void recordOperation(String AccountNumber, int Amount) {
