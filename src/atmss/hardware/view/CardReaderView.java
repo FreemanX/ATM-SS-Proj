@@ -1,9 +1,9 @@
 /**
  * 
  */
-package atmss.hardware.hw;
+package atmss.hardware.view;
 
-import atmss.hardware.hw.exceptioins.CardReaderException;
+import atmss.hardware.exceptioins.CardReaderException;
 import hwEmulators.CardReader;
 import hwEmulators.MBox;
 import hwEmulators.Msg;

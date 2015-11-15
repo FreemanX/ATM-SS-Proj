@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import atmss.hardware.hw.KeypadView;
+import atmss.hardware.view.KeypadView;
 
 import javax.swing.JButton;
 import java.awt.Dimension;

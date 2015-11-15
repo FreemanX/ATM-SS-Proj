@@ -1,7 +1,7 @@
 /**
  * 
  */
-package atmss.hardware.hw.exceptioins;
+package atmss.hardware.exceptioins;
 
 /**
  * @author freeman

@@ -1,9 +1,9 @@
 /**
  * 
  */
-package atmss.hardware;
+package atmss.hardware.controller;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.HardwareException;
 
 /**
  * @author freeman

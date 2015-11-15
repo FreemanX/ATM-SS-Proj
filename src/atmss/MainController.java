@@ -6,7 +6,7 @@ package atmss;
 import java.util.LinkedList;
 
 import atmss.bams.*;
-import atmss.hardware.*;
+import atmss.hardware.controller.*;
 import atmss.process.*;
 import hwEmulators.*;
 

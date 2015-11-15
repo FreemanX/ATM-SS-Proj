@@ -1,9 +1,9 @@
 /**
  * 
  */
-package atmss.hardware.hw;
+package atmss.hardware.view;
 
-import atmss.hardware.hw.exceptioins.AdvicePrinterException;
+import atmss.hardware.exceptioins.AdvicePrinterException;
 import hwEmulators.AdvicePrinter;
 
 /**

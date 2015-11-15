@@ -1,21 +1,20 @@
 /**
  * 
  */
-package atmss.hardware;
+package atmss.hardware.controller;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.HardwareException;
 
 /**
  * @author freeman
  *
  */
-public class EnvelopDispenserController extends HardwareController {
-
+public class KeypadController extends HardwareController {
 	/**
 	 * 
 	 */
-	public EnvelopDispenserController() {
-		// TODO Auto-generated constructor stub
+	public KeypadController() {
+
 	}
 
 	/* (non-Javadoc)

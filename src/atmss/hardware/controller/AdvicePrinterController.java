@@ -1,14 +1,14 @@
 /**
  * 
  */
-package atmss.hardware;
+package atmss.hardware.controller;
 
 import java.util.LinkedList;
 
 import atmss.Operation;
-import atmss.hardware.hw.AdvicePrinterView;
-import atmss.hardware.hw.exceptioins.AdvicePrinterException;
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.AdvicePrinterException;
+import atmss.hardware.exceptioins.HardwareException;
+import atmss.hardware.view.AdvicePrinterView;
 import hwEmulators.AdvicePrinter;
 
 /**

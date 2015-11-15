@@ -16,6 +16,7 @@ public class CashDispenser extends Thread {
 	private MBox atmssMBox = null;
 	private JTextArea textArea = null;
 	public final static int type = 3;
+	private boolean ready2Take = false;
 	private int status = 300;
 	private int numOf100 = 100000;
 	private int numOf500 = 100000;
@@ -74,6 +75,7 @@ public class CashDispenser extends Thread {
 	}
 
 	public void resetEjectCashAmount() {
+		this.ready2Take = false;
 		this.ejectNumOf100 = 0;
 		this.ejectNumOf500 = 0;
 		this.ejectNumOf1000 = 0;
@@ -93,6 +95,7 @@ public class CashDispenser extends Thread {
 				&& this.numOf1000 >= ejectThisNumof1000;
 		this.setCashAmount();
 		if (isSufficient && ejectCashAmount > 0) {
+			this.ready2Take = true;
 			this.textArea.append("Please take " + ejectNumOf100 + " of 100HKD\n");
 			this.textArea.append("Please take " + ejectNumOf500 + " of 500HKD\n");
 			this.textArea.append("Please take " + ejectNumOf1000 + " of 1000HKD\n");
@@ -102,6 +105,11 @@ public class CashDispenser extends Thread {
 			this.textArea.append("Nothing to be ejected");
 		}
 		return isSuccessful;
+	}
+
+	public void retainCash() {
+		this.textArea.append("\n Cash retained! \n");
+		resetEjectCashAmount();
 	}
 
 	protected void setCDStatus(int Status) {
@@ -150,7 +158,7 @@ public class CashDispenser extends Thread {
 			collectButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					if (status <= 301) {
-						if (ejectCashAmount > 0) {
+						if (ready2Take && ejectCashAmount > 0) {
 							log.info(id + ": Sending \"Collect Cash\" amount: " + ejectCashAmount);
 							atmssMBox.send(new Msg("Cash Dispenser", 3, "Dispense cash: " + ejectCashAmount));
 							updateCashInventory(ejectNumOf100, ejectNumOf500, ejectNumOf1000);

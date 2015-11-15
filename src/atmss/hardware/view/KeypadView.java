@@ -1,9 +1,9 @@
 /**
  * 
  */
-package atmss.hardware.hw;
+package atmss.hardware.view;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.HardwareException;
 import hwEmulators.Keypad;
 
 /**

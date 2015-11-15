@@ -1,11 +1,11 @@
 /**
  * 
  */
-package atmss.hardware;
+package atmss.hardware.controller;
 
-import atmss.hardware.hw.CardReaderView;
-import atmss.hardware.hw.exceptioins.CardReaderException;
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.CardReaderException;
+import atmss.hardware.exceptioins.HardwareException;
+import atmss.hardware.view.CardReaderView;
 import hwEmulators.CardReader;
 
 /**

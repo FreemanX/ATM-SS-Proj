@@ -1,20 +1,20 @@
 /**
  * 
  */
-package atmss.hardware.hw;
+package atmss.hardware.view;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.HardwareException;
 
 /**
  * @author freeman
  *
  */
-public class DisplayView extends HardwareView {
+public class DepositCollectorView extends HardwareView {
 
 	/**
 	 * 
 	 */
-	public DisplayView() {
+	public DepositCollectorView() {
 		// TODO Auto-generated constructor stub
 	}
 

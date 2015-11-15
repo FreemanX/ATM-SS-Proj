@@ -3,7 +3,7 @@ package hwEmulators;
 import java.util.logging.Logger;
 
 import atmss.MainController;
-import atmss.hardware.hw.KeypadView;
+import atmss.hardware.view.KeypadView;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;

@@ -4,7 +4,7 @@
 package atmss;
 
 import atmss.bams.*;
-import atmss.hardware.*;
+import atmss.hardware.controller.*;
 
 /**
  * @author freeman

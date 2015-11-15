@@ -1,20 +1,20 @@
 /**
  * 
  */
-package atmss.hardware;
+package atmss.hardware.controller;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.HardwareException;
 
 /**
  * @author freeman
  *
  */
-public class DepositCollectorController extends HardwareController {
+public class DisplayController extends HardwareController {
 
 	/**
 	 * 
 	 */
-	public DepositCollectorController() {
+	public DisplayController() {
 		// TODO Auto-generated constructor stub
 	}
 

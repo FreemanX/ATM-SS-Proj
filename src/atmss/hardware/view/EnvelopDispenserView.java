@@ -1,20 +1,20 @@
 /**
  * 
  */
-package atmss.hardware.hw;
+package atmss.hardware.view;
 
-import atmss.hardware.hw.exceptioins.HardwareException;
+import atmss.hardware.exceptioins.HardwareException;
 
 /**
  * @author freeman
  *
  */
-public class DepositCollectorView extends HardwareView {
+public class EnvelopDispenserView extends HardwareView {
 
 	/**
 	 * 
 	 */
-	public DepositCollectorView() {
+	public EnvelopDispenserView() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -51,7 +51,7 @@ public class DepositCollectorView extends HardwareView {
 	@Override
 	void throwException(int Code) throws HardwareException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
