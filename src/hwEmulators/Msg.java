@@ -25,6 +25,10 @@ public class Msg {
 		return type;
 	}
 
+	public String getDetails() {
+		return details;
+	}
+
 	// ------------------------------------------------------------
 	// toString
 	public String toString() {

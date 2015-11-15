@@ -10,7 +10,7 @@ import atmss.hardware.hw.exceptioins.HardwareException;
  *
  */
 public class CardReaderController extends HardwareController {
-
+	private String cardNumber = "";
 	/**
 	 * 
 	 */
@@ -21,6 +21,13 @@ public class CardReaderController extends HardwareController {
 	/* (non-Javadoc)
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
+	
+	public String getCard()
+	{
+		//TODO not finished
+		return cardNumber;
+	}
+	
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub

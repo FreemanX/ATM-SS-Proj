@@ -21,6 +21,12 @@ public class CardReaderView extends HardwareView {
 		this._cardReader = CR;
 	}
 
+	
+	
+	public String getCardNumer() {
+		return this._cardReader.getCard();
+	}
+
 	public void ejectCard() {
 		this._cardReader.ejectCard();
 	}

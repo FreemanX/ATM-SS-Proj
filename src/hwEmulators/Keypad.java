@@ -1,5 +1,6 @@
 package hwEmulators;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ public class Keypad extends Thread {
 	private MBox atmssMBox = null;
 	public final static int type = 7;
 	private int status = 700;
+	private KeypadReceiver kr;
 	// ------------------------------------------------------------------
 	private boolean enabled = false;
 
@@ -32,8 +34,9 @@ public class Keypad extends Thread {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			kr.sendToReceiver(cmd);
 			if (enabled && status == 700) { // only notify when true
-				String cmd = e.getActionCommand();
 				System.out.println(cmd);
 				log.info("Sending \"" + cmd + "\"");
 				atmssMBox.send(new Msg("Keypad", 7, cmd));
@@ -61,7 +64,8 @@ public class Keypad extends Thread {
 	public Keypad(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
-
+		kr = new KeypadReceiver();
+		kr.start();
 		// create frame
 		MyFrame myFrame = new MyFrame("Keypad");
 	} // Keypad
@@ -212,7 +216,6 @@ public class Keypad extends Thread {
 			num0.addActionListener(listener);
 			numPoint.addActionListener(listener);
 
-
 			JPanel functionPannel = new JPanel();
 			functionPannel.add(num0);
 			functionPannel.add(numPoint);
@@ -222,3 +225,43 @@ public class Keypad extends Thread {
 	} // MyPanel
 
 } // Keypad
+
+class KeypadReceiver extends Thread {
+
+	private ArrayList<String> charQueue = new ArrayList();
+	private int charCnt = 0;
+
+	public final synchronized void sendToReceiver(String receivedChar) {
+		charCnt++;
+		charQueue.add(receivedChar);
+		this.notify();
+	}
+
+	public final synchronized String receive() {
+		if (--charCnt <= 0) {
+			while (true) {
+				try {
+					System.out.println(">>>>>>>>>>>>Waiting for input...");
+					this.wait(5000);
+					System.out.println(">>>>>>>>>>>>Stop waiting...");
+					break;
+				} catch (InterruptedException e) {
+					if (charCnt >= 0)
+						break; // msg arrived already
+					else
+						continue; // no msg yet, continue waiting
+				}
+			}
+		}
+		if (charQueue.size() > 0)
+			return charQueue.remove(0);
+		else
+			return "Time out!!" + Math.random();
+	}
+
+	@Override
+	public void run() {
+		while (true)
+			System.out.println("Input received is: " + receive());
+	}
+}

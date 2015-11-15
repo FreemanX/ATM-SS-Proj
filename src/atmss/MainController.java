@@ -14,7 +14,7 @@ import hwEmulators.AdvicePrinter;
  * @author freeman
  *
  */
-public class MainController {
+public class MainController extends Thread {
 
 	private CashDispenserController cashDispenserController = new CashDispenserController();
 	private CardReaderController cardReaderController = new CardReaderController();
@@ -178,18 +178,30 @@ public class MainController {
 		return userInput;
 	}
 
-	public void setTimmer() {
-		/*
-		 * Implement the process here.
-		 */
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	@Override
+	public void run() {
+		while (true) {
+			// 1 Wait for card insert
+			if (this.cardReaderController.getCard().length() > 0) {
+				// TODO 2 Authenticate pin
+				// TODO 2.1 Take user input from keypad and update display accordingly
+				// TODO 2.2 Sent the pin and account number to server
+				// TODO 2.3 Get the authentication result 
+				// TODO	3 if right pin
+					//TODO Display options and wait for user selection
+					//TODO Create that process controller and wait for process finishes
+					//TODO Display options and wait for user selecti on
+					
+				//TODO 3 else
+					//TODO check if it has been 3 times' error
+						//TODO if yes, retain card and display bank contact info
+					//TODO else
+						//TODO reinput the pin and input pin counter++
+				
+			} else {
+				return;
+			}
+		}
 	}
 
 	private void handleUserRequest() {
