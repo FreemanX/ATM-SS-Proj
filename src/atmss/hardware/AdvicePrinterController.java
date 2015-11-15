@@ -28,20 +28,29 @@ public class AdvicePrinterController extends HardwareController {
 	}
 
 	// Non-overrided methods:
-	public boolean printAdvice(LinkedList<Operation> operations) throws Exception {
+	public boolean printOperations(LinkedList<Operation> operations) throws Exception {
+
+		String[] strLines = new String[operations.size()];
+		/*
+		 * TODO get the strings from operation list and store them in to a
+		 * String array, then pass the the string array to the printer
+		 */
+		for (int i = 0; i < strLines.length; i++) {
+			strLines[i] = operations.get(i).toString();
+		}
+		return printStrArray(strLines);
+	}
+
+	public boolean printStrArray(String[] toPrint) throws Exception {
 		boolean isSuccess = false;
+
 		try {
-			String[] strLines = new String[operations.size()];
-			/*
-			 * TODO get the strings from operation list and store them in to a
-			 * String array, then pass the the string array to the printer
-			 */
-			advicePrinter.print(strLines);
-			isSuccess = true;
-		} catch (AdvicePrinterException ex) {
-			this.HandleException(ex);
+			advicePrinter.print(toPrint);
+		} catch (AdvicePrinterException e) {
+			this.HandleException(e);
 			isSuccess = false;
 		}
+
 		return isSuccess;
 	}
 

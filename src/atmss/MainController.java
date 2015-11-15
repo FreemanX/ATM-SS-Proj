@@ -39,14 +39,13 @@ public class MainController extends Thread {
 	/**
 	 * 
 	 */
+	// TODO Singleton need to be implemented
+	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR) {
 		// TODO Auto-generated constructor stub
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
 	}
-
-	// TODO Singleton need to be implemented
-	// public static MainController getInstance() { return self; }
 
 	public boolean AutherizePassed() {
 		boolean passwdIsRight = false;
@@ -97,38 +96,6 @@ public class MainController extends Thread {
 		return isSuccess;
 	}
 
-	public boolean doDisplay(String[] displayContent) {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-
-	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be
-											// int
-	{
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-
-	public boolean doEatCash() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-
 	public boolean doBAMSTransfer(String accountNumber, String destAccountNumber, double amount) {
 		boolean isSuccess = false;
 
@@ -139,6 +106,88 @@ public class MainController extends Thread {
 		return isSuccess;
 	}
 
+	// >>>>>>>>>>>>>>>>>>1 Functions of advice printer <<<<<<<<<<<<<<<<<<<
+	public boolean doAPPrintAdvice(LinkedList<Operation> operations) {
+		try {
+			return advicePrinterController.printOperations(operations);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return false;
+		}
+	}
+
+	public boolean doAPPrintStrArray(String[] toPrint) {
+		try {
+			return this.advicePrinterController.printStrArray(toPrint);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return false;
+		}
+	}
+	
+	public int doAPCheckInventory() {
+		try {
+			return this.advicePrinterController.checkInventory();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return -1; // Returns -1 means that there's a problem with AP
+		}
+	}
+
+	public int doAPGetStatus() {
+		try {
+			return this.advicePrinterController.getStatus();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return -1; // Returns -1 means that there's a problem with AP
+		}
+	}
+
+	// >>>>>>>>>>>>>>>>>>2 Functions of card reader <<<<<<<<<<<<<<<<<<<
+	
+	public String doCRGetCardNumebr()
+	{
+		return this.cardReaderController.getCardNumber();
+	}
+	
+	
+	
+	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
+	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be
+	// int
+	{
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+
+	public boolean doRetainCash() {
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+	// >>>>>>>>>>>>>>>>>>4 Functions of Deposit collector <<<<<<<<<<<<<<<<<<<
+
+	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
+	public boolean doDisplay(String[] displayContent) {
+		boolean isSuccess = false;
+
+		/*
+		 * Implement the process here.
+		 */
+
+		return isSuccess;
+	}
+
+	// >>>>>>>>>>>>>>>>>>6 Functions of Envelop dispenser <<<<<<<<<<<<<<<<<<<
 	public boolean doEjectEnvelop() {
 		boolean isSuccess = false;
 
@@ -159,15 +208,7 @@ public class MainController extends Thread {
 		return isSuccess;
 	}
 
-	public boolean doPrintAdvice() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
+	// >>>>>>>>>>>>>>>>>>7 Functions of Function of keypad <<<<<<<<<<<<<<<<<<<
 
 	public String doGetKeyInput() {
 		String userInput = "";
@@ -254,6 +295,10 @@ public class MainController extends Thread {
 		 */
 
 		return isSuccess;
+	}
+
+	private void handleUnknownExceptions(Exception e) {
+		// TODO handles unexpected exceptions
 	}
 
 }

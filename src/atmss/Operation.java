@@ -23,4 +23,8 @@ public class Operation {
 	public String getDes() {
 		return this.description;
 	}
+
+	public String toString() {
+		return this.name + ":\n" + "    " + this.description;
+	}
 }
