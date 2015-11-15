@@ -15,7 +15,9 @@
 2. The sample codes provided by Joe are also included for now. Those code can only be > reference as mentioned in the lecture.
 
 ###======================Nov 11, 2015 Freeman======================
+
 So far what we have done:
+
 0. All the finctions of hardware emulators have finished. They are not fully tested though, maybe modified little in the future.
 	To Check:
 		0.1. Add functions for them accroding to the requirnment
@@ -25,6 +27,7 @@ So far what we have done:
 1. Tony has finished the php part, need to be tested by handler.
 
 ###======================Nov 12, 2015 Freeman======================
+
 0. Hardware Exception finished. The logic has changed a little.
 	0.1 For each specific Exception has two constructors. 
 	    The default constructor is for Unknown ones(not defined in the doc from Google drive) and Faltal errors.
@@ -33,12 +36,14 @@ So far what we have done:
 
 
 ###======================Nov 13, 2015 LIHUI======================
+
 0. Almost complete DepositProcessController except for the timer
 1. New methods needed in MainController:
     1.1 printReiceipt
     1.2 doBAMSCheckAccounts
 
 ###======================Nov 15, 2015 DJY======================
+
 0.	Almost finished ChangePasswdController.java and WithDrawController.java,
 	made some changes to Display emulator so that it now has two areas.
 1.	Assumptions on the Display:
@@ -98,6 +103,7 @@ So far what we have done:
 6.	Shall we change the name "WithDrawController" to "WithdrawController" ?
 
 ###======================Nov 15, 2015 SXM======================
+
 0.  Almost finished the EnquiryController and TransferController part in atmss.process package.
 1.  The timer part has not been added.
 2.  The GUI part of Exception Emulator seems not good on my computer. 
@@ -108,6 +114,7 @@ So far what we have done:
 	Should we handle that part in the process controller or we have another one to handle it?
 
 ###======================Nov 15, 2015 DJY======================
+
 0.	Need this method or not?
 	"public void doCDCheckInventory()":
 	when a withdraw is complete the ATM needs to check its cash inventory.
