@@ -55,31 +55,38 @@ So far what we have done:
 	then it should return a false immediately.
 	In other words, the MainController should be in charge of "timeout" issue.
 3.	Needed methods:
+
 	3.0	"public String[] doBAMSCheckAccounts()":
 		normally returns an array of account number;
 		when the relevant hardware/BAMS get timeout/error,
 		returns a null or empty array immediately, so that the caller will know it failed.
 		It is the same method required by LIHUI, although I prefer the name "doBAMSGetAccounts".
 		Or should it take (String CardNumber) as its parameter???????
+		
 	3.1	"public String getPasswordFromUser()":
 		normally returns a String of password format;
 		keeps asking for user input if the format is wrong,
 		and when the relevant hardware/user get timeout/error,
 		returns an empty String immediately.
+		
 	3.2 "public boolean doBAMSUpdatePasswd(String cardNumber, String oldPassword, String newPassword)":
 		change the current method "doBAMSUpdatePasswd(String accountNumber, String newPasswd)",
 		because the password is card related and old password is needed.
+		
 	3.3 "public int getWithdrawAmountFromUser()":
 		normally returns an positive integer that can be divided by 100;
 		keeps asking for user input if the format is wrong, 
 		and when the relevant hardware/user get timeout/error,
 		returns 0 immediately.
+		
 	3.4 "public boolean doBAMSWithdraw(accountNumber, withdrawAmount)":
 		returns true if BAMS approve the withdraw;
 		returns false if BAMS disapprove it or get timeout/error;
+		
 	3.5 "public boolean collectInTime()":
 		normally returns true if the cash is collected;
 		returns false when cash is not collected in time.
+		
 4.	Current method: "public String doGetKeyInput()":
 	should return a single character,
 	and when the relevant hardware/user get timeout/error,
