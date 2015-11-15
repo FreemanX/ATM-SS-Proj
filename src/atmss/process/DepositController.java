@@ -36,7 +36,7 @@ public class DepositController extends ProcessController {
 		//prompt for amount to deposit
 		_amountToDeposit = doGetAmountToDeposit();
 		
-		if(!this._mainController.doPrintReceipt(_accountToDeposit, _amountToDeposit))
+		if(true /*!this._mainController .doPrintReceipt(_accountToDeposit, _amountToDeposit)*/)
 			return false;
 		
 		if(!this._mainController.doEjectEnvelop())
@@ -49,7 +49,8 @@ public class DepositController extends ProcessController {
 	
 	public String doGetAccountToDeposit(){
 		String accountToDeposit = "";
-		String[] allAccountsInCard = this._mainController.doBAMSCheckAccounts(this._cardNumber);
+		//String[] allAccountsInCard = this._mainController.doBAMSCheckAccounts(this._cardNumber);
+		String[] allAccountsInCard = {};
 		boolean validInputByUser = false;
 		while(!validInputByUser){
 		try{

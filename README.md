@@ -40,3 +40,11 @@ There is a "mistake" in BAMSHandler.java, line 134.
 e.g
 
 handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
+
+
+###======================Nov 13, 2015 LIHUI======================
+0. Almost complete DepositProcessController except for the timer
+1. New methods needed in MainController:
+    1.1 printReiceipt
+    1.2 doBAMSCheckAccounts
+
