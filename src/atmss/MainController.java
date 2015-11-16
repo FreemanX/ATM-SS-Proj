@@ -18,7 +18,7 @@ public class MainController extends Thread {
 
 	private CashDispenserController cashDispenserController;
 	private CardReaderController cardReaderController;
-	private KeypadController keypadController = new KeypadController();
+	private KeypadController keypadController;
 	private DepositCollectorController depositCollectorController;
 	private AdvicePrinterController advicePrinterController;
 	private DisplayController displayController;
@@ -33,7 +33,6 @@ public class MainController extends Thread {
 	private int timmer;
 	private LinkedList<Session> sessionLog;
 
-
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
 
@@ -42,18 +41,21 @@ public class MainController extends Thread {
 	 */
 	// TODO Singleton need to be implemented
 	// public static MainController getInstance() { return self; }
-	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector, Display display, EnvelopDispenser envelopDispenser) {
+	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
+			Display display, EnvelopDispenser envelopDispenser, Keypad KP) {
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
 		this.cashDispenserController = new CashDispenserController(CD);
 		this.depositCollectorController = new DepositCollectorController(depositCollector);
 		this.displayController = new DisplayController(display);
 		this.envelopDispenserController = new EnvelopDispenserController(envelopDispenser);
+		this.keypadController = new KeypadController(KP);
 	}
 
 	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
 	public boolean AutherizePassed(String cardNo, String pin) {
-		if (!serverCommunicator.login(cardNo, pin).equalsIgnoreCase("error")) { // not "error"
+		if (!serverCommunicator.login(cardNo, pin).equalsIgnoreCase("error")) { // not
+																				// "error"
 			return true;
 		}
 		return false;
@@ -65,13 +67,12 @@ public class MainController extends Thread {
 	}
 
 	/*
-	 * dest account verification is done within transfer
-	public String doBAMSVerifyDestAccount(String desAccountNumber) {
-		String verifiedInfo = "False";
-
-		return verifiedInfo;
-	}
-	*/
+	 * dest account verification is done within transfer public String
+	 * doBAMSVerifyDestAccount(String desAccountNumber) { String verifiedInfo =
+	 * "False";
+	 * 
+	 * return verifiedInfo; }
+	 */
 
 	public boolean doBAMSUpdateBalance(String cardNo, String accNumber, String cred, int amount) {
 		long resultAmount = 0;
@@ -80,7 +81,8 @@ public class MainController extends Thread {
 			resultAmount = Math.round(serverCommunicator.deposit(cardNo, accNumber, cred, amount));
 
 		if (amount < 0) // withdraw
-			resultAmount = Math.round(serverCommunicator.cashWithdraw(cardNo, accNumber, cred, String.valueOf(amount * -1)));
+			resultAmount = Math
+					.round(serverCommunicator.cashWithdraw(cardNo, accNumber, cred, String.valueOf(amount * -1)));
 
 		if (resultAmount != 0 && resultAmount == Math.abs(amount))
 			return true;
@@ -96,8 +98,7 @@ public class MainController extends Thread {
 	}
 
 	public boolean doBAMSTransfer(String cardNo, String toAccNo, String destAccNo, String cred, double amount) {
-		double resultAmount = serverCommunicator.transfer(cardNo, cred, destAccNo,
-				toAccNo, String.valueOf(amount));
+		double resultAmount = serverCommunicator.transfer(cardNo, cred, destAccNo, toAccNo, String.valueOf(amount));
 
 		if (resultAmount == amount)
 			return true;
@@ -158,11 +159,12 @@ public class MainController extends Thread {
 
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
 
-	/* doCDEjectCash:
-	 * @param ejectPlan integer array in size of 3
-	 * ejectPlan[0]: the number of 100 notes you want to eject
-	 * ejectPlan[1]: the number of 500 notes you want to eject
-	 * ejectPlan[2]: the number of 1000 notes you want to eject
+	/*
+	 * doCDEjectCash:
+	 * 
+	 * @param ejectPlan integer array in size of 3 ejectPlan[0]: the number of
+	 * 100 notes you want to eject ejectPlan[1]: the number of 500 notes you
+	 * want to eject ejectPlan[2]: the number of 1000 notes you want to eject
 	 */
 	public boolean doCDEjectCash(int[] ejectPlan) {
 		try {
@@ -182,11 +184,12 @@ public class MainController extends Thread {
 		}
 	}
 
-	/* doCDEjectCash:
-	 * @return cashInventry integer array in size of 3
-	 * cashInventry[0]: the number of 100
-	 * cashInventry[1]: the number of 500
-	 * cashInventry[2]: the number of 1000
+	/*
+	 * doCDEjectCash:
+	 * 
+	 * @return cashInventry integer array in size of 3 cashInventry[0]: the
+	 * number of 100 cashInventry[1]: the number of 500 cashInventry[2]: the
+	 * number of 1000
 	 */
 	public int[] doCDCheckCashInventory() {
 		try {
@@ -269,15 +272,60 @@ public class MainController extends Thread {
 
 	// >>>>>>>>>>>>>>>>>>7 Functions of Function of keypad <<<<<<<<<<<<<<<<<<<
 
-	public String doGetKeyInput() {
-		String userInput = "";
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return userInput;
+	/*
+	 * @param Duration time for timeout
+	 */
+	public String doKPGetSingleInput(long Duration) {
+		try {
+			return this.keypadController.readUserInput(Duration);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return null;
+		}
 	}
+
+	/*
+	 * @param Duration time for timeout
+	 * 
+	 * @return "ERROR" means that something wrong during input
+	 * 
+	 * @return "CANCLE" means that user cancel input
+	 * 
+	 * @return inputPasswd the passwd user types in
+	 */
+
+	public String doKPGetPasswd(long Duration) {
+		String inputPasswd = "";
+
+		while (true) {
+			String currentInput = doKPGetSingleInput(Duration);
+			if (currentInput == null) {
+				inputPasswd = "ERROR";
+				break;
+			}
+
+			if (currentInput.equals("."))
+				continue;
+
+			if (currentInput.equals("CANCEL")) {
+				inputPasswd = "CANCEL";
+				break;
+			} else if (currentInput.equals("CLEAR")) {
+				// TODO Call display function to clear screen
+				inputPasswd = "";
+			} else if (currentInput.equals("ENTER") && inputPasswd.length() == 6) {
+				break;
+			} else if (inputPasswd.length() == 6) {
+				continue;
+			} else {
+				inputPasswd += currentInput;
+			}
+		}
+
+		return inputPasswd;
+	}
+
+	// >>>>>>>>>>>>>>>>>>> End of functions <<<<<<<<<<<<<<<<<<
 
 	@Override
 	public void run() {
@@ -358,6 +406,7 @@ public class MainController extends Thread {
 
 	private void handleUnknownExceptions(Exception e) {
 		// TODO handles unexpected exceptions
+		e.printStackTrace();
 	}
 
 }

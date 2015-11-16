@@ -20,8 +20,6 @@ public class CardReaderController extends HardwareController {
 	 * 
 	 */
 	public CardReaderController(CardReader CR) {
-		// TODO Auto-generated constructor stub
-
 		this.cardReaderView = new CardReaderView(CR);
 	}
 

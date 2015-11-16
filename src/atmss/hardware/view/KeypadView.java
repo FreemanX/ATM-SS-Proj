@@ -31,18 +31,18 @@ public class KeypadView extends HardwareView {
 		String buf = "";
 		Timer timer = Timer.getTimer();
 		timer.initTimer(Duration, this.keypadViewMBox);
-		
+
 		long inputId = System.currentTimeMillis();
 		this._keypad.setKeypadEnable(true, inputId);
 		timer.start();
 		while (true) {
 			Msg msg = keypadViewMBox.receive();
-			
+
 			if (msg.getType() == 7) {
 				String[] msgDetail = msg.getDetails().split(":");
-				if(Long.parseLong(msgDetail[0]) != inputId)
+				if (Long.parseLong(msgDetail[0]) != inputId)
 					continue;
-				
+
 				timer.stopTimer();
 				this._keypad.setKeypadEnable(false, 0);
 				buf = msgDetail[1];
@@ -54,6 +54,9 @@ public class KeypadView extends HardwareView {
 			} else {
 				// Some other method interrupts user input
 				// May add a handler method later
+				// Now we just ignore other msg and seek for either input
+				// or time out
+				continue;
 			}
 		}
 
