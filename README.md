@@ -129,6 +129,10 @@ So far what we have done:
 	object if this is what the method provides, in this case if it returns null meaning the failure of this operation.
 3. For the parameter taken please refer to the code, some of the may be different from class diagram.
 
+###======================Nov 16, 2015 Freeman======================
+
+0. Timer in this version is OK to use, but becareful to use. Please read through the timer and Timer test before you use it. I have added line-by-line commons to explain the flow.
+
 	
 	
 ## Notice
