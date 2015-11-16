@@ -103,7 +103,9 @@ public class WithDrawController extends ProcessController{
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		if (!_mainController.doEjectCash(withdrawAmount)) {
+		// TODO int[] plan = getPlan(withdrawAmount);
+		int[] plan = {1,1,1};
+		if (!_mainController.doCDEjectCash(plan)) {
 			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CASHDISPENSER);
 			return false;
 		}
@@ -113,7 +115,7 @@ public class WithDrawController extends ProcessController{
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
 		} else {
-			if (!_mainController.doRetainCash()) {
+			if (!_mainController.doCDRetainCash()) {
 				// TODO _mainController.doCDCheckInventory();
 				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_COLLECTION);
 				return false;
