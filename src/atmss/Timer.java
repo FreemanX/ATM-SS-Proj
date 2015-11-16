@@ -14,7 +14,6 @@ public class Timer extends Thread {
 	private int myId;
 
 	private Timer() {
-		// TODO Auto-generated constructor stub
 		myId = timerId;
 	}
 
