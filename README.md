@@ -135,7 +135,7 @@ So far what we have done:
 
 ###======================Nov 16, 2015 Freeman======================
 
-0.Finish keypad hardware, provide single input function; get passwd method is also provided but not finished, wait for adding display functions
+0. Finish keypad hardware, provide single input function; get passwd method is also provided but not finished, wait for adding display functions
 
 	
 ## Notice
