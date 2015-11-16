@@ -1,9 +1,11 @@
 /**
- * 
+ *
  */
 package atmss.hardware.controller;
 
 import atmss.hardware.exceptioins.HardwareException;
+import atmss.hardware.view.DisplayView;
+import hwEmulators.Display;
 
 /**
  * @author freeman
@@ -11,11 +13,12 @@ import atmss.hardware.exceptioins.HardwareException;
  */
 public class DisplayController extends HardwareController {
 
+	private DisplayView displayView;
 	/**
-	 * 
+	 *
 	 */
-	public DisplayController() {
-		// TODO Auto-generated constructor stub
+	public DisplayController(Display display) {
+		displayView = new DisplayView(display);
 	}
 
 	/* (non-Javadoc)

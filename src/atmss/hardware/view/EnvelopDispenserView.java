@@ -1,9 +1,10 @@
 /**
- * 
+ *
  */
 package atmss.hardware.view;
 
 import atmss.hardware.exceptioins.HardwareException;
+import hwEmulators.EnvelopDispenser;
 
 /**
  * @author freeman
@@ -11,11 +12,13 @@ import atmss.hardware.exceptioins.HardwareException;
  */
 public class EnvelopDispenserView extends HardwareView {
 
+	private EnvelopDispenser envelopDispenser;
+
 	/**
-	 * 
+	 *
 	 */
-	public EnvelopDispenserView() {
-		// TODO Auto-generated constructor stub
+	public EnvelopDispenserView(EnvelopDispenser envelopDispenser) {
+		this.envelopDispenser = envelopDispenser;
 	}
 
 	/* (non-Javadoc)
@@ -51,7 +54,7 @@ public class EnvelopDispenserView extends HardwareView {
 	@Override
 	void throwException(int Code) throws HardwareException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

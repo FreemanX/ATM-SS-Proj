@@ -20,7 +20,7 @@ $cardNo = $_GET["cardno"];
 $fromAcc = $_GET["fromAcc"];
 $toAcc = $_GET["toAcc"];
 $cred = $_GET["cred"];
-$amount = intval($_GET["amount"]);
+$amount = floatval($_GET["amount"]);
 //echo $_SERVER['REQUEST_URI'];
 $requestResult = -1;
 $verified = false;
@@ -38,7 +38,7 @@ if (!empty($cardNo) && !empty($fromAcc) && !empty($toAcc) && !empty($cred) && !e
 		if (mysql_num_rows($result) == 1) { // should have 1 match only
 			$row = mysql_fetch_assoc($result);
 			$fromBalance = intval($row["balance"]);
-			
+
 			// verify toAcc
 			$result = accountRow($toAcc);
 

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss;
 
@@ -19,93 +19,89 @@ public class MainController extends Thread {
 	private CashDispenserController cashDispenserController;
 	private CardReaderController cardReaderController;
 	private KeypadController keypadController = new KeypadController();
-	private DepositCollectorController depositCollectorController = new DepositCollectorController();
+	private DepositCollectorController depositCollectorController;
 	private AdvicePrinterController advicePrinterController;
-	private DisplayController displayController = new DisplayController();
-	private EnvelopDispenserController envelopDispenserController = new EnvelopDispenserController();
+	private DisplayController displayController;
+	private EnvelopDispenserController envelopDispenserController;
 	private EnquryController enquryController;
 	private TransferController transferController;
 	private ChangePasswdController changePasswdController;
 	private WithDrawController withdrawController;
 	private DepositController depositController;
-	private BAMSCommunicater serverCommunicater;
+	private BAMSCommunicator serverCommunicator;
 	private String[] userAccounts;
 	private int timmer;
 	private LinkedList<Session> sessionLog;
+
 
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
 
 	/**
-	 * 
+	 *
 	 */
 	// TODO Singleton need to be implemented
 	// public static MainController getInstance() { return self; }
-	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD) {
-		// TODO Auto-generated constructor stub
+	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector, Display display, EnvelopDispenser envelopDispenser) {
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
 		this.cashDispenserController = new CashDispenserController(CD);
+		this.depositCollectorController = new DepositCollectorController(depositCollector);
+		this.displayController = new DisplayController(display);
+		this.envelopDispenserController = new EnvelopDispenserController(envelopDispenser);
 	}
 
 	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
-	public boolean AutherizePassed() {
-		boolean passwdIsRight = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return passwdIsRight;
+	public boolean AutherizePassed(String cardNo, String pin) {
+		if (!serverCommunicator.login(cardNo, pin).equalsIgnoreCase("error")) { // not "error"
+			return true;
+		}
+		return false;
 	}
 
-	public Double doBAMSCheckBalance(String accountNumber) {
-		double balance = 0;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return balance;
+	// get input params from Session
+	public Double doBAMSCheckBalance(String cardNo, String accNo, String cred) {
+		return serverCommunicator.enquiry(cardNo, accNo, cred);
 	}
 
+	/*
+	 * dest account verification is done within transfer
 	public String doBAMSVerifyDestAccount(String desAccountNumber) {
 		String verifiedInfo = "False";
-		/*
-		 * Implement the process here. If the account is OK then verifiedInfo =
-		 * "<name>/<desAccountNumber>";
-		 */
+
 		return verifiedInfo;
 	}
+	*/
 
-	public boolean doBAMSUpdateBalance(String accountNumber, double amount) {
-		boolean isSuccess = false;
+	public boolean doBAMSUpdateBalance(String cardNo, String accNumber, String cred, int amount) {
+		long resultAmount = 0;
 
-		/*
-		 * Implement the process here.
-		 */
+		if (amount > 0) // deposit
+			resultAmount = Math.round(serverCommunicator.deposit(cardNo, accNumber, cred, amount));
 
-		return isSuccess;
+		if (amount < 0) // withdraw
+			resultAmount = Math.round(serverCommunicator.cashWithdraw(cardNo, accNumber, cred, String.valueOf(amount * -1)));
+
+		if (resultAmount != 0 && resultAmount == Math.abs(amount))
+			return true;
+
+		return false;
 	}
 
-	public boolean doBAMSUpdatePasswd(String accountNumber, String newPasswd) {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+	public boolean doBAMSUpdatePasswd(String cardNo, String cred, String newPin) {
+		if (serverCommunicator.changePin(cardNo, cred, newPin) == 1) {
+			return true;
+		}
+		return false;
 	}
 
-	public boolean doBAMSTransfer(String accountNumber, String destAccountNumber, double amount) {
-		boolean isSuccess = false;
+	public boolean doBAMSTransfer(String cardNo, String toAccNo, String destAccNo, String cred, double amount) {
+		double resultAmount = serverCommunicator.transfer(cardNo, cred, destAccNo,
+				toAccNo, String.valueOf(amount));
 
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+		if (resultAmount == amount)
+			return true;
+		return false;
 	}
 
 	// >>>>>>>>>>>>>>>>>>1 Functions of advice printer <<<<<<<<<<<<<<<<<<<
@@ -161,14 +157,24 @@ public class MainController extends Thread {
 	}
 
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
-	
+
+	// stubs----------------------------------------------------------------
+	public boolean doEjectCash(int amount) {
+		return doCDEjectCash(new int[0]);
+	}
+
+	public boolean doRetainCash() {
+		return doCDRetainCash();
+	}
+	// ---------------------------------------------------------------------
+
 	/* doCDEjectCash:
 	 * @param ejectPlan integer array in size of 3
 	 * ejectPlan[0]: the number of 100 notes you want to eject
 	 * ejectPlan[1]: the number of 500 notes you want to eject
 	 * ejectPlan[2]: the number of 1000 notes you want to eject
 	 */
-	public boolean doCDEjectCash(int[] ejectPlan) {
+	private boolean doCDEjectCash(int[] ejectPlan) {
 		try {
 			return this.cashDispenserController.ejectCash(ejectPlan);
 		} catch (Exception e) {
@@ -177,7 +183,7 @@ public class MainController extends Thread {
 		}
 	}
 
-	public boolean doCDRetainCash() {
+	private boolean doCDRetainCash() {
 		try {
 			return this.cashDispenserController.retainCash();
 		} catch (Exception e) {
@@ -188,9 +194,9 @@ public class MainController extends Thread {
 
 	/* doCDEjectCash:
 	 * @return cashInventry integer array in size of 3
-	 * cashInventry[0]: the number of 100 
-	 * cashInventry[1]: the number of 500 
-	 * cashInventry[2]: the number of 1000 
+	 * cashInventry[0]: the number of 100
+	 * cashInventry[1]: the number of 500
+	 * cashInventry[2]: the number of 1000
 	 */
 	public int[] doCDCheckCashInventory() {
 		try {
@@ -211,6 +217,33 @@ public class MainController extends Thread {
 	}
 
 	// >>>>>>>>>>>>>>>>>>4 Functions of Deposit collector <<<<<<<<<<<<<<<<<<<
+
+	public boolean doPrepareCollectEnvelop() {
+		try {
+			return depositCollectorController.prepareCollection();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
+		return false;
+	}
+
+	public boolean doCollectEnvelop() {
+		try {
+			return depositCollectorController.collectEnvelop();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
+		return false;
+	}
+
+	public boolean doTimeoutRejectEnvelop() {
+		try {
+			return depositCollectorController.collectTimeout();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
+		return false;
+	}
 
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
 	public boolean doDisplay(String[] displayContent) {

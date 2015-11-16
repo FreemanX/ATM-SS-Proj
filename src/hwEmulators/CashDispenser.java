@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class CashDispenser extends Thread {
+public class  CashDispenser extends Thread {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
