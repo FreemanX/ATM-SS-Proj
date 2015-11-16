@@ -17,6 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DepositCollector extends Thread {
+
+	private MBox viewMbox; // used to notify the DepositCollectorView
+
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
@@ -36,7 +39,7 @@ public class DepositCollector extends Thread {
 	}
 
 	public void openSlot() {
-		this.msgTextArea.append("Slop opens, waiting for envelop...\n");
+		this.msgTextArea.append("Slot opens, waiting for envelop...\n");
 		this.slotIsOpen = true;
 	}
 
@@ -48,16 +51,20 @@ public class DepositCollector extends Thread {
 		this.hasEnvelop = has;
 	}
 
+	public void setMBox(MBox viewMbox) {
+		this.viewMbox = viewMbox;
+	}
+
 	public void closeSlot(boolean isTimeout) {
 		if (isTimeout)
 			this.msgTextArea.append("Time out! Slop closes, nothing input\n");
 		else
-			this.msgTextArea.append("Slop closes, envelop received\n");
+			this.msgTextArea.append("Slot closes, envelop received\n");
 		setHasEnvelop(false);
 		this.slotIsOpen = false;
 	}
 
-	public boolean checkSlot() {
+	public boolean isSlotOpen() {
 		return this.slotIsOpen;
 	}
 
@@ -113,8 +120,12 @@ public class DepositCollector extends Thread {
 				public void actionPerformed(ActionEvent e) {
 					if (slotIsOpen) {
 						log.info(id + ": Sending \"Put in envelop\"");
-						atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
 						setHasEnvelop(true);
+						atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
+						viewMbox.send(new Msg("Deposit collector", 4, "Put in envelop"));
+						msgTextArea.setText(msgTextArea.getText() + "Envelop put in, waiting atmss.");
+					} else {
+						msgTextArea.setText(msgTextArea.getText() + "Failed! Slot not open.");
 					}
 				}
 			});

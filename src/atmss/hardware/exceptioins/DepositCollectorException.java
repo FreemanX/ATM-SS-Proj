@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.exceptioins;
 
@@ -9,14 +9,14 @@ package atmss.hardware.exceptioins;
  */
 public class DepositCollectorException extends HardwareException {
 	private final static int NORMAL_CODE = 400;
-	private final static String[] DC_MSG = { "", "Not Envelop" };
+	private final static String[] DC_MSG = { "", "Not Envelop", "Slot jam"};
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7591064697083917002L;
 
 	/**
-	 * 
+	 *
 	 */
 	public DepositCollectorException() {
 		super(NORMAL_CODE + 99, "Fatal Error");
@@ -24,7 +24,7 @@ public class DepositCollectorException extends HardwareException {
 
 	/**
 	 * @param code
-	 * 
+	 *
 	 */
 	public DepositCollectorException(int code) {
 		super(code, DC_MSG[code - NORMAL_CODE]);

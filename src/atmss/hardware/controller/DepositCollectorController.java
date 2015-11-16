@@ -1,9 +1,12 @@
 /**
- * 
+ *
  */
 package atmss.hardware.controller;
 
+import atmss.hardware.exceptioins.DepositCollectorException;
 import atmss.hardware.exceptioins.HardwareException;
+import atmss.hardware.view.DepositCollectorView;
+import hwEmulators.DepositCollector;
 
 /**
  * @author freeman
@@ -11,11 +14,40 @@ import atmss.hardware.exceptioins.HardwareException;
  */
 public class DepositCollectorController extends HardwareController {
 
+	private DepositCollectorView depositCollectorView;
+
 	/**
-	 * 
+	 *
 	 */
-	public DepositCollectorController() {
-		// TODO Auto-generated constructor stub
+	public DepositCollectorController(DepositCollector depositCollector) {
+		depositCollectorView = new DepositCollectorView(depositCollector);
+	}
+
+	public boolean prepareCollection() throws Exception {
+		try {
+			return depositCollectorView.prepareCollection();
+		} catch (DepositCollectorException e) {
+			HandleException(e);
+		}
+		return false;
+	}
+
+	public boolean collectEnvelop() throws Exception {
+		try {
+			return depositCollectorView.collectEnvelop();
+		} catch (DepositCollectorException e) {
+			HandleException(e);
+		}
+		return false;
+	}
+
+	public boolean collectTimeout() throws Exception {
+		try {
+			return depositCollectorView.collectTimeout();
+		} catch (DepositCollectorException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -50,8 +82,9 @@ public class DepositCollectorController extends HardwareController {
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (ex instanceof DepositCollectorException) {
+			System.err.println(ex.getClass().getSimpleName() + "\n    " + ex.getExceptionCode() + ":" + ex.getMessage());
+		}
 	}
 
 }

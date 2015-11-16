@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.process;
 
@@ -11,7 +11,7 @@ import atmss.Operation;
  *
  */
 public class WithDrawController extends ProcessController{
-	
+
 	private final String OPERATION_NAME = "Withdraw Cash";
 	private final String FAILED_FROM_CARDREADER = "No response from the card reader";
 	private final String FAILED_FROM_DISPLAY = "No response from the display";
@@ -26,7 +26,7 @@ public class WithDrawController extends ProcessController{
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final String[] SHOW_FAILURE = {"Operation Failed!"};
-	
+
 	public WithDrawController(String CardNumber, MainController MainController) {
 		super(CardNumber, MainController);
 	}
@@ -36,39 +36,39 @@ public class WithDrawController extends ProcessController{
 		String accountNumber = "";
 		int withdrawAmount = 0;
 		boolean result = false;
-		
+
 		// get account numbers from the CardReader
 		// TODO: accountNumbers = this._mainController.doBAMSCheckAccounts();
 		if (accountNumbers == null || accountNumbers.length == 0) {
 			recordOperation(FAILED_FROM_CARDREADER);
 			return false;
 		}
-		
+
 		// -> preparing the necessary information
 		// get account choice from the user
 		if (!_mainController.doDisplay(createOptionList(PROMPT_FOR_CHOICE_HEADER,accountNumbers))) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
-		}				
+		}
 		while (true) {
 			String userInput = _mainController.doGetKeyInput();
 			if (userInput.isEmpty()) {
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
 			}
-			
+
 			int choice = choiceFromString(userInput);
 			if ( 0 < choice && choice <= accountNumbers.length ) {
 				accountNumber = accountNumbers[choice-1];
 				break;
 			}
-			
+
 			if (!_mainController.doDisplay(createOptionList(ERROR_BAD_CHOICE_HEADER,accountNumbers))) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
 		}
-		
+
 		// get withdraw amount from the user
 		if (!_mainController.doDisplay(PROMPT_FOR_AMOUNT)) {
 			recordOperation(FAILED_FROM_DISPLAY);
@@ -80,14 +80,14 @@ public class WithDrawController extends ProcessController{
 			return false;
 		}
 		// <- preparing the necessary information
-		
+
 		// contact BAMS now
 		if (!_mainController.doDisplay(SHOW_PLEASE_WAIT)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
 		// TODO: result = _mainController.doBAMSWithdraw(accountNumber, withdrawAmount);
-		
+
 		// -> display the result
 		// failed
 		if (!result) {
@@ -107,7 +107,7 @@ public class WithDrawController extends ProcessController{
 			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CASHDISPENSER);
 			return false;
 		}
-		
+
 		if (result) { // if (_mainController.collectInTime()) {
 			// TODO _mainController.doCDCheckInventory();
 			recordOperation(accountNumber, withdrawAmount);
@@ -123,34 +123,34 @@ public class WithDrawController extends ProcessController{
 		}
 		// <- display the result
 	}
-	
+
 	private void recordOperation(String AccountNumber, int Amount, String FailedReason) {
-		String description = 
-				"Card Number: " + _cardNumber + "; " + 
+		String description =
+				"Card Number: " + _cardNumber + "; " +
 				"Account Number: " + AccountNumber + "; " +
 				"Amount: " + Amount + "; " +
-				"Result: " + "Failed; " + 
+				"Result: " + "Failed; " +
 				"Reason: " + FailedReason;
 		operationCache.add(new Operation(OPERATION_NAME, description));
 	}
-	
+
 	private void recordOperation(String AccountNumber, int Amount) {
-		String description = 
-				"Card Number: " + _cardNumber + "; " + 
+		String description =
+				"Card Number: " + _cardNumber + "; " +
 				"Account Number: " + AccountNumber + "; " +
 				"Amount: " + Amount + "; " +
 				"Result: " + "Succeeded; ";
 		operationCache.add(new Operation(OPERATION_NAME, description));
 	}
-	
+
 	private void recordOperation(String FailedReason) {
-		String description = 
-				"Card Number: " + _cardNumber + "; " + 
+		String description =
+				"Card Number: " + _cardNumber + "; " +
 				"Result: " + "Failed; " +
 				"Reason: " + FailedReason;
 		operationCache.add(new Operation(OPERATION_NAME, description));
 	}
-	
+
 	private String[] createOptionList(String Header, String[] Body) {
 		String[] lines = new String[Body.length + 1];
 		lines[0] = Header;
@@ -159,7 +159,7 @@ public class WithDrawController extends ProcessController{
 		}
 		return lines;
 	}
-	
+
 	private int choiceFromString(String userInput) {
 		int choice = 0;
 		try {
