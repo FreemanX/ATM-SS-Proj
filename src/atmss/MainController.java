@@ -5,6 +5,8 @@ package atmss;
 
 import java.util.LinkedList;
 
+import com.sun.xml.internal.ws.handler.HandlerException;
+
 import atmss.bams.*;
 import atmss.hardware.controller.*;
 import atmss.process.*;
@@ -16,7 +18,7 @@ import hwEmulators.*;
  */
 public class MainController extends Thread {
 
-	private CashDispenserController cashDispenserController = new CashDispenserController();
+	private CashDispenserController cashDispenserController;
 	private CardReaderController cardReaderController;
 	private KeypadController keypadController = new KeypadController();
 	private DepositCollectorController depositCollectorController = new DepositCollectorController();
@@ -41,12 +43,14 @@ public class MainController extends Thread {
 	 */
 	// TODO Singleton need to be implemented
 	// public static MainController getInstance() { return self; }
-	public MainController(AdvicePrinter AP, CardReader CR) {
+	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD) {
 		// TODO Auto-generated constructor stub
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
+		this.cashDispenserController = new CashDispenserController(CD);
 	}
 
+	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
 	public boolean AutherizePassed() {
 		boolean passwdIsRight = false;
 
@@ -159,27 +163,45 @@ public class MainController extends Thread {
 	}
 
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
-	public boolean doEjectCash(int amount) // Only eject 100, 500, 1000, must be
-	// int
-	{
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+	/*
+	 * 
+	 */
+	public boolean doCDEjectCash(int[] ejectPlan) {
+		try {
+			return this.cashDispenserController.ejectCash(ejectPlan);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return false;
+		}
 	}
 
-	public boolean doRetainCash() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+	public boolean doCDRetainCash() {
+		try {
+			return this.cashDispenserController.retainCash();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return false;
+		}
 	}
+
+	public int[] doCDCheckCashInventory() {
+		try {
+			return this.cashDispenserController.checkCashInvetory();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return null;
+		}
+	}
+
+	public int doCDGetStatus() {
+		try {
+			return this.cashDispenserController.getStatus();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return -1;
+		}
+	}
+
 	// >>>>>>>>>>>>>>>>>>4 Functions of Deposit collector <<<<<<<<<<<<<<<<<<<
 
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
