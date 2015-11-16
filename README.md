@@ -133,7 +133,10 @@ So far what we have done:
 
 0. Timer in this version is OK to use, but becareful to use. Please read through the timer and Timer test before you use it. I have added line-by-line commons to explain the flow.
 
-	
+###======================Nov 16, 2015 Freeman======================
+
+0.Finish keypad hardware, provide single input function; get passwd method is also provided but not finished, wait for adding display functions
+
 	
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.
