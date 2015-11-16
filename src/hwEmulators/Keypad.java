@@ -1,12 +1,9 @@
 package hwEmulators;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import atmss.hardware.view.KeypadView;
 
 import javax.swing.JButton;
 import java.awt.Dimension;
@@ -16,16 +13,17 @@ import java.awt.event.ActionListener;
 // ======================================================================
 // Keypad
 public class Keypad extends Thread {
-	private KeypadView keypadView;
 
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	private MBox _keypadViewMbox = null;
 	public final static int type = 7;
 	private int status = 700;
+	private long _inputId = 0;
 	// ------------------------------------------------------------------
-	private boolean enabled = false;
+	private volatile boolean enabled = false;
 
 	// ------------------------------------------------------------------
 	// Listener
@@ -33,22 +31,13 @@ public class Keypad extends Thread {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String cmd = e.getActionCommand();
+
 			if (enabled && status == 700) { // only notify when true
+				String cmd = e.getActionCommand();
 				System.out.println(cmd);
 				log.info("Sending \"" + cmd + "\"");
-				atmssMBox.send(new Msg("Keypad", 7, cmd));
-				if (cmd == "CANCLE") {
-					keypadView.clearBuf();
-					keypadView.appendBuf(cmd);
-					keypadView.setInputDone(true);
-				} else if (cmd == "CLEAR") {
-					keypadView.clearBuf();
-				} else if (cmd == "ENTER") {
-					keypadView.setInputDone(true);
-				} else {
-					keypadView.appendBuf(cmd);
-				}
+				atmssMBox.send(new Msg(id, 7, cmd));
+				_keypadViewMbox.send(new Msg("Keypad", 7, _inputId + ":" + cmd));
 			} else if (!enabled && status == 700) {
 				atmssMBox.send(new Msg("Keypad", 7, "Keypad is not enabled!"));
 			} else if (status != 700) {
@@ -83,12 +72,13 @@ public class Keypad extends Thread {
 	} // setATMSS
 
 	// toggle keypad listening state
-	public void setKeypadEnable(boolean isEnable) {
-		enabled = isEnable;
+	public void setKeypadEnable(boolean isEnable, long InputId) {
+		this.enabled = isEnable;
+		this._inputId = InputId;
 	}
 
-	public void setView(KeypadView view) {
-		this.keypadView = view;
+	public void setViewMBox(MBox KeypadViewMBox) {
+		this._keypadViewMbox = KeypadViewMBox;
 	}
 
 	// ------------------------------------------------------------

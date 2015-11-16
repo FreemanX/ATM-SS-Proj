@@ -14,7 +14,7 @@ import hwEmulators.Msg;
  */
 public class CardReaderView extends HardwareView {
 	private CardReader _cardReader;
-	private MBox cardReaderMBox = new MBox("cardReaderView");
+	private MBox cardReaderViewMBox = new MBox("cardReaderView");
 
 	/**
 	 * 
@@ -22,12 +22,12 @@ public class CardReaderView extends HardwareView {
 	public CardReaderView(CardReader CR) {
 		// TODO Auto-generated constructor stub
 		this._cardReader = CR;
-		this._cardReader.setCRViewBox(this.cardReaderMBox);
+		this._cardReader.setCRViewBox(this.cardReaderViewMBox);
 	}
 
 	public String readCard() throws CardReaderException {
 		checkStatus();
-		Msg msg = this.cardReaderMBox.receive();
+		Msg msg = this.cardReaderViewMBox.receive();
 		if (msg.getSender().equals("CardReader") && msg.getType() == 2)
 			return msg.getDetails();
 		else
@@ -56,7 +56,6 @@ public class CardReaderView extends HardwareView {
 	 */
 	@Override
 	public int checkStatus() throws CardReaderException {
-		// TODO Auto-generated method stub
 		int currStatus = this._cardReader.getCRStatus();
 		if (currStatus % 100 != 0)
 			throwException(currStatus);

@@ -11,9 +11,11 @@ public class Timer extends Thread {
 	private long elapsedTime = 0L;
 	private long duration;
 	private MBox _mbox;
+	private int myId;
 
 	private Timer() {
 		// TODO Auto-generated constructor stub
+		myId = timerId;
 	}
 
 	public void stopTimer() {
@@ -21,7 +23,7 @@ public class Timer extends Thread {
 	}
 
 	public int getTimerId() {
-		return timerId;
+		return myId;
 	}
 
 	public void initTimer(long DurationSecond, MBox MBox) {
@@ -35,13 +37,12 @@ public class Timer extends Thread {
 		while (this.running && elapsedTime < duration) {
 			elapsedTime = (new Date()).getTime() - startTime;
 		}
-
 		if (this.running)
-			this._mbox.send(new Msg("Timer: " + timerId, 999, "Time out!"));
-		timerId ++;
+			this._mbox.send(new Msg("Timer:" + timerId, 999, timerId + ":" + "Time out!"));
 	}
 
 	public static Timer getTimer() {
+		timerId++;
 		return new Timer();
 	}
 
