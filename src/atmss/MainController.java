@@ -5,8 +5,6 @@ package atmss;
 
 import java.util.LinkedList;
 
-import com.sun.xml.internal.ws.handler.HandlerException;
-
 import atmss.bams.*;
 import atmss.hardware.controller.*;
 import atmss.process.*;
