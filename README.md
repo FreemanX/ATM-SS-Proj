@@ -119,7 +119,15 @@ So far what we have done:
 	"public void doCDCheckInventory()":
 	when a withdraw is complete the ATM needs to check its cash inventory.
 	Is it automatically done? Currently, I am calling it after the cash get ejected.
-	
+
+###======================Nov 16, 2015 Freeman======================
+
+0. Main functions of Advice printer, card reader and cash dispenser are provided in Main Controller please check and update if you are using them.
+1. Note that all the exceptions will be handled in main controller that the process controller will only receive the result from the method you call. The result can be 
+	boolean if this method does not returns anything, this boolean indicates the successfulness of this operation; 
+	int if this is what the method provides, in this case if it returns -1 meaning the failure of this operation;
+	object if this is what the method provides, in this case if it returns null meaning the failure of this operation.
+3. For the parameter taken please refer to the code, some of the may be different from class diagram.
 
 	
 	

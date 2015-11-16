@@ -163,8 +163,12 @@ public class MainController extends Thread {
 	}
 
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
-	/*
-	 * 
+	
+	/* doCDEjectCash:
+	 * @param ejectPlan integer array in size of 3
+	 * ejectPlan[0]: the number of 100 notes you want to eject
+	 * ejectPlan[1]: the number of 500 notes you want to eject
+	 * ejectPlan[2]: the number of 1000 notes you want to eject
 	 */
 	public boolean doCDEjectCash(int[] ejectPlan) {
 		try {
@@ -184,6 +188,12 @@ public class MainController extends Thread {
 		}
 	}
 
+	/* doCDEjectCash:
+	 * @return cashInventry integer array in size of 3
+	 * cashInventry[0]: the number of 100 
+	 * cashInventry[1]: the number of 500 
+	 * cashInventry[2]: the number of 1000 
+	 */
 	public int[] doCDCheckCashInventory() {
 		try {
 			return this.cashDispenserController.checkCashInvetory();
