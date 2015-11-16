@@ -158,23 +158,13 @@ public class MainController extends Thread {
 
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
 
-	// stubs----------------------------------------------------------------
-	public boolean doEjectCash(int amount) {
-		return doCDEjectCash(new int[0]);
-	}
-
-	public boolean doRetainCash() {
-		return doCDRetainCash();
-	}
-	// ---------------------------------------------------------------------
-
 	/* doCDEjectCash:
 	 * @param ejectPlan integer array in size of 3
 	 * ejectPlan[0]: the number of 100 notes you want to eject
 	 * ejectPlan[1]: the number of 500 notes you want to eject
 	 * ejectPlan[2]: the number of 1000 notes you want to eject
 	 */
-	private boolean doCDEjectCash(int[] ejectPlan) {
+	public boolean doCDEjectCash(int[] ejectPlan) {
 		try {
 			return this.cashDispenserController.ejectCash(ejectPlan);
 		} catch (Exception e) {
@@ -183,7 +173,7 @@ public class MainController extends Thread {
 		}
 	}
 
-	private boolean doCDRetainCash() {
+	public boolean doCDRetainCash() {
 		try {
 			return this.cashDispenserController.retainCash();
 		} catch (Exception e) {
