@@ -149,3 +149,6 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 ## To be discussed
 
 0. Discuss how to simulate hardware reset and shutdown, then implement.
+
+###======================Nov 17, 2015 DJY======================
+0.	When calling methods like MainController.doBAMSxxx(...), it needs a cred, currently how to get cred in a ProcessController?
