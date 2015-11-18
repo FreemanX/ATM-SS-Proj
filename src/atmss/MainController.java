@@ -324,6 +324,7 @@ public class MainController extends Thread {
 			} else {
 				// TODO Call display function to append a *
 				inputPasswd += currentInput;
+				continue;
 			}
 		}
 
@@ -331,12 +332,45 @@ public class MainController extends Thread {
 	}
 
 	public String doKPGetMoneyAmount(long Duration) {
-		String inputAccountNum = "";
+		String moneyAmount = "";
 		int lengthLimit = 8; // Max 999,000 per day
-
 		boolean inputDot = false;
 
-		return inputAccountNum;
+		while (true) {
+			String currentInput = doKPGetSingleInput(Duration);
+			if (currentInput == null) {
+				return null;
+			}
+
+			if (currentInput.equals(".")) {
+				if (!inputDot && moneyAmount.length() > 0) {
+					// User can input 3 more digits
+					lengthLimit = moneyAmount.length() + 3;
+					inputDot = true;
+					moneyAmount += currentInput;
+				}
+				continue;
+			}
+
+			if (currentInput.equals("CANCEL")) {
+				// TODO Call display function to clear screen
+				currentInput = "CANCEL";
+				break;
+			} else if (currentInput.equals("CLEAR")) {
+				// TODO Call display function to clear screen
+				currentInput = "";
+			} else if (currentInput.equals("ENTER") && currentInput.length() == lengthLimit) {
+				break;
+			} else if (currentInput.length() == lengthLimit) {
+				continue;
+			} else {
+				// TODO Call display function to append a the current input
+				moneyAmount += currentInput;
+				continue;
+			}
+		}
+
+		return moneyAmount;
 	}
 
 	public String doKPGetAccountNum(long Duration) {
@@ -365,6 +399,7 @@ public class MainController extends Thread {
 			} else {
 				// TODO Call display function to append a the current input
 				inputAccountNum += currentInput;
+				continue;
 			}
 		}
 		return inputAccountNum;
