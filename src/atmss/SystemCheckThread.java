@@ -59,26 +59,17 @@ class SystemCheckThread extends Thread {
 
 		while (true) {
 			while (isRunning) {
-				// debug test
-				// randomly send out component failure message to test listener
-				int failPos = 30; // 30%
-				Random randGen = new Random(new Date().getTime());
-				int rand = 0;
-				int i = 1;
-
-				while (true) {
-					try {
-						System.err.println("SystemCheck iteration: " + i);
-						rand = randGen.nextInt(100) + 1; // 1 - 100
-						if (rand > failPos)
-							notifyListener("DebugComponent", 123, "Debug component failed, congratulation!");
-						else
-							System.err.println("DebugComponent working well!");
-						i++;
-						sleep(5000);
-					} catch (InterruptedException e) {
-						// nothing...
-					}
+				try {
+					this._advicePrinterController.updateStatus();
+					this._cardReaderController.updateStatus();
+					this._cashDispenerController.updateStatus();
+					this._depositCollectorController.updateStatus();
+					this._displayController.updateStatus();
+					this._envelopDispenserController.updateStatus();
+					this._keypadController.updateStatus();
+					sleep(60000); // Statuses will be checked every 60 seconds
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 

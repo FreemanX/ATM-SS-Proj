@@ -433,7 +433,42 @@ public class MainController {
 		return inputPasswd;
 	}
 
-	public String doKPGetMoneyAmount(long Duration) {
+	public String doKPGetIntegerMoneyAmount(long Duration) {
+		String moneyAmount = "";
+		int lengthLimit = 8; // Max 999,000 per day
+
+		while (true) {
+			String currentInput = doKPGetSingleInput(Duration);
+			if (currentInput == null) {
+				return null;
+			}
+
+			if (currentInput.equals(".")) {
+				continue;
+			}
+
+			if (currentInput.equals("CANCEL")) {
+				doDisClearLower();
+				currentInput = "CANCEL";
+				break;
+			} else if (currentInput.equals("CLEAR")) {
+				doDisClearLower();
+				currentInput = "";
+			} else if (currentInput.equals("ENTER") && currentInput.length() == lengthLimit) {
+				break;
+			} else if (currentInput.length() == lengthLimit) {
+				continue;
+			} else {
+				doDisAppendLower(currentInput);
+				moneyAmount += currentInput;
+				continue;
+			}
+		}
+
+		return moneyAmount;
+	}
+	
+	public String doKPGetDoubleMoneyAmount(long Duration) {
 		String moneyAmount = "";
 		int lengthLimit = 8; // Max 999,000 per day
 		boolean inputDot = false;

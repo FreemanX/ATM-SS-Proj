@@ -121,6 +121,7 @@ public class AdvicePrinterController extends HardwareController {
 			// TODO handle ex and report to MainController;
 			switch (exType) {
 			case 101:
+				// TODO notify the main controller
 				System.err.println(">>>>>>>>>>>Out of paper");
 				break;
 			case 102:
