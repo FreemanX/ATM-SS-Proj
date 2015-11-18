@@ -10,7 +10,7 @@ import java.util.List;
  * @author freeman
  *
  */
- class Session {
+ public class Session {
 
 	private long sid = -1;
 	private String cred = "";

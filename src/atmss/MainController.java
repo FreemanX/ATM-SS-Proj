@@ -17,7 +17,7 @@ import hwEmulators.*;
  * @author freeman
  *
  */
-public class MainController {
+public class MainController extends Thread {
 
 	// Processing thread
 	// ----------------------------------------------------------------
