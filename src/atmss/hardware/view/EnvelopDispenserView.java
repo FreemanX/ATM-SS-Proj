@@ -3,6 +3,7 @@
  */
 package atmss.hardware.view;
 
+import atmss.hardware.exceptioins.EnvelopDispenserException;
 import atmss.hardware.exceptioins.HardwareException;
 import hwEmulators.EnvelopDispenser;
 
@@ -21,11 +22,13 @@ public class EnvelopDispenserView extends HardwareView {
 		this.envelopDispenser = envelopDispenser;
 	}
 
-	public boolean ejectEnvelop() {
+	public boolean ejectEnvelop() throws EnvelopDispenserException {
+		checkStatus();
 		return envelopDispenser.ejectEnvelop();
 	}
 
-	public int getEnvelopCount() {
+	public int getEnvelopCount() throws EnvelopDispenserException {
+		checkStatus();
 		return envelopDispenser.getEnvelopCount();
 	}
 
@@ -33,9 +36,12 @@ public class EnvelopDispenserView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
-	public int checkStatus() throws HardwareException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int checkStatus() throws EnvelopDispenserException {
+		int code = envelopDispenser.getStatus();
+		if (code % 100 != 0) {
+			throwException(code);
+		}
+		return code;
 	}
 
 	/* (non-Javadoc)
@@ -60,9 +66,8 @@ public class EnvelopDispenserView extends HardwareView {
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
-	void throwException(int Code) throws HardwareException {
-		// TODO Auto-generated method stub
-
+	void throwException(int code) throws EnvelopDispenserException {
+		throw new EnvelopDispenserException(code);
 	}
 
 }

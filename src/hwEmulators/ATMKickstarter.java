@@ -23,7 +23,6 @@ public class ATMKickstarter {
 	Keypad keypad;	
 	ATMSS atmss;
 	ExceptionEmulator exceptionEmulator;
-	
 	// view components
 
 	// ------------------------------------------------------------

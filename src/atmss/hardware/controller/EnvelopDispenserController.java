@@ -3,6 +3,7 @@
  */
 package atmss.hardware.controller;
 
+import atmss.hardware.exceptioins.EnvelopDispenserException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.EnvelopDispenserView;
 import hwEmulators.EnvelopDispenser;
@@ -23,12 +24,22 @@ public class EnvelopDispenserController extends HardwareController {
 	}
 
 
-	public boolean ejectEnvelop() {
-		return envelopDispenserView.ejectEnvelop();
+	public boolean ejectEnvelop() throws Exception {
+		try {
+			return envelopDispenserView.ejectEnvelop();
+		} catch (EnvelopDispenserException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
-	public int getEnvelopCount() {
-		return envelopDispenserView.getEnvelopCount();
+	public int getEnvelopCount() throws Exception {
+		try {
+			return envelopDispenserView.getEnvelopCount();
+		} catch (EnvelopDispenserException e) {
+			HandleException(e);
+		}
+		return -1;
 	}
 
 	/* (non-Javadoc)
@@ -63,8 +74,9 @@ public class EnvelopDispenserController extends HardwareController {
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (ex instanceof EnvelopDispenserException) {
+			System.err.println(ex.getClass().getSimpleName() + "\n    " + ex.getExceptionCode() + ":" + ex.getMessage());
+		}
 	}
 
 }

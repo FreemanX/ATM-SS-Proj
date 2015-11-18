@@ -32,7 +32,7 @@ public class Display extends Thread {
 		MyFrame myFrame = new MyFrame("Display");
 	} // Display
 
-	public int getDisStatus() {
+	public int getStatus() {
 		return status;
 	}
 
