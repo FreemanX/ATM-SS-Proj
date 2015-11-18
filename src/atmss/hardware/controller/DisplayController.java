@@ -3,6 +3,7 @@
  */
 package atmss.hardware.controller;
 
+import atmss.hardware.exceptioins.DisplayException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.DisplayView;
 import hwEmulators.Display;
@@ -21,39 +22,87 @@ public class DisplayController extends HardwareController {
 		displayView = new DisplayView(display);
 	}
 
-	public void displayUpper(String[] lines) {
-		displayView.displayUpper(lines);
-	}
+	public boolean displayUpper(String[] lines) throws DisplayException {
+		try {
+			displayView.displayUpper(lines);
+			return true;
+		} catch (Exception e) {
 
-	public void displayLower(String line) {
-		displayView.displayLower(line);
-	}
-
-	public void appendUpper(String[] lines) {
-		for (String line : lines) {
-			appendUpper(line);
 		}
+		return false;
 	}
 
-	public void appendUpper(String line) {
-		displayView.displayUpper(line);
+	public boolean displayLower(String line) throws Exception {
+		try {
+			displayView.displayLower(line);
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
-	public void appendLower(String str) {
-		displayView.appendLower(str);
+	public boolean appendUpper(String[] lines) throws Exception {
+		try {
+			for (String line : lines) {
+				appendUpper(line);
+			}
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
-	public void clearAll() {
-		clearUpper();
-		clearLower();
+	public boolean appendUpper(String line) throws Exception {
+		try {
+			displayView.displayUpper(line);
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
-	public void clearUpper() {
-		displayView.clearUpper();
+	public boolean appendLower(String str) throws Exception {
+		try {
+			displayView.appendLower(str);
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
-	public void clearLower() {
-		displayView.clearLower();
+	public boolean clearAll() throws Exception {
+		try {
+			clearUpper();
+			clearLower();
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
+	}
+
+	public boolean clearUpper() throws Exception {
+		try {
+			displayView.clearUpper();
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
+	}
+
+	public boolean clearLower() throws Exception {
+		try {
+			displayView.clearLower();
+			return true;
+		} catch (DisplayException e) {
+			HandleException(e);
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -88,8 +137,16 @@ public class DisplayController extends HardwareController {
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
-		// TODO Auto-generated method stub
+		if (ex instanceof DisplayException) {
+			int exType = ex.getExceptionCode();
 
+			switch (exType) {
+				case 599:
+					System.err.println(">>>>>>>>>>>Unknown display error.");
+					break;
+			}
+		}
+		throw ex;
 	}
 
 }

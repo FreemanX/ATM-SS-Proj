@@ -15,6 +15,10 @@ public class BAMSCommunicator extends BAMSHandler {
 		super(prefix);
 		this.prefix = prefix;
 	}
+	
+	public boolean ping() {
+		return true;
+	}
 
 	public int changePin(String cardNo, String cred, String newPin) {
 		String urlStr = prefix + "changePIN.php?cardNo=" + cardNo + "&cred=" + cred + "&newPin=" + newPin;
