@@ -21,6 +21,41 @@ public class DisplayController extends HardwareController {
 		displayView = new DisplayView(display);
 	}
 
+	public void displayUpper(String[] lines) {
+		displayView.displayUpper(lines);
+	}
+
+	public void displayLower(String line) {
+		displayView.displayLower(line);
+	}
+
+	public void appendUpper(String[] lines) {
+		for (String line : lines) {
+			appendUpper(line);
+		}
+	}
+
+	public void appendUpper(String line) {
+		displayView.displayUpper(line);
+	}
+
+	public void appendLower(String str) {
+		displayView.appendLower(str);
+	}
+
+	public void clearAll() {
+		clearUpper();
+		clearLower();
+	}
+
+	public void clearUpper() {
+		displayView.clearUpper();
+	}
+
+	public void clearLower() {
+		displayView.clearLower();
+	}
+
 	/* (non-Javadoc)
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */

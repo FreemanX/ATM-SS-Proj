@@ -9,7 +9,7 @@ import atmss.hardware.view.DepositCollectorView;
 import hwEmulators.DepositCollector;
 
 /**
- * @author freeman
+ * @author freeman, tony
  *
  */
 public class DepositCollectorController extends HardwareController {
@@ -23,27 +23,9 @@ public class DepositCollectorController extends HardwareController {
 		depositCollectorView = new DepositCollectorView(depositCollector);
 	}
 
-	public boolean prepareCollection() throws Exception {
+	public boolean collectEnvelop(int timeout) throws Exception {
 		try {
-			return depositCollectorView.prepareCollection();
-		} catch (DepositCollectorException e) {
-			HandleException(e);
-		}
-		return false;
-	}
-
-	public boolean collectEnvelop() throws Exception {
-		try {
-			return depositCollectorView.collectEnvelop();
-		} catch (DepositCollectorException e) {
-			HandleException(e);
-		}
-		return false;
-	}
-
-	public boolean collectTimeout() throws Exception {
-		try {
-			return depositCollectorView.collectTimeout();
+			return depositCollectorView.collectEnvelop(timeout);
 		} catch (DepositCollectorException e) {
 			HandleException(e);
 		}

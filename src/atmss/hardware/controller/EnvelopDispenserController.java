@@ -22,6 +22,15 @@ public class EnvelopDispenserController extends HardwareController {
 		this.envelopDispenserView = new EnvelopDispenserView(envelopDispenser);
 	}
 
+
+	public boolean ejectEnvelop() {
+		return envelopDispenserView.ejectEnvelop();
+	}
+
+	public int getEnvelopCount() {
+		return envelopDispenserView.getEnvelopCount();
+	}
+
 	/* (non-Javadoc)
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */

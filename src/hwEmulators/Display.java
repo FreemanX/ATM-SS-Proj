@@ -1,5 +1,7 @@
 package hwEmulators;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -45,29 +47,35 @@ public class Display extends Thread {
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
-	// ------------------------------------------------------------	
-	// display
-	public void display(String[] lines) {
+	// upper --------------------------------------------------
+	public void displayUpper(String[] lines) {
 		upperArea.setText("");
 		for (int i = 0; i < lines.length; i++) {
 			upperArea.append(lines[i]);
 			upperArea.append("\n");
 			upperArea.setCaretPosition(upperArea.getDocument().getLength());
 		}
-	} // display
+	}
 
-	// ------------------------------------------------------------
-	// append
-	public void append(String str) {
-		lowerArea.append(str);
-	} // append
-	
-	// ------------------------------------------------------------
-	// clear
-	public void clear() {
-		lowerArea.setText("");
-	} // clear
-	
+	public List<String> getUpperContentList() { // get current displayed text
+		return Arrays.asList(upperArea.getText().split("\n"));
+	}
+
+	public String getUpperContent() {
+		return upperArea.getText();
+	}
+	// --------------------------------------------------------
+
+
+	// lower --------------------------------------------------
+	public void displayLower(String line) { lowerArea.setText(line); }
+
+	public String getLowerContent() {
+		return lowerArea.getText();
+	}
+	// --------------------------------------------------------
+
+
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
 		// MyFrame

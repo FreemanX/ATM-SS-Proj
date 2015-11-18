@@ -70,7 +70,7 @@ public class MainController extends Thread {
 	 * dest account verification is done within transfer public String
 	 * doBAMSVerifyDestAccount(String desAccountNumber) { String verifiedInfo =
 	 * "False";
-	 * 
+	 *
 	 * return verifiedInfo; }
 	 */
 
@@ -161,7 +161,7 @@ public class MainController extends Thread {
 
 	/*
 	 * doCDEjectCash:
-	 * 
+	 *
 	 * @param ejectPlan integer array in size of 3 ejectPlan[0]: the number of
 	 * 100 notes you want to eject ejectPlan[1]: the number of 500 notes you
 	 * want to eject ejectPlan[2]: the number of 1000 notes you want to eject
@@ -186,7 +186,7 @@ public class MainController extends Thread {
 
 	/*
 	 * doCDEjectCash:
-	 * 
+	 *
 	 * @return cashInventry integer array in size of 3 cashInventry[0]: the
 	 * number of 100 cashInventry[1]: the number of 500 cashInventry[2]: the
 	 * number of 1000
@@ -211,27 +211,9 @@ public class MainController extends Thread {
 
 	// >>>>>>>>>>>>>>>>>>4 Functions of Deposit collector <<<<<<<<<<<<<<<<<<<
 
-	public boolean doPrepareCollectEnvelop() {
+	public boolean doCollectEnvelop(int timeout) {
 		try {
-			return depositCollectorController.prepareCollection();
-		} catch (Exception e) {
-			handleUnknownExceptions(e);
-		}
-		return false;
-	}
-
-	public boolean doCollectEnvelop() {
-		try {
-			return depositCollectorController.collectEnvelop();
-		} catch (Exception e) {
-			handleUnknownExceptions(e);
-		}
-		return false;
-	}
-
-	public boolean doTimeoutRejectEnvelop() {
-		try {
-			return depositCollectorController.collectTimeout();
+			return depositCollectorController.collectEnvelop(timeout);
 		} catch (Exception e) {
 			handleUnknownExceptions(e);
 		}
@@ -239,7 +221,7 @@ public class MainController extends Thread {
 	}
 
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
-	public boolean doDisplay(String[] displayContent) {
+	public boolean doDisplayUpper(String[] displayContent) {
 		boolean isSuccess = false;
 
 		/*
@@ -247,27 +229,63 @@ public class MainController extends Thread {
 		 */
 
 		return isSuccess;
+	}
+
+	public boolean doAppendUpper(String[] lines) {
+		displayController.appendUpper(lines);
+
+		return true;
+	}
+
+	public boolean doAppendUpper(String line) {
+		displayController.appendUpper(line);
+
+		return true;
+	}
+
+	public boolean doDisplayLower(String line) {
+		displayController.displayLower(line);
+
+		return true;
+	}
+
+	public boolean doAppendLower(String str) {
+		displayController.appendLower(str);
+
+		return true;
+	}
+
+	public boolean clearAll() {
+		displayController.clearAll();
+
+		return true;
+	}
+
+	public boolean clearUpper() {
+		displayController.clearUpper();
+
+		return true;
+	}
+
+	public boolean clearLower() {
+		displayController.clearLower();
+
+		return true;
 	}
 
 	// >>>>>>>>>>>>>>>>>>6 Functions of Envelop dispenser <<<<<<<<<<<<<<<<<<<
 	public boolean doEjectEnvelop() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+		return envelopDispenserController.ejectEnvelop();
 	}
 
 	public boolean doEatEnvelop() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+		int timeout = 10000; // dummy
+		try {
+			return depositCollectorController.collectEnvelop(timeout);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
+		return false;
 	}
 
 	// >>>>>>>>>>>>>>>>>>7 Functions of Function of keypad <<<<<<<<<<<<<<<<<<<
@@ -290,11 +308,11 @@ public class MainController extends Thread {
 
 	/*
 	 * @param Duration time for timeout
-	 * 
+	 *
 	 * @return null means that something wrong during input
-	 * 
+	 *
 	 * @return "CANCLE" means that user cancel input
-	 * 
+	 *
 	 * @return inputPasswd the passwd user types in
 	 */
 
@@ -324,7 +342,6 @@ public class MainController extends Thread {
 			} else {
 				// TODO Call display function to append a *
 				inputPasswd += currentInput;
-				continue;
 			}
 		}
 
@@ -332,45 +349,12 @@ public class MainController extends Thread {
 	}
 
 	public String doKPGetMoneyAmount(long Duration) {
-		String moneyAmount = "";
+		String inputAccountNum = "";
 		int lengthLimit = 8; // Max 999,000 per day
+
 		boolean inputDot = false;
 
-		while (true) {
-			String currentInput = doKPGetSingleInput(Duration);
-			if (currentInput == null) {
-				return null;
-			}
-
-			if (currentInput.equals(".")) {
-				if (!inputDot && moneyAmount.length() > 0) {
-					// User can input 3 more digits
-					lengthLimit = moneyAmount.length() + 3;
-					inputDot = true;
-					moneyAmount += currentInput;
-				}
-				continue;
-			}
-
-			if (currentInput.equals("CANCEL")) {
-				// TODO Call display function to clear screen
-				currentInput = "CANCEL";
-				break;
-			} else if (currentInput.equals("CLEAR")) {
-				// TODO Call display function to clear screen
-				currentInput = "";
-			} else if (currentInput.equals("ENTER") && currentInput.length() == lengthLimit) {
-				break;
-			} else if (currentInput.length() == lengthLimit) {
-				continue;
-			} else {
-				// TODO Call display function to append a the current input
-				moneyAmount += currentInput;
-				continue;
-			}
-		}
-
-		return moneyAmount;
+		return inputAccountNum;
 	}
 
 	public String doKPGetAccountNum(long Duration) {
@@ -399,7 +383,6 @@ public class MainController extends Thread {
 			} else {
 				// TODO Call display function to append a the current input
 				inputAccountNum += currentInput;
-				continue;
 			}
 		}
 		return inputAccountNum;
@@ -488,5 +471,4 @@ public class MainController extends Thread {
 		// TODO handles unexpected exceptions
 		e.printStackTrace();
 	}
-
 }

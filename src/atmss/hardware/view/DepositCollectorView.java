@@ -8,9 +8,10 @@ import atmss.hardware.exceptioins.DepositCollectorException;
 import atmss.hardware.exceptioins.HardwareException;
 import hwEmulators.DepositCollector;
 import hwEmulators.MBox;
+import hwEmulators.Msg;
 
 /**
- * @author freeman
+ * @author freeman, tony
  *
  */
 public class DepositCollectorView extends HardwareView {
@@ -26,31 +27,44 @@ public class DepositCollectorView extends HardwareView {
 		//this.depositCollector.setMBox(mbox);
 	}
 
-	public boolean prepareCollection() throws DepositCollectorException {
+	public boolean collectEnvelop(int timeout) throws DepositCollectorException {
 		checkStatus();
-		depositCollector.openSlot();
-		if (!depositCollector.isSlotOpen()) throwException(402);
-		return depositCollector.isSlotOpen();
-	}
+		Timer timer = Timer.getTimer();
+		timer.initTimer(timeout, mbox);
 
-	public boolean collectEnvelop() throws DepositCollectorException {
-		checkStatus();
-		if (depositCollector.getHasEnvelop()) { // has envelop inside
-			depositCollector.closeSlot(false);
-			if (depositCollector.isSlotOpen()) throwException(402);
-			return !depositCollector.isSlotOpen();
-		} else { // no envelop was placed
-			throwException(401);
+
+		depositCollector.openSlot();
+		if (!depositCollector.getHasEnvelop()) {
+			// wait for envelop or timeout
+			Msg msg = mbox.receive();
+
+			if (msg.getType() == 999 && msg.getSender().equalsIgnoreCase("Timer:" + timer.getTimerId())) { // timeout
+				// reject envelop and return false
+				collectTimeout();
+
+				return false;
+			} else if (msg.getType() == 4 && msg.getSender().equalsIgnoreCase("DepositCollector")) { // user put in envelop
+				depositCollector.closeSlot(false);
+
+				if (depositCollector.isSlotOpen())
+					throwException(402); // failed to close slot
+
+				return !depositCollector.isSlotOpen();
+			} else {
+				// something else...
+			}
 		}
 		return false;
 	}
 
 	// if timeout, reject the collection
-	public boolean collectTimeout() throws DepositCollectorException {
-		checkStatus();
+	private boolean collectTimeout() throws DepositCollectorException {
 		if (!depositCollector.getHasEnvelop()) { // has no envelop inside
 			depositCollector.closeSlot(true);
-			if (depositCollector.isSlotOpen()) throwException(402);
+
+			if (depositCollector.isSlotOpen())
+				throwException(402); // failed to close slot
+
 			return !depositCollector.isSlotOpen();
 		}
 		return false;

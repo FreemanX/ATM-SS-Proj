@@ -124,6 +124,7 @@ public class DepositCollector extends Thread {
 						atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
 						viewMbox.send(new Msg("Deposit collector", 4, "Put in envelop"));
 						msgTextArea.setText(msgTextArea.getText() + "Envelop put in, waiting atmss.");
+						viewMbox.send(new Msg("DepositCollector", 4, "Put in envelop"));
 					} else {
 						msgTextArea.setText(msgTextArea.getText() + "Failed! Slot not open.");
 					}

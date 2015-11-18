@@ -56,17 +56,23 @@ public class EnvelopDispenser extends Thread {
 	} // setATMSS
 
 	public boolean ejectEnvelop() {
-		if (numOfEnvelop > 0) {
+		if (getEnvelopCount() > 0) {
 			msgTextArea.append("Preparing for ejecting...\n");
 			msgTextArea.append("Enjecting an envelop...\n");
 			msgTextArea.append("Envelop ejected!\n");
 			numOfEnvelop--;
 			return true;
 		} else {
-			this.status = 601;
-			msgTextArea.append("There's no envelop!");
 			return false;
 		}
+	}
+
+	public int getEnvelopCount() {
+		if (numOfEnvelop < 1) {
+			this.status = 601;
+			msgTextArea.append("There's no envelop!");
+		}
+		return numOfEnvelop;
 	}
 
 	// ------------------------------------------------------------
