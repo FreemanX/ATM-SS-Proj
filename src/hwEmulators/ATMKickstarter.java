@@ -3,7 +3,6 @@ package hwEmulators;
 import java.util.logging.Logger;
 
 import atmss.MainController;
-import atmss.hardware.view.KeypadView;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -82,7 +81,7 @@ public class ATMKickstarter {
 		MainController mc = new MainController(advicePrinter, cardReader, cashDispenser, depositCollector, display, envelopDispenser, keypad);
 
 		// NewExceptionEmu debug test
-		NewExceptionEmulator emu = new NewExceptionEmulator("", atmss);
+		NewExceptionEmulator emu = new NewExceptionEmulator("new Exception", atmss);
 	}
 
 	// ------------------------------------------------------------

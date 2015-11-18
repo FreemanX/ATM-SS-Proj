@@ -37,7 +37,7 @@ public class ATMSSHandler {
 
 	public static ATMSSHandler getHandler() {
 		if (atmssHandler == null) {
-			synchronized (atmssHandler) {
+			synchronized (ATMSSHandler.class) {
 				if (atmssHandler == null)
 					atmssHandler = new ATMSSHandler();
 			}

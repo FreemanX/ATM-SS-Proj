@@ -30,7 +30,7 @@ public class MainController extends Thread {
 
 		public void run() {
 			// thread start...
-			checker.start();
+			//checker.start();
 			int i = 1;
 
 			// debug test
