@@ -3,7 +3,10 @@
  */
 package atmss;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import atmss.bams.*;
 import atmss.hardware.controller.*;
@@ -69,6 +72,7 @@ public class MainController {
 	private int timmer;
 	private LinkedList<Session> sessionLog;
 	private Processor processor;
+	private List<Session> sessions = new ArrayList<Session>();
 
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
@@ -92,20 +96,24 @@ public class MainController {
 		this.processor = new Processor();
 		processor.start();
 	}
-	// ----------------------------------------------------------------------------
+
+	private Session getLastSession() {
+		return sessions.get(sessions.size() - 1);
+	}
 
 	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
 	public boolean AutherizePassed(String cardNo, String pin) {
-		if (!serverCommunicator.login(cardNo, pin).equalsIgnoreCase("error")) { // not
-																				// "error"
+		String result = serverCommunicator.login(cardNo, pin);
+		if (!result.equalsIgnoreCase("error")) {
+			sessions.add(new Session(new Date().getTime(), result, cardNo));
 			return true;
 		}
 		return false;
 	}
 
 	// get input params from Session
-	public double doBAMSCheckBalance(String cardNo, String accNo, String cred) {
-		return serverCommunicator.enquiry(cardNo, accNo, cred);
+	public double doBAMSCheckBalance(String accNo) {
+		return serverCommunicator.enquiry(getLastSession().getCardNo(), accNo, getLastSession().getCred());
 	}
 
 	/*
@@ -116,15 +124,15 @@ public class MainController {
 	 * return verifiedInfo; }
 	 */
 
-	public boolean doBAMSUpdateBalance(String cardNo, String accNumber, String cred, int amount) {
+	public boolean doBAMSUpdateBalance(String accNumber, double amount) {
 		long resultAmount = 0;
 
 		if (amount > 0) // deposit
-			resultAmount = Math.round(serverCommunicator.deposit(cardNo, accNumber, cred, amount));
+			resultAmount = Math.round(serverCommunicator.deposit(getLastSession().getCardNo(), accNumber, getLastSession().getCred(), 0));
 
 		if (amount < 0) // withdraw
 			resultAmount = Math
-					.round(serverCommunicator.cashWithdraw(cardNo, accNumber, cred, String.valueOf(amount * -1)));
+					.round(serverCommunicator.cashWithdraw(getLastSession().getCardNo(), accNumber, getLastSession().getCred(), String.valueOf(amount * -1)));
 
 		if (resultAmount != 0 && resultAmount == Math.abs(amount))
 			return true;
@@ -132,15 +140,15 @@ public class MainController {
 		return false;
 	}
 
-	public boolean doBAMSUpdatePasswd(String cardNo, String cred, String newPin) {
-		if (serverCommunicator.changePin(cardNo, cred, newPin) == 1) {
+	public boolean doBAMSUpdatePasswd(String newPin) {
+		if (serverCommunicator.changePin(getLastSession().getCardNo(), getLastSession().getCred(), newPin) == 1) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean doBAMSTransfer(String cardNo, String toAccNo, String destAccNo, String cred, double amount) {
-		double resultAmount = serverCommunicator.transfer(cardNo, cred, destAccNo, toAccNo, String.valueOf(amount));
+	public boolean doBAMSTransfer( String toAccNo, String destAccNo, double amount) {
+		double resultAmount = serverCommunicator.transfer(getLastSession().getCardNo(), getLastSession().getCred(), destAccNo, toAccNo, String.valueOf(amount));
 
 		if (resultAmount == amount)
 			return true;
@@ -263,14 +271,10 @@ public class MainController {
 	}
 
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
-	public boolean doDisplayUpper(String[] displayContent) {
-		boolean isSuccess = false;
+	public boolean doDisplay(String[] lines) {
+		displayController.displayUpper(lines);
 
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+		return true;
 	}
 
 	public boolean doAppendUpper(String[] lines) {
