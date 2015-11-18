@@ -201,6 +201,24 @@ object if this is what the method provides, in this case if it returns null mean
 <li>Finish keypad hardware, provide single input function; get passwd method is also provided but not finished, wait for adding display functions</li>
 </ol>
 
+<h3>
+<a id="nov-18-2015-tony" class="anchor" href="#nov-18-2015-tony" aria-hidden="true"><span class="octicon octicon-link"></span></a>======================Nov 18, 2015 Tony======================</h3>
+
+<ol>
+<li>All hw components are basically finished.</li>
+<li>Some hw components are waiting to be fine-tuned.</li>
+<li>The BAMS methods in <em>MainController</em> will be updated, until after the <em>Session</em> class is written. It is because some cruical information like <em>cred</em> and <em>cardNo</em>, are missing in the <em>Session</em> class.</li>
+<li>The <em>MainController</em> processes (system check...etc) are moved into a new nested class <em>Processor</em> implementing a <em>CheckerListener</em> which will listen for status notification. The testing template has been finished, check <em>Processor</em> and <em>SystemCheckThread</em> for more detail. Also run the program to see the effect.</li>
+</ol>
+
+<h3>
+<a id="nov-18-2015-freeman" class="anchor" href="#nov-18-2015-freeman" aria-hidden="true"><span class="octicon octicon-link"></span></a>======================Nov 18, 2015 Freeman======================</h3>
+
+<ol>
+<li>All the functions to call the hardware controllers and BAMS are moved to new class called ATMSSHandler</li>
+<li>Some changes have made to process controller I have told LiHui</li>
+</ol>
+
 <h2>
 <a id="notice" class="anchor" href="#notice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notice</h2>
 
@@ -216,6 +234,13 @@ object if this is what the method provides, in this case if it returns null mean
 
 <ol>
 <li>Discuss how to simulate hardware reset and shutdown, then implement.</li>
+</ol>
+
+<h3>
+<a id="nov-17-2015-djy" class="anchor" href="#nov-17-2015-djy" aria-hidden="true"><span class="octicon octicon-link"></span></a>======================Nov 17, 2015 DJY======================</h3>
+
+<ol>
+<li> When calling methods like MainController.doBAMSxxx(...), it needs a cred, currently how to get cred in a ProcessController?</li>
 </ol>
         </section>
 
