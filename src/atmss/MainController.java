@@ -19,7 +19,8 @@ import hwEmulators.*;
  */
 public class MainController {
 
-	// Processing thread ----------------------------------------------------------------
+	// Processing thread
+	// ----------------------------------------------------------------
 	class Processor extends Thread implements CheckerListener {
 		SystemCheckThread checker = new SystemCheckThread(this);
 
@@ -128,11 +129,12 @@ public class MainController {
 		long resultAmount = 0;
 
 		if (amount > 0) // deposit
-			resultAmount = Math.round(serverCommunicator.deposit(getLastSession().getCardNo(), accNumber, getLastSession().getCred(), 0));
+			resultAmount = Math.round(
+					serverCommunicator.deposit(getLastSession().getCardNo(), accNumber, getLastSession().getCred(), 0));
 
 		if (amount < 0) // withdraw
-			resultAmount = Math
-					.round(serverCommunicator.cashWithdraw(getLastSession().getCardNo(), accNumber, getLastSession().getCred(), String.valueOf(amount * -1)));
+			resultAmount = Math.round(serverCommunicator.cashWithdraw(getLastSession().getCardNo(), accNumber,
+					getLastSession().getCred(), String.valueOf(amount * -1)));
 
 		if (resultAmount != 0 && resultAmount == Math.abs(amount))
 			return true;
@@ -147,8 +149,9 @@ public class MainController {
 		return false;
 	}
 
-	public boolean doBAMSTransfer( String toAccNo, String destAccNo, double amount) {
-		double resultAmount = serverCommunicator.transfer(getLastSession().getCardNo(), getLastSession().getCred(), destAccNo, toAccNo, String.valueOf(amount));
+	public boolean doBAMSTransfer(String toAccNo, String destAccNo, double amount) {
+		double resultAmount = serverCommunicator.transfer(getLastSession().getCardNo(), getLastSession().getCred(),
+				destAccNo, toAccNo, String.valueOf(amount));
 
 		if (resultAmount == amount)
 			return true;
@@ -261,7 +264,7 @@ public class MainController {
 
 	// >>>>>>>>>>>>>>>>>>4 Functions of Deposit collector <<<<<<<<<<<<<<<<<<<
 
-	public boolean doCollectEnvelop(int timeout) {
+	public boolean doDCCollectEnvelop(int timeout) {
 		try {
 			return depositCollectorController.collectEnvelop(timeout);
 		} catch (Exception e) {
@@ -271,60 +274,60 @@ public class MainController {
 	}
 
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
-	public boolean doDisplay(String[] lines) {
+	public boolean doDisDisplayUpper(String[] lines) {
 		displayController.displayUpper(lines);
 
 		return true;
 	}
 
-	public boolean doAppendUpper(String[] lines) {
+	public boolean doDisAppendUpper(String[] lines) {
 		displayController.appendUpper(lines);
 
 		return true;
 	}
 
-	public boolean doAppendUpper(String line) {
+	public boolean doDisAppendUpper(String line) {
 		displayController.appendUpper(line);
 
 		return true;
 	}
 
-	public boolean doDisplayLower(String line) {
+	public boolean doDisDisplayLower(String line) {
 		displayController.displayLower(line);
 
 		return true;
 	}
 
-	public boolean doAppendLower(String str) {
+	public boolean doDisAppendLower(String str) {
 		displayController.appendLower(str);
 
 		return true;
 	}
 
-	public boolean clearAll() {
+	public boolean doDisClearAll() {
 		displayController.clearAll();
 
 		return true;
 	}
 
-	public boolean clearUpper() {
+	public boolean doDisClearUpper() {
 		displayController.clearUpper();
 
 		return true;
 	}
 
-	public boolean clearLower() {
+	public boolean doDisClearLower() {
 		displayController.clearLower();
 
 		return true;
 	}
 
 	// >>>>>>>>>>>>>>>>>>6 Functions of Envelop dispenser <<<<<<<<<<<<<<<<<<<
-	public boolean doEjectEnvelop() {
+	public boolean doEDEjectEnvelop() {
 		return envelopDispenserController.ejectEnvelop();
 	}
 
-	public boolean doEatEnvelop() {
+	public boolean doEDEatEnvelop() {
 		int timeout = 10000; // dummy
 		try {
 			return depositCollectorController.collectEnvelop(timeout);
@@ -437,37 +440,21 @@ public class MainController {
 	// >>>>>>>>>>>>>>>>>>> End of functions <<<<<<<<<<<<<<<<<<
 
 	/*
-	@Override
-	public void run() {
-		while (true) {
-			// 1 Wait for card insert
-			if (this.cardReaderController.getCardNumber().length() > 0) {
-				// TODO 2 Authenticate pin
-				// TODO 2.1 Take user input from keypad and update display
-				// accordingly
-				// TODO 2.2 Sent the pin and account number to server
-				// TODO 2.3 Get the authentication result
-				// TODO 3 if right pin
-				// TODO Display options and wait for user selection
-				// TODO Create that process controller and wait for process
-				// finishes
-				// TODO Display options and wait for user selection
-				// TODO If user does not choose eject card
-				// TODO Create corresponding process for user
-				// TODO Else
-				// TODO call cardReader controller to eject card
-				// TODO 3 else
-				// TODO check if it has been 3 times' error
-				// TODO if yes, retain card and display bank contact info
-				// TODO else
-				// TODO reinput the pin and input pin counter++
-
-			} else {
-				continue;
-			}
-		}
-	}
-	*/
+	 * @Override public void run() { while (true) { // 1 Wait for card insert if
+	 * (this.cardReaderController.getCardNumber().length() > 0) { // TODO 2
+	 * Authenticate pin // TODO 2.1 Take user input from keypad and update
+	 * display // accordingly // TODO 2.2 Sent the pin and account number to
+	 * server // TODO 2.3 Get the authentication result // TODO 3 if right pin
+	 * // TODO Display options and wait for user selection // TODO Create that
+	 * process controller and wait for process // finishes // TODO Display
+	 * options and wait for user selection // TODO If user does not choose eject
+	 * card // TODO Create corresponding process for user // TODO Else // TODO
+	 * call cardReader controller to eject card // TODO 3 else // TODO check if
+	 * it has been 3 times' error // TODO if yes, retain card and display bank
+	 * contact info // TODO else // TODO reinput the pin and input pin counter++
+	 * 
+	 * } else { continue; } } }
+	 */
 
 	private void handleUserRequest() {
 
