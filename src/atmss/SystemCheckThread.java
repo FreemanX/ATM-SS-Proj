@@ -61,6 +61,7 @@ class SystemCheckThread extends Thread {
 			while (isRunning) {
 				try {
 					this._advicePrinterController.updateStatus();
+					
 				} catch (Exception e) {
 
 				}
