@@ -75,8 +75,19 @@ public class EnvelopDispenserController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		if (ex instanceof EnvelopDispenserException) {
-			System.err.println(ex.getClass().getSimpleName() + "\n    " + ex.getExceptionCode() + ":" + ex.getMessage());
+			int exType = ex.getExceptionCode();
+
+			switch (exType) {
+				case 601:
+					System.err.println(">>>>>>>>>>>No envelop error.");
+					break;
+				case 699:
+					System.err.println(">>>>>>>>>>>Unknown EnvelopDispenser error.");
+					break;
+			}
 		}
+
+		throw ex;
 	}
 
 }

@@ -275,56 +275,92 @@ public class MainController {
 
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
 	public boolean doDisDisplayUpper(String[] lines) {
-		displayController.displayUpper(lines);
-
-		return true;
+		try {
+			return displayController.displayUpper(lines);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
+		return false;
 	}
 
 	public boolean doDisAppendUpper(String[] lines) {
-		displayController.appendUpper(lines);
+		try {
+			return displayController.appendUpper(lines);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	public boolean doDisAppendUpper(String line) {
-		displayController.appendUpper(line);
+		try {
+			return displayController.appendUpper(line);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	public boolean doDisDisplayLower(String line) {
-		displayController.displayLower(line);
+		try {
+			return displayController.displayLower(line);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	public boolean doDisAppendLower(String str) {
-		displayController.appendLower(str);
+		try {
+			return displayController.appendLower(str);
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	public boolean doDisClearAll() {
-		displayController.clearAll();
+		try {
+			return displayController.clearAll();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	public boolean doDisClearUpper() {
-		displayController.clearUpper();
+		try {
+			return displayController.clearUpper();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	public boolean doDisClearLower() {
-		displayController.clearLower();
+		try {
+			return displayController.clearLower();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
 
-		return true;
+		return false;
 	}
 
 	// >>>>>>>>>>>>>>>>>>6 Functions of Envelop dispenser <<<<<<<<<<<<<<<<<<<
 	public boolean doEDEjectEnvelop() {
-		return envelopDispenserController.ejectEnvelop();
+		try {
+			return envelopDispenserController.ejectEnvelop();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+		}
+		return false;
 	}
 
 	public boolean doEDEatEnvelop() {

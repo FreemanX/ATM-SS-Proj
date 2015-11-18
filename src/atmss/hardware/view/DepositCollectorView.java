@@ -75,8 +75,9 @@ public class DepositCollectorView extends HardwareView {
 	 */
 	@Override
 	public int checkStatus() throws DepositCollectorException {
-		// TODO Auto-generated method stub
-		return 0;
+		if (depositCollector.getDCStatus() % 100 != 0)
+			throwException(depositCollector.getDCStatus());
+		return depositCollector.getDCStatus();
 	}
 
 	/* (non-Javadoc)

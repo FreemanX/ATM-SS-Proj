@@ -37,11 +37,9 @@ public class EnvelopDispenserView extends HardwareView {
 	 */
 	@Override
 	public int checkStatus() throws EnvelopDispenserException {
-		int code = envelopDispenser.getStatus();
-		if (code % 100 != 0) {
-			throwException(code);
-		}
-		return code;
+		if (envelopDispenser.getEDStatus() % 100 != 0)
+			throwException(envelopDispenser.getEDStatus());
+		return envelopDispenser.getEDStatus();
 	}
 
 	/* (non-Javadoc)

@@ -22,67 +22,87 @@ public class DisplayController extends HardwareController {
 		displayView = new DisplayView(display);
 	}
 
-	public void displayUpper(String[] lines) throws DisplayException {
-		displayView.displayUpper(lines);
+	public boolean displayUpper(String[] lines) throws DisplayException {
+		try {
+			displayView.displayUpper(lines);
+			return true;
+		} catch (Exception e) {
+
+		}
+		return false;
 	}
 
-	public void displayLower(String line) throws Exception {
+	public boolean displayLower(String line) throws Exception {
 		try {
 			displayView.displayLower(line);
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
-	public void appendUpper(String[] lines) throws Exception {
+	public boolean appendUpper(String[] lines) throws Exception {
 		try {
 			for (String line : lines) {
 				appendUpper(line);
 			}
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
-	public void appendUpper(String line) throws Exception {
+	public boolean appendUpper(String line) throws Exception {
 		try {
 			displayView.displayUpper(line);
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
-	public void appendLower(String str) throws Exception {
+	public boolean appendLower(String str) throws Exception {
 		try {
 			displayView.appendLower(str);
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
-	public void clearAll() throws Exception {
+	public boolean clearAll() throws Exception {
 		try {
 			clearUpper();
 			clearLower();
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
-	public void clearUpper() throws Exception {
+	public boolean clearUpper() throws Exception {
 		try {
 			displayView.clearUpper();
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
-	public void clearLower() throws Exception {
+	public boolean clearLower() throws Exception {
 		try {
 			displayView.clearLower();
+			return true;
 		} catch (DisplayException e) {
 			HandleException(e);
 		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -118,8 +138,15 @@ public class DisplayController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		if (ex instanceof DisplayException) {
-			System.err.println(ex.getClass().getSimpleName() + "\n    " + ex.getExceptionCode() + ":" + ex.getMessage());
+			int exType = ex.getExceptionCode();
+
+			switch (exType) {
+				case 599:
+					System.err.println(">>>>>>>>>>>Unknown display error.");
+					break;
+			}
 		}
+		throw ex;
 	}
 
 }

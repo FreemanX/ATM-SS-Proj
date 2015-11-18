@@ -65,9 +65,9 @@ public class DisplayView extends HardwareView {
 
 	@Override
 	public int checkStatus() throws DisplayException {
-		if (display.getStatus() % 100 != 0)
-			throwException(display.getStatus());
-		return display.getStatus();
+		if (display.getDisStatus() % 100 != 0)
+			throwException(display.getDisStatus());
+		return display.getDisStatus();
 	}
 
 	/* (non-Javadoc)

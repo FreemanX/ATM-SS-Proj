@@ -35,7 +35,7 @@ public class EnvelopDispenser extends Thread {
 		MyFrame myFrame = new MyFrame("Envelop Dispenser");
 	} // EnvelopDispenser
 
-	public int getStatus() {
+	public int getEDStatus() {
 		return status;
 	}
 
