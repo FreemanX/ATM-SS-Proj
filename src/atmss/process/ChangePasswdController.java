@@ -5,6 +5,7 @@ package atmss.process;
 
 import atmss.MainController;
 import atmss.Operation;
+import atmss.Session;
 
 /**
  * @author DJY
@@ -13,6 +14,7 @@ import atmss.Operation;
 public class ChangePasswdController extends ProcessController {
 
 	private final String OPERATION_NAME = "Change Password";
+	private final String FAILED_FROM_CANCEL = "The user canceled the operation";
 	private final String FAILED_FROM_DISPLAY = "No response from the display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_BAMS = "Failed to get approval from BAMS";
@@ -23,9 +25,13 @@ public class ChangePasswdController extends ProcessController {
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final String[] SHOW_SUCCESS = {"Succeeded!", "The password has been changed."};
 	private final String[] SHOW_FAILURE = {"Failed!", "The password may not be changed."};
+	private final String[] SHOW_TIMEOUT = {"Operation time out!"};
+	private final String[] SHOW_CANCEL = {"Operation cancelled!"};
+	private final long TIME_LIMIT = 30 * 1000;
+	private final String KP_CANCEL = "CANCEL";
 
-	public ChangePasswdController(String CardNumber, MainController MainController) {
-		super(CardNumber, MainController);
+	public ChangePasswdController(Session CurrentSession, MainController MainController) {
+		super(CurrentSession, MainController);
 	}
 
 	public boolean doChangePasswd() {
@@ -36,36 +42,69 @@ public class ChangePasswdController extends ProcessController {
 		
 		// -> preparing the necessary information
 		// get old password from the user
-		if (!_mainController.doDisplay(PROMPT_FOR_OLD_PASSWORD)) {
+		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_OLD_PASSWORD)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
 		while (true) {
-			// TODO: oldPassword = _mainController.getPasswordFromUser();
-			if (oldPassword.isEmpty()) {
+			oldPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
+			if (oldPassword == null) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
 				recordOperation(FAILED_FROM_KEYPAD);
+				return false;
+			} else if (oldPassword.equals(KP_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				recordOperation(FAILED_FROM_CANCEL);
 				return false;
 			}
 			
 			// get new password from the user
-			if (!_mainController.doDisplay(PROMPT_FOR_NEW_PASSWORD)) {
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
-			// TODO: newPassword = _mainController.getPasswordFromUser();
-			if (newPassword.isEmpty()) {
+			newPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
+			if (newPassword == null) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
 				recordOperation(FAILED_FROM_KEYPAD);
+				return false;
+			} else if (newPassword.equals(KP_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				recordOperation(FAILED_FROM_CANCEL);
 				return false;
 			}
 			
 			// get confirm password from the user
-			if (!_mainController.doDisplay(PROMPT_FOR_CONFIRM_PASSWORD)) {
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_CONFIRM_PASSWORD)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
-			// TODO: confirmPassword = _mainController.getPasswordFromUser();
-			if (confirmPassword.isEmpty()) {
+			confirmPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
+			if (confirmPassword == null) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
 				recordOperation(FAILED_FROM_KEYPAD);
+				return false;
+			} else if (confirmPassword.equals(KP_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				recordOperation(FAILED_FROM_CANCEL);
 				return false;
 			}
 			 
@@ -73,7 +112,7 @@ public class ChangePasswdController extends ProcessController {
 			if (newPassword.equals(confirmPassword)) break; 
 			
 			// start again if not equal
-			if (!_mainController.doDisplay(ERROR_NOT_EQUAL)) {
+			if (!_atmssHandler.doDisDisplayUpper(ERROR_NOT_EQUAL)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -81,22 +120,22 @@ public class ChangePasswdController extends ProcessController {
 		// <- preparing the necessary information
 		
 		// contact BAMS now
-		if (!_mainController.doDisplay(SHOW_PLEASE_WAIT)) {
+		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		// TODO: result = _mainController.doBAMSUpdatePasswd(_cardNumber, oldPassword, newPassword);
+		result = _atmssHandler.doBAMSUpdatePasswd(newPassword, _session);
 		
 		// display the result
 		if (result) {
-			if (!_mainController.doDisplay(SHOW_SUCCESS)) {
+			if (!_atmssHandler.doDisDisplayUpper(SHOW_SUCCESS)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
 			recordOperation();
 			return true;
 		} else {
-			if (!_mainController.doDisplay(SHOW_FAILURE)) {
+			if (!_atmssHandler.doDisDisplayUpper(SHOW_FAILURE)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -107,14 +146,14 @@ public class ChangePasswdController extends ProcessController {
 	
 	private void recordOperation() {
 		String description = 
-				"Card Number: " + _cardNumber + "; " + 
+				"Card Number: " + _session.getCardNo() + "; " + 
 				"Result: " + "Succeeded; ";
 		operationCache.add(new Operation(OPERATION_NAME, description));
 	}
 	
 	private void recordOperation(String FailedReason) {
 		String description = 
-				"Card Number: " + _cardNumber + "; " + 
+				"Card Number: " + _session.getCardNo() + "; " + 
 				"Result: " + "Failed; " +
 				"Reason: " + FailedReason;
 		operationCache.add(new Operation(OPERATION_NAME, description));

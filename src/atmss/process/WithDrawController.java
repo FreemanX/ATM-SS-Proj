@@ -5,6 +5,7 @@ package atmss.process;
 
 import atmss.MainController;
 import atmss.Operation;
+import atmss.Session;
 
 /**
  * @author DJY
@@ -13,6 +14,7 @@ import atmss.Operation;
 public class WithDrawController extends ProcessController{
 
 	private final String OPERATION_NAME = "Withdraw Cash";
+	private final String FAILED_FROM_CANCEL = "The user canceled the operation";
 	private final String FAILED_FROM_CARDREADER = "No response from the card reader";
 	private final String FAILED_FROM_DISPLAY = "No response from the display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
@@ -25,13 +27,17 @@ public class WithDrawController extends ProcessController{
 	private final String ERROR_BALANCE_HEADER = "Not enough balance!";
 	private final String ERROR_BAD_CHOICE_HEADER = "Not a valid choice! Please choose your account:";
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
-	private final String[] PROMPT_FOR_AMOUNT = {"Please input your withdraw amount:"};
+	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
+	private final String[] PROMPT_FOR_AMOUNT_AGAIN = {"Invalid amount!","The withdraw amount must end up with at least two 0s:"};
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	private final String ERROR_BALANCE_HEADER2 = "Operation Failed!";
+	private final String[] SHOW_TIMEOUT = {"Operation time out!"};
+	private final String[] SHOW_CANCEL = {"Operation cancelled!"};
+	private final long TIME_LIMIT = 30 * 1000;
+	private final String KP_CANCEL = "CANCEL";
 
-	public WithDrawController(String CardNumber, MainController MainController) {
-		super(CardNumber, MainController);
+	public WithDrawController(Session CurrentSession, MainController MainController) {
+		super(CurrentSession, MainController);
 	}
 
 	public Boolean doWithDraw() {
@@ -42,7 +48,7 @@ public class WithDrawController extends ProcessController{
 		boolean result = false;
 
 		// get account numbers from the CardReader
-		// TODO: accountNumbers = _mainController.doBAMSCheckAccounts();
+		// TODO: accountNumbers = _atmssHandler.doBAMSCheckAccounts();
 		if (accountNumbers == null || accountNumbers.length == 0) {
 			recordOperation(FAILED_FROM_CARDREADER);
 			return false;
@@ -50,55 +56,87 @@ public class WithDrawController extends ProcessController{
 
 		// -> preparing the necessary information
 		// get account choice from the user
-		if (!_mainController.doDisplay(createOptionList(PROMPT_FOR_CHOICE_HEADER,accountNumbers))) {
+		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_HEADER,accountNumbers))) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
 		while (true) {
-			String userInput = _mainController.doKPGetSingleInput(30000);
-			if (userInput.isEmpty()) {
+			String userInput = doKPGetChoice(TIME_LIMIT);
+			if (userInput == null) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
+			} else if (userInput.equals(KP_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				recordOperation(FAILED_FROM_CANCEL);
+				return false;
 			}
-
 			int choice = choiceFromString(userInput);
 			if ( 0 < choice && choice <= accountNumbers.length ) {
 				accountNumber = accountNumbers[choice-1];
 				break;
 			}
 
-			if (!_mainController.doDisplay(createOptionList(ERROR_BAD_CHOICE_HEADER,accountNumbers))) {
+			if (!_atmssHandler.doDisDisplayUpper(createOptionList(ERROR_BAD_CHOICE_HEADER,accountNumbers))) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
 		}
 
 		// get withdraw amount from the user
-		if (!_mainController.doDisplay(PROMPT_FOR_AMOUNT)) {
+		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		// TODO: withdrawAmount = _mainController.getWithdrawAmountFromUser();
-		if (withdrawAmount == 0) {
-			recordOperation(FAILED_FROM_KEYPAD);
-			return false;
+		while (true) {
+			String userInput= _atmssHandler.doKPGetIntegerMoneyAmount(TIME_LIMIT);
+			if (userInput == null) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				recordOperation(FAILED_FROM_KEYPAD);
+				return false;
+			} else if (userInput.equals(KP_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				recordOperation(FAILED_FROM_CANCEL);
+				return false;
+			}
+			int amount = amountFromString(userInput);
+			if (amount != 0) {
+				withdrawAmount = amount;
+				break;
+			}
+			
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT_AGAIN)) {
+				recordOperation(FAILED_FROM_DISPLAY);
+				return false;
+			}
 		}
 		// <- preparing the necessary information
 
 		// contact BAMS now
-		if (!_mainController.doDisplay(SHOW_PLEASE_WAIT)) {
+		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		// TODO: Do not know what is cred...
-		// TODO: double balance = _mainController.doBAMSCheckBalance(_cardNumber, accountNumber);
-		double balance = 500.00;
+
+		double balance = _atmssHandler.doBAMSCheckBalance(accountNumber, _session);
 		
 		// -> display the result
 		// failed:1
 		if (withdrawAmount > balance) {
 			String[] displayLines = {ERROR_BALANCE_HEADER, "You can only withdraw $"+balance};
-			if (!_mainController.doDisplay(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -106,12 +144,12 @@ public class WithDrawController extends ProcessController{
 			return false;
 		} 
 		
-		int[] cashInventory = _mainController.doCDCheckCashInventory();
+		int[] cashInventory = _atmssHandler.doCDCheckCashInventory();
 		
 		// failed:2
 		if (cashInventory == null) {
 			String[] displayLines = {FAILED_FROM_CASHDISPENSER};
-			if (!_mainController.doDisplay(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -124,7 +162,7 @@ public class WithDrawController extends ProcessController{
 		// failed:3
 		if (withdrawPlan[0] == -1) {
 			String[] displayLines = {FAILED_FROM_INVENTORY};
-			if (!_mainController.doDisplay(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -133,13 +171,13 @@ public class WithDrawController extends ProcessController{
 		}
 
 		// succeeded:
-		if (!_mainController.doDisplay(PROMPT_FOR_COLLECTION)) {
+		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_COLLECTION)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		if (!_mainController.doCDEjectCash(withdrawPlan)) {
+		if (!_atmssHandler.doCDEjectCash(withdrawPlan)) {
 			String[] displayLines = {FAILED_FROM_CASHDISPENSER};
-			if (!_mainController.doDisplay(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -148,14 +186,14 @@ public class WithDrawController extends ProcessController{
 		}
 
 		if (result) { // TODO: if (_mainController.collectInTime()) {
-//			if (!_mainController.doBAMSWithdraw(accountNumber, withdrawAmount)) {
+//			if (!_atmssHandler.doBAMSWithdraw(accountNumber, withdrawAmount)) {
 //				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS);
 //				return false;
 //			}
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
 		} else { // otherwise not collect in time
-			if (!_mainController.doCDRetainCash()) {
+			if (!_atmssHandler.doCDRetainCash()) {
 				// cannot retain and will not inform BAMS
 				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_COLLECTION);
 				return false;
@@ -168,7 +206,7 @@ public class WithDrawController extends ProcessController{
 
 	private void recordOperation(String AccountNumber, int Amount, String FailedReason) {
 		String description =
-				"Card Number: " + _cardNumber + "; " +
+				"Card Number: " + _session.getCardNo() + "; " +
 				"Account Number: " + AccountNumber + "; " +
 				"Amount: " + Amount + "; " +
 				"Result: " + "Failed; " +
@@ -178,7 +216,7 @@ public class WithDrawController extends ProcessController{
 
 	private void recordOperation(String AccountNumber, int Amount) {
 		String description =
-				"Card Number: " + _cardNumber + "; " +
+				"Card Number: " + _session.getCardNo() + "; " +
 				"Account Number: " + AccountNumber + "; " +
 				"Amount: " + Amount + "; " +
 				"Result: " + "Succeeded; ";
@@ -187,12 +225,51 @@ public class WithDrawController extends ProcessController{
 
 	private void recordOperation(String FailedReason) {
 		String description =
-				"Card Number: " + _cardNumber + "; " +
+				"Card Number: " + _session.getCardNo() + "; " +
 				"Result: " + "Failed; " +
 				"Reason: " + FailedReason;
 		operationCache.add(new Operation(OPERATION_NAME, description));
 	}
+	
+	private int amountFromString(String userInput) {
+		try {
+			int withdrawAmount = Integer.parseInt(userInput);
+			if (withdrawAmount > 0 && withdrawAmount <= 10000 && withdrawAmount % 100 == 0){
+				return withdrawAmount;
+			} else {
+				return 0;
+			}
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
 
+	public String doKPGetChoice(long Duration) {
+		while (true) {
+			String currentInput = _atmssHandler.doKPGetSingleInput(Duration);
+			if (currentInput == null) {
+				// user timeout or hardware failure
+				return null;
+			}
+			switch (currentInput) {
+				case "0":
+				case ".":
+				case "CLEAR":
+				case "ENTER":break; // ignore those input
+				default:return currentInput; // than it must be 1-9 or CANCEL
+			}
+		}
+	}
+
+	private int choiceFromString(String userInput) {
+		// the choice can only be 1-9
+		try {
+			return Integer.parseInt(userInput);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+	
 	private String[] createOptionList(String Header, String[] Body) {
 		String[] lines = new String[Body.length + 1];
 		lines[0] = Header;
@@ -200,16 +277,6 @@ public class WithDrawController extends ProcessController{
 			lines[i] = "-> " + i + ": " + Body[i-1];
 		}
 		return lines;
-	}
-
-	private int choiceFromString(String userInput) {
-		int choice = 0;
-		try {
-			choice = Integer.parseInt(userInput);
-			return choice;
-		} catch (NumberFormatException e) {
-			return 0;
-		}
 	}
 	
 	private int[] getWithdrawPlan(int[] inventory, int withdrawAmount) {

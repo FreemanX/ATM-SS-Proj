@@ -137,6 +137,9 @@ So far what we have done:
 
 0. Finish keypad hardware, provide single input function; get passwd method is also provided but not finished, wait for adding display functions
 
+###======================Nov 17, 2015 DJY======================
+0.	When calling methods like MainController.doBAMSxxx(...), it needs a cred, currently how to get cred in a ProcessController?
+
 ###======================Nov 18, 2015 Tony======================
 
 0. All hw components are basically finished.
@@ -148,6 +151,11 @@ So far what we have done:
 0. All the functions to call the hardware controllers and BAMS are moved to new class called ATMSSHandler
 1. Some changes have made to process controller I have told LiHui
 
+###======================Nov 19, 2015 DJY======================
+0.	When changing the password, do we need old password or not?
+	Currently I asking for old password in the ChangePasswdController, but doBAMSUpdatePasswd only needs new pin. So what's the deal?
+1.	How can a process know the account numbers associated with the card?
+2.	doKPGetXXX won't return "CANCEL" but an empty String, we probably need to fix that; I also wrote a doKPGetChoice method in WithdrawController, if anyone think it is useful, we may move that code to ATMSSHandler.
 
 
 ## Notice
@@ -162,5 +170,4 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 
 0. Discuss how to simulate hardware reset and shutdown, then implement.
 
-###======================Nov 17, 2015 DJY======================
-0.	When calling methods like MainController.doBAMSxxx(...), it needs a cred, currently how to get cred in a ProcessController?
+
