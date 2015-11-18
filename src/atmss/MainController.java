@@ -21,8 +21,10 @@ public class MainController extends Thread {
 
 	// Processing thread
 	// ----------------------------------------------------------------
-	class Processor extends Thread implements CheckerListener {
-		SystemCheckThread checker = new SystemCheckThread(this);
+	class Processor extends Thread {
+		SystemCheckThread checker = new SystemCheckThread(advicePrinterController, cardReaderController,
+				cashDispenserController, depositCollectorController, displayController, envelopDispenserController,
+				keypadController, serverCommunicator);
 
 		public void Processor() {
 			// constructor...
@@ -30,7 +32,7 @@ public class MainController extends Thread {
 
 		public void run() {
 			// thread start...
-			//checker.start();
+			checker.start();
 			int i = 1;
 
 			// debug test
@@ -45,15 +47,8 @@ public class MainController extends Thread {
 			}
 		}
 
-		@Override
-		public void componentStatusNotify(String componentName, int status, String description) {
-			System.err.println(componentName + ">> status: " + status + ", desc: " + description);
-		}
 	}
 
-	interface CheckerListener {
-		public void componentStatusNotify(String componentName, int status, String description);
-	}
 	// -------------------------------------------------------------------------------------
 
 	private CashDispenserController cashDispenserController;

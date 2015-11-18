@@ -76,7 +76,7 @@ public class AdvicePrinterController extends HardwareController {
 		try {
 			this.status = advicePrinter.checkStatus();
 			isSuccess = true;
-		} catch (AdvicePrinterException e) {
+		} catch (HardwareException e) {
 			// TODO Auto-generated catch block
 			isSuccess = false;
 			HandleException(e);
@@ -116,7 +116,7 @@ public class AdvicePrinterController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
-		if (ex.getClass().getName().equals("AdvicePrinterException")) {
+		if (ex instanceof HardwareException) {
 			int exType = ex.getExceptionCode();
 			// TODO handle ex and report to MainController;
 			switch (exType) {
@@ -136,7 +136,6 @@ public class AdvicePrinterController extends HardwareController {
 			default:
 				throw ex;
 			}
-
 		} else {
 			throw ex;
 		}

@@ -32,16 +32,30 @@ public class DepositCollectorController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		boolean isSuccess = false;
+		try {
+			this.status = depositCollectorView.checkStatus();
+			isSuccess = true;
+		} catch (HardwareException e) {
+			// TODO Auto-generated catch block
+			isSuccess = false;
+			HandleException(e);
+		}
+
+		return isSuccess;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -50,7 +64,9 @@ public class DepositCollectorController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -59,8 +75,11 @@ public class DepositCollectorController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.exceptioins.HardwareException)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
+	 * exceptioins.HardwareException)
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
@@ -68,19 +87,20 @@ public class DepositCollectorController extends HardwareController {
 			int exType = ex.getExceptionCode();
 
 			switch (exType) {
-				case 401:
-					System.err.println(">>>>>>>>>>>No envelop inserted error.");
-					break;
-				case 402:
-					System.err.println(">>>>>>>>>>>DepositCollector slot jam error.");
-					break;
-				case 499:
-					System.err.println(">>>>>>>>>>>Unknown deposit error.");
-					break;
+			case 401:
+				System.err.println(">>>>>>>>>>>No envelop inserted error.");
+				break;
+			case 402:
+				System.err.println(">>>>>>>>>>>DepositCollector slot jam error.");
+				break;
+			case 499:
+				System.err.println(">>>>>>>>>>>Unknown deposit error.");
+				break;
+			default:
+				throw ex;
 			}
-		}
-
-		throw ex;
+		} else
+			throw ex;
 	}
 
 }

@@ -103,7 +103,10 @@ public class DepositCollectorView extends HardwareView {
 	 */
 	@Override
 	void throwException(int Code) throws DepositCollectorException {
-		throw new DepositCollectorException(Code);
+		if (Code > 490)
+			throw new DepositCollectorException();
+		else
+			throw new DepositCollectorException(Code);
 	}
 
 }

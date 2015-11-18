@@ -15,6 +15,7 @@ import hwEmulators.Display;
 public class DisplayController extends HardwareController {
 
 	private DisplayView displayView;
+
 	/**
 	 *
 	 */
@@ -105,16 +106,30 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		boolean isSuccess = false;
+		try {
+			this.status = displayView.checkStatus();
+			isSuccess = true;
+		} catch (HardwareException e) {
+			// TODO Auto-generated catch block
+			isSuccess = false;
+			HandleException(e);
+		}
+
+		return isSuccess;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -123,7 +138,9 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -132,8 +149,11 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.exceptioins.HardwareException)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
+	 * exceptioins.HardwareException)
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
@@ -141,12 +161,14 @@ public class DisplayController extends HardwareController {
 			int exType = ex.getExceptionCode();
 
 			switch (exType) {
-				case 599:
-					System.err.println(">>>>>>>>>>>Unknown display error.");
-					break;
+			case 599:
+				System.err.println(">>>>>>>>>>>Unknown display error.");
+				break;
+			default:
+				throw ex;
 			}
-		}
-		throw ex;
+		} else
+			throw ex;
 	}
 
 }

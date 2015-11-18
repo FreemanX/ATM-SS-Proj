@@ -23,7 +23,6 @@ public class EnvelopDispenserController extends HardwareController {
 		this.envelopDispenserView = new EnvelopDispenserView(envelopDispenser);
 	}
 
-
 	public boolean ejectEnvelop() throws Exception {
 		try {
 			return envelopDispenserView.ejectEnvelop();
@@ -42,16 +41,30 @@ public class EnvelopDispenserController extends HardwareController {
 		return -1;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		boolean isSuccess = false;
+		try {
+			this.status = envelopDispenserView.checkStatus();
+			isSuccess = true;
+		} catch (HardwareException e) {
+			// TODO Auto-generated catch block
+			isSuccess = false;
+			HandleException(e);
+		}
+
+		return isSuccess;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -60,7 +73,9 @@ public class EnvelopDispenserController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -69,8 +84,11 @@ public class EnvelopDispenserController extends HardwareController {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.exceptioins.HardwareException)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
+	 * exceptioins.HardwareException)
 	 */
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
@@ -78,16 +96,17 @@ public class EnvelopDispenserController extends HardwareController {
 			int exType = ex.getExceptionCode();
 
 			switch (exType) {
-				case 601:
-					System.err.println(">>>>>>>>>>>No envelop error.");
-					break;
-				case 699:
-					System.err.println(">>>>>>>>>>>Unknown EnvelopDispenser error.");
-					break;
+			case 601:
+				System.err.println(">>>>>>>>>>>No envelop error.");
+				break;
+			case 699:
+				System.err.println(">>>>>>>>>>>Unknown EnvelopDispenser error.");
+				break;
+			default:
+				throw ex;
 			}
-		}
-
-		throw ex;
+		} else
+			throw ex;
 	}
 
 }

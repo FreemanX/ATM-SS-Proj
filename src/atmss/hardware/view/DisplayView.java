@@ -24,7 +24,9 @@ public class DisplayView extends HardwareView {
 		this.display = display;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 
@@ -35,7 +37,7 @@ public class DisplayView extends HardwareView {
 
 	public void displayUpper(String line) throws DisplayException {
 		checkStatus();
-		display.displayUpper(new String[]{line});
+		display.displayUpper(new String[] { line });
 	}
 
 	public void displayLower(String line) throws DisplayException {
@@ -70,7 +72,9 @@ public class DisplayView extends HardwareView {
 		return display.getDisStatus();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -79,7 +83,9 @@ public class DisplayView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -88,12 +94,17 @@ public class DisplayView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
 	void throwException(int Code) throws DisplayException {
-		throw new DisplayException(Code);
+		if (Code > 590)
+			throw new DisplayException();
+		else
+			throw new DisplayException(Code);
 	}
 
 }

@@ -114,7 +114,7 @@ public class CardReaderController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
-		if (ex.getClass().getName().equals("CardReaderException")) {
+		if (ex instanceof HardwareException) {
 			int exType = ex.getExceptionCode();
 			// TODO handle ex and report to MainController;
 			switch (exType) {

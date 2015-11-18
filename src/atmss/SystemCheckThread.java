@@ -26,14 +26,10 @@ class SystemCheckThread extends Thread {
 	KeypadController _keypadController;
 	BAMSCommunicator _BAMSCommunicater; // Or just the handler
 
-	// listener for component status notification
-	MainController.CheckerListener listener;
-
 	/**
 	 * 
 	 */
-	public SystemCheckThread(MainController.CheckerListener listener) {
-		this.listener = listener;
+	public SystemCheckThread() {
 		System.out.println("Defualt constructor! Pass me the controllers");
 	}
 
@@ -60,6 +56,7 @@ class SystemCheckThread extends Thread {
 		while (true) {
 			while (isRunning) {
 				try {
+					System.out.println(">>>>>>>>>>>>>>>>>System Check Thread Running!");
 					this._advicePrinterController.updateStatus();
 					this._cardReaderController.updateStatus();
 					this._cashDispenerController.updateStatus();
@@ -67,7 +64,7 @@ class SystemCheckThread extends Thread {
 					this._displayController.updateStatus();
 					this._envelopDispenserController.updateStatus();
 					this._keypadController.updateStatus();
-					sleep(60000); // Statuses will be checked every 60 seconds
+					sleep(6000); // Statuses will be checked every 60 seconds
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -85,7 +82,4 @@ class SystemCheckThread extends Thread {
 		isRunning = true;
 	}
 
-	public void notifyListener(String componentName, int status, String description) {
-		listener.componentStatusNotify(componentName, status, description);
-	}
 }

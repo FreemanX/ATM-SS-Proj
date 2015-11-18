@@ -32,7 +32,9 @@ public class EnvelopDispenserView extends HardwareView {
 		return envelopDispenser.getEnvelopCount();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -42,7 +44,9 @@ public class EnvelopDispenserView extends HardwareView {
 		return envelopDispenser.getEDStatus();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -51,7 +55,9 @@ public class EnvelopDispenserView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -60,12 +66,17 @@ public class EnvelopDispenserView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
 	void throwException(int code) throws EnvelopDispenserException {
-		throw new EnvelopDispenserException(code);
+		if (code > 690)
+			throw new EnvelopDispenserException();
+		else
+			throw new EnvelopDispenserException(code);
 	}
 
 }
