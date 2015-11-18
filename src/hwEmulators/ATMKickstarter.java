@@ -24,7 +24,6 @@ public class ATMKickstarter {
 	ATMSS atmss;
 	ExceptionEmulator exceptionEmulator;
 	// view components
-	KeypadView keypadView;
 
 	// ------------------------------------------------------------
 	// main
@@ -79,9 +78,6 @@ public class ATMKickstarter {
 		envelopDispenser.start();
 		exceptionEmulator.start();
 		
-		// setup views
-		keypadView = new KeypadView(keypad);
-
 		// MainController threading test - Tony
 		MainController mc = new MainController(advicePrinter, cardReader, cashDispenser, depositCollector, display, envelopDispenser, keypad);
 	}

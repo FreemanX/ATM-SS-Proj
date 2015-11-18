@@ -9,7 +9,7 @@ import atmss.hardware.exceptioins.HardwareException;
  * @author freeman
  *
  */
-public abstract class HardwareView extends Thread {
+public abstract class HardwareView{
 
 	/**
 	 * 

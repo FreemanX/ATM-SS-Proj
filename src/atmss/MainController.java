@@ -92,31 +92,6 @@ public class MainController {
 		this.processor = new Processor();
 		processor.start();
 	}
-
-	// ----------------------------------------------------------------------------
-	// Controller methods stub
-	// don't use these, compile usage only
-	// use the belows methods instead
-	public double doBAMSCheckBalance(String accno) {
-		return 0.0;
-	}
-
-	public boolean doDisplay(String[] lines) {
-		// nothing...
-		return true;
-	}
-
-	public String doGetKeyInput() {
-		return "";
-	}
-
-	public boolean doBAMSTransfer(String srcAccountNumber, String desAccountNumber, double amount) {
-		return true;
-	}
-
-	public boolean doBAMSUpdateBalance(String desAccountNumber, double amount) {
-		return true;
-	}
 	// ----------------------------------------------------------------------------
 
 	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
