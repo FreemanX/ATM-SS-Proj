@@ -137,6 +137,11 @@ So far what we have done:
 
 0. Finish keypad hardware, provide single input function; get passwd method is also provided but not finished, wait for adding display functions
 
+###======================Nov 18, 2015 Tony======================
+0. All hw components are basically finished.
+1. Some hw components are waiting to be fine-tuned.
+2. The BAMS methods in _MainController_ will be updated, until after the _Session_ class is written. It is because some cruical information like _cred_ and _cardNo_, are missing in the _Session_ class.
+3. The _MainController_ processes (system check...etc) are moved into a new nested class _Processor_ implementing a _CheckerListener_ which will listen for status notification. The testing template has been finished, check _Processor_ and _SystemCheckThread_ for more detail. Also run the program to see the effect.
 	
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.
