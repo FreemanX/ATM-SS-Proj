@@ -277,7 +277,11 @@ public class MainController extends Thread {
 	 */
 	public String doKPGetSingleInput(long Duration) {
 		try {
-			return this.keypadController.readUserInput(Duration);
+			String input = this.keypadController.readUserInput(Duration);
+			if (input.equals("Time out!"))
+				return null;
+			else
+				return input;
 		} catch (Exception e) {
 			handleUnknownExceptions(e);
 			return null;
@@ -287,7 +291,7 @@ public class MainController extends Thread {
 	/*
 	 * @param Duration time for timeout
 	 * 
-	 * @return "ERROR" means that something wrong during input
+	 * @return null means that something wrong during input
 	 * 
 	 * @return "CANCLE" means that user cancel input
 	 * 
@@ -296,33 +300,74 @@ public class MainController extends Thread {
 
 	public String doKPGetPasswd(long Duration) {
 		String inputPasswd = "";
-
+		int lengthLimit = 6;
 		while (true) {
 			String currentInput = doKPGetSingleInput(Duration);
 			if (currentInput == null) {
-				inputPasswd = "ERROR";
-				break;
+				return null;
 			}
 
 			if (currentInput.equals("."))
 				continue;
 
 			if (currentInput.equals("CANCEL")) {
+				// TODO Call display function to clear screen
 				inputPasswd = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
 				// TODO Call display function to clear screen
 				inputPasswd = "";
-			} else if (currentInput.equals("ENTER") && inputPasswd.length() == 6) {
+			} else if (currentInput.equals("ENTER") && inputPasswd.length() == lengthLimit) {
 				break;
-			} else if (inputPasswd.length() == 6) {
+			} else if (inputPasswd.length() == lengthLimit) {
 				continue;
 			} else {
+				// TODO Call display function to append a *
 				inputPasswd += currentInput;
 			}
 		}
 
 		return inputPasswd;
+	}
+
+	public String doKPGetMoneyAmount(long Duration) {
+		String inputAccountNum = "";
+		int lengthLimit = 8; // Max 999,000 per day
+
+		boolean inputDot = false;
+
+		return inputAccountNum;
+	}
+
+	public String doKPGetAccountNum(long Duration) {
+		String inputAccountNum = "";
+		int lengthLimit = 12;
+		while (true) {
+			String currentInput = doKPGetSingleInput(Duration);
+			if (currentInput == null) {
+				return null;
+			}
+
+			if (currentInput.equals("."))
+				continue;
+
+			if (currentInput.equals("CANCEL")) {
+				// TODO Call display function to clear screen
+				inputAccountNum = "CANCEL";
+				break;
+			} else if (currentInput.equals("CLEAR")) {
+				// TODO Call display function to clear screen
+				inputAccountNum = "";
+			} else if (currentInput.equals("ENTER") && inputAccountNum.length() == lengthLimit) {
+				break;
+			} else if (inputAccountNum.length() == lengthLimit) {
+				continue;
+			} else {
+				// TODO Call display function to append a the current input
+				inputAccountNum += currentInput;
+			}
+		}
+		return inputAccountNum;
 	}
 
 	// >>>>>>>>>>>>>>>>>>> End of functions <<<<<<<<<<<<<<<<<<
