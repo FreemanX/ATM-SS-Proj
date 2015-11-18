@@ -13,7 +13,7 @@ import atmss.*;
 public abstract class ProcessController {
 
 	String _cardNumber;
-	String _cretencial;
+	String _credential;
 	LinkedList<Operation> operationCache;
 	MainController _mainController;
 	Session _session;
@@ -23,17 +23,21 @@ public abstract class ProcessController {
 		System.err.println("You have to pass me AccountNumbre and Maincontroller...");
 	}
 
-	public ProcessController(Session currentSession, MainController MainController) {
+	public ProcessController(Session CurrentSession, MainController MainController) {
 		// TODO Auto-generated constructor stub
 		operationCache = new LinkedList<>();
-		this._session = currentSession;
+		this._session = CurrentSession;
 		this._atmssHandler = ATMSSHandler.getHandler();
 	}
 
-	public void setCardNumber(String CardNumber) {
-		this._cardNumber = CardNumber;
+	public void setCardNumber() {
+		this._cardNumber = _session.getCardNo();
 	}
 
+	public void setCred(){
+		this._credential = _session.getCred();
+	}
+	
 	public LinkedList<Operation> getOperationCache() {
 		return this.operationCache;
 	}
