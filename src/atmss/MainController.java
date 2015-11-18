@@ -378,18 +378,18 @@ public class MainController {
 				continue;
 
 			if (currentInput.equals("CANCEL")) {
-				// TODO Call display function to clear screen
+				doDisClearLower();
 				inputPasswd = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
-				// TODO Call display function to clear screen
+				doDisClearLower();
 				inputPasswd = "";
 			} else if (currentInput.equals("ENTER") && inputPasswd.length() == lengthLimit) {
 				break;
 			} else if (inputPasswd.length() == lengthLimit) {
 				continue;
 			} else {
-				// TODO Call display function to append a *
+				doDisAppendLower("*");
 				inputPasswd += currentInput;
 			}
 		}
@@ -398,12 +398,46 @@ public class MainController {
 	}
 
 	public String doKPGetMoneyAmount(long Duration) {
-		String inputAccountNum = "";
+		String moneyAmount = "";
 		int lengthLimit = 8; // Max 999,000 per day
-
 		boolean inputDot = false;
 
-		return inputAccountNum;
+		while (true) {
+			String currentInput = doKPGetSingleInput(Duration);
+			if (currentInput == null) {
+				return null;
+			}
+
+			if (currentInput.equals(".")) {
+				if (!inputDot && moneyAmount.length() > 0) {
+					// User can input 3 more digits
+					doDisAppendLower(currentInput);
+					lengthLimit = moneyAmount.length() + 3;
+					inputDot = true;
+					moneyAmount += currentInput;
+				}
+				continue;
+			}
+
+			if (currentInput.equals("CANCEL")) {
+				doDisClearLower();
+				currentInput = "CANCEL";
+				break;
+			} else if (currentInput.equals("CLEAR")) {
+				doDisClearLower();
+				currentInput = "";
+			} else if (currentInput.equals("ENTER") && currentInput.length() == lengthLimit) {
+				break;
+			} else if (currentInput.length() == lengthLimit) {
+				continue;
+			} else {
+				doDisAppendLower(currentInput);
+				moneyAmount += currentInput;
+				continue;
+			}
+		}
+
+		return moneyAmount;
 	}
 
 	public String doKPGetAccountNum(long Duration) {
@@ -420,10 +454,12 @@ public class MainController {
 
 			if (currentInput.equals("CANCEL")) {
 				// TODO Call display function to clear screen
+				doDisClearLower();
 				inputAccountNum = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
 				// TODO Call display function to clear screen
+				doDisClearLower();
 				inputAccountNum = "";
 			} else if (currentInput.equals("ENTER") && inputAccountNum.length() == lengthLimit) {
 				break;
@@ -431,6 +467,7 @@ public class MainController {
 				continue;
 			} else {
 				// TODO Call display function to append a the current input
+				doDisAppendLower(currentInput);
 				inputAccountNum += currentInput;
 			}
 		}
@@ -438,24 +475,6 @@ public class MainController {
 	}
 
 	// >>>>>>>>>>>>>>>>>>> End of functions <<<<<<<<<<<<<<<<<<
-
-	/*
-	 * @Override public void run() { while (true) { // 1 Wait for card insert if
-	 * (this.cardReaderController.getCardNumber().length() > 0) { // TODO 2
-	 * Authenticate pin // TODO 2.1 Take user input from keypad and update
-	 * display // accordingly // TODO 2.2 Sent the pin and account number to
-	 * server // TODO 2.3 Get the authentication result // TODO 3 if right pin
-	 * // TODO Display options and wait for user selection // TODO Create that
-	 * process controller and wait for process // finishes // TODO Display
-	 * options and wait for user selection // TODO If user does not choose eject
-	 * card // TODO Create corresponding process for user // TODO Else // TODO
-	 * call cardReader controller to eject card // TODO 3 else // TODO check if
-	 * it has been 3 times' error // TODO if yes, retain card and display bank
-	 * contact info // TODO else // TODO reinput the pin and input pin counter++
-	 * 
-	 * } else { continue; } } }
-	 */
-
 	private void handleUserRequest() {
 
 	}
