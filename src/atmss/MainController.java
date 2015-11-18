@@ -25,6 +25,8 @@ public class MainController extends Thread {
 		SystemCheckThread checker = new SystemCheckThread(advicePrinterController, cardReaderController,
 				cashDispenserController, depositCollectorController, displayController, envelopDispenserController,
 				keypadController, serverCommunicator);
+		private volatile boolean isRunning = true;
+		
 
 		public void Processor() {
 			// constructor...
@@ -64,12 +66,11 @@ public class MainController extends Thread {
 	private WithDrawController withdrawController;
 	private DepositController depositController;
 	private BAMSCommunicator serverCommunicator;
-	private String[] userAccounts;
-	private int timmer;
 	private LinkedList<Session> sessionLog;
 	private Processor processor;
 	private List<Session> sessions = new ArrayList<Session>();
 	private ATMSSHandler atmssHandler;
+	private MBox mainControllerMBox;
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
 
