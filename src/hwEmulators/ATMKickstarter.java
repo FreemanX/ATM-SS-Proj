@@ -81,6 +81,9 @@ public class ATMKickstarter {
 		
 		// setup views
 		keypadView = new KeypadView(keypad);
+
+		// MainController threading test - Tony
+		MainController mc = new MainController(advicePrinter, cardReader, cashDispenser, depositCollector, display, envelopDispenser, keypad);
 	}
 
 	// ------------------------------------------------------------

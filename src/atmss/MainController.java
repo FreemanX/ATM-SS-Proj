@@ -14,7 +14,43 @@ import hwEmulators.*;
  * @author freeman
  *
  */
-public class MainController extends Thread {
+public class MainController {
+
+	// Processing thread ----------------------------------------------------------------
+	class Processor extends Thread implements CheckerListener {
+		SystemCheckThread checker = new SystemCheckThread(this);
+
+		public void Processor() {
+			// constructor...
+		}
+
+		public void run() {
+			// thread start...
+			checker.start();
+			int i = 1;
+
+			// debug test
+			while (true) {
+				try {
+					System.err.println("Processor is running, iteration: " + i);
+					i++;
+					sleep(10000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		@Override
+		public void componentStatusNotify(String componentName, int status, String description) {
+			System.err.println(componentName + ">> status: " + status + ", desc: " + description);
+		}
+	}
+
+	interface CheckerListener {
+		public void componentStatusNotify(String componentName, int status, String description);
+	}
+	// -------------------------------------------------------------------------------------
 
 	private CashDispenserController cashDispenserController;
 	private CardReaderController cardReaderController;
@@ -32,6 +68,7 @@ public class MainController extends Thread {
 	private String[] userAccounts;
 	private int timmer;
 	private LinkedList<Session> sessionLog;
+	private Processor processor;
 
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
@@ -50,7 +87,37 @@ public class MainController extends Thread {
 		this.displayController = new DisplayController(display);
 		this.envelopDispenserController = new EnvelopDispenserController(envelopDispenser);
 		this.keypadController = new KeypadController(KP);
+
+		// start Processor
+		this.processor = new Processor();
+		processor.start();
 	}
+
+	// ----------------------------------------------------------------------------
+	// Controller methods stub
+	// don't use these, compile usage only
+	// use the belows methods instead
+	public double doBAMSCheckBalance(String accno) {
+		return 0.0;
+	}
+
+	public boolean doDisplay(String[] lines) {
+		// nothing...
+		return true;
+	}
+
+	public String doGetKeyInput() {
+		return "";
+	}
+
+	public boolean doBAMSTransfer(String srcAccountNumber, String desAccountNumber, double amount) {
+		return true;
+	}
+
+	public boolean doBAMSUpdateBalance(String desAccountNumber, double amount) {
+		return true;
+	}
+	// ----------------------------------------------------------------------------
 
 	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
 	public boolean AutherizePassed(String cardNo, String pin) {
@@ -62,7 +129,7 @@ public class MainController extends Thread {
 	}
 
 	// get input params from Session
-	public Double doBAMSCheckBalance(String cardNo, String accNo, String cred) {
+	public double doBAMSCheckBalance(String cardNo, String accNo, String cred) {
 		return serverCommunicator.enquiry(cardNo, accNo, cred);
 	}
 
@@ -390,6 +457,7 @@ public class MainController extends Thread {
 
 	// >>>>>>>>>>>>>>>>>>> End of functions <<<<<<<<<<<<<<<<<<
 
+	/*
 	@Override
 	public void run() {
 		while (true) {
@@ -420,6 +488,7 @@ public class MainController extends Thread {
 			}
 		}
 	}
+	*/
 
 	private void handleUserRequest() {
 
