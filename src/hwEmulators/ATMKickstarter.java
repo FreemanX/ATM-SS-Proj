@@ -20,7 +20,7 @@ public class ATMKickstarter {
 	DepositCollector depositCollector;
 	Display display;
 	EnvelopDispenser envelopDispenser;
-	Keypad keypad;	
+	Keypad keypad;
 	ATMSS atmss;
 	ExceptionEmulator exceptionEmulator;
 	// view components
@@ -39,7 +39,7 @@ public class ATMKickstarter {
 		log.setUseParentHandlers(false);
 		log.addHandler(conHd);
 		log.setLevel(Level.INFO);
-		
+
 		// create components
 		advicePrinter = new AdvicePrinter("ap");
 		cardReader = new CardReader("cr");
@@ -77,9 +77,12 @@ public class ATMKickstarter {
 		keypad.start();
 		envelopDispenser.start();
 		exceptionEmulator.start();
-		
+
 		// MainController threading test - Tony
 		MainController mc = new MainController(advicePrinter, cardReader, cashDispenser, depositCollector, display, envelopDispenser, keypad);
+
+		// NewExceptionEmu debug test
+		NewExceptionEmulator emu = new NewExceptionEmulator("", atmss);
 	}
 
 	// ------------------------------------------------------------
