@@ -15,7 +15,7 @@ import java.util.Random;
  */
 class SystemCheckThread extends Thread {
 
-	private boolean isRunning = true;
+	private volatile boolean isRunning = true;
 
 	AdvicePrinterController _advicePrinterController;
 	CardReaderController _cardReaderController;
@@ -24,7 +24,7 @@ class SystemCheckThread extends Thread {
 	DisplayController _displayController;
 	EnvelopDispenserController _envelopDispenserController;
 	KeypadController _keypadController;
-	BAMSCommunicater _BAMSCommunicater; // Or just the handler
+	BAMSCommunicator _BAMSCommunicater; // Or just the handler
 
 	// listener for component status notification
 	MainController.CheckerListener listener;
@@ -37,11 +37,13 @@ class SystemCheckThread extends Thread {
 		System.out.println("Defualt constructor! Pass me the controllers");
 	}
 
-	public SystemCheckThread(AdvicePrinterController ap,
-			CardReaderController cr, CashDispenserController cd,
-			DepositCollectorController dc, DisplayController dp,
-			EnvelopDispenserController ed, KeypadController kp,
-			BAMSCommunicater ba) {
+	public void setIsRunning(boolean b) {
+		this.isRunning = b;
+	}
+
+	public SystemCheckThread(AdvicePrinterController ap, CardReaderController cr, CashDispenserController cd,
+			DepositCollectorController dc, DisplayController dp, EnvelopDispenserController ed, KeypadController kp,
+			BAMSCommunicator ba) {
 		this._advicePrinterController = ap;
 		this._cardReaderController = cr;
 		this._cashDispenerController = cd;
@@ -55,28 +57,32 @@ class SystemCheckThread extends Thread {
 	@Override
 	public void run() {
 
-		while (isRunning) {
-			// debug test
-			// randomly send out component failure message to test listener
-			int failPos = 30; // 30%
-			Random randGen = new Random(new Date().getTime());
-			int rand = 0;
-			int i = 1;
+		while (true) {
+			while (isRunning) {
+				// debug test
+				// randomly send out component failure message to test listener
+				int failPos = 30; // 30%
+				Random randGen = new Random(new Date().getTime());
+				int rand = 0;
+				int i = 1;
 
-			while (true) {
-				try {
-					System.err.println("SystemCheck iteration: " + i);
-					rand = randGen.nextInt(100) + 1; // 1 - 100
-					if (rand > failPos)
-						notifyListener("DebugComponent", 123, "Debug component failed, congratulation!");
-					else
-						System.err.println("DebugComponent working well!");
-					i++;
-					sleep(5000);
-				} catch (InterruptedException e) {
-					// nothing...
+				while (true) {
+					try {
+						System.err.println("SystemCheck iteration: " + i);
+						rand = randGen.nextInt(100) + 1; // 1 - 100
+						if (rand > failPos)
+							notifyListener("DebugComponent", 123, "Debug component failed, congratulation!");
+						else
+							System.err.println("DebugComponent working well!");
+						i++;
+						sleep(5000);
+					} catch (InterruptedException e) {
+						// nothing...
+					}
 				}
 			}
+			
+			System.err.println(">>>>>>>>>>>>>>>>>System Check Thread paused!");
 		}
 	}
 
