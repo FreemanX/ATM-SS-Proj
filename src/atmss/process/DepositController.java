@@ -14,22 +14,24 @@ import atmss.Session;
 public class DepositController extends ProcessController {
 
 	//private int amount;
-	private String _accountToDeposit;
-	private int _amountToDeposit;
+	private String accountToDeposit;
+	private int amountToDeposit;
 
 	private final String OPERATION_NAME = "Deposit";
 	private final String FAILED_FROM_DISPLAY = "No response from display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_ENVELOPDISPENSER = "No response from envelop dispenser";
+	private final String FAILED_FROM_DEPOSITCOLLECTOR = "No response from deposit collector";
 	private final String FAILED_FROM_ADVICEPRINTER = "No response from advice printer";
-	private final String FAILED_FROM_BAMS = "Failed to get approval from BAMS";
-	private final String[] ERROR_NOT_EQUAL = {"The new passwords do not equal", "Please type your old password:"};
-	private final String[] PROMPT_FOR_OLD_PASSWORD = {"Please type your old password:"};
-	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please type your new password:"};
-	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please type your new password again:"};
-	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	private final String[] SHOW_SUCCESS = {"Succeeded!", "The password has been changed."};
-	private final String[] SHOW_FAILURE = {"Failed!", "The password may not be changed."};
+	private final String FAILED_FROM_BAMS = "Failed from BAMS";
+	private final String FAILED_CHOOSE_ACCOUNT = "Failed to choose an account";
+	private final String FAILED_INPUT_AMOUNT = "Failed to input deposit amount";
+	private final String FAILED_CONFIRM_AMOUNT = "Failed to confirm deposit amount";
+	private final String PROMPT_FOR_ACCOUNT = "Please choose your account";
+	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount";
+	private final String PROMPT_FOR_CONFIRM = "Please confirm your deposit amount";
+	private final String SHOW_SUCCESS = "Succeeded! The deposit operation succeeds.";
+	private final String SHOW_FAILURE = "Failed! The deposit operation failed.";
 	
 	/**
 	 * 
@@ -46,81 +48,114 @@ public class DepositController extends ProcessController {
 		 */
 
 		// prompt for account to deposit
-		this._accountToDeposit = doGetAccountToDeposit();
+		if (!this.doGetAccountToDeposit())
+			return failProcess(SHOW_FAILURE);
 
 		// prompt for amount to deposit
-		this._amountToDeposit = (int) doGetAmountToDeposit();
+		if (!this. doGetAmountToDeposit())
+			return failProcess(SHOW_FAILURE);
 
-		if (!this._atmssHandler .doPrintReceipt(_accountToDeposit, _amountToDeposit))
-			return false;
+		if (!this.doPrintReceipt())
+			return failProcess(SHOW_FAILURE);
 
-		if (!this._atmssHandler.doEjectEnvelop())
-			return false;
+		if (!this.doEjectEnvelop())
+			return failProcess(SHOW_FAILURE);
 
-		if (!this._atmssHandler.doEatEnvelop())
-			return false;
+		if (!this.doEatEnvelop())
+			return failProcess(SHOW_FAILURE);
+		
+		this.recordOperation();
+		this._atmssHandler.doDisAppendUpper(SHOW_SUCCESS);
 		return true;
 	}
-
-	private String doGetAccountToDeposit() {
-		String accountToDeposit = "";
-		String[] allAccountsInCard = this._atmssHandler.doBAMSCheckAccounts(this._session.getCardNo());
-		if(allAccountsInCard.length == 0)
-			recordOperation
+	
+	private boolean doEatEnvelop(){
+		if(!this._atmssHandler.doEDEatEnvelop())
+			return failProcess(FAILED_FROM_DEPOSITCOLLECTOR);
+		return true;
+	}
+	
+	private boolean doEjectEnvelop(){
+		if(!this._atmssHandler.doEDEjectEnvelop())
+			return failProcess(FAILED_FROM_ENVELOPDISPENSER);
+		return true;
+	}
+	
 		
-		/*		String[] allAccountsInCard = {};
-		boolean validInputByUser = false;
-		while (!validInputByUser) {
-			try {
-				this._atmssHandler.doDisplay(allAccountsInCard);
-				int accountChosenByUser = Integer.parseInt(this._atmssHandler.doGetKeyInput());
-				if (accountChosenByUser <= allAccountsInCard.length) {
-					accountToDeposit = allAccountsInCard[accountChosenByUser - 1];
-					validInputByUser = true;
-				}
-			} catch (NumberFormatException e) {
-				continue;
+	private boolean doPrintReceipt(){
+		if(!this._atmssHandler .doAPPrintStrArray(new String[] {accountToDeposit, Integer.toString(this.amountToDeposit)}))
+			return failProcess(FAILED_FROM_ADVICEPRINTER);
+		return true;
+	}
+	private boolean doGetAccountToDeposit() {
+
+		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);
+		if(allAccountsInCard.length == 0){
+			return this.failProcess(FAILED_FROM_BAMS);
+			
+		}
+		
+		if(!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_ACCOUNT))
+			return this.failProcess(FAILED_FROM_DISPLAY);
+		
+		if(!this._atmssHandler.doDisDisplayUpper(allAccountsInCard)){
+			return this.failProcess(FAILED_FROM_DISPLAY);
+		}
+		
+		int accountNoSelectedByUser = allAccountsInCard.length + 1;
+		
+		while(accountNoSelectedByUser > allAccountsInCard.length){
+		
+		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(50000);
+		
+		if(accountSelectedByUser!=null){
+			try{
+				accountNoSelectedByUser = Integer.parseInt(accountSelectedByUser);
 			}
-		}*/
-		return accountToDeposit;
+			catch(NumberFormatException e){
+				if(accountSelectedByUser.equals("CANCEL"))
+					return failProcess(FAILED_CHOOSE_ACCOUNT);
+				
+			}
+		}
+		else return this.failProcess(FAILED_FROM_KEYPAD);
+		
+		}
+		
+		this.accountToDeposit = allAccountsInCard[accountNoSelectedByUser-1];
+
+		return true;
+
 	}
 
-	private double doGetAmountToDeposit() {
+	private boolean doGetAmountToDeposit() {
 
 		boolean confirmAmountToDeposit = false;
-		String userInputAmountToDeposit = "";
-		{
+		if(!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_AMOUNT))
+			return failProcess(FAILED_FROM_DISPLAY);
+		String userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(5000);
+		if(userInputAmountToDeposit == null)
+			return failProcess(FAILED_INPUT_AMOUNT);
 
-			/*boolean userHasInputDecimalPoint = false;
-			int digitsAfterDecimalPoint = 0;
-
-			inputAmount: while (true) {
-				String currentButton = this._atmssHandler.doGetKeyInput();
-				switch (currentButton) {
-				case "enter":
-					break inputAmount;
-				case ".":
-					if (userInputAmountToDeposit.length() != 0 && userHasInputDecimalPoint == false) {
-						userHasInputDecimalPoint = true;
-						userInputAmountToDeposit = userInputAmountToDeposit + ".";
-					}
+		
+		while (!confirmAmountToDeposit){
+			this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, userInputAmountToDeposit});
+			String confirmInput = this._atmssHandler.doKPGetSingleInput(5000);
+			if(confirmInput != null){
+				switch(confirmInput){
+				case "ENTER":
+					confirmAmountToDeposit = true;
 					break;
-				default:
-					if (digitsAfterDecimalPoint < 2 && userHasInputDecimalPoint == false) {
-						userInputAmountToDeposit = userInputAmountToDeposit + currentButton;
-					} else if (digitsAfterDecimalPoint < 2 && userHasInputDecimalPoint == true) {
-						userInputAmountToDeposit = userInputAmountToDeposit + currentButton;
-						digitsAfterDecimalPoint += 1;
-					}
-					break;
+				case  "CANCEL":
+					return failProcess(SHOW_FAILURE);
 				}
-			}*/
-			this._atmssHandler.doDisplay(new String[] { "Confirm deposit amount: ", userInputAmountToDeposit });
-			confirmAmountToDeposit = this._atmssHandler.doGetKeyInput().equals("enter");
+			}
+			else return failProcess(FAILED_CONFIRM_AMOUNT);
 		}
-		while (!confirmAmountToDeposit);
+		
+		this.amountToDeposit = Integer.parseInt(userInputAmountToDeposit);
+		return true;
 
-		return Integer.parseInt(userInputAmountToDeposit);
 	}
 	
 	private void recordOperation(){
@@ -137,6 +172,12 @@ public class DepositController extends ProcessController {
 				"Reason: " + FailedReason;
 		operationCache.add(new Operation(OPERATION_NAME, description));
 		
+	}
+	
+	private boolean failProcess(String FailedReason){
+		this._atmssHandler.doDisDisplayLower(FailedReason);
+		recordOperation(FailedReason);
+		return false;
 	}
 
 }

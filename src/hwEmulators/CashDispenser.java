@@ -1,15 +1,14 @@
 package hwEmulators;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+import java.util.Random;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-public class  CashDispenser extends Thread {
+public class  CashDispenser extends Thread implements EmulatorActions {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
@@ -25,6 +24,8 @@ public class  CashDispenser extends Thread {
 	private int ejectNumOf500 = 0;
 	private int ejectNumOf1000 = 0;
 	private int ejectCashAmount = 100 * ejectNumOf100 + 500 * ejectNumOf500 + 1000 * ejectNumOf1000;
+	private MyFrame myFrame = null;
+	private MyPanel myPanel = null;
 
 	// ------------------------------------------------------------
 	// CashDispenser
@@ -33,7 +34,7 @@ public class  CashDispenser extends Thread {
 		log = ATMKickstarter.getLogger();
 
 		// create frame
-		MyFrame myFrame = new MyFrame("Cash Dispenser");
+		myFrame = new MyFrame("Cash Dispenser");
 	} // CashDispenser
 
 	protected void setNumOf100(int amount) {
@@ -113,10 +114,15 @@ public class  CashDispenser extends Thread {
 	}
 
 	protected void setCDStatus(int Status) {
+		this.status = Status;
+
 		if (Status == 301) {
 			numOf500 = 0; // For demo only
 		}
-		this.status = Status;
+
+		if (status == 399) {
+			shutdown();
+		}
 	}
 
 	// ------------------------------------------------------------
@@ -126,6 +132,48 @@ public class  CashDispenser extends Thread {
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
+	@Override
+	public void shutdown() {
+		setCDStatus(399);
+		setUIEnable(false);
+	}
+
+	@Override
+	public void restart() {
+		shutdown();
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		try {
+			sleep(ms);
+		} catch (InterruptedException e) {
+		}
+		setCDStatus(300);
+		setUIEnable(true);
+	}
+
+	private void setUIEnable(boolean isEnable) {
+		if (!isEnable) { // disable the UI
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			// add new panel
+			JPanel panel = new JPanel(new GridBagLayout());
+			JLabel label = new JLabel("SHUTDOWN");
+			label.setForeground(Color.WHITE);
+			panel.setBackground(Color.RED);
+			panel.add(label, new GridBagConstraints());
+			myFrame.getContentPane().add(panel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		} else {
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			myFrame.getContentPane().add(myPanel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		}
+	}
+
 	// MyFrame
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
@@ -133,7 +181,7 @@ public class  CashDispenser extends Thread {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(UIManager.x + 900, UIManager.y + 280);
-			MyPanel myPanel = new MyPanel();
+			myPanel = new MyPanel();
 			add(myPanel);
 			pack();
 			setSize(350, 200);

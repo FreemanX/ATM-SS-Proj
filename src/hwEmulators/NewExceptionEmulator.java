@@ -18,14 +18,14 @@ import java.util.logging.Logger;
 public class NewExceptionEmulator extends JFrame implements ActionListener {
 
     private String title = "";
-    
+
     private JPanel centerWrapper = new JPanel(new GridLayout(0, 1));
     private ButtonGroup bgComponent = new ButtonGroup();
 
     // advice printer ------------------------------------------------
     private JRadioButton btnAPSelect = new JRadioButton();
     private JPanel panelAP = new JPanel(new BorderLayout());
-    private JPanel panelAPLeft = new JPanel(new GridLayout(0, 1));
+    private JPanel panelAPLeft = new JPanel(new BorderLayout());
     private JPanel headAP = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JLabel labelAP = new JLabel("AdvicePrinter:");
     private JLabel labelStatusAP = new JLabel("Normal");
@@ -41,7 +41,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // card reader ------------------------------------------------
     private JRadioButton btnCRSelect = new JRadioButton();
     private JPanel panelCR = new JPanel(new BorderLayout());
-    private JPanel panelCRLeft = new JPanel(new GridLayout(0, 1));
+    private JPanel panelCRLeft = new JPanel(new BorderLayout());
     private JPanel headCR = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JLabel labelCR = new JLabel("CardReader:");
     private JLabel labelStatusCR = new JLabel("Normal");
@@ -55,7 +55,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // deposit collector ------------------------------------------------
     private JRadioButton btnDCSelect = new JRadioButton();
     private JPanel panelDC = new JPanel(new BorderLayout());
-    private JPanel panelDCLeft = new JPanel(new GridLayout(0, 1));
+    private JPanel panelDCLeft = new JPanel(new BorderLayout());
     private JPanel headDC = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JLabel labelDC = new JLabel("DepositCollector:");
     private JLabel labelStatusDC = new JLabel("Normal");
@@ -83,12 +83,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // EnvelopDispenser ------------------------------------------------
     private JRadioButton btnEDSelect = new JRadioButton();
     private JPanel panelED = new JPanel(new BorderLayout());
-    private JPanel panelEDLeft = new JPanel(new GridLayout(0, 1));
+    private JPanel panelEDLeft = new JPanel(new BorderLayout());
     private JPanel headED = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JLabel labelED = new JLabel("EnvelopDispenser:");
     private JLabel labelStatusED = new JLabel("Normal");
 
-    private JPanel bottomED = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
+    private JPanel bottomED = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnEDNormal = new JRadioButton("Normal");
     private JRadioButton btnEDNoEnv = new JRadioButton("No envelop");
     private JRadioButton btnEDFatal = new JRadioButton("Fatal");
@@ -98,7 +98,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // CashDispenser ------------------------------------------------
     private JRadioButton btnCDSelect = new JRadioButton();
     private JPanel panelCD = new JPanel(new BorderLayout());
-    private JPanel panelCDLeft = new JPanel(new GridLayout(0, 1));
+    private JPanel panelCDLeft = new JPanel(new BorderLayout());
     private JPanel headCD = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JLabel labelCD = new JLabel("CashDispenser:");
     private JLabel labelStatusCD = new JLabel("Normal");
@@ -113,7 +113,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // Keypad ------------------------------------------------
     private JRadioButton btnKPSelect = new JRadioButton();
     private JPanel panelKP = new JPanel(new BorderLayout());
-    private JPanel panelKPLeft = new JPanel(new GridLayout(0, 1));
+    private JPanel panelKPLeft = new JPanel(new BorderLayout());
     private JPanel headKP = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JLabel labelKP = new JLabel("Keypad:");
     private JLabel labelStatusKP = new JLabel("Normal");
@@ -170,25 +170,28 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         buildUI();
 
-        setSize(265, 950);
+        setSize(265, 700);
         setResizable(false);
         setVisible(true);
     }
 
     private void buildUI() {
     	setLayout(new BorderLayout());
-    	
+
         // AdvicePrinter ---------------------------------------
+    	//headAP.setBackground(Color.red);
+    	//bottomAP.setBackground(Color.cyan);
+
         headAP.add(labelAP);
         headAP.add(labelStatusAP);
         labelStatusAP.setForeground(Color.red);
-        panelAPLeft.add(headAP);
+        panelAPLeft.add(headAP, BorderLayout.NORTH);
 
         bottomAP.add(btnAPNormal);
         bottomAP.add(btnAPOutOfResource);
         bottomAP.add(btnAPJam);
         bottomAP.add(btnAPFatal);
-        panelAPLeft.add(bottomAP);
+        panelAPLeft.add(bottomAP, BorderLayout.CENTER);
 
         bgAP.add(btnAPNormal);
         bgAP.add(btnAPOutOfResource);
@@ -200,7 +203,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnAPOutOfResource.addActionListener(this);
         btnAPJam.addActionListener(this);
         btnAPFatal.addActionListener(this);
-        
+
         btnAPSelect.addActionListener(this);
         panelAP.add(btnAPSelect, BorderLayout.WEST);
         panelAPLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -214,11 +217,11 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         headCR.add(labelStatusCR);
         labelStatusCR.setText("Normal");
         labelStatusCR.setForeground(Color.red);
-        panelCRLeft.add(headCR);
+        panelCRLeft.add(headCR, BorderLayout.NORTH);
 
         bottomCR.add(btnCRNormal);
         bottomCR.add(btnCRFatal);
-        panelCRLeft.add(bottomCR);
+        panelCRLeft.add(bottomCR, BorderLayout.CENTER);
 
         bgCR.add(btnCRNormal);
         bgCR.add(btnCRFatal);
@@ -226,7 +229,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         btnCRNormal.addActionListener(this);
         btnCRFatal.addActionListener(this);
-        
+
         btnCRSelect.addActionListener(this);
         panelCR.add(btnCRSelect, BorderLayout.WEST);
         panelCRLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -240,12 +243,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         headCD.add(labelStatusCD);
         labelStatusCD.setText("Normal");
         labelStatusCD.setForeground(Color.red);
-        panelCDLeft.add(headCD);
+        panelCDLeft.add(headCD, BorderLayout.NORTH);
 
         bottomCD.add(btnCDNormal);
         bottomCD.add(btnCDNoCash);
         bottomCD.add(btnCDFatal);
-        panelCDLeft.add(bottomCD);
+        panelCDLeft.add(bottomCD, BorderLayout.CENTER);
 
         bgCD.add(btnCDNormal);
         bgCD.add(btnCDNoCash);
@@ -255,7 +258,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnCDNormal.addActionListener(this);
         btnCDNoCash.addActionListener(this);
         btnCDFatal.addActionListener(this);
-        
+
         btnCDSelect.addActionListener(this);
         panelCD.add(btnCDSelect, BorderLayout.WEST);
         panelCDLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -269,11 +272,11 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         headDC.add(labelStatusDC);
         labelStatusDC.setText("Normal");
         labelStatusDC.setForeground(Color.red);
-        panelDCLeft.add(headDC);
+        panelDCLeft.add(headDC, BorderLayout.NORTH);
 
         bottomDC.add(btnDCNormal);
         bottomDC.add(btnDCFatal);
-        panelDCLeft.add(bottomDC);
+        panelDCLeft.add(bottomDC, BorderLayout.CENTER);
 
         bgDC.add(btnDCNormal);
         bgDC.add(btnDCFatal);
@@ -286,7 +289,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         panelDC.add(btnDCSelect, BorderLayout.WEST);
         panelDCLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
         panelDC.add(panelDCLeft, BorderLayout.CENTER);
-        
+
         centerWrapper.add(panelDC);
         // end DepositCollector ------------------------------------
 
@@ -295,11 +298,11 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         headDIS.add(labelStatusDIS);
         labelStatusDIS.setText("Normal");
         labelStatusDIS.setForeground(Color.red);
-        panelDISLeft.add(headDIS);
+        panelDISLeft.add(headDIS, BorderLayout.NORTH);
 
         bottomDIS.add(btnDISNormal);
         bottomDIS.add(btnDISFatal);
-        panelDISLeft.add(bottomDIS);
+        panelDISLeft.add(bottomDIS, BorderLayout.CENTER);
 
         bgDIS.add(btnDISNormal);
         bgDIS.add(btnDISFatal);
@@ -307,7 +310,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         btnDISNormal.addActionListener(this);
         btnDISFatal.addActionListener(this);
-        
+
         btnDISSelect.addActionListener(this);
         panelDIS.add(btnDISSelect, BorderLayout.WEST);
         panelDISLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -321,12 +324,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         headED.add(labelStatusED);
         labelStatusED.setText("Normal");
         labelStatusED.setForeground(Color.red);
-        panelEDLeft.add(headED);
+        panelEDLeft.add(headED, BorderLayout.NORTH);
 
         bottomED.add(btnEDNormal);
         bottomED.add(btnEDNoEnv);
         bottomED.add(btnEDFatal);
-        panelEDLeft.add(bottomED);
+        panelEDLeft.add(bottomED, BorderLayout.CENTER);
 
         bgED.add(btnEDNormal);
         bgED.add(btnEDNoEnv);
@@ -336,7 +339,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnEDNormal.addActionListener(this);
         btnEDNoEnv.addActionListener(this);
         btnEDFatal.addActionListener(this);
-        
+
         btnEDSelect.addActionListener(this);
         panelED.add(btnEDSelect, BorderLayout.WEST);
         panelEDLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -350,11 +353,11 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         headKP.add(labelStatusKP);
         labelStatusKP.setText("Normal");
         labelStatusKP.setForeground(Color.red);
-        panelKPLeft.add(headKP);
+        panelKPLeft.add(headKP, BorderLayout.NORTH);
 
         bottomKP.add(btnKPNormal);
         bottomKP.add(btnKPFatal);
-        panelKPLeft.add(bottomKP);
+        panelKPLeft.add(bottomKP, BorderLayout.CENTER);
 
         bgKP.add(btnKPNormal);
         bgKP.add(btnKPFatal);
@@ -362,7 +365,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         btnKPNormal.addActionListener(this);
         btnKPFatal.addActionListener(this);
-        
+
         btnKPSelect.addActionListener(this);
         panelKP.add(btnKPSelect, BorderLayout.WEST);
         panelKPLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -370,7 +373,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         centerWrapper.add(panelKP);
         // end Keypad ------------------------------------
-        
+
         btnAPSelect.setActionCommand("APSelect");
         btnCDSelect.setActionCommand("CDSelect");
         btnCRSelect.setActionCommand("CRSelect");
@@ -378,7 +381,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnDISSelect.setActionCommand("DISSelect");
         btnEDSelect.setActionCommand("EDSelect");
         btnKPSelect.setActionCommand("KPSelect");
-        
+
         bgComponent.add(btnAPSelect);
         bgComponent.add(btnCDSelect);
         bgComponent.add(btnCRSelect);
@@ -386,7 +389,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         bgComponent.add(btnDISSelect);
         bgComponent.add(btnEDSelect);
         bgComponent.add(btnKPSelect);
-        
+
         add(centerWrapper, BorderLayout.CENTER);
 
         panelATMSS.add(btnShutdown);
@@ -532,7 +535,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         // end Keypad -------------------------------------------------------------
 
         // atmss components ---------------------------------------------------------
-        
+
         if (src == btnAPSelect || src == btnCDSelect
         		|| src == btnCRSelect || src == btnDCSelect
         		|| src == btnDISSelect || src == btnEDSelect
@@ -541,13 +544,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         	btnShutdown.setEnabled(true);
         	btnRestart.setEnabled(true);
         }
-        
+
         if (src == btnShutdown) {
             log.info(id + ": Setting Shutdown");
-            atmssMBox.send(new Msg("Shutdown", -1, "Trying to shutdown"));
-            
+
             handleComponentRequest(src, bgComponent.getSelection().getActionCommand());
-            
+
             // clear selection
             bgComponent.clearSelection();
             btnShutdown.setEnabled(false);
@@ -555,10 +557,9 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         }
         if (src == btnRestart) {
             log.info(id + ": Setting Restart");
-            atmssMBox.send(new Msg("Restart", -1, "Trying to Restart"));
-            
+
             handleComponentRequest(src, bgComponent.getSelection().getActionCommand());
-            
+
             // clear selection
             bgComponent.clearSelection();
             btnShutdown.setEnabled(false);
@@ -566,77 +567,91 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         }
         // end atmss components--------------------------------------------------------
     }
-    
+
     public void handleComponentRequest(Object src, String command) {
     	boolean isShutdown = true;
-    	
+
     	if (src == btnRestart) isShutdown = false;
 
     	if (command.equals(btnAPSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusAP.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Shutdown"));
     		} else {
     			labelStatusAP.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Restart"));
     		}
     	}
     	if (command.equals(btnCDSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusCD.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 3, "Shutdown"));
     		} else {
     			labelStatusCD.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 3, "Restart"));
     		}
     	}
     	if (command.equals(btnCRSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusCR.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 2, "Shutdown"));
     		} else {
     			labelStatusCR.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 2, "Restart"));
     		}
     	}
     	if (command.equals(btnDCSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusDC.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 4, "Shutdown"));
     		} else {
     			labelStatusDC.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 4, "Restart"));
     		}
     	}
     	if (command.equals(btnDISSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusDIS.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 5, "Shutdown"));
     		} else {
     			labelStatusDIS.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 5, "Restart"));
     		}
     	}
     	if (command.equals(btnEDSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusED.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 6, "Shutdown"));
     		} else {
     			labelStatusED.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 6, "Restart"));
     		}
     	}
     	if (command.equals(btnKPSelect.getActionCommand())) {
     		if (isShutdown) {
     			labelStatusKP.setText("Shutdown");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 7, "Shutdown"));
     		} else {
     			labelStatusKP.setText("Restarting");
     			// do some other things...
+                atmssMBox.send(new Msg(this.getClass().getSimpleName(), 7, "Restart"));
     		}
     	}
-    	
-    	
+
+
     	System.out.println("handleComponentRequest: " + command);
     }
 }

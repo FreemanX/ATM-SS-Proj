@@ -1,5 +1,8 @@
 package hwEmulators;
 
+import java.awt.*;
+import java.util.Date;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -12,11 +15,10 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepositCollector extends Thread {
+public class DepositCollector extends Thread implements EmulatorActions {
 
 	private MBox viewMbox; // used to notify the DepositCollectorView
 
@@ -29,13 +31,15 @@ public class DepositCollector extends Thread {
 	private int status = 400;
 	private boolean slotIsOpen = false;
 	private boolean hasEnvelop = false;
+	private MyFrame myFrame = null;
+	private MyPanel myPanel = null;
 
 	public DepositCollector(String id) {
 		// TODO Auto-generated constructor stub
 		this.id = id;
 		log = ATMKickstarter.getLogger();
 
-		MyFrame myFrame = new MyFrame("Deposit Collector\n");
+		myFrame = new MyFrame("Deposit Collector\n");
 	}
 
 	public void openSlot() {
@@ -74,11 +78,56 @@ public class DepositCollector extends Thread {
 
 	protected void setDCStatus(int Status) {
 		this.status = Status;
+		if (Status == 499) {
+			shutdown();
+		}
 	}
 
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
+	}
+
+	@Override
+	public void shutdown() {
+		setDCStatus(499);
+		setUIEnable(false);
+	}
+
+	@Override
+	public void restart() {
+		shutdown();
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		try {
+			sleep(ms);
+		} catch (InterruptedException e) {
+		}
+		setDCStatus(400);
+		setUIEnable(true);
+	}
+
+	private void setUIEnable(boolean isEnable) {
+		if (!isEnable) { // disable the UI
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			// add new panel
+			JPanel panel = new JPanel(new GridBagLayout());
+			JLabel label = new JLabel("SHUTDOWN");
+			label.setForeground(Color.WHITE);
+			panel.setBackground(Color.RED);
+			panel.add(label, new GridBagConstraints());
+			myFrame.getContentPane().add(panel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		} else {
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			myFrame.getContentPane().add(myPanel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		}
 	}
 
 	private class MyFrame extends JFrame {
@@ -87,7 +136,7 @@ public class DepositCollector extends Thread {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(UIManager.x, UIManager.y + 200);
-			MyPanel myPanel = new MyPanel();
+			myPanel = new MyPanel();
 			add(myPanel);
 			pack();
 			setSize(350, 200);
