@@ -28,7 +28,7 @@ public class MainController extends Thread {
 		private volatile boolean isRunning = true;
 		int i = 1;
 
-		public void Processor() {
+		public Processor() {
 			// constructor...
 		}
 
@@ -38,8 +38,8 @@ public class MainController extends Thread {
 			this.i = 1;
 		}
 
-		protected void setIsRunning(boolean b) {
-			this.isRunning = b;
+		protected void processorPause() {
+			this.isRunning = false;
 			checker.pauseCheck();
 		}
 
@@ -51,6 +51,8 @@ public class MainController extends Thread {
 			while (true) {
 				while (isRunning) {
 					try {
+						String [] lines= {"", "Welcome!"};
+						atmssHandler.doDisDisplayUpper(lines);
 						System.out.println(">>>>Processor is running, iteration: " + i);
 						i++;
 						sleep(5000);
@@ -131,7 +133,7 @@ public class MainController extends Thread {
 		this.atmssHandler.doDisClearUpper();
 		String[] lines = { "", "Out of service!" };
 		this.atmssHandler.doDisDisplayUpper(lines);
-		this.processor.setIsRunning(false);
+		this.processor.processorPause();
 	}
 
 	private Session getLastSession() {
