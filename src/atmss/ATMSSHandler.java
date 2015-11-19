@@ -53,6 +53,10 @@ public class ATMSSHandler {
 		return serverCommunicator.enquiry(currentSession.getCardNo(), accNo, currentSession.getCred());
 	}
 
+	public String[] doBAMSGetAccounts(Session currentSession) {
+		return serverCommunicator.getAccounts(currentSession.getCardNo(), currentSession.getCred());
+	}
+
 	/*
 	 * dest account verification is done within transfer public String
 	 * doBAMSVerifyDestAccount(String desAccountNumber) { String verifiedInfo =

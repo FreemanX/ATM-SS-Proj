@@ -2,8 +2,10 @@
 require_once("settings.php");
 require_once("credManager.php");
 
-$cardNo = $_GET["cardNo"];
-$pin = $_GET["pin"];
+$_get_lower = array_change_key_case($_GET, CASE_LOWER);
+
+$cardNo = $_get_lower["cardno"];
+$pin = $_get_lower["pin"];
 
 $credential = "ERROR";
 
