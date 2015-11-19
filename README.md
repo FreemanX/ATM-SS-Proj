@@ -178,6 +178,7 @@ So far what we have done:
 ###======================Nov 19, 2015 Freeman======================
 
 INPORTANT!!!!!!!!
+
 0. All the functions of hardware has been tested, so far so good.
 1. Now all the process can enter real test stage! Just run the program and select the process you are responsible with.
 	From now on, DO NOT PUSH ANY ERROR CODE!!!!!!!
