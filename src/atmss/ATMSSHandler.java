@@ -389,14 +389,14 @@ public class ATMSSHandler {
 
 			if (currentInput.equals("CANCEL")) {
 				doDisClearLower();
-				currentInput = "CANCEL";
+				moneyAmount = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
 				doDisClearLower();
-				currentInput = "";
-			} else if (currentInput.equals("ENTER") && currentInput.length() == lengthLimit) {
+				moneyAmount = "";
+			} else if (currentInput.equals("ENTER") && moneyAmount.length() == lengthLimit) {
 				break;
-			} else if (currentInput.length() == lengthLimit) {
+			} else if (moneyAmount.length() == lengthLimit) {
 				continue;
 			} else {
 				doDisAppendLower(currentInput);
@@ -432,12 +432,12 @@ public class ATMSSHandler {
 
 			if (currentInput.equals("CANCEL")) {
 				doDisClearLower();
-				currentInput = "CANCEL";
+				moneyAmount = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
 				doDisClearLower();
-				currentInput = "";
-			} else if (currentInput.equals("ENTER") && currentInput.length() == lengthLimit) {
+				moneyAmount = "";
+			} else if (currentInput.equals("ENTER") && moneyAmount.length() == lengthLimit) {
 				break;
 			} else if (currentInput.length() == lengthLimit) {
 				continue;
