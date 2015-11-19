@@ -176,6 +176,3 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 
 ## To be discussed
 
-0. Discuss how to simulate hardware reset and shutdown, then implement.
-
-
