@@ -7,6 +7,7 @@ import atmss.hardware.exceptioins.DepositCollectorException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.DepositCollectorView;
 import hwEmulators.DepositCollector;
+import hwEmulators.Msg;
 
 /**
  * @author freeman, tony
@@ -43,6 +44,7 @@ public class DepositCollectorController extends HardwareController {
 		boolean isSuccess = false;
 		try {
 			this.status = depositCollectorView.checkStatus();
+			this._maincontrollerMBox.send(new Msg("DC", status, "I'm OK"));
 			isSuccess = true;
 		} catch (HardwareException e) {
 			// TODO Auto-generated catch block
@@ -84,21 +86,7 @@ public class DepositCollectorController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		if (ex instanceof DepositCollectorException) {
-			int exType = ex.getExceptionCode();
-
-			switch (exType) {
-			case 401:
-				System.err.println(">>>>>>>>>>>No envelop inserted error.");
-				break;
-			case 402:
-				System.err.println(">>>>>>>>>>>DepositCollector slot jam error.");
-				break;
-			case 499:
-				System.err.println(">>>>>>>>>>>Unknown deposit error.");
-				break;
-			default:
-				throw ex;
-			}
+			reportToMainController(ex, "DC");
 		} else
 			throw ex;
 	}

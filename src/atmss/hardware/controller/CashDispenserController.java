@@ -7,6 +7,7 @@ import atmss.hardware.exceptioins.CashDispenserException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.CashDispenserView;
 import hwEmulators.CashDispenser;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -51,7 +52,6 @@ public class CashDispenserController extends HardwareController {
 			return false;
 		}
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -106,23 +106,7 @@ public class CashDispenserController extends HardwareController {
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
 		if (ex instanceof HardwareException) {
-			int exType = ex.getExceptionCode();
-			// TODO handle ex and report to MainController;
-			switch (exType) {
-			case 301:
-				// No need for our system to handle
-				System.err.println(">>>>>>>>>>>Insuffient number of 500 notes");
-				break;
-			case 302:
-				System.err.println(">>>>>>>>>>>No cash");
-				break;
-			case 399:
-				System.err.println(">>>>>>>>>>>Hardware failure");
-				break;
-			default:
-				throw ex;
-			}
-
+			reportToMainController(ex, "CD");
 		} else {
 			throw ex;
 		}

@@ -117,30 +117,8 @@ public class AdvicePrinterController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
-		if (ex instanceof HardwareException) {
-			int exType = ex.getExceptionCode();
-			// TODO handle ex and report to MainController;
-			switch (exType) {
-			case 101:
-				// TODO notify the main controller
-				System.err.println(">>>>>>>>>>>Out of paper");
-				this._maincontrollerMBox.send(new Msg("AP", 101, "Out of paper"));
-				break;
-			case 102:
-				System.err.println(">>>>>>>>>>>Out of ink");
-				this._maincontrollerMBox.send(new Msg("AP", 102, "Out of ink"));
-				break;
-			case 103:
-				System.err.println(">>>>>>>>>>>Paper jam");
-				this._maincontrollerMBox.send(new Msg("AP", 103, "Paper jam"));
-				break;
-			case 199:
-				System.err.println(">>>>>>>>>>>Hardware failure");
-				this._maincontrollerMBox.send(new Msg("AP", 199, "Hardware failure"));
-				break;
-			default:
-				throw ex;
-			}
+		if (ex instanceof AdvicePrinterException) {
+			reportToMainController(ex, "AP");
 		} else {
 			throw ex;
 		}

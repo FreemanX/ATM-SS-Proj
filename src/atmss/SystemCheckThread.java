@@ -52,7 +52,6 @@ class SystemCheckThread extends Thread {
 		while (true) {
 			while (isRunning) {
 				try {
-					System.out.println(">>>>>>>>>>>>>>>>>System Check Thread Running!");
 					this._advicePrinterController.updateStatus();
 					this._cardReaderController.updateStatus();
 					this._cashDispenerController.updateStatus();
@@ -67,7 +66,6 @@ class SystemCheckThread extends Thread {
 			}
 			try {
 				sleep(5000);
-				System.err.println(">>>>>>>>>>>>>>>>>System Check Thread paused!");
 			} catch (InterruptedException e) {
 			}
 

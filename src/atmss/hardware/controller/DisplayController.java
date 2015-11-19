@@ -7,6 +7,7 @@ import atmss.hardware.exceptioins.DisplayException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.DisplayView;
 import hwEmulators.Display;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -158,15 +159,7 @@ public class DisplayController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		if (ex instanceof DisplayException) {
-			int exType = ex.getExceptionCode();
-
-			switch (exType) {
-			case 599:
-				System.err.println(">>>>>>>>>>>Unknown display error.");
-				break;
-			default:
-				throw ex;
-			}
+			reportToMainController(ex, "Dis");
 		} else
 			throw ex;
 	}

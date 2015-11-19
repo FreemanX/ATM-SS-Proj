@@ -7,6 +7,7 @@ import atmss.hardware.exceptioins.CardReaderException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.CardReaderView;
 import hwEmulators.CardReader;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -115,23 +116,7 @@ public class CardReaderController extends HardwareController {
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
 		if (ex instanceof HardwareException) {
-			int exType = ex.getExceptionCode();
-			// TODO handle ex and report to MainController;
-			switch (exType) {
-			case 201:
-				// No need for our system to handle
-				System.err.println(">>>>>>>>>>>Can not recorgnize card");
-				break;
-			case 202:
-				System.err.println(">>>>>>>>>>>Card storage full");
-				break;
-			case 299:
-				System.err.println(">>>>>>>>>>>Hardware failure");
-				break;
-			default:
-				throw ex;
-			}
-
+			reportToMainController(ex, "CR");
 		} else {
 			throw ex;
 		}

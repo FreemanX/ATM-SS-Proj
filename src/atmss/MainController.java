@@ -26,10 +26,22 @@ public class MainController extends Thread {
 				cashDispenserController, depositCollectorController, displayController, envelopDispenserController,
 				keypadController, serverCommunicator);
 		private volatile boolean isRunning = true;
+		private volatile boolean EDIsOk = true;
+		private volatile boolean DCIsOk = true;
 		int i = 1;
+		String[] lines;
 
 		public Processor() {
 			// constructor...
+			lines = new String[10];
+		}
+
+		protected void setEDIsOK(boolean b) {
+			this.EDIsOk = b;
+		}
+
+		protected void setDCIsOK(boolean b) {
+			this.DCIsOk = b;
 		}
 
 		protected void initProcessor() {
@@ -43,6 +55,13 @@ public class MainController extends Thread {
 			checker.pauseCheck();
 		}
 
+		private void clearLines() {
+			for (int j = 0; j < lines.length; j++) {
+				lines[j] = "";
+
+			}
+		}
+
 		public void run() {
 			// thread start...
 			checker.start();
@@ -51,7 +70,12 @@ public class MainController extends Thread {
 			while (true) {
 				while (isRunning) {
 					try {
-						String [] lines= {"", "Welcome!"};
+						clearLines();
+						if (EDIsOk && DCIsOk)
+							lines[1] = "Welcome! Full functions";
+						else
+							lines[1] = "Welcome! Deposit function disabled";
+
 						atmssHandler.doDisDisplayUpper(lines);
 						System.out.println(">>>>Processor is running, iteration: " + i);
 						i++;
@@ -110,12 +134,34 @@ public class MainController extends Thread {
 				case "AP":
 					handleAPException(msg);
 					break;
+				case "CR":
+					handleCRExceptioin(msg);
+					break;
+				case "CD":
+					handleCDExceptioin(msg);
+					break;
+				case "DC":
+					handleDCExceptioin(msg);
+					break;
+				case "Dis":
+					handleDisExceptioin(msg);
+					break;
+				case "ED":
+					handleEDExceptioin(msg);
+					break;
+				case "KP":
+					handleKPExceptioin(msg);
+					break;
 				default:
 					break;
 				}
 			}
-			waitForRepair();
-			System.err.println(">>>>>>>>>>>>>>>>The system is out of service!!!");
+
+			try {
+				waitForRepair();
+				sleep(3000);
+			} catch (InterruptedException e) {
+			}
 		}
 	}
 
@@ -129,6 +175,45 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPException(Msg msg) {
+		handleFatalExceptions();
+	}
+
+	private void handleCRExceptioin(Msg msg) {
+		handleFatalExceptions();
+	}
+
+	private void handleCDExceptioin(Msg msg) {
+		if (msg.getType() == 301) {
+			System.err.println("Warning: insufficent amount of cash");
+		} else
+			handleFatalExceptions();
+	}
+
+	private void handleDCExceptioin(Msg msg) {
+		// TODO Not fatal, disable deposit function
+		if (msg.getType() % 100 == 0)
+			processor.setDCIsOK(true);
+		else
+			processor.setDCIsOK(false);
+	}
+
+	private void handleDisExceptioin(Msg msg) {
+		handleFatalExceptions();
+		// TODO emulate the display shutdown
+	}
+
+	private void handleEDExceptioin(Msg msg) {
+		if (msg.getType() % 100 == 0)
+			processor.setEDIsOK(true);
+		else
+			processor.setEDIsOK(false);
+	}
+
+	private void handleKPExceptioin(Msg msg) {
+		handleFatalExceptions();
+	}
+
+	private void handleFatalExceptions() {
 		this.isRunning = false;
 		this.atmssHandler.doDisClearUpper();
 		String[] lines = { "", "Out of service!" };

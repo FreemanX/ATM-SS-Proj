@@ -7,6 +7,7 @@ import atmss.hardware.exceptioins.EnvelopDispenserException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.EnvelopDispenserView;
 import hwEmulators.EnvelopDispenser;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -52,6 +53,7 @@ public class EnvelopDispenserController extends HardwareController {
 		boolean isSuccess = false;
 		try {
 			this.status = envelopDispenserView.checkStatus();
+			this._maincontrollerMBox.send(new Msg("ED", status, "I'm OK"));
 			isSuccess = true;
 		} catch (HardwareException e) {
 			// TODO Auto-generated catch block
@@ -93,18 +95,7 @@ public class EnvelopDispenserController extends HardwareController {
 	@Override
 	void HandleException(HardwareException ex) throws Exception {
 		if (ex instanceof EnvelopDispenserException) {
-			int exType = ex.getExceptionCode();
-
-			switch (exType) {
-			case 601:
-				System.err.println(">>>>>>>>>>>No envelop error.");
-				break;
-			case 699:
-				System.err.println(">>>>>>>>>>>Unknown EnvelopDispenser error.");
-				break;
-			default:
-				throw ex;
-			}
+			reportToMainController(ex, "ED");
 		} else
 			throw ex;
 	}

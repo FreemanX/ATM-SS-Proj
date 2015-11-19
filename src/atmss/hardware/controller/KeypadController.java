@@ -83,15 +83,7 @@ public class KeypadController extends HardwareController {
 	void HandleException(HardwareException ex) throws Exception {
 		// TODO Auto-generated method stub
 		if (ex instanceof HardwareException) {
-			int exType = ex.getExceptionCode();
-			// TODO handle ex and report to MainController;
-			switch (exType) {
-			case 799:
-				System.err.println(">>>>>>>>>>>Hardware failure");
-				break;
-			default:
-				throw ex;
-			}
+			reportToMainController(ex, "KP");
 		} else {
 			throw ex;
 		}
