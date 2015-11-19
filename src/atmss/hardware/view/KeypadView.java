@@ -36,6 +36,7 @@ public class KeypadView extends HardwareView {
 		this._keypad.setKeypadEnable(true, inputId);
 		timer.start();
 		while (true) {
+			keypadViewMBox.clearBox();
 			Msg msg = keypadViewMBox.receive();
 
 			if (msg.getType() == 7) {

@@ -8,11 +8,12 @@ import java.util.Random;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class  CashDispenser extends Thread implements EmulatorActions {
+public class CashDispenser extends Thread implements EmulatorActions {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
 	private MBox atmssMBox = null;
+	private MBox viewBox = null;
 	private JTextArea textArea = null;
 	public final static int type = 3;
 	private boolean ready2Take = false;
@@ -36,6 +37,10 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 		// create frame
 		myFrame = new MyFrame("Cash Dispenser");
 	} // CashDispenser
+
+	public void setViewBox(MBox box) {
+		this.viewBox = box;
+	}
 
 	protected void setNumOf100(int amount) {
 		this.numOf100 = amount;
@@ -110,6 +115,7 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 
 	public void retainCash() {
 		this.textArea.append("\n Cash retained! \n");
+		this.ready2Take = false;
 		resetEjectCashAmount();
 	}
 
@@ -142,7 +148,8 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 	@Override
 	public void restart() {
 		shutdown();
-		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 -
+																		// 4500
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
@@ -210,6 +217,7 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 						if (ready2Take && ejectCashAmount > 0) {
 							log.info(id + ": Sending \"Collect Cash\" amount: " + ejectCashAmount);
 							atmssMBox.send(new Msg("Cash Dispenser", 3, "Dispense cash: " + ejectCashAmount));
+							viewBox.send(new Msg(id, 3, "Cash taken"));
 							updateCashInventory(ejectNumOf100, ejectNumOf500, ejectNumOf1000);
 							textArea.append(ejectNumOf100 + " of 100HKD taken\n");
 							textArea.append(ejectNumOf500 + " of 500HKD taken\n");
@@ -218,7 +226,7 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 							resetEjectCashAmount();
 						}
 					} else {
-						textArea.setText("This hardware is not working, status code: " + status);
+						textArea.append("Nothing to take!\n");
 					}
 				}
 			});

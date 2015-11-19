@@ -24,18 +24,20 @@ public class DepositCollectorView extends HardwareView {
 	 */
 	public DepositCollectorView(DepositCollector depositCollector) {
 		this.depositCollector = depositCollector;
-		//this.depositCollector.setMBox(mbox);
+		this.depositCollector.setMBox(mbox);
+		// this.depositCollector.setMBox(mbox);
 	}
 
 	public boolean collectEnvelop(int timeout) throws DepositCollectorException {
 		checkStatus();
 		Timer timer = Timer.getTimer();
 		timer.initTimer(timeout, mbox);
-
+		timer.start();
 
 		depositCollector.openSlot();
 		if (!depositCollector.getHasEnvelop()) {
 			// wait for envelop or timeout
+			mbox.clearBox();
 			Msg msg = mbox.receive();
 
 			if (msg.getType() == 999 && msg.getSender().equalsIgnoreCase("Timer:" + timer.getTimerId())) { // timeout
@@ -43,7 +45,10 @@ public class DepositCollectorView extends HardwareView {
 				collectTimeout();
 
 				return false;
-			} else if (msg.getType() == 4 && msg.getSender().equalsIgnoreCase("DepositCollector")) { // user put in envelop
+			} else if (msg.getType() == 4 && msg.getSender().equalsIgnoreCase("DepositCollector")) { // user
+																										// put
+																										// in
+																										// envelop
 				depositCollector.closeSlot(false);
 
 				if (depositCollector.isSlotOpen())
@@ -70,7 +75,9 @@ public class DepositCollectorView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -80,7 +87,9 @@ public class DepositCollectorView extends HardwareView {
 		return depositCollector.getDCStatus();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -89,7 +98,9 @@ public class DepositCollectorView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -98,7 +109,9 @@ public class DepositCollectorView extends HardwareView {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

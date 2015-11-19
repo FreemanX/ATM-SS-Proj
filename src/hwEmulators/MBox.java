@@ -40,10 +40,10 @@ public class MBox {
 			while (true) {
 				try {
 					log.fine(id + ": waiting");
-					System.out.println(id + ": waiting");
+//					System.out.println(id + ": waiting");
 					wait();
 					log.fine(id + ": finish waiting");
-					System.out.println(id + ": finish waiting");
+//					System.out.println(id + ": finish waiting");
 					break;
 				} catch (InterruptedException e) {
 					log.warning(id + ".receive: InterruptedException");

@@ -32,7 +32,8 @@ public class CardReaderController extends HardwareController {
 
 	public String readCard() throws Exception {
 		try {
-			return this.cardReaderView.readCard();
+			this.cardNumber = this.cardReaderView.readCard();
+			return cardNumber;
 		} catch (CardReaderException e) {
 			HandleException(e);
 			return "";
@@ -51,18 +52,7 @@ public class CardReaderController extends HardwareController {
 
 	public boolean ejectCard() throws Exception {
 		try {
-			this.cardReaderView.ejectCard();
-			return true;
-		} catch (CardReaderException e) {
-			HandleException(e);
-			return false;
-		}
-	}
-
-	public boolean retainCard() throws Exception {
-		try {
-			this.cardReaderView.retainCard();
-			return true;
+			return this.cardReaderView.ejectCard();
 		} catch (CardReaderException e) {
 			HandleException(e);
 			return false;

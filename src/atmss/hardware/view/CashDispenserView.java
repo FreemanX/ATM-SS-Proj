@@ -3,8 +3,11 @@
  */
 package atmss.hardware.view;
 
+import atmss.Timer;
 import atmss.hardware.exceptioins.CashDispenserException;
 import hwEmulators.CashDispenser;
+import hwEmulators.MBox;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -12,13 +15,16 @@ import hwEmulators.CashDispenser;
  */
 public class CashDispenserView extends HardwareView {
 	private CashDispenser _cashDispenser;
+	MBox cashDispenserMBox;
 
 	/**
 	 * 
 	 */
 	public CashDispenserView(CashDispenser CD) {
 		// TODO Auto-generated constructor stub
+		this.cashDispenserMBox = new MBox("Cash Dispenser View");
 		this._cashDispenser = CD;
+		this._cashDispenser.setViewBox(cashDispenserMBox);
 	}
 
 	public int[] checkCashInventory() throws CashDispenserException {
@@ -30,10 +36,25 @@ public class CashDispenserView extends HardwareView {
 
 	public boolean ejectCash(int[] ejectPlan) throws CashDispenserException {
 		checkStatus();
-		return this._cashDispenser.ejectCash(ejectPlan[0], ejectPlan[1], ejectPlan[2]);
+		if (this._cashDispenser.ejectCash(ejectPlan[0], ejectPlan[1], ejectPlan[2])) {
+			Timer timer = Timer.getTimer();
+			timer.initTimer(10, cashDispenserMBox);
+			timer.start();
+			this.cashDispenserMBox.clearBox();
+			Msg msg = this.cashDispenserMBox.receive();
+			if (msg.getType() == 999) {
+				System.out.println("===============Time out! money retained");
+				retainCash();
+				return false;
+			} else {
+				System.out.println("===============Money taken");
+				return true;
+			}
+		} else
+			return false;
 	}
 
-	public void retainCash() throws CashDispenserException {
+	void retainCash() throws CashDispenserException {
 		checkStatus();
 		this._cashDispenser.retainCash();
 	}

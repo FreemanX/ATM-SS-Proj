@@ -99,7 +99,8 @@ public class CardReader extends Thread implements EmulatorActions {
 	public void restart() {
 		shutdown();
 		// reset all stuffs
-		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 -
+																		// 4500
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
@@ -248,6 +249,7 @@ public class CardReader extends Thread implements EmulatorActions {
 						textField.setText("");
 						msgTextArea.append("Card Ejected\n");
 						atmssMBox.send(new Msg("CardReader", CardReader.type, "Eject card: " + cardToSend));
+						_crViewMBox.send(new Msg("CR", CardReader.type, "Card taken " + cardToSend));
 						log.info(id + ": Ejecting " + cardToSend);
 						cardToSend = "";
 					} else {

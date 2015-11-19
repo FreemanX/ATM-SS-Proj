@@ -47,6 +47,7 @@ public class AdvicePrinterController extends HardwareController {
 
 		try {
 			advicePrinter.print(toPrint);
+			isSuccess = true;
 		} catch (AdvicePrinterException e) {
 			this.HandleException(e);
 			isSuccess = false;

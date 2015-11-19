@@ -3,6 +3,7 @@
  */
 package atmss.hardware.view;
 
+import atmss.Timer;
 import atmss.hardware.exceptioins.CardReaderException;
 import hwEmulators.CardReader;
 import hwEmulators.MBox;
@@ -39,12 +40,23 @@ public class CardReaderView extends HardwareView {
 		return this._cardReader.getCard();
 	}
 
-	public void ejectCard() throws CardReaderException {
+	public boolean ejectCard() throws CardReaderException {
 		checkStatus();
+		Timer timer = Timer.getTimer();
+		timer.initTimer(3, cardReaderViewMBox);
 		this._cardReader.ejectCard();
+		timer.start();
+		this.cardReaderViewMBox.clearBox();
+		Msg msg = this.cardReaderViewMBox.receive();
+		if (msg.getType() == 999) {
+			retainCard();
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	public void retainCard() throws CardReaderException {
+	void retainCard() throws CardReaderException {
 		checkStatus();
 		this._cardReader.eatCard();
 	}

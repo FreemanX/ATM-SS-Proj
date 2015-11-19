@@ -141,12 +141,30 @@ public class ATMSSHandler {
 		return this.cardReaderController.getCardNumber();
 	}
 
+	public String doCRReadCard() {
+		try {
+			return this.cardReaderController.readCard();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return null;
+		}
+	}
+
 	public int doCRGetstatus() {
 		try {
 			return this.cardReaderController.getStatus();
 		} catch (Exception e) {
 			handleUnknownExceptions(e);
 			return -1; // Returns -1 means that there's a problem with CR
+		}
+	}
+
+	public boolean doCREjectCard() {
+		try {
+			return this.cardReaderController.ejectCard();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return false;
 		}
 	}
 
@@ -162,15 +180,6 @@ public class ATMSSHandler {
 	public boolean doCDEjectCash(int[] ejectPlan) {
 		try {
 			return this.cashDispenserController.ejectCash(ejectPlan);
-		} catch (Exception e) {
-			handleUnknownExceptions(e);
-			return false;
-		}
-	}
-
-	public boolean doCDRetainCash() {
-		try {
-			return this.cashDispenserController.retainCash();
 		} catch (Exception e) {
 			handleUnknownExceptions(e);
 			return false;
@@ -321,7 +330,7 @@ public class ATMSSHandler {
 	public String doKPGetSingleInput(long Duration) {
 		try {
 			String input = this.keypadController.readUserInput(Duration);
-			if (input.equals("Time out!"))
+			if (input.contains("Time out!"))
 				return null;
 			else
 				return input;
@@ -360,8 +369,12 @@ public class ATMSSHandler {
 			} else if (currentInput.equals("CLEAR")) {
 				doDisClearLower();
 				inputPasswd = "";
-			} else if (currentInput.equals("ENTER") && inputPasswd.length() == lengthLimit) {
-				break;
+			} else if (currentInput.equals("ENTER")) {
+				if (inputPasswd.length() == lengthLimit) {
+					doDisClearLower();
+					break;
+				} else
+					continue;
 			} else if (inputPasswd.length() == lengthLimit) {
 				continue;
 			} else {
@@ -394,8 +407,12 @@ public class ATMSSHandler {
 			} else if (currentInput.equals("CLEAR")) {
 				doDisClearLower();
 				moneyAmount = "";
-			} else if (currentInput.equals("ENTER") && moneyAmount.length() == lengthLimit) {
-				break;
+			} else if (currentInput.equals("ENTER")) {
+				if (moneyAmount.length() == lengthLimit) {
+					doDisClearLower();
+					break;
+				} else
+					continue;
 			} else if (moneyAmount.length() == lengthLimit) {
 				continue;
 			} else {
@@ -423,12 +440,14 @@ public class ATMSSHandler {
 				if (!inputDot && moneyAmount.length() > 0) {
 					// User can input 3 more digits
 					doDisAppendLower(currentInput);
+					moneyAmount += currentInput;
 					lengthLimit = moneyAmount.length() + 3;
 					inputDot = true;
-					moneyAmount += currentInput;
 				}
 				continue;
 			}
+			System.out.println("-------------Money Length : " + moneyAmount.length());
+			System.out.println("-------------Length limit: " + lengthLimit);
 
 			if (currentInput.equals("CANCEL")) {
 				doDisClearLower();
@@ -437,9 +456,13 @@ public class ATMSSHandler {
 			} else if (currentInput.equals("CLEAR")) {
 				doDisClearLower();
 				moneyAmount = "";
-			} else if (currentInput.equals("ENTER") && moneyAmount.length() == lengthLimit) {
-				break;
-			} else if (currentInput.length() == lengthLimit) {
+			} else if (currentInput.equals("ENTER")) {
+				if (moneyAmount.length() == lengthLimit) {
+					doDisClearLower();
+					break;
+				} else
+					continue;
+			} else if (moneyAmount.length() == lengthLimit) {
 				continue;
 			} else {
 				doDisAppendLower(currentInput);
@@ -472,8 +495,12 @@ public class ATMSSHandler {
 				// TODO Call display function to clear screen
 				doDisClearLower();
 				inputAccountNum = "";
-			} else if (currentInput.equals("ENTER") && inputAccountNum.length() == lengthLimit) {
-				break;
+			} else if (currentInput.equals("ENTER")) {
+				if (inputAccountNum.length() == lengthLimit) {
+					doDisClearLower();
+					break;
+				} else
+					continue;
 			} else if (inputAccountNum.length() == lengthLimit) {
 				continue;
 			} else {

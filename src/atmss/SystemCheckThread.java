@@ -59,16 +59,11 @@ class SystemCheckThread extends Thread {
 					this._displayController.updateStatus();
 					this._envelopDispenserController.updateStatus();
 					this._keypadController.updateStatus();
-					sleep(6000); // Statuses will be checked every 60 seconds
+					sleep(3000); // Statuses will be checked every 60 seconds
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			try {
-				sleep(5000);
-			} catch (InterruptedException e) {
-			}
-
 		}
 	}
 

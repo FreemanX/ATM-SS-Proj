@@ -42,17 +42,6 @@ public class CashDispenserController extends HardwareController {
 		}
 	}
 
-	public boolean retainCash() throws Exception {
-		try {
-			this.cashDispenserView.retainCash();
-			return true;
-		} catch (CashDispenserException e) {
-			// TODO Auto-generated catch block
-			HandleException(e);
-			return false;
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
