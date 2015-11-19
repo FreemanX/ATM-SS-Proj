@@ -30,6 +30,8 @@ public class DepositController extends ProcessController {
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account";
 	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount";
 	private final String PROMPT_FOR_CONFIRM = "Please confirm your deposit amount";
+	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
+	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
 	private final String SHOW_SUCCESS = "Succeeded! The deposit operation succeeds.";
 	private final String SHOW_FAILURE = "Failed! The deposit operation failed.";
 	
@@ -70,14 +72,22 @@ public class DepositController extends ProcessController {
 	}
 	
 	private boolean doEatEnvelop(){
+		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_RETURN_ENVELOP}))
+			return failProcess(FAILED_FROM_DISPLAY);
+		
 		if(!this._atmssHandler.doEDEatEnvelop())
 			return failProcess(FAILED_FROM_DEPOSITCOLLECTOR);
+		
 		return true;
 	}
 	
 	private boolean doEjectEnvelop(){
+		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_COLLECT_ENVELOP}))
+			return failProcess(FAILED_FROM_DISPLAY);
+		
 		if(!this._atmssHandler.doEDEjectEnvelop())
 			return failProcess(FAILED_FROM_ENVELOPDISPENSER);
+
 		return true;
 	}
 	
@@ -88,19 +98,21 @@ public class DepositController extends ProcessController {
 		return true;
 	}
 	private boolean doGetAccountToDeposit() {
+		if(this._atmssHandler.doDisClearAll())
+			return this.failProcess(FAILED_FROM_DISPLAY);
 
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);
 		if(allAccountsInCard.length == 0){
 			return this.failProcess(FAILED_FROM_BAMS);
 			
 		}
-		
-		if(!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_ACCOUNT))
-			return this.failProcess(FAILED_FROM_DISPLAY);
-		
+			
 		if(!this._atmssHandler.doDisDisplayUpper(allAccountsInCard)){
 			return this.failProcess(FAILED_FROM_DISPLAY);
 		}
+		
+		if(!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_ACCOUNT))
+			return this.failProcess(FAILED_FROM_DISPLAY);
 		
 		int accountNoSelectedByUser = allAccountsInCard.length + 1;
 		
@@ -131,15 +143,25 @@ public class DepositController extends ProcessController {
 	private boolean doGetAmountToDeposit() {
 
 		boolean confirmAmountToDeposit = false;
-		if(!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_AMOUNT))
-			return failProcess(FAILED_FROM_DISPLAY);
-		String userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(5000);
-		if(userInputAmountToDeposit == null)
-			return failProcess(FAILED_INPUT_AMOUNT);
-
+		String userInputAmountToDeposit ="";
 		
-		while (!confirmAmountToDeposit){
-			this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, userInputAmountToDeposit});
+		{
+			if(!this._atmssHandler.doDisClearAll())
+				return failProcess(FAILED_FROM_DISPLAY);
+			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT}))
+				return failProcess(FAILED_FROM_DISPLAY);
+			
+			userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(5000);
+			if(userInputAmountToDeposit == null)
+				return failProcess(FAILED_INPUT_AMOUNT);
+			
+			if(!this._atmssHandler.doDisClearAll())
+				return failProcess(FAILED_FROM_DISPLAY);
+			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM}))
+				return failProcess(FAILED_FROM_DISPLAY);
+			if(!this._atmssHandler.doDisAppendUpper(userInputAmountToDeposit))
+				return failProcess(FAILED_FROM_DISPLAY);
+			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(5000);
 			if(confirmInput != null){
 				switch(confirmInput){
@@ -151,7 +173,7 @@ public class DepositController extends ProcessController {
 				}
 			}
 			else return failProcess(FAILED_CONFIRM_AMOUNT);
-		}
+		}while (!confirmAmountToDeposit);
 		
 		this.amountToDeposit = Integer.parseInt(userInputAmountToDeposit);
 		return true;
@@ -168,14 +190,15 @@ public class DepositController extends ProcessController {
 	private void recordOperation(String FailedReason){
 		String description = 
 				"Card Number: " + this._session.getCardNo() + ";" +
-				"Result: " + "Succeeded; "+ 
+				"Result: " + "Failed;"+ 
 				"Reason: " + FailedReason;
 		operationCache.add(new Operation(OPERATION_NAME, description));
 		
 	}
 	
 	private boolean failProcess(String FailedReason){
-		this._atmssHandler.doDisDisplayLower(FailedReason);
+		this._atmssHandler.doDisClearAll();
+		this._atmssHandler.doDisDisplayUpper(new String[] {FailedReason});
 		recordOperation(FailedReason);
 		return false;
 	}
