@@ -108,14 +108,14 @@ public class ATMSS extends Thread {
 	// run
 	public void run() {
 		while (true) {
-			Msg msg = mbox.receive();
+			console.println(id + " waiting for msg...");
+			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
-			System.err.println("ATMSS Msg >> type:" + msg.getType() + ", sender: " + msg.getSender() + ", details: " + msg.getDetails());
+
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
-			}
-			if (msg.getDetails().equals("Restart")) {
-				handleComponentRestart(msg);
+			} else if (msg.getDetails().equals("Restarted")) {
+				handleComponentRestarted(msg);
 			}
 		}
 	} // run
@@ -127,7 +127,6 @@ public class ATMSS extends Thread {
 				advicePrinter.shutdown();
 			}
 			if (m.getDetails().equalsIgnoreCase("restart")) {
-				System.out.println("AP RESTART");
 				advicePrinter.restart();
 			}
 		}
@@ -188,7 +187,7 @@ public class ATMSS extends Thread {
 
 	}
 
-	private void handleComponentRestart(Msg m) {
+	private void handleComponentRestarted(Msg m) {
 		newExEmu.componentRestarted(m.getType());
 	}
 } // ATMSS

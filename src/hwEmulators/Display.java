@@ -39,8 +39,13 @@ public class Display extends Thread implements EmulatorActions {
 
 	protected void setDisStatus(int Status) {
 		this.status = Status;
-		if (status == 599) {
+
+		if (status == 598) {
 			shutdown();
+		}
+
+		if (status == 599) {
+			fatalHalt();
 		}
 	}
 
@@ -80,15 +85,15 @@ public class Display extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		if (status != 599)
-			setDisStatus(599);
-		setUIEnable(false);
+		if (status != 598)
+			setDisStatus(598);
+		setUIEnable(false, true);
 	}
 
 	@Override
 	public void restart() {
 		shutdown();
-		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		long ms = new Random(new Date().getTime()).nextInt(1500) + 200; // 200 - 1700
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
@@ -114,21 +119,43 @@ public class Display extends Thread implements EmulatorActions {
 		myFrame.getContentPane().repaint();
 	}
 
+	@Override
+	public void fatalHalt() {
+		if (status != 599)
+			setDisStatus(599);
+		setUIEnable(false, false);
+	}
+
 	private void setUIEnable(boolean isEnable) {
+		setUIEnable(isEnable, true);
+	}
+
+	private void setUIEnable(boolean isEnable, boolean isShutdown) {
+		String msg = "";
+		Color screenColor = Color.RED;
+
 		if (!isEnable) { // disable the UI
+			if (isShutdown) {
+				msg = "Shutdown";
+				screenColor = Color.GRAY;
+			} else {
+				msg = "Fatal halt";
+			}
+
 			myFrame.getContentPane().removeAll(); // remove existing content
 
 			// add new panel
 			JPanel panel = new JPanel(new GridBagLayout());
-			JLabel label = new JLabel("SHUTDOWN");
-			//label.setForeground(Color.WHITE);
-			panel.setBackground(Color.black);
+			JLabel label = new JLabel(msg);
+			label.setForeground(Color.WHITE);
+			panel.setBackground(screenColor);
 			panel.add(label, new GridBagConstraints());
 			myFrame.getContentPane().add(panel);
 
 			myFrame.getContentPane().revalidate();
 			myFrame.getContentPane().repaint();
 		} else {
+			System.out.println("Enabling frame");
 			myFrame.getContentPane().removeAll(); // remove existing content
 
 			myFrame.getContentPane().add(myPanel);

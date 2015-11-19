@@ -6,4 +6,5 @@ package hwEmulators;
 public interface EmulatorActions {
     public void shutdown();
     public void restart();
+    public void fatalHalt();
 }

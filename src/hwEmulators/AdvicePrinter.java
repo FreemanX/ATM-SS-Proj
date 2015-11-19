@@ -46,14 +46,18 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		this.status = Status;
 		if (status == 100) {
 			resource = 10000;
-		} else if (status == 101 || status == 102) {
+		}
+		if (status == 101 || status == 102) {
 			this.resource = 0;
-		} else if (status == 103) {
+		}
+		if (status == 103) {
 			// TODO simulate Paper jam
-		} else if (status == 199) {
+		}
+		if (status == 198) {
 			shutdown();
-		} else {
-
+		}
+		if (status == 199) {
+			fatalHalt();
 		}
 	}
 
@@ -91,35 +95,55 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	@Override
 	public void shutdown() {
 		// set exception status
-		if (status != 199)
-			setAPStatus(199);
-		setUIEnable(false);
+		if (status != 198)
+			setAPStatus(198);
+		setUIEnable(false, true);
 	}
 
 	@Override
 	public void restart() {
 		shutdown();
 		// reset all stuffs
-		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 -
-																		// 4500
+		long ms = new Random(new Date().getTime()).nextInt(1500) + 200; // 200 - 1700
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
 		}
 		setAPStatus(100);
+		atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Restarted"));
 		setUIEnable(true);
-		atmssMBox.send(new Msg("Component Restarted", 1, "Restarted"));
+	}
+
+	@Override
+	public void fatalHalt() {
+		if (status != 199)
+			setAPStatus(199);
+		setUIEnable(false, false);
 	}
 
 	private void setUIEnable(boolean isEnable) {
+		setUIEnable(isEnable, true);
+	}
+
+	private void setUIEnable(boolean isEnable, boolean isShutdown) {
+		String msg = "";
+		Color screenColor = Color.RED;
+
 		if (!isEnable) { // disable the UI
+			if (isShutdown) {
+				msg = "Shutdown";
+				screenColor = Color.GRAY;
+			} else {
+				msg = "Fatal halt";
+			}
+
 			myFrame.getContentPane().removeAll(); // remove existing content
 
 			// add new panel
 			JPanel panel = new JPanel(new GridBagLayout());
-			JLabel label = new JLabel("SHUTDOWN");
+			JLabel label = new JLabel(msg);
 			label.setForeground(Color.WHITE);
-			panel.setBackground(Color.RED);
+			panel.setBackground(screenColor);
 			panel.add(label, new GridBagConstraints());
 			myFrame.getContentPane().add(panel);
 
