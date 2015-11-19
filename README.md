@@ -166,6 +166,10 @@ So far what we have done:
 2.	Need method: "public boolean doBAMSWithdraw(String AccountNumber, int WithdrawAmount, Seesion CurrentSession)"
 	or just use "public boolean doBAMSUpdateBalance(String accNumber, double amount, Session currentSession)"?
 
+###======================Nov 19, 2015 Tony======================
+0. _doBAMSUpdatePasswd_ requires no old password because credential is enough to verify a session. You can verify old password by login again and get a credential.
+1. use _doBAMSUpdateBalance_ for both withdraw and deposit, set amount to positive number for deposit, negative for withdraw
+
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.
 "toAcc=" should be "&toAcc=", whenever you try to use the transfer method, append a "&" behind the cred.
