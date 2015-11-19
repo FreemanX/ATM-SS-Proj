@@ -1,12 +1,15 @@
 package hwEmulators;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Enumeration;
 import java.util.logging.Logger;
 
 /**
@@ -15,12 +18,17 @@ import java.util.logging.Logger;
 public class NewExceptionEmulator extends JFrame implements ActionListener {
 
     private String title = "";
+    
+    private JPanel centerWrapper = new JPanel(new GridLayout(0, 1));
+    private ButtonGroup bgComponent = new ButtonGroup();
 
     // advice printer ------------------------------------------------
-    private JPanel panelAP = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnAPSelect = new JRadioButton();
+    private JPanel panelAP = new JPanel(new BorderLayout());
+    private JPanel panelAPLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headAP = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelAP = new JLabel("AdvicePrinter");
-    private TextField textFieldAP = new TextField(15);
+    private JLabel labelAP = new JLabel("AdvicePrinter:");
+    private JLabel labelStatusAP = new JLabel("Normal");
 
     private JPanel bottomAP = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnAPNormal = new JRadioButton("Normal");
@@ -31,10 +39,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // end advice printer --------------------------------------------
 
     // card reader ------------------------------------------------
-    private JPanel panelCR = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnCRSelect = new JRadioButton();
+    private JPanel panelCR = new JPanel(new BorderLayout());
+    private JPanel panelCRLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headCR = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelCR = new JLabel("CardReader");
-    private TextField textFieldCR = new TextField(15);
+    private JLabel labelCR = new JLabel("CardReader:");
+    private JLabel labelStatusCR = new JLabel("Normal");
 
     private JPanel bottomCR = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnCRNormal = new JRadioButton("Normal");
@@ -43,10 +53,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // end card reader --------------------------------------------
 
     // deposit collector ------------------------------------------------
-    private JPanel panelDC = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnDCSelect = new JRadioButton();
+    private JPanel panelDC = new JPanel(new BorderLayout());
+    private JPanel panelDCLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headDC = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelDC = new JLabel("DepositCollector");
-    private TextField textFieldDC = new TextField(15);
+    private JLabel labelDC = new JLabel("DepositCollector:");
+    private JLabel labelStatusDC = new JLabel("Normal");
 
     private JPanel bottomDC = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnDCNormal = new JRadioButton("Normal");
@@ -55,10 +67,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // end deposit collector --------------------------------------------
 
     // display ------------------------------------------------
-    private JPanel panelDIS = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnDISSelect = new JRadioButton();
+    private JPanel panelDIS = new JPanel(new BorderLayout());
+    private JPanel panelDISLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headDIS = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelDIS = new JLabel("Display");
-    private TextField textFieldDIS = new TextField(15);
+    private JLabel labelDIS = new JLabel("Display:");
+    private JLabel labelStatusDIS = new JLabel("Normal");
 
     private JPanel bottomDIS = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnDISNormal = new JRadioButton("Normal");
@@ -67,11 +81,14 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // end dispaly --------------------------------------------
 
     // EnvelopDispenser ------------------------------------------------
-    private JPanel panelED = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnEDSelect = new JRadioButton();
+    private JPanel panelED = new JPanel(new BorderLayout());
+    private JPanel panelEDLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headED = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelED = new JLabel("EnvelopDispenser");
-    private TextField textFieldED = new TextField(15);
+    private JLabel labelED = new JLabel("EnvelopDispenser:");
+    private JLabel labelStatusED = new JLabel("Normal");
 
+    private JPanel bottomED = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
     private JRadioButton btnEDNormal = new JRadioButton("Normal");
     private JRadioButton btnEDNoEnv = new JRadioButton("No envelop");
     private JRadioButton btnEDFatal = new JRadioButton("Fatal");
@@ -79,10 +96,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // end EnvelopDispenser --------------------------------------------
 
     // CashDispenser ------------------------------------------------
-    private JPanel panelCD = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnCDSelect = new JRadioButton();
+    private JPanel panelCD = new JPanel(new BorderLayout());
+    private JPanel panelCDLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headCD = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelCD = new JLabel("CashDispenser");
-    private TextField textFieldCD = new TextField(15);
+    private JLabel labelCD = new JLabel("CashDispenser:");
+    private JLabel labelStatusCD = new JLabel("Normal");
 
     private JPanel bottomCD = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnCDNormal = new JRadioButton("Normal");
@@ -92,10 +111,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     // end CashDispenser --------------------------------------------
 
     // Keypad ------------------------------------------------
-    private JPanel panelKP = new JPanel(new GridLayout(0, 1));
+    private JRadioButton btnKPSelect = new JRadioButton();
+    private JPanel panelKP = new JPanel(new BorderLayout());
+    private JPanel panelKPLeft = new JPanel(new GridLayout(0, 1));
     private JPanel headKP = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JLabel labelKP = new JLabel("Keypad");
-    private TextField textFieldKP = new TextField(15);
+    private JLabel labelKP = new JLabel("Keypad:");
+    private JLabel labelStatusKP = new JLabel("Normal");
 
     private JPanel bottomKP = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnKPNormal = new JRadioButton("Normal");
@@ -155,18 +176,19 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     }
 
     private void buildUI() {
+    	setLayout(new BorderLayout());
+    	
         // AdvicePrinter ---------------------------------------
         headAP.add(labelAP);
-        headAP.add(textFieldAP);
-        textFieldAP.setText("Normal");
-        textFieldAP.setEditable(false);
-        panelAP.add(headAP);
+        headAP.add(labelStatusAP);
+        labelStatusAP.setForeground(Color.red);
+        panelAPLeft.add(headAP);
 
         bottomAP.add(btnAPNormal);
         bottomAP.add(btnAPOutOfResource);
         bottomAP.add(btnAPJam);
         bottomAP.add(btnAPFatal);
-        panelAP.add(bottomAP);
+        panelAPLeft.add(bottomAP);
 
         bgAP.add(btnAPNormal);
         bgAP.add(btnAPOutOfResource);
@@ -178,19 +200,25 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnAPOutOfResource.addActionListener(this);
         btnAPJam.addActionListener(this);
         btnAPFatal.addActionListener(this);
+        
+        btnAPSelect.addActionListener(this);
+        panelAP.add(btnAPSelect, BorderLayout.WEST);
+        panelAPLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelAP.add(panelAPLeft, BorderLayout.CENTER);
 
-        add(panelAP);
+        centerWrapper.add(panelAP);
         // end AdvicePrinter ------------------------------------
 
         // CardReader ---------------------------------------
         headCR.add(labelCR);
-        headCR.add(textFieldCR);
-        textFieldCR.setText("Normal");
-        textFieldCR.setEditable(false);
-        panelCR.add(headCR);
+        headCR.add(labelStatusCR);
+        labelStatusCR.setText("Normal");
+        labelStatusCR.setForeground(Color.red);
+        panelCRLeft.add(headCR);
 
-        panelCR.add(btnCRNormal);
-        panelCR.add(btnCRFatal);
+        bottomCR.add(btnCRNormal);
+        bottomCR.add(btnCRFatal);
+        panelCRLeft.add(bottomCR);
 
         bgCR.add(btnCRNormal);
         bgCR.add(btnCRFatal);
@@ -198,20 +226,26 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         btnCRNormal.addActionListener(this);
         btnCRFatal.addActionListener(this);
+        
+        btnCRSelect.addActionListener(this);
+        panelCR.add(btnCRSelect, BorderLayout.WEST);
+        panelCRLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelCR.add(panelCRLeft, BorderLayout.CENTER);
 
-        add(panelCR);
+        centerWrapper.add(panelCR);
         // end CardReader ------------------------------------
 
         // CashDispenser ---------------------------------------
         headCD.add(labelCD);
-        headCD.add(textFieldCD);
-        textFieldCD.setText("Normal");
-        textFieldCD.setEditable(false);
-        panelCD.add(headCD);
+        headCD.add(labelStatusCD);
+        labelStatusCD.setText("Normal");
+        labelStatusCD.setForeground(Color.red);
+        panelCDLeft.add(headCD);
 
-        panelCD.add(btnCDNormal);
-        panelCD.add(btnCDNoCash);
-        panelCD.add(btnCDFatal);
+        bottomCD.add(btnCDNormal);
+        bottomCD.add(btnCDNoCash);
+        bottomCD.add(btnCDFatal);
+        panelCDLeft.add(bottomCD);
 
         bgCD.add(btnCDNormal);
         bgCD.add(btnCDNoCash);
@@ -221,19 +255,25 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnCDNormal.addActionListener(this);
         btnCDNoCash.addActionListener(this);
         btnCDFatal.addActionListener(this);
+        
+        btnCDSelect.addActionListener(this);
+        panelCD.add(btnCDSelect, BorderLayout.WEST);
+        panelCDLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelCD.add(panelCDLeft, BorderLayout.CENTER);
 
-        add(panelCD);
+        centerWrapper.add(panelCD);
         // end CashDispenser ------------------------------------
 
         // DepositCollector ---------------------------------------
         headDC.add(labelDC);
-        headDC.add(textFieldDC);
-        textFieldDC.setText("Normal");
-        textFieldDC.setEditable(false);
-        panelDC.add(headDC);
+        headDC.add(labelStatusDC);
+        labelStatusDC.setText("Normal");
+        labelStatusDC.setForeground(Color.red);
+        panelDCLeft.add(headDC);
 
-        panelDC.add(btnDCNormal);
-        panelDC.add(btnDCFatal);
+        bottomDC.add(btnDCNormal);
+        bottomDC.add(btnDCFatal);
+        panelDCLeft.add(bottomDC);
 
         bgDC.add(btnDCNormal);
         bgDC.add(btnDCFatal);
@@ -242,18 +282,24 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnDCNormal.addActionListener(this);
         btnDCFatal.addActionListener(this);
 
-        add(panelDC);
+        btnDCSelect.addActionListener(this);
+        panelDC.add(btnDCSelect, BorderLayout.WEST);
+        panelDCLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelDC.add(panelDCLeft, BorderLayout.CENTER);
+        
+        centerWrapper.add(panelDC);
         // end DepositCollector ------------------------------------
 
         // Display ---------------------------------------
         headDIS.add(labelDIS);
-        headDIS.add(textFieldDIS);
-        textFieldDIS.setText("Normal");
-        textFieldDIS.setEditable(false);
-        panelDIS.add(headDIS);
+        headDIS.add(labelStatusDIS);
+        labelStatusDIS.setText("Normal");
+        labelStatusDIS.setForeground(Color.red);
+        panelDISLeft.add(headDIS);
 
-        panelDIS.add(btnDISNormal);
-        panelDIS.add(btnDISFatal);
+        bottomDIS.add(btnDISNormal);
+        bottomDIS.add(btnDISFatal);
+        panelDISLeft.add(bottomDIS);
 
         bgDIS.add(btnDISNormal);
         bgDIS.add(btnDISFatal);
@@ -261,20 +307,26 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         btnDISNormal.addActionListener(this);
         btnDISFatal.addActionListener(this);
+        
+        btnDISSelect.addActionListener(this);
+        panelDIS.add(btnDISSelect, BorderLayout.WEST);
+        panelDISLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelDIS.add(panelDISLeft, BorderLayout.CENTER);
 
-        add(panelDIS);
+        centerWrapper.add(panelDIS);
         // end Display ------------------------------------
 
         // EnvelopDispenser ---------------------------------------
         headED.add(labelED);
-        headED.add(textFieldED);
-        textFieldED.setText("Normal");
-        textFieldED.setEditable(false);
-        panelED.add(headED);
+        headED.add(labelStatusED);
+        labelStatusED.setText("Normal");
+        labelStatusED.setForeground(Color.red);
+        panelEDLeft.add(headED);
 
-        panelED.add(btnEDNormal);
-        panelED.add(btnEDNoEnv);
-        panelED.add(btnEDFatal);
+        bottomED.add(btnEDNormal);
+        bottomED.add(btnEDNoEnv);
+        bottomED.add(btnEDFatal);
+        panelEDLeft.add(bottomED);
 
         bgED.add(btnEDNormal);
         bgED.add(btnEDNoEnv);
@@ -284,19 +336,25 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         btnEDNormal.addActionListener(this);
         btnEDNoEnv.addActionListener(this);
         btnEDFatal.addActionListener(this);
+        
+        btnEDSelect.addActionListener(this);
+        panelED.add(btnEDSelect, BorderLayout.WEST);
+        panelEDLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelED.add(panelEDLeft, BorderLayout.CENTER);
 
-        add(panelED);
+        centerWrapper.add(panelED);
         // end EnvelopDispenser ------------------------------------
 
         // Keypad ---------------------------------------
         headKP.add(labelKP);
-        headKP.add(textFieldKP);
-        textFieldKP.setText("Normal");
-        textFieldKP.setEditable(false);
-        panelKP.add(headKP);
+        headKP.add(labelStatusKP);
+        labelStatusKP.setText("Normal");
+        labelStatusKP.setForeground(Color.red);
+        panelKPLeft.add(headKP);
 
-        panelKP.add(btnKPNormal);
-        panelKP.add(btnKPFatal);
+        bottomKP.add(btnKPNormal);
+        bottomKP.add(btnKPFatal);
+        panelKPLeft.add(bottomKP);
 
         bgKP.add(btnKPNormal);
         bgKP.add(btnKPFatal);
@@ -304,15 +362,40 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         btnKPNormal.addActionListener(this);
         btnKPFatal.addActionListener(this);
+        
+        btnKPSelect.addActionListener(this);
+        panelKP.add(btnKPSelect, BorderLayout.WEST);
+        panelKPLeft.setBorder(BorderFactory.createLineBorder(Color.gray));
+        panelKP.add(panelKPLeft, BorderLayout.CENTER);
 
-        add(panelKP);
+        centerWrapper.add(panelKP);
         // end Keypad ------------------------------------
+        
+        btnAPSelect.setActionCommand("APSelect");
+        btnCDSelect.setActionCommand("CDSelect");
+        btnCRSelect.setActionCommand("CRSelect");
+        btnDCSelect.setActionCommand("DCSelect");
+        btnDISSelect.setActionCommand("DISSelect");
+        btnEDSelect.setActionCommand("EDSelect");
+        btnKPSelect.setActionCommand("KPSelect");
+        
+        bgComponent.add(btnAPSelect);
+        bgComponent.add(btnCDSelect);
+        bgComponent.add(btnCRSelect);
+        bgComponent.add(btnDCSelect);
+        bgComponent.add(btnDISSelect);
+        bgComponent.add(btnEDSelect);
+        bgComponent.add(btnKPSelect);
+        
+        add(centerWrapper, BorderLayout.CENTER);
 
         panelATMSS.add(btnShutdown);
         panelATMSS.add(btnRestart);
         btnShutdown.addActionListener(this);
+        btnShutdown.setEnabled(false);
         btnRestart.addActionListener(this);
-        add(panelATMSS);
+        btnRestart.setEnabled(false);
+        add(panelATMSS, BorderLayout.SOUTH);
     }
 
     @Override
@@ -321,142 +404,239 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
         // AdvicePrinter --------------------------------------
         if (src == btnAPNormal) {
-            textFieldAP.setText("Normal");
-            log.info(id + ": Setting " + textFieldAP.getText());
-            atmssMBox.send(new Msg("Advice Printer is fine(100)", 1, textFieldAP.getText()));
+            labelStatusAP.setText("Normal");
+            log.info(id + ": Setting " + labelStatusAP.getText());
+            atmssMBox.send(new Msg("Advice Printer is fine(100)", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 100);
         }
         if (src == btnAPOutOfResource) {
-            textFieldAP.setText("No paper or ink");
-            log.info(id + ": Setting " + textFieldAP.getText());
-            atmssMBox.send(new Msg("Advice Printer Exception(101)", 1, textFieldAP.getText()));
+            labelStatusAP.setText("No paper or ink");
+            log.info(id + ": Setting " + labelStatusAP.getText());
+            atmssMBox.send(new Msg("Advice Printer Exception(101)", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 101);
         }
         if (src == btnAPJam) {
-            textFieldAP.setText("Paper jamed");
-            log.info(id + ": Setting " + textFieldAP.getText());
-            atmssMBox.send(new Msg("Advice Printer Exception(103)", 1, textFieldAP.getText()));
+            labelStatusAP.setText("Paper jamed");
+            log.info(id + ": Setting " + labelStatusAP.getText());
+            atmssMBox.send(new Msg("Advice Printer Exception(103)", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 103);
         }
         if (src == btnAPFatal) {
-            textFieldAP.setText("Out of service");
-            log.info(id + ": Setting " + textFieldAP.getText());
-            atmssMBox.send(new Msg("Advice Printer Exception(199)", 1, textFieldAP.getText()));
+            labelStatusAP.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusAP.getText());
+            atmssMBox.send(new Msg("Advice Printer Exception(199)", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 199);
         }
         // end AdvicePrinter --------------------------------------
 
         // CardReader ---------------------------------------------
         if (src == btnCRNormal) {
-            textFieldCR.setText("Normal");
-            log.info(id + ": Setting " + textFieldCR.getText());
-            atmssMBox.send(new Msg("Card Reader Normal(200)", 2, textFieldCR.getText()));
+            labelStatusCR.setText("Normal");
+            log.info(id + ": Setting " + labelStatusCR.getText());
+            atmssMBox.send(new Msg("Card Reader Normal(200)", 2, labelStatusCR.getText()));
             atmss.setHWStatus(CardReader.type, 200);
         }
         if (src == btnCRFatal) {
-            textFieldCR.setText("Out of service");
-            log.info(id + ": Setting " + textFieldCR.getText());
-            atmssMBox.send(new Msg("Card Reader Exception(299)", 2, textFieldCR.getText()));
+            labelStatusCR.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusCR.getText());
+            atmssMBox.send(new Msg("Card Reader Exception(299)", 2, labelStatusCR.getText()));
             atmss.setHWStatus(CardReader.type, 299);
         }
         // end CardReader ---------------------------------------------
 
         // CashDispenser -----------------------------------------
         if (src == btnCDNormal) {
-            textFieldCD.setText("Normal");
-            log.info(id + ": Setting " + textFieldCD.getText());
-            atmssMBox.send(new Msg("Cash Dispenser Normal(300)", 3, textFieldCD.getText()));
+            labelStatusCD.setText("Normal");
+            log.info(id + ": Setting " + labelStatusCD.getText());
+            atmssMBox.send(new Msg("Cash Dispenser Normal(300)", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 300);
         }
         if (src == btnCDNoCash) {
-            textFieldCD.setText("Insufficient Cash");
-            log.info(id + ": Setting " + textFieldCD.getText());
-            atmssMBox.send(new Msg("Cash Dispenser Exception(301)", 3, textFieldCD.getText()));
+            labelStatusCD.setText("Insufficient Cash");
+            log.info(id + ": Setting " + labelStatusCD.getText());
+            atmssMBox.send(new Msg("Cash Dispenser Exception(301)", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 301);
         }
         if (src == btnCDFatal) {
-            textFieldCD.setText("Out of service");
-            log.info(id + ": Setting " + textFieldCD.getText());
-            atmssMBox.send(new Msg("Cash Dispenser Exception(399 or 302)", 3, textFieldCD.getText()));
+            labelStatusCD.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusCD.getText());
+            atmssMBox.send(new Msg("Cash Dispenser Exception(399 or 302)", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 399);
         }
         // end CashDispenser ------------------------------------------
 
         // DepositCollector -----------------------------------------
         if (src == btnDCNormal) {
-            textFieldDC.setText("Normal");
-            log.info(id + ": Setting " + textFieldDC.getText());
-            atmssMBox.send(new Msg("Deposit Collector Normal(400)", 4, textFieldDC.getText()));
+            labelStatusDC.setText("Normal");
+            log.info(id + ": Setting " + labelStatusDC.getText());
+            atmssMBox.send(new Msg("Deposit Collector Normal(400)", 4, labelStatusDC.getText()));
             atmss.setHWStatus(DepositCollector.type, 400);
         }
         if (src == btnDCFatal) {
-            textFieldDC.setText("Out of service");
-            log.info(id + ": Setting " + textFieldDC.getText());
-            atmssMBox.send(new Msg("Deposit Collector Exception(499)", 4, textFieldDC.getText()));
+            labelStatusDC.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusDC.getText());
+            atmssMBox.send(new Msg("Deposit Collector Exception(499)", 4, labelStatusDC.getText()));
             atmss.setHWStatus(DepositCollector.type, 499);
         }
         // end DepositCollector ----------------------------------------
 
         // Display --------------------------------------------------
         if (src == btnDISNormal) {
-            textFieldDIS.setText("Normal");
-            log.info(id + ": Setting " + textFieldDIS.getText());
-            atmssMBox.send(new Msg("Display Normal(500)", 5, textFieldDIS.getText()));
+            labelStatusDIS.setText("Normal");
+            log.info(id + ": Setting " + labelStatusDIS.getText());
+            atmssMBox.send(new Msg("Display Normal(500)", 5, labelStatusDIS.getText()));
             atmss.setHWStatus(Display.type, 500);
         }
         if (src == btnDISFatal) {
-            textFieldDIS.setText("Out of service");
-            log.info(id + ": Setting " + textFieldDIS.getText());
-            atmssMBox.send(new Msg("Display Exception(599)", 5, textFieldDIS.getText()));
+            labelStatusDIS.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusDIS.getText());
+            atmssMBox.send(new Msg("Display Exception(599)", 5, labelStatusDIS.getText()));
             atmss.setHWStatus(Display.type, 599);
         }
         // end Display --------------------------------------------------
 
         // EnvelopDispenser --------------------------------------------------
         if (src == btnEDNormal) {
-            textFieldED.setText("Normal");
-            log.info(id + ": Setting " + textFieldED.getText());
-            atmssMBox.send(new Msg("Envelop Dispenser Normal(600)", 6, textFieldED.getText()));
+            labelStatusED.setText("Normal");
+            log.info(id + ": Setting " + labelStatusED.getText());
+            atmssMBox.send(new Msg("Envelop Dispenser Normal(600)", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 600);
         }
         if (src == btnEDNoEnv) {
-            textFieldED.setText("No Envelop");
-            log.info(id + ": Setting " + textFieldED.getText());
-            atmssMBox.send(new Msg("Envelop Dispenser Exception(601)", 6, textFieldED.getText()));
+            labelStatusED.setText("No Envelop");
+            log.info(id + ": Setting " + labelStatusED.getText());
+            atmssMBox.send(new Msg("Envelop Dispenser Exception(601)", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 601);
         }
         if (src == btnEDFatal) {
-            textFieldED.setText("Out of service");
-            log.info(id + ": Setting " + textFieldED.getText());
-            atmssMBox.send(new Msg("Envelop Dispenser Exception(699)", 6, textFieldED.getText()));
+            labelStatusED.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusED.getText());
+            atmssMBox.send(new Msg("Envelop Dispenser Exception(699)", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 699);
         }
         // end EnvelopDispenser --------------------------------------------------
 
         // Keypad -------------------------------------------------------------
         if (src == btnKPNormal) {
-            textFieldKP.setText("Normal");
-            log.info(id + ": Setting " + textFieldKP.getText());
-            atmssMBox.send(new Msg("Keypad Normal(700)", 7, textFieldKP.getText()));
+            labelStatusKP.setText("Normal");
+            log.info(id + ": Setting " + labelStatusKP.getText());
+            atmssMBox.send(new Msg("Keypad Normal(700)", 7, labelStatusKP.getText()));
             atmss.setHWStatus(Keypad.type, 700);
         }
         if (src == btnKPFatal) {
-            textFieldKP.setText("Out of service");
-            log.info(id + ": Setting " + textFieldKP.getText());
-            atmssMBox.send(new Msg("Keypad Exception(799)", 7, textFieldKP.getText()));
+            labelStatusKP.setText("Out of service");
+            log.info(id + ": Setting " + labelStatusKP.getText());
+            atmssMBox.send(new Msg("Keypad Exception(799)", 7, labelStatusKP.getText()));
             atmss.setHWStatus(Keypad.type, 799);
         }
         // end Keypad -------------------------------------------------------------
 
-        // atmss ---------------------------------------------------------
+        // atmss components ---------------------------------------------------------
+        
+        if (src == btnAPSelect || src == btnCDSelect
+        		|| src == btnCRSelect || src == btnDCSelect
+        		|| src == btnDISSelect || src == btnEDSelect
+        		|| src == btnKPSelect) {
+        	// enable shutdown & restart
+        	btnShutdown.setEnabled(true);
+        	btnRestart.setEnabled(true);
+        }
+        
         if (src == btnShutdown) {
             log.info(id + ": Setting Shutdown");
             atmssMBox.send(new Msg("Shutdown", -1, "Trying to shutdown"));
+            
+            handleComponentRequest(src, bgComponent.getSelection().getActionCommand());
+            
+            // clear selection
+            bgComponent.clearSelection();
+            btnShutdown.setEnabled(false);
+            btnRestart.setEnabled(false);
         }
         if (src == btnRestart) {
             log.info(id + ": Setting Restart");
             atmssMBox.send(new Msg("Restart", -1, "Trying to Restart"));
+            
+            handleComponentRequest(src, bgComponent.getSelection().getActionCommand());
+            
+            // clear selection
+            bgComponent.clearSelection();
+            btnShutdown.setEnabled(false);
+            btnRestart.setEnabled(false);
         }
-        // end atmss --------------------------------------------------------
+        // end atmss components--------------------------------------------------------
+    }
+    
+    public void handleComponentRequest(Object src, String command) {
+    	boolean isShutdown = true;
+    	
+    	if (src == btnRestart) isShutdown = false;
+
+    	if (command.equals(btnAPSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusAP.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusAP.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	if (command.equals(btnCDSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusCD.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusCD.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	if (command.equals(btnCRSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusCR.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusCR.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	if (command.equals(btnDCSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusDC.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusDC.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	if (command.equals(btnDISSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusDIS.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusDIS.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	if (command.equals(btnEDSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusED.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusED.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	if (command.equals(btnKPSelect.getActionCommand())) {
+    		if (isShutdown) {
+    			labelStatusKP.setText("Shutdown");
+    			// do some other things...
+    		} else {
+    			labelStatusKP.setText("Restarting");
+    			// do some other things...
+    		}
+    	}
+    	
+    	
+    	System.out.println("handleComponentRequest: " + command);
     }
 }
