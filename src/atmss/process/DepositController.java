@@ -38,9 +38,9 @@ public class DepositController extends ProcessController {
 	/**
 	 * 
 	 */
-	public DepositController(Session Session, MainController MainController) {
+	public DepositController(Session Session) {
 		// TODO Auto-generated constructor stub
-		super(Session, MainController);
+		super(Session);
 	}
 
 	public Boolean doDeopsit() {

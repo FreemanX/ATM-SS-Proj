@@ -4,6 +4,7 @@
 package atmss.process;
 
 import atmss.MainController;
+import atmss.Session;
 
 /**
  * @author SXM
@@ -16,9 +17,9 @@ public class EnquryController extends ProcessController{
 	/**
 	 * 
 	 */
-	public EnquryController(String AccountNumber, MainController MainController) {
+	public EnquryController(Session session) {
 		// TODO Auto-generated constructor stub
-		super(AccountNumber, MainController);
+		super(session);
 	}
 	
 	public Boolean doEnqury() {

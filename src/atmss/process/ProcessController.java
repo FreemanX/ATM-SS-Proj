@@ -23,7 +23,7 @@ public abstract class ProcessController {
 		System.err.println("You have to pass me AccountNumbre and Maincontroller...");
 	}
 
-	public ProcessController(Session CurrentSession, MainController MainController) {
+	public ProcessController(Session CurrentSession) {
 		// TODO Auto-generated constructor stub
 		operationCache = new LinkedList<>();
 		this._session = CurrentSession;

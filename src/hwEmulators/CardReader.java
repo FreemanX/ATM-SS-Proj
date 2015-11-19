@@ -50,7 +50,7 @@ public class CardReader extends Thread implements EmulatorActions {
 
 	public void ejectCard() {
 		waitForTaken = true;
-		msgTextArea.append("Card" + this.cardToSend + " Ejected, please take the card/n");
+		msgTextArea.append("Card" + this.cardToSend + " Ejected, please take the card\n");
 		log.info(id + ": Ejecting " + this.cardToSend);
 		atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
 	}
@@ -61,7 +61,7 @@ public class CardReader extends Thread implements EmulatorActions {
 
 	public void eatCard() {
 		waitForTaken = false;
-		msgTextArea.append("Card retained/n");
+		msgTextArea.append("Card retained\n");
 		log.info(id + ": Retain " + this.cardToSend);
 		atmssMBox.send(new Msg("CardReader", 2, ": Retain " + this.cardToSend));
 	}
@@ -250,12 +250,13 @@ public class CardReader extends Thread implements EmulatorActions {
 						textField.setText("");
 						msgTextArea.append("Card Ejected\n");
 						atmssMBox.send(new Msg("CardReader", CardReader.type, "Eject card: " + cardToSend));
-						_crViewMBox.send(new Msg("CR", CardReader.type, "Card taken " + cardToSend));
+						_crViewMBox.send(new Msg("CardReader", CardReader.type, "Card taken " + cardToSend));
 						log.info(id + ": Ejecting " + cardToSend);
 						cardToSend = "";
+						waitForTaken = false;
 					} else {
-						msgTextArea.append("Nothing to take!/n");
-						atmssMBox.send(new Msg("CardReader", 2, "Nothing to take!/n"));
+						msgTextArea.append("Nothing to take!\n");
+						atmssMBox.send(new Msg("CardReader", 2, "Nothing to take!\n"));
 					}
 
 				}

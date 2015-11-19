@@ -34,8 +34,8 @@ public class WithDrawController extends ProcessController{
 	private final long TIME_LIMIT = 30 * 1000;
 	private final String KP_CANCEL = "CANCEL";
 
-	public WithDrawController(Session CurrentSession, MainController MainController) {
-		super(CurrentSession, MainController);
+	public WithDrawController(Session CurrentSession) {
+		super(CurrentSession);
 	}
 
 	public Boolean doWithDraw() {

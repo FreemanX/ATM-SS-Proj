@@ -26,8 +26,8 @@ public class ChangePasswdController extends ProcessController {
 	private final long TIME_LIMIT = 30 * 1000;
 	private final String KP_CANCEL = "CANCEL";
 
-	public ChangePasswdController(Session CurrentSession, MainController MainController) {
-		super(CurrentSession, MainController);
+	public ChangePasswdController(Session CurrentSession) {
+		super(CurrentSession);
 	}
 
 	public boolean doChangePasswd() {

@@ -4,6 +4,7 @@
 package atmss.process;
 
 import atmss.MainController;
+import atmss.Session;
 
 /**
  * @author SXM
@@ -17,9 +18,9 @@ public class TransferController extends ProcessController{
 	/**
 	 * 
 	 */
-	public TransferController(String AccountNumber, MainController MainController) {
+	public TransferController(Session currentSession) {
 		// TODO Auto-generated constructor stub
-		super(AccountNumber, MainController);
+		super(currentSession);
 	}
 	
 	public Boolean doTransfer() {

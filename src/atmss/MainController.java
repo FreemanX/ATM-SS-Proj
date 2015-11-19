@@ -29,7 +29,10 @@ public class MainController extends Thread {
 		private volatile boolean EDIsOk = true;
 		private volatile boolean DCIsOk = true;
 		int i = 1;
-		String[] lines;
+		private String[] lines;
+		private final static String head = ">>>>>>>>>> ";
+		private final static String tail = " <<<<<<<<<<";
+		private int numOfWrongPassed = 0;
 
 		public Processor() {
 			// constructor...
@@ -45,6 +48,7 @@ public class MainController extends Thread {
 		}
 
 		protected void initProcessor() {
+			numOfWrongPassed = 0;
 			checker.resumeCheck();
 			this.isRunning = true;
 			this.i = 1;
@@ -62,6 +66,12 @@ public class MainController extends Thread {
 			}
 		}
 
+		private boolean isBankCard(String s) {
+			if (s != null && s.length() == 12)
+				return true;
+			return false;
+		}
+
 		public void run() {
 			// thread start...
 			checker.start();
@@ -70,13 +80,97 @@ public class MainController extends Thread {
 			while (true) {
 				while (isRunning) {
 					try {
+						/*----------------------<Debug-------------------------*/
 						clearLines();
-						if (EDIsOk && DCIsOk)
-							lines[1] = "Welcome! Full functions";
-						else
-							lines[1] = "Welcome! Deposit function disabled";
-
+						lines[0] = head + "Choose the controller you want to debug:" + tail;
+						lines[1] = head + "1. Debug Change password" + tail;
+						lines[2] = head + "2. Debug Deposit money" + tail;
+						lines[3] = head + "3. Debug Enqury" + tail;
+						lines[4] = head + "4. Debug Transfer money" + tail;
+						lines[5] = head + "5. Debug Withdraw money" + tail;
+						lines[6] = head + "6. Debug Main controller" + tail;
 						atmssHandler.doDisDisplayUpper(lines);
+
+						String choise = atmssHandler.doKPGetSingleInput(43200000);
+						Session fakeSession = new Session(1, "123456789000", "987654321000");
+						if (choise.equals("1")) {
+							changePasswdController = new ChangePasswdController(fakeSession);
+							System.out.println("Process finishes, result: " + changePasswdController.doChangePasswd());
+						} else if (choise.equals("2")) {
+							depositController = new DepositController(fakeSession);
+							System.out.println("Process finishes, result: " + depositController.doDeopsit());
+						} else if (choise.equals("3")) {
+							enquryController = new EnquryController(fakeSession);
+							System.out.println("Process finishes, result: " + enquryController.doEnqury());
+						} else if (choise.equals("4")) {
+							transferController = new TransferController(fakeSession);
+							System.out.println("Process finishes, result: " + transferController.doTransfer());
+						} else if (choise.equals("5")) {
+							withdrawController = new WithDrawController(fakeSession);
+							System.out.println("Process finishes, result: " + withdrawController.doWithDraw());
+						} else if (choise.equals("6")) {
+							
+						} else {
+							continue;
+						}
+
+						/*----------------------Debug>-------------------------*/
+
+						clearLines();
+						lines[1] = head + "Welcome!!!" + tail;
+						atmssHandler.doDisDisplayUpper(lines);
+
+						System.out.println("Waing for card...");
+						String cardNum = atmssHandler.doCRReadCard();
+						System.out.println("Rreceive card: " + cardNum);
+						if (!isBankCard(cardNum)) {
+							System.out.println("Here");
+							atmssHandler.doCREjectCard();
+							continue;
+						}
+
+						clearLines();
+						lines[1] = head + "Card inserted" + tail;
+						lines[2] = "Please input your password (20 sec/key)";
+						atmssHandler.doDisDisplayUpper(lines);
+
+						String pin = atmssHandler.doKPGetPasswd(20);
+						if (pin.equals("CANCEL")) {
+							atmssHandler.doCREjectCard();
+							continue;
+						}
+						/*----------------------Debug-------------------------*/
+						clearLines();
+						lines[1] = head + cardNum + tail;
+						lines[2] = head + pin + tail;
+						atmssHandler.doDisDisplayUpper(lines);
+						sleep(5000);
+						/*----------------------Debug-------------------------*/
+
+						// TODO remove true when BAMS function is OK
+						while (numOfWrongPassed < 3) {
+							if (true || AutherizePassed(cardNum, pin)) {
+								break;
+							} else {
+								numOfWrongPassed++;
+							}
+						}
+						if (numOfWrongPassed < 3) {
+
+							clearLines();
+							if (EDIsOk && DCIsOk) {
+								lines[1] = "Welcome! Full functions";
+							} else {
+								lines[1] = "Welcome! Deposit function disabled";
+							}
+							atmssHandler.doDisDisplayUpper(lines);
+							sleep(30000);
+						} else {
+							atmssHandler.doCREjectCard();
+							this.initProcessor();
+							return;
+						}
+
 						System.out.println(">>>>Processor is running, iteration: " + i);
 						i++;
 						sleep(5000);
@@ -158,8 +252,11 @@ public class MainController extends Thread {
 			}
 
 			try {
+				this.atmssHandler.doDisClearUpper();
+				String[] lines = { "", "Out of service!" };
+				this.atmssHandler.doDisDisplayUpper(lines);
 				waitForRepair();
-				sleep(3000);
+				sleep(300);
 			} catch (InterruptedException e) {
 			}
 		}
@@ -215,9 +312,6 @@ public class MainController extends Thread {
 
 	private void handleFatalExceptions() {
 		this.isRunning = false;
-		this.atmssHandler.doDisClearUpper();
-		String[] lines = { "", "Out of service!" };
-		this.atmssHandler.doDisDisplayUpper(lines);
 		this.processor.processorPause();
 	}
 

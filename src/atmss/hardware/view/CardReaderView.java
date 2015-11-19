@@ -52,6 +52,7 @@ public class CardReaderView extends HardwareView {
 			retainCard();
 			return false;
 		} else {
+			timer.stopTimer();
 			return true;
 		}
 	}
