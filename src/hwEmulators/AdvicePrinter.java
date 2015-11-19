@@ -108,6 +108,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		}
 		setAPStatus(100);
 		setUIEnable(true);
+		atmssMBox.send(new Msg("Component Restarted", 1, "Restarted"));
 	}
 
 	private void setUIEnable(boolean isEnable) {

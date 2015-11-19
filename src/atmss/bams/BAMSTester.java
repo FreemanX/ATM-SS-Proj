@@ -14,7 +14,7 @@ public class BAMSTester {
         String cardNo = "981358459216";
         String pin = "321495";
 
-        BAMSCommunicator con = new BAMSCommunicator(prefix);
+        BAMSCommunicator con = new BAMSCommunicator();
 
         String cred = con.login(cardNo, pin);
         System.out.println(this.getClass().getSimpleName() + ">> cred: " + cred);

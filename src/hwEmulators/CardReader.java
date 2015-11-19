@@ -107,6 +107,7 @@ public class CardReader extends Thread implements EmulatorActions {
 		}
 		setCRStatus(200);
 		setUIEnable(true);
+		atmssMBox.send(new Msg("Component Restarted", 2, "Restarted"));
 	}
 
 	private void setUIEnable(boolean isEnable) {

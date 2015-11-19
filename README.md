@@ -169,6 +169,7 @@ So far what we have done:
 ###======================Nov 19, 2015 Tony======================
 0. _doBAMSUpdatePasswd_ requires no old password because credential is enough to verify a session. You can verify old password by login again and get a credential.
 1. use _doBAMSUpdateBalance_ for both withdraw and deposit, set amount to positive number for deposit, negative for withdraw
+2. My TO-DO: #fatal code is overlaping with shutdown code, won't be able to restart component after fatal. Should seperate shutdown and fatal, shutdown code is now x98, waiting for update. #reduce restart sleep time
 
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.

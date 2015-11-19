@@ -103,6 +103,7 @@ public class Keypad extends Thread implements EmulatorActions {
 		}
 		setKPStatus(700);
 		setUIEnable(true);
+		atmssMBox.send(new Msg("Component Restarted", 7, "Restarted"));
 	}
 
 	private void setUIEnable(boolean isEnable) {

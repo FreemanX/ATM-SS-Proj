@@ -9,7 +9,7 @@ public class ATMSS extends Thread {
 	private Logger log = null;
 	private MBox mbox = null;
 	private ATMSSDBugConsole console = null;
-	private ExceptionEmulator exceptionEmulator = null;
+	private NewExceptionEmulator newExEmu = null;
 
 	// HW components
 	private AdvicePrinter advicePrinter = null; // 1
@@ -59,8 +59,8 @@ public class ATMSS extends Thread {
 		keypad = kp;
 	}
 
-	public void setExceptionEmulator(ExceptionEmulator ee) {
-		this.exceptionEmulator = ee;
+	public void setNewExEmu(NewExceptionEmulator newExEmu) {
+		this.newExEmu = newExEmu;
 	}
 
 	public void setHWStatus(int type, int statusCode) {
@@ -113,6 +113,9 @@ public class ATMSS extends Thread {
 			System.err.println("ATMSS Msg >> type:" + msg.getType() + ", sender: " + msg.getSender() + ", details: " + msg.getDetails());
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
+			}
+			if (msg.getDetails().equals("Restart")) {
+				handleComponentRestart(msg);
 			}
 		}
 	} // run
@@ -183,5 +186,9 @@ public class ATMSS extends Thread {
 			}
 		}
 
+	}
+
+	private void handleComponentRestart(Msg m) {
+		newExEmu.componentRestarted(m.getType());
 	}
 } // ATMSS

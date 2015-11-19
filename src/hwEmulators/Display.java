@@ -95,6 +95,7 @@ public class Display extends Thread implements EmulatorActions {
 		}
 		setDisStatus(500);
 		setUIEnable(true);
+		atmssMBox.send(new Msg("Component Restarted", 5, "Restarted"));
 	}
 	// --------------------------------------------------------
 

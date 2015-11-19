@@ -183,10 +183,10 @@ public class WithDrawController extends ProcessController{
 		}
 
 		if (result) { // TODO: if (_atmssHandler.doCDCollectInTime(TIME_LIMIT)) {
-// TODO:	if (!_atmssHandler.doBAMSWithdraw(accountNumber, withdrawAmount,_session)) {
-//				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS_UPDATING_BALANCE);
-//				return false;
-//			}
+			if (!_atmssHandler.doBAMSUpdateBalance(accountNumber, -withdrawAmount,_session)) {
+				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS_UPDATING_BALANCE);
+				return false;
+			}
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
 		} else { // otherwise not collect in time
