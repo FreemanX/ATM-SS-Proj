@@ -1,5 +1,7 @@
 package hwEmulators;
 
+import java.util.Date;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -15,7 +17,7 @@ import javax.swing.JButton;
 
 //======================================================================
 // EnvelopDispenser
-public class EnvelopDispenser extends Thread {
+public class EnvelopDispenser extends Thread implements EmulatorActions {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
@@ -73,6 +75,22 @@ public class EnvelopDispenser extends Thread {
 			msgTextArea.append("There's no envelop!");
 		}
 		return numOfEnvelop;
+	}
+
+	@Override
+	public void shutdown() {
+		setEDStatus(699);
+	}
+
+	@Override
+	public void restart() {
+		setEDStatus(600);
+		long ms = new Random(new Date().getTime()).nextInt(7000) + 3000; // 3000 - 10000
+		try {
+			sleep(ms);
+		} catch (InterruptedException e) {
+		}
+		setEDStatus(699);
 	}
 
 	// ------------------------------------------------------------

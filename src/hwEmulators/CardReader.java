@@ -1,5 +1,8 @@
 package hwEmulators;
 
+import java.awt.*;
+import java.util.Date;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -11,14 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
 
 //======================================================================
 // CardReader
-public class CardReader extends Thread {
+public class CardReader extends Thread implements EmulatorActions {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
@@ -33,6 +35,8 @@ public class CardReader extends Thread {
 	private final String Card3 = "Joker from poker";
 	private String cardToSend = "";
 	private boolean waitForTaken = false;
+	private JFrame myFrame = null;
+	private MyPanel myPanel = null;
 
 	// ------------------------------------------------------------
 	// CardReader
@@ -41,7 +45,7 @@ public class CardReader extends Thread {
 		log = ATMKickstarter.getLogger();
 
 		// create the text field and our frame
-		MyFrame myFrame = new MyFrame("Card Reader");
+		myFrame = new MyFrame("Card Reader");
 	} // CardReader
 
 	public void ejectCard() {
@@ -81,6 +85,49 @@ public class CardReader extends Thread {
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
+	@Override
+	public void shutdown() {
+		setCRStatus(299);
+		setUIEnable(false);
+	}
+
+	@Override
+	public void restart() {
+		shutdown();
+		// reset all stuffs
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		try {
+			sleep(ms);
+		} catch (InterruptedException e) {
+		}
+		setCRStatus(200);
+		setUIEnable(true);
+	}
+
+	private void setUIEnable(boolean isEnable) {
+		if (!isEnable) { // disable the UI
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			// add new panel
+			JPanel panel = new JPanel(new GridBagLayout());
+			JLabel label = new JLabel("SHUTDOWN");
+			label.setForeground(Color.WHITE);
+			panel.setBackground(Color.RED);
+			panel.add(label, new GridBagConstraints());
+			myFrame.getContentPane().add(panel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		} else {
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			myFrame.getContentPane().add(myPanel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		}
+	}
+
 	// ------------------------------------------------------------
 	// MyFrame
 	private class MyFrame extends JFrame {
@@ -89,7 +136,7 @@ public class CardReader extends Thread {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(UIManager.x + 900, UIManager.y);
-			MyPanel myPanel = new MyPanel();
+			myPanel = new MyPanel();
 			add(myPanel);
 			pack();
 			setSize(350, 280);

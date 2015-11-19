@@ -18,13 +18,6 @@ public class MBox {
 		log = ATMKickstarter.getLogger();
 	} // MBox
 
-	@Deprecated
-	public final synchronized void clearBox() {
-		this.msgCnt = 0;
-		this.mqueue.clear();
-		notify();
-	}
-
 	// ------------------------------------------------------------
 	// send
 	public final synchronized void send(Msg msg) {

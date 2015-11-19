@@ -1,15 +1,15 @@
 package hwEmulators;
 
+import java.awt.*;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-public class Display extends Thread {
+public class Display extends Thread implements EmulatorActions {
 	private String id;
 	private Logger log = null;
 	private ATMSS atmss = null;
@@ -17,6 +17,7 @@ public class Display extends Thread {
 	private JTextArea upperArea = null;
 	private JTextArea lowerArea = null;
 	private MyFrame myFrame = null;
+	private MyPanel myPanel = null;
 	public final static int type = 5;
 	private int status = 500;
 
@@ -29,7 +30,7 @@ public class Display extends Thread {
 		upperArea.setEditable(false);
 		lowerArea = new JTextArea(2, 48);
 		lowerArea.setEditable(false);
-		MyFrame myFrame = new MyFrame("Display");
+		myFrame = new MyFrame("Display");
 	} // Display
 
 	public int getDisStatus() {
@@ -38,6 +39,9 @@ public class Display extends Thread {
 
 	protected void setDisStatus(int Status) {
 		this.status = Status;
+		if (status == 599) {
+			setUIEnable(false);
+		}
 	}
 
 	// ------------------------------------------------------------
@@ -73,7 +77,62 @@ public class Display extends Thread {
 	public String getLowerContent() {
 		return lowerArea.getText();
 	}
+
+	@Override
+	public void shutdown() {
+		setDisStatus(599);
+	}
+
+	@Override
+	public void restart() {
+		shutdown();
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		try {
+			sleep(ms);
+		} catch (InterruptedException e) {
+		}
+		setDisStatus(500);
+	}
 	// --------------------------------------------------------
+
+	public void setBlueScreen() {
+		myFrame.getContentPane().removeAll(); // remove existing content
+
+		// add new panel
+		JPanel panel = new JPanel(new GridBagLayout());
+		JLabel label = new JLabel("BlueScreen message");
+		label.setForeground(Color.WHITE);
+		panel.setBackground(Color.BLUE);
+		panel.add(label, new GridBagConstraints());
+		myFrame.getContentPane().add(panel);
+
+		myFrame.getContentPane().revalidate();
+		myFrame.getContentPane().repaint();
+	}
+
+	private void setUIEnable(boolean isEnable) {
+		if (!isEnable) { // disable the UI
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			// add new panel
+			JPanel panel = new JPanel(new GridBagLayout());
+			JLabel label = new JLabel("SHUTDOWN");
+			//label.setForeground(Color.WHITE);
+			panel.setBackground(Color.black);
+			panel.add(label, new GridBagConstraints());
+			myFrame.getContentPane().add(panel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		} else {
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			myFrame.getContentPane().add(myPanel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		}
+	}
 
 
 	private class MyFrame extends JFrame {
@@ -83,7 +142,7 @@ public class Display extends Thread {
 			setTitle(title);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setLocation(UIManager.x + 350, UIManager.y);
-			MyPanel myPanel = new MyPanel();
+			myPanel = new MyPanel();
 			add(myPanel);
 			pack();
 			setSize(550, 400);

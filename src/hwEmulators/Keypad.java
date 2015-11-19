@@ -1,18 +1,18 @@
 package hwEmulators;
 
+import java.awt.*;
+import java.util.Date;
+import java.util.Random;
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // ======================================================================
 // Keypad
-public class Keypad extends Thread {
+public class Keypad extends Thread implements EmulatorActions {
 
 	private String id;
 	private Logger log = null;
@@ -22,6 +22,8 @@ public class Keypad extends Thread {
 	public final static int type = 7;
 	private int status = 700;
 	private long _inputId = 0;
+	private MyFrame myFrame = null;
+	private MyPanel myPanel = null;
 	// ------------------------------------------------------------------
 	private volatile boolean enabled = false;
 
@@ -53,7 +55,7 @@ public class Keypad extends Thread {
 		log = ATMKickstarter.getLogger();
 
 		// create frame
-		MyFrame myFrame = new MyFrame("Keypad");
+		myFrame = new MyFrame("Keypad");
 	} // Keypad
 
 	public int getKPStatus() {
@@ -81,6 +83,48 @@ public class Keypad extends Thread {
 		this._keypadViewMbox = KeypadViewMBox;
 	}
 
+	@Override
+	public void shutdown() {
+		setKPStatus(799);
+		setUIEnable(false);
+	}
+
+	@Override
+	public void restart() {
+		shutdown();
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		try {
+			sleep(ms);
+		} catch (InterruptedException e) {
+		}
+		setKPStatus(700);
+		setUIEnable(true);
+	}
+
+	private void setUIEnable(boolean isEnable) {
+		if (!isEnable) { // disable the UI
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			// add new panel
+			JPanel panel = new JPanel(new GridBagLayout());
+			JLabel label = new JLabel("SHUTDOWN");
+			label.setForeground(Color.WHITE);
+			panel.setBackground(Color.RED);
+			panel.add(label, new GridBagConstraints());
+			myFrame.getContentPane().add(panel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		} else {
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			myFrame.getContentPane().add(myPanel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		}
+	}
+
 	// ------------------------------------------------------------
 	// MyFrame
 	private class MyFrame extends JFrame {
@@ -89,7 +133,7 @@ public class Keypad extends Thread {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(UIManager.x + 900, UIManager.y + 480);
-			MyPanel myPanel = new MyPanel(new MyListener());
+			myPanel = new MyPanel(new MyListener());
 			add(myPanel);
 			pack();
 			setSize(350, 320);
