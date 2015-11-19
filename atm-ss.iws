@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4741caf-69a0-46a6-9d45-7713c4ec73a1" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/hwEmulators/ExceptionEmulator.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/atm-ss.ipr" afterPath="$PROJECT_DIR$/atm-ss.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/atm-ss.iws" afterPath="$PROJECT_DIR$/atm-ss.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/atmss/bams/BAMSCommunicator.java" afterPath="$PROJECT_DIR$/src/atmss/bams/BAMSCommunicator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/atmss/bams/BAMSTester.java" afterPath="$PROJECT_DIR$/src/atmss/bams/BAMSTester.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java" afterPath="$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" afterPath="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java" afterPath="$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/CardReader.java" afterPath="$PROJECT_DIR$/src/hwEmulators/CardReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/CashDispenser.java" afterPath="$PROJECT_DIR$/src/hwEmulators/CashDispenser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/DepositCollector.java" afterPath="$PROJECT_DIR$/src/hwEmulators/DepositCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/Display.java" afterPath="$PROJECT_DIR$/src/hwEmulators/Display.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java" afterPath="$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/Keypad.java" afterPath="$PROJECT_DIR$/src/hwEmulators/Keypad.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" afterPath="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
     </list>
     <ignored path="atm-ss.iws" />
@@ -39,13 +26,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="NewExceptionEmulator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NewExceptionEmulator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="463" column="21" selection-start-line="463" selection-start-column="21" selection-end-line="463" selection-end-column="21" />
+            <state vertical-scroll-proportion="-0.44228095">
+              <caret line="642" column="50" selection-start-line="642" selection-start-column="50" selection-end-line="642" selection-end-column="50" />
               <folding>
-                <element signature="method#handleComponentRequest#0;class#NewExceptionEmulator#0" expanded="false" />
+                <element signature="method#actionPerformed#0;class#NewExceptionEmulator#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -76,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ATMKickstarter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ATMKickstarter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1418637">
-              <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="54" column="52" selection-start-line="54" selection-start-column="52" selection-end-line="54" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -109,9 +96,9 @@
         <option value="$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/Keypad.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
-        <option value="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
         <option value="$PROJECT_DIR$/src/atmss/bams/BAMSTester.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
       </list>
     </option>
   </component>
@@ -780,12 +767,12 @@
       <created>1447923914041</created>
       <option name="number" value="Default" />
       <updated>1447923914041</updated>
-      <workItem from="1447923915699" duration="5387000" />
+      <workItem from="1447923915699" duration="5957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5387000" />
+    <option name="totallyTimeSpent" value="5957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="864" extended-state="0" />
@@ -992,16 +979,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="463" column="21" selection-start-line="463" selection-start-column="21" selection-end-line="463" selection-end-column="21" />
-          <folding>
-            <element signature="method#handleComponentRequest#0;class#NewExceptionEmulator#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/atmss/bams/BAMSTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1010,11 +987,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/atmss/hardware/controller/CardReaderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21279556">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1418637">
-          <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="52" selection-start-line="54" selection-start-column="52" selection-end-line="54" selection-end-column="52" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.44228095">
+          <caret line="642" column="50" selection-start-line="642" selection-start-column="50" selection-end-line="642" selection-end-column="50" />
+          <folding>
+            <element signature="method#actionPerformed#0;class#NewExceptionEmulator#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -578,11 +578,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusAP.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Shutdown"));
+                setButtonGroupEnable(bgAP, false);
     		} else {
     			labelStatusAP.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Restart"));
-
+                setButtonGroupEnable(bgAP, false);
     		}
     	}
     	if (command.equals(btnCDSelect.getActionCommand())) {
@@ -590,10 +591,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusCD.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 3, "Shutdown"));
+                setButtonGroupEnable(bgCD, false);
     		} else {
     			labelStatusCD.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 3, "Restart"));
+                setButtonGroupEnable(bgCD, false);
     		}
     	}
     	if (command.equals(btnCRSelect.getActionCommand())) {
@@ -601,10 +604,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusCR.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 2, "Shutdown"));
+                setButtonGroupEnable(bgCR, false);
     		} else {
     			labelStatusCR.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 2, "Restart"));
+                setButtonGroupEnable(bgCR, false);
     		}
     	}
     	if (command.equals(btnDCSelect.getActionCommand())) {
@@ -612,10 +617,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusDC.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 4, "Shutdown"));
+                setButtonGroupEnable(bgDC, false);
     		} else {
     			labelStatusDC.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 4, "Restart"));
+                setButtonGroupEnable(bgDC, false);
     		}
     	}
     	if (command.equals(btnDISSelect.getActionCommand())) {
@@ -623,10 +630,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusDIS.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 5, "Shutdown"));
+                setButtonGroupEnable(bgDIS, false);
     		} else {
     			labelStatusDIS.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 5, "Restart"));
+                setButtonGroupEnable(bgDIS, false);
     		}
     	}
     	if (command.equals(btnEDSelect.getActionCommand())) {
@@ -634,10 +643,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusED.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 6, "Shutdown"));
+                setButtonGroupEnable(bgED, false);
     		} else {
     			labelStatusED.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 6, "Restart"));
+                setButtonGroupEnable(bgED, false);
     		}
     	}
     	if (command.equals(btnKPSelect.getActionCommand())) {
@@ -645,10 +656,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusKP.setText("Shutdown");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 7, "Shutdown"));
+                setButtonGroupEnable(bgKP, false);
     		} else {
     			labelStatusKP.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 7, "Restart"));
+                setButtonGroupEnable(bgKP, false);
     		}
     	}
     	System.out.println("handleComponentRequest: " + command);
@@ -658,25 +671,39 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         switch (type) {
             case 1:
                 labelStatusAP.setText("Normal");
+                setButtonGroupEnable(bgAP, true);
                 break;
             case 2:
-                labelStatusAP.setText("Normal");
+                labelStatusCR.setText("Normal");
+                setButtonGroupEnable(bgCR, true);
                 break;
             case 3:
                 labelStatusCD.setText("Normal");
+                setButtonGroupEnable(bgCD, true);
                 break;
             case 4:
                 labelStatusDC.setText("Normal");
+                setButtonGroupEnable(bgDC, true);
                 break;
             case 5:
                 labelStatusDIS.setText("Normal");
+                setButtonGroupEnable(bgDIS, true);
                 break;
             case 6:
                 labelStatusED.setText("Normal");
+                setButtonGroupEnable(bgED, true);
                 break;
             case 7:
                 labelStatusKP.setText("Normal");
+                setButtonGroupEnable(bgKP, true);
                 break;
+        }
+    }
+
+    private void setButtonGroupEnable(ButtonGroup bg, boolean isEnable) {
+        for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
+            AbstractButton btn = buttons.nextElement();
+            btn.setEnabled(isEnable);
         }
     }
 }
