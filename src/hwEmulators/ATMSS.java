@@ -108,7 +108,7 @@ public class ATMSS extends Thread {
 	// run
 	public void run() {
 		while (true) {
-			console.println(id + " waiting for msg...");
+
 			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
 
