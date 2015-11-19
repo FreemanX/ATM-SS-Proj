@@ -1,5 +1,6 @@
 package hwEmulators;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -26,6 +27,8 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	public final static int type = 6;
 	private int status = 600;
 	private int numOfEnvelop = 10000;
+	private MyFrame myFrame = null;
+	private MyPanel myPanel = null;
 
 	// ------------------------------------- -----------------------
 	// EnvelopDispenser
@@ -34,7 +37,7 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		log = ATMKickstarter.getLogger();
 
 		// create the text field and our frame
-		MyFrame myFrame = new MyFrame("Envelop Dispenser");
+		myFrame = new MyFrame("Envelop Dispenser");
 	} // EnvelopDispenser
 
 	public int getEDStatus() {
@@ -83,18 +86,45 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		setEDStatus(699);
+		if (status != 699)
+			setEDStatus(699);
+		setUIEnable(false);
 	}
 
 	@Override
 	public void restart() {
-		setEDStatus(600);
+		shutdown();
 		long ms = new Random(new Date().getTime()).nextInt(7000) + 3000; // 3000 - 10000
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
 		}
 		setEDStatus(699);
+		setUIEnable(true);
+	}
+
+	private void setUIEnable(boolean isEnable) {
+		if (!isEnable) { // disable the UI
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			// add new panel
+			JPanel panel = new JPanel(new GridBagLayout());
+			JLabel label = new JLabel("SHUTDOWN");
+			//label.setForeground(Color.WHITE);
+			panel.setBackground(Color.black);
+			panel.add(label, new GridBagConstraints());
+			myFrame.getContentPane().add(panel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		} else {
+			myFrame.getContentPane().removeAll(); // remove existing content
+
+			myFrame.getContentPane().add(myPanel);
+
+			myFrame.getContentPane().revalidate();
+			myFrame.getContentPane().repaint();
+		}
 	}
 
 	// ------------------------------------------------------------
@@ -107,7 +137,7 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		public MyFrame(String title) {
 			setTitle(title);
 			setLocation(UIManager.x, UIManager.y);
-			MyPanel myPanel = new MyPanel();
+			myPanel = new MyPanel();
 			add(myPanel);
 			pack();
 			setSize(350, 200);

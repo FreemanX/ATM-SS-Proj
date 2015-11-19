@@ -134,7 +134,8 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		setCDStatus(399);
+		if (status != 399)
+			setCDStatus(399);
 		setUIEnable(false);
 	}
 

@@ -80,7 +80,8 @@ public class Display extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		setDisStatus(599);
+		if (status != 599)
+			setDisStatus(599);
 		setUIEnable(false);
 	}
 

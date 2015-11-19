@@ -90,7 +90,8 @@ public class CardReader extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		setCRStatus(299);
+		if (status != 299)
+			setCRStatus(299);
 		setUIEnable(false);
 	}
 

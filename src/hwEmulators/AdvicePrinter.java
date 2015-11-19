@@ -91,7 +91,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	@Override
 	public void shutdown() {
 		// set exception status
-		// setAPStatus(199);
+		if (status != 199)
+			setAPStatus(199);
 		setUIEnable(false);
 	}
 

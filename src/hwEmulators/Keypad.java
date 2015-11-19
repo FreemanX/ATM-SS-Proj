@@ -88,7 +88,8 @@ public class Keypad extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		setKPStatus(799);
+		if (status != 799)
+			setKPStatus(799);
 		setUIEnable(false);
 	}
 

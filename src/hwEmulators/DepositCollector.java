@@ -90,7 +90,8 @@ public class DepositCollector extends Thread implements EmulatorActions {
 
 	@Override
 	public void shutdown() {
-		setDCStatus(499);
+		if (status != 499)
+			setDCStatus(499);
 		setUIEnable(false);
 	}
 
