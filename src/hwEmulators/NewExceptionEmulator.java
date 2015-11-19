@@ -582,6 +582,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     			labelStatusAP.setText("Restarting");
     			// do some other things...
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Restart"));
+
     		}
     	}
     	if (command.equals(btnCDSelect.getActionCommand())) {
@@ -650,8 +651,32 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
                 atmssMBox.send(new Msg(this.getClass().getSimpleName(), 7, "Restart"));
     		}
     	}
-
-
     	System.out.println("handleComponentRequest: " + command);
+    }
+
+    public void componentRestarted(int type) { // 1 - ap, 2 - cr, 3 - cd, 4 - dc, 5 - dis, 6 - ed, 7 - kp
+        switch (type) {
+            case 1:
+                labelStatusAP.setText("Normal");
+                break;
+            case 2:
+                labelStatusAP.setText("Normal");
+                break;
+            case 3:
+                labelStatusCD.setText("Normal");
+                break;
+            case 4:
+                labelStatusDC.setText("Normal");
+                break;
+            case 5:
+                labelStatusDIS.setText("Normal");
+                break;
+            case 6:
+                labelStatusED.setText("Normal");
+                break;
+            case 7:
+                labelStatusKP.setText("Normal");
+                break;
+        }
     }
 }

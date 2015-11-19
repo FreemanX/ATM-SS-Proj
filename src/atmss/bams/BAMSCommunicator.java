@@ -9,11 +9,10 @@ import java.net.URL;
 // TestBASMHandler
 public class BAMSCommunicator extends BAMSHandler {
 
-	private String prefix = "";
+	private final static String prefix = "http://cs6063.comp.hkbu.edu.hk/~group05/";
 
-	public BAMSCommunicator(String prefix) {
+	public BAMSCommunicator() {
 		super(prefix);
-		this.prefix = prefix;
 	}
 
 	public boolean ping() {

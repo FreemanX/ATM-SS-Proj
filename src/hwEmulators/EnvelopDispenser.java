@@ -101,6 +101,7 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		}
 		setEDStatus(699);
 		setUIEnable(true);
+		atmssMBox.send(new Msg("Component Restarted", 6, "Restarted"));
 	}
 
 	private void setUIEnable(boolean isEnable) {
