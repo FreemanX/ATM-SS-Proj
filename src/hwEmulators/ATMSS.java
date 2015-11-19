@@ -114,7 +114,7 @@ public class ATMSS extends Thread {
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
 			}
-			if (msg.getSender().equals("Component Restarted")) {
+			if (msg.getDetails().equals("Restart")) {
 				handleComponentRestart(msg);
 			}
 		}

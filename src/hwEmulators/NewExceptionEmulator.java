@@ -668,6 +668,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     }
 
     public void componentRestarted(int type) { // 1 - ap, 2 - cr, 3 - cd, 4 - dc, 5 - dis, 6 - ed, 7 - kp
+        System.out.println("Component Restarted >> type: " + type);
         switch (type) {
             case 1:
                 labelStatusAP.setText("Normal");
