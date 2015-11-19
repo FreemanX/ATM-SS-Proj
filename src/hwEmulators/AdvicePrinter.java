@@ -50,7 +50,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 			this.resource = 0;
 		} else if (status == 103) {
 			// TODO simulate Paper jam
-		} else if (status == 199){
+		} else if (status == 199) {
 			shutdown();
 		} else {
 
@@ -91,7 +91,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	@Override
 	public void shutdown() {
 		// set exception status
-		setAPStatus(199);
+		// setAPStatus(199);
 		setUIEnable(false);
 	}
 
@@ -99,7 +99,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	public void restart() {
 		shutdown();
 		// reset all stuffs
-		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 - 4500
+		long ms = new Random(new Date().getTime()).nextInt(4000) + 500; // 500 -
+																		// 4500
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
