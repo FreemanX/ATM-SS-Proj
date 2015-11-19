@@ -33,10 +33,6 @@ class SystemCheckThread extends Thread {
 		System.out.println("Defualt constructor! Pass me the controllers");
 	}
 
-	public void setIsRunning(boolean b) {
-		this.isRunning = b;
-	}
-
 	public SystemCheckThread(AdvicePrinterController ap, CardReaderController cr, CashDispenserController cd,
 			DepositCollectorController dc, DisplayController dp, EnvelopDispenserController ed, KeypadController kp,
 			BAMSCommunicator ba) {
@@ -69,8 +65,12 @@ class SystemCheckThread extends Thread {
 					e.printStackTrace();
 				}
 			}
+			try {
+				sleep(5000);
+				System.err.println(">>>>>>>>>>>>>>>>>System Check Thread paused!");
+			} catch (InterruptedException e) {
+			}
 
-			System.err.println(">>>>>>>>>>>>>>>>>System Check Thread paused!");
 		}
 	}
 

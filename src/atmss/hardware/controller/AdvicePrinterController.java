@@ -10,6 +10,7 @@ import atmss.hardware.exceptioins.AdvicePrinterException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.AdvicePrinterView;
 import hwEmulators.AdvicePrinter;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -123,15 +124,19 @@ public class AdvicePrinterController extends HardwareController {
 			case 101:
 				// TODO notify the main controller
 				System.err.println(">>>>>>>>>>>Out of paper");
+				this._maincontrollerMBox.send(new Msg("AP", 101, "Out of paper"));
 				break;
 			case 102:
 				System.err.println(">>>>>>>>>>>Out of ink");
+				this._maincontrollerMBox.send(new Msg("AP", 102, "Out of ink"));
 				break;
 			case 103:
 				System.err.println(">>>>>>>>>>>Paper jam");
+				this._maincontrollerMBox.send(new Msg("AP", 103, "Paper jam"));
 				break;
 			case 199:
 				System.err.println(">>>>>>>>>>>Hardware failure");
+				this._maincontrollerMBox.send(new Msg("AP", 199, "Hardware failure"));
 				break;
 			default:
 				throw ex;

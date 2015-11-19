@@ -26,53 +26,42 @@ public class MainController extends Thread {
 				cashDispenserController, depositCollectorController, displayController, envelopDispenserController,
 				keypadController, serverCommunicator);
 		private volatile boolean isRunning = true;
-		
+		int i = 1;
 
 		public void Processor() {
 			// constructor...
 		}
 
+		protected void initProcessor() {
+			checker.resumeCheck();
+			this.isRunning = true;
+			this.i = 1;
+		}
+
+		protected void setIsRunning(boolean b) {
+			this.isRunning = b;
+			checker.pauseCheck();
+		}
+
 		public void run() {
 			// thread start...
 			checker.start();
-			int i = 1;
 
 			// debug test
 			while (true) {
-				try {
-					System.err.println("Processor is running, iteration: " + i);
-					i++;
-					sleep(10000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				while (isRunning) {
+					try {
+						System.out.println(">>>>Processor is running, iteration: " + i);
+						i++;
+						sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
 
 	}
-
-	// -------------------------------------------------------------------------------------
-
-	private CashDispenserController cashDispenserController;
-	private CardReaderController cardReaderController;
-	private KeypadController keypadController;
-	private DepositCollectorController depositCollectorController;
-	private AdvicePrinterController advicePrinterController;
-	private DisplayController displayController;
-	private EnvelopDispenserController envelopDispenserController;
-	private EnquryController enquryController;
-	private TransferController transferController;
-	private ChangePasswdController changePasswdController;
-	private WithDrawController withdrawController;
-	private DepositController depositController;
-	private BAMSCommunicator serverCommunicator;
-	private LinkedList<Session> sessionLog;
-	private Processor processor;
-	private List<Session> sessions = new ArrayList<Session>();
-	private ATMSSHandler atmssHandler;
-	private MBox mainControllerMBox;
-	// TODO Singleton need to be implemented
-	// private static MainController self = new MainController();
 
 	/**
 	 *
@@ -81,6 +70,7 @@ public class MainController extends Thread {
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
 			Display display, EnvelopDispenser envelopDispenser, Keypad KP) {
+		this.isRunning = true;
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
 		this.cashDispenserController = new CashDispenserController(CD);
@@ -92,9 +82,39 @@ public class MainController extends Thread {
 		this.atmssHandler.initHandler(cashDispenserController, cardReaderController, keypadController,
 				depositCollectorController, advicePrinterController, displayController, envelopDispenserController,
 				serverCommunicator);
+		mainControllerMBox = new MBox("MainController");
+		this.advicePrinterController.setMainControllerMBox(mainControllerMBox);
+		this.cardReaderController.setMainControllerMBox(mainControllerMBox);
+		this.cashDispenserController.setMainControllerMBox(mainControllerMBox);
+		this.depositCollectorController.setMainControllerMBox(mainControllerMBox);
+		this.displayController.setMainControllerMBox(mainControllerMBox);
+		this.envelopDispenserController.setMainControllerMBox(mainControllerMBox);
+		this.keypadController.setMainControllerMBox(mainControllerMBox);
+
 		// start Processor
 		this.processor = new Processor();
 		processor.start();
+	}
+
+	@Override
+	public void run() {
+		while (true) {
+			while (isRunning) {
+				System.out.println(">>>>>>>>>>>>>Main controller is waiting for msg...");
+				Msg msg = this.mainControllerMBox.receive();
+				System.out.println(">>>>>>>>>>>>>Main controller receives: " + msg);
+				String sender = msg.getSender();
+				switch (sender) {
+				case "AP":
+					handleAPException(msg);
+					break;
+				default:
+					break;
+				}
+			}
+			waitForRepair();
+			System.err.println(">>>>>>>>>>>>>>>>The system is out of service!!!");
+		}
 	}
 
 	public boolean AutherizePassed(String cardNo, String pin) {
@@ -104,6 +124,14 @@ public class MainController extends Thread {
 			return true;
 		}
 		return false;
+	}
+
+	private void handleAPException(Msg msg) {
+		this.isRunning = false;
+		this.atmssHandler.doDisClearUpper();
+		String[] lines = { "", "Out of service!" };
+		this.atmssHandler.doDisDisplayUpper(lines);
+		this.processor.setIsRunning(false);
 	}
 
 	private Session getLastSession() {
@@ -145,15 +173,47 @@ public class MainController extends Thread {
 		return isSuccess;
 	}
 
-	private boolean initAll() // Initiate all for serving next guest
-	{
-		boolean isSuccess = false;
-		this.cardReaderController.initCR();
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
+	private void waitForRepair() {
+		try {
+			if (this.advicePrinterController.updateStatus() && this.cardReaderController.updateStatus()
+					&& this.cashDispenserController.updateStatus() && this.depositCollectorController.updateStatus()
+					&& this.displayController.updateStatus() && this.envelopDispenserController.updateStatus()
+					&& this.keypadController.updateStatus())
+				initAll();
+		} catch (Exception e) {
+		}
 	}
+
+	private void initAll() // Initiate all for serving next guest
+	{
+		this.mainControllerMBox.clearBox();
+		this.cardReaderController.initCR();
+		this.isRunning = true;
+		this.atmssHandler.doDisClearAll();
+		processor.initProcessor();
+	}
+
+	// -------------------------------------------------------------------------------------
+	private CashDispenserController cashDispenserController;
+	private CardReaderController cardReaderController;
+	private KeypadController keypadController;
+	private DepositCollectorController depositCollectorController;
+	private AdvicePrinterController advicePrinterController;
+	private DisplayController displayController;
+	private EnvelopDispenserController envelopDispenserController;
+	private EnquryController enquryController;
+	private TransferController transferController;
+	private ChangePasswdController changePasswdController;
+	private WithDrawController withdrawController;
+	private DepositController depositController;
+	private BAMSCommunicator serverCommunicator;
+	private LinkedList<Session> sessionLog;
+	private Processor processor;
+	private List<Session> sessions = new ArrayList<Session>();
+	private ATMSSHandler atmssHandler;
+	private MBox mainControllerMBox;
+	private volatile boolean isRunning;
+	// TODO Singleton need to be implemented
+	// private static MainController self = new MainController();
 
 }
