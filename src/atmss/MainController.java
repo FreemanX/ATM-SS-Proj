@@ -92,7 +92,7 @@ public class MainController extends Thread {
 						atmssHandler.doDisDisplayUpper(lines);
 
 						String choise = atmssHandler.doKPGetSingleInput(43200000);
-						Session fakeSession = new Session(1, "123456789000", "987654321000");
+						Session fakeSession = new Session(1, "612954853189", "981358459216");
 						if (choise.equals("1")) {
 							changePasswdController = new ChangePasswdController(fakeSession);
 							System.out.println("Process finishes, result: " + changePasswdController.doChangePasswd());
