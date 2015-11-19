@@ -94,6 +94,7 @@ public class Display extends Thread implements EmulatorActions {
 		} catch (InterruptedException e) {
 		}
 		setDisStatus(500);
+		setUIEnable(true);
 	}
 	// --------------------------------------------------------
 
