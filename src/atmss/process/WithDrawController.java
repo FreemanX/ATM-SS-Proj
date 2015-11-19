@@ -14,25 +14,23 @@ import atmss.Session;
 public class WithDrawController extends ProcessController{
 
 	private final String OPERATION_NAME = "Withdraw Cash";
-	private final String FAILED_FROM_CANCEL = "The user canceled the operation";
-	private final String FAILED_FROM_CARDREADER = "No response from the card reader";
+	private final String FAILED_FROM_BAMS_LOADING_ACCOUNTS = "Failed to read account information";
+	private final String FAILED_FROM_BAMS_UPDATING_BALANCE = "Failed to update balance at BAMS";
 	private final String FAILED_FROM_DISPLAY = "No response from the display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
+	private final String FAILED_FROM_CASHDISPENSER = "No response from the cash dispenser";
+	private final String FAILED_FROM_CD_EJECTING = "The cash dispenser cannot eject the cash";
+	private final String FAILED_FROM_CD_RETAINING = "The cash dispenser cannot retain the cash";
+	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
+	private final String FAILED_FROM_USER_COLLECTING = "The cash was not collected by the card holder";
 	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
 	private final String FAILED_FROM_INVENTORY = "Not enough inventory to withdraw";
-	private final String FAILED_FROM_CASHDISPENSER = "No response from the cash dispenser";
-	private final String FAILED_FROM_CD_COLLECTION = "The cash dispenser cannot retain the cash";
-	private final String FAILED_FROM_USER_COLLECTION = "The cash was not collected by the card holder";
-	private final String FAILED_FROM_BAMS = "No response from the from BAMS";
-	private final String ERROR_BALANCE_HEADER = "Not enough balance!";
-	private final String ERROR_BAD_CHOICE_HEADER = "Not a valid choice! Please choose your account:";
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
+	private final String PROMPT_FOR_CHOICE_ERR_HEADER = "Not a valid choice! Please choose your account:";
 	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
-	private final String[] PROMPT_FOR_AMOUNT_AGAIN = {"Invalid amount!","The withdraw amount must end up with at least two 0s:"};
+	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must end up with at least two 0s:"};
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	private final String[] SHOW_TIMEOUT = {"Operation time out!"};
-	private final String[] SHOW_CANCEL = {"Operation cancelled!"};
 	private final long TIME_LIMIT = 30 * 1000;
 	private final String KP_CANCEL = "CANCEL";
 
@@ -41,16 +39,22 @@ public class WithDrawController extends ProcessController{
 	}
 
 	public Boolean doWithDraw() {
-		String[] accountNumbers = new String[4];
+		String[] accountNumbers;
 		String accountNumber = "";
 		int withdrawAmount = 0;
 		int[] withdrawPlan;
+		int[] cashInventory;
+		double balance = 0;
 		boolean result = false;
 
-		// get account numbers from the CardReader
-		// TODO: accountNumbers = _atmssHandler.doBAMSCheckAccounts();
+		// get account numbers from BAMS
+		accountNumbers = _atmssHandler.doBAMSGetAccounts(_session);
 		if (accountNumbers == null || accountNumbers.length == 0) {
-			recordOperation(FAILED_FROM_CARDREADER);
+			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BAMS_LOADING_ACCOUNTS})) {
+				recordOperation(FAILED_FROM_DISPLAY);
+				return false;
+			}
+			recordOperation(FAILED_FROM_BAMS_LOADING_ACCOUNTS);
 			return false;
 		}
 
@@ -63,18 +67,18 @@ public class WithDrawController extends ProcessController{
 		while (true) {
 			String userInput = doKPGetChoice(TIME_LIMIT);
 			if (userInput == null) {
-				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
 					recordOperation(FAILED_FROM_DISPLAY);
 					return false;
 				}
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
 			} else if (userInput.equals(KP_CANCEL)) {
-				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
 					recordOperation(FAILED_FROM_DISPLAY);
 					return false;
 				}
-				recordOperation(FAILED_FROM_CANCEL);
+				recordOperation(FAILED_FROM_USER_CANCELLING);
 				return false;
 			}
 			int choice = choiceFromString(userInput);
@@ -82,8 +86,7 @@ public class WithDrawController extends ProcessController{
 				accountNumber = accountNumbers[choice-1];
 				break;
 			}
-
-			if (!_atmssHandler.doDisDisplayUpper(createOptionList(ERROR_BAD_CHOICE_HEADER,accountNumbers))) {
+			if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_ERR_HEADER,accountNumbers))) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -97,18 +100,18 @@ public class WithDrawController extends ProcessController{
 		while (true) {
 			String userInput= _atmssHandler.doKPGetIntegerMoneyAmount(TIME_LIMIT);
 			if (userInput == null) {
-				if (!_atmssHandler.doDisDisplayUpper(SHOW_TIMEOUT)) {
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
 					recordOperation(FAILED_FROM_DISPLAY);
 					return false;
 				}
 				recordOperation(FAILED_FROM_KEYPAD);
 				return false;
 			} else if (userInput.equals(KP_CANCEL)) {
-				if (!_atmssHandler.doDisDisplayUpper(SHOW_CANCEL)) {
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
 					recordOperation(FAILED_FROM_DISPLAY);
 					return false;
 				}
-				recordOperation(FAILED_FROM_CANCEL);
+				recordOperation(FAILED_FROM_USER_CANCELLING);
 				return false;
 			}
 			int amount = amountFromString(userInput);
@@ -116,27 +119,24 @@ public class WithDrawController extends ProcessController{
 				withdrawAmount = amount;
 				break;
 			}
-			
-			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT_AGAIN)) {
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT_ERR)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
 		}
 		// <- preparing the necessary information
 
-		// contact BAMS now
+		// contact BAMS, 1. get current balance
 		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-
-		double balance = _atmssHandler.doBAMSCheckBalance(accountNumber, _session);
+		balance = _atmssHandler.doBAMSCheckBalance(accountNumber, _session);
 		
 		// -> display the result
-		// failed:1
+		// FAILED_FROM_BALANCE
 		if (withdrawAmount > balance) {
-			String[] displayLines = {ERROR_BALANCE_HEADER, "You can only withdraw $"+balance};
-			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BALANCE,"You can only withdraw $"+balance})) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -144,12 +144,11 @@ public class WithDrawController extends ProcessController{
 			return false;
 		} 
 		
-		int[] cashInventory = _atmssHandler.doCDCheckCashInventory();
+		cashInventory = _atmssHandler.doCDCheckCashInventory();
 		
-		// failed:2
+		// FAILED_FROM_CASHDISPENSER
 		if (cashInventory == null) {
-			String[] displayLines = {FAILED_FROM_CASHDISPENSER};
-			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_CASHDISPENSER})) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -159,10 +158,9 @@ public class WithDrawController extends ProcessController{
 		
 		withdrawPlan = getWithdrawPlan(cashInventory, withdrawAmount);
 		
-		// failed:3
+		// FAILED_FROM_INVENTORY
 		if (withdrawPlan[0] == -1) {
-			String[] displayLines = {FAILED_FROM_INVENTORY};
-			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_INVENTORY})) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
@@ -170,24 +168,23 @@ public class WithDrawController extends ProcessController{
 			return false;
 		}
 
-		// succeeded:
+		// eject the cash
 		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_COLLECTION)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
 		if (!_atmssHandler.doCDEjectCash(withdrawPlan)) {
-			String[] displayLines = {FAILED_FROM_CASHDISPENSER};
-			if (!_atmssHandler.doDisDisplayUpper(displayLines)) {
+			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_CD_EJECTING})) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CASHDISPENSER);
+			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_EJECTING);
 			return false;
 		}
 
-		if (result) { // TODO: if (_mainController.collectInTime()) {
-//			if (!_atmssHandler.doBAMSWithdraw(accountNumber, withdrawAmount)) {
-//				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS);
+		if (result) { // TODO: if (_atmssHandler.doCDCollectInTime(TIME_LIMIT)) {
+// TODO:	if (!_atmssHandler.doBAMSWithdraw(accountNumber, withdrawAmount,_session)) {
+//				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS_UPDATING_BALANCE);
 //				return false;
 //			}
 			recordOperation(accountNumber, withdrawAmount);
@@ -195,10 +192,10 @@ public class WithDrawController extends ProcessController{
 		} else { // otherwise not collect in time
 			if (!_atmssHandler.doCDRetainCash()) {
 				// cannot retain and will not inform BAMS
-				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_COLLECTION);
+				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_RETAINING);
 				return false;
 			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_USER_COLLECTION);
+			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_USER_COLLECTING);
 			return false;
 		}
 		// <- display the result

@@ -153,10 +153,18 @@ So far what we have done:
 
 ###======================Nov 19, 2015 DJY======================
 0.	When changing the password, do we need old password or not?
-	Currently I asking for old password in the ChangePasswdController, but doBAMSUpdatePasswd only needs new pin. So what's the deal?
+	Currently I asking for old password in the ChangePasswdController, 
+	but doBAMSUpdatePasswd only needs new pin. So what's the deal?
 1.	How can a process know the account numbers associated with the card?
-2.	doKPGetXXX won't return "CANCEL" but an empty String, we probably need to fix that; I also wrote a doKPGetChoice method in WithdrawController, if anyone think it is useful, we may move that code to ATMSSHandler.
+2.	doKPGetXXX won't return "CANCEL" but an empty String, we probably need to fix that; 
+	I also wrote a doKPGetChoice method in WithdrawController, 
+	if anyone think it is useful, we may move that code to ATMSSHandler.
 
+###======================Nov 19, 2015 DJY======================
+0.	Need method: "public boolean doBAMSUpdatePasswd(String OldPassword, String NewPassword, Seesion CurrentSession)"
+1.	Need method: "public boolean doCDCollectInTime(long Duration)"
+2.	Need method: "public boolean doBAMSWithdraw(String AccountNumber, int WithdrawAmount, Seesion CurrentSession)"
+	or just use "public boolean doBAMSUpdateBalance(String accNumber, double amount, Session currentSession)"?
 
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.
