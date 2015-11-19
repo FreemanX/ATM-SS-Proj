@@ -22,7 +22,7 @@ public class MBox {
 		msgCnt = 0;
 		mqueue.clear();
 	}
-	
+
 	// ------------------------------------------------------------
 	// send
 	public final synchronized void send(Msg msg) {
@@ -61,5 +61,21 @@ public class MBox {
 		return msg;
 	} // receive
 
+	/*
+	 * DO NOT USE THIS,
+	 * this is only used in NewExceptionEmu. for temporally solution
+	 * - Tony
+	 */
+	public final synchronized Msg receiveTemp() {
+		try {
+			while (mqueue.size() < 1) {
+				// wait
+				wait();
+			}
+		} catch (InterruptedException e) {
+		}
+
+		return mqueue.remove(0);
+	}
 
 } // MBox
