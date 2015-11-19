@@ -109,7 +109,7 @@ public class MainController extends Thread {
 							withdrawController = new WithDrawController(fakeSession);
 							System.out.println("Process finishes, result: " + withdrawController.doWithDraw());
 						} else if (choise.equals("6")) {
-							
+
 						} else {
 							continue;
 						}
