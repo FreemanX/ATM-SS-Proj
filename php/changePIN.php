@@ -14,9 +14,11 @@ require_once("settings.php");
 require_once("credManager.php");
 require_once("sqlHelper.php");
 
-$cardNo = $_GET["cardNo"];
-$cred = $_GET["cred"];
-$newPin = $_GET["newPin"];
+$_get_lower = array_change_key_case($_GET, CASE_LOWER);
+
+$cardNo = $_get_lower["cardno"];
+$cred = $_get_lower["cred"];
+$newPin = $_get_lower["newpin"];
 
 $requestResult = -1;
 

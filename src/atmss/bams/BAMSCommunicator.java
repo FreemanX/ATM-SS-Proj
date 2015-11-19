@@ -15,14 +15,29 @@ public class BAMSCommunicator extends BAMSHandler {
 		super(prefix);
 		this.prefix = prefix;
 	}
-	
+
 	public boolean ping() {
-		return true;
+		String urlStr = prefix + "login.php?"; // expect "ERROR"
+		if (sendRequest(urlStr).equalsIgnoreCase("error")) {
+			return true;
+		}
+		return false;
 	}
 
 	public int changePin(String cardNo, String cred, String newPin) {
 		String urlStr = prefix + "changePIN.php?cardNo=" + cardNo + "&cred=" + cred + "&newPin=" + newPin;
 		return Integer.parseInt(sendRequest(urlStr));
+	}
+
+	public String[] getAccounts(String cardNo, String cred) {
+		String urlStr = prefix + "accounts.php?cardNo=" + cardNo + "&cred=" + cred;
+		String result = sendRequest(urlStr);
+
+		if (!result.equalsIgnoreCase("error")) {
+			return result.split(",");
+		}
+
+		return new String[0];
 	}
 
 	// ------------------------------------------------------------

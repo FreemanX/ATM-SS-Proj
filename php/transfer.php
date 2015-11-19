@@ -16,11 +16,13 @@ require_once("settings.php");
 require_once("credManager.php");
 require_once("sqlHelper.php");
 
-$cardNo = $_GET["cardno"];
-$fromAcc = $_GET["fromAcc"];
-$toAcc = $_GET["toAcc"];
-$cred = $_GET["cred"];
-$amount = floatval($_GET["amount"]);
+$_get_lower = array_change_key_case($_GET, CASE_LOWER);
+
+$cardNo = $_get_lower["cardno"];
+$fromAcc = $_get_lower["fromacc"];
+$toAcc = $_get_lower["toacc"];
+$cred = $_get_lower["cred"];
+$amount = floatval($_get_lower["amount"]);
 //echo $_SERVER['REQUEST_URI'];
 $requestResult = -1;
 $verified = false;

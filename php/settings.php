@@ -1,6 +1,6 @@
 <?php
 	$dbhost = '127.0.0.1';
-	$dbuser = 'root';
-	$dbpass = 'ting2750';
-	$dbname = 'test';
+	$dbuser = 'group05';
+	$dbpass = '71552236';
+	$dbname = 'group05';
 ?>

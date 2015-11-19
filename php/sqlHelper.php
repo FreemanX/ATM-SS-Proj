@@ -38,4 +38,8 @@
 		}
 		return -1;
 	}
+	function getAccounts($cardNo) {
+		$sql = sprintf("SELECT account_no FROM accounts WHERE card_no = '%s'", mysql_real_escape_string($cardNo));
+		return mysql_query($sql);
+	}
 ?>

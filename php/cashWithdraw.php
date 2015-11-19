@@ -15,10 +15,12 @@ require_once("settings.php");
 require_once("credManager.php");
 require_once("sqlHelper.php");
 
-$cardNo = $_GET["cardno"];
-$accNo = $_GET["accNo"];
-$cred = $_GET["cred"];
-$amount = intval($_GET["amount"]);
+$_get_lower = array_change_key_case($_GET, CASE_LOWER);
+
+$cardNo = $_get_lower["cardno"];
+$accNo = $_get_lower["accno"];
+$cred = $_get_lower["cred"];
+$amount = intval($_get_lower["amount"]);
 
 $requestResult = -1;
 
