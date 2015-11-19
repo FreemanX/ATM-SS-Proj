@@ -148,10 +148,12 @@ So far what we have done:
 3. The _MainController_ processes (system check...etc) are moved into a new nested class _Processor_ implementing a _CheckerListener_ which will listen for status notification. The testing template has been finished, check _Processor_ and _SystemCheckThread_ for more detail. Also run the program to see the effect.
 
 ###======================Nov 18, 2015 Freeman======================
+
 0. All the functions to call the hardware controllers and BAMS are moved to new class called ATMSSHandler
 1. Some changes have made to process controller I have told LiHui
 
 ###======================Nov 19, 2015 DJY======================
+
 0.	When changing the password, do we need old password or not?
 	Currently I asking for old password in the ChangePasswdController, 
 	but doBAMSUpdatePasswd only needs new pin. So what's the deal?
@@ -161,15 +163,21 @@ So far what we have done:
 	if anyone think it is useful, we may move that code to ATMSSHandler.
 
 ###======================Nov 19, 2015 DJY======================
+
 0.	Need method: "public boolean doBAMSUpdatePasswd(String OldPassword, String NewPassword, Seesion CurrentSession)"
 1.	Need method: "public boolean doCDCollectInTime(long Duration)"
 2.	Need method: "public boolean doBAMSWithdraw(String AccountNumber, int WithdrawAmount, Seesion CurrentSession)"
 	or just use "public boolean doBAMSUpdateBalance(String accNumber, double amount, Session currentSession)"?
 
 ###======================Nov 19, 2015 Tony======================
+
 0. _doBAMSUpdatePasswd_ requires no old password because credential is enough to verify a session. You can verify old password by login again and get a credential.
 1. use _doBAMSUpdateBalance_ for both withdraw and deposit, set amount to positive number for deposit, negative for withdraw
 2. My TO-DO: #fatal code is overlaping with shutdown code, won't be able to restart component after fatal. Should seperate shutdown and fatal, shutdown code is now x98, waiting for update. #reduce restart sleep time
+
+###======================Nov 19, 2015 Freeman======================
+
+0. All the fucntions of hardware has been tested, so far so good.
 
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.
