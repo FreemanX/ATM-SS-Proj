@@ -76,6 +76,9 @@ public class CardReader extends Thread implements EmulatorActions {
 
 	protected void setCRStatus(int Status) {
 		this.status = Status;
+		if (status == 299) {
+			shutdown();
+		}
 	}
 
 	// ------------------------------------------------------------

@@ -40,7 +40,7 @@ public class Display extends Thread implements EmulatorActions {
 	protected void setDisStatus(int Status) {
 		this.status = Status;
 		if (status == 599) {
-			setUIEnable(false);
+			shutdown();
 		}
 	}
 
@@ -81,6 +81,7 @@ public class Display extends Thread implements EmulatorActions {
 	@Override
 	public void shutdown() {
 		setDisStatus(599);
+		setUIEnable(false);
 	}
 
 	@Override
@@ -133,7 +134,6 @@ public class Display extends Thread implements EmulatorActions {
 			myFrame.getContentPane().repaint();
 		}
 	}
-
 
 	private class MyFrame extends JFrame {
 		// ----------------------------------------

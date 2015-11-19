@@ -64,6 +64,9 @@ public class Keypad extends Thread implements EmulatorActions {
 
 	protected void setKPStatus(int Status) {
 		this.status = Status;
+		if (status == 799) {
+			shutdown();
+		}
 	}
 
 	// ------------------------------------------------------------

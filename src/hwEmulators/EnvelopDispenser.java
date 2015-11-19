@@ -45,8 +45,12 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		this.status = Status;
 		if (status == 601) {
 			numOfEnvelop = 0;
-		} else if (status == 600) {
+		}
+		if (status == 600) {
 			numOfEnvelop = 10000;
+		}
+		if (status == 699) {
+			shutdown();
 		}
 	}
 

@@ -50,8 +50,10 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 			this.resource = 0;
 		} else if (status == 103) {
 			// TODO simulate Paper jam
+		} else if (status == 199){
+			shutdown();
 		} else {
-			// TODO simulate out of service
+
 		}
 	}
 

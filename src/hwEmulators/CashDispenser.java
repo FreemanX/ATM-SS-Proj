@@ -114,10 +114,15 @@ public class  CashDispenser extends Thread implements EmulatorActions {
 	}
 
 	protected void setCDStatus(int Status) {
+		this.status = Status;
+
 		if (Status == 301) {
 			numOf500 = 0; // For demo only
 		}
-		this.status = Status;
+
+		if (status == 399) {
+			shutdown();
+		}
 	}
 
 	// ------------------------------------------------------------

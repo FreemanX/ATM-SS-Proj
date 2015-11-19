@@ -78,6 +78,9 @@ public class DepositCollector extends Thread implements EmulatorActions {
 
 	protected void setDCStatus(int Status) {
 		this.status = Status;
+		if (Status == 499) {
+			shutdown();
+		}
 	}
 
 	public void setATMSS(ATMSS newAtmss) {
