@@ -19,12 +19,10 @@ public class WithDrawController extends ProcessController{
 	private final String FAILED_FROM_DISPLAY = "No response from the display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_CASHDISPENSER = "No response from the cash dispenser";
-	private final String FAILED_FROM_CD_EJECTING = "The cash dispenser cannot eject the cash";
-	private final String FAILED_FROM_CD_RETAINING = "The cash dispenser cannot retain the cash";
 	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
-	private final String FAILED_FROM_USER_COLLECTING = "The cash was not collected by the card holder";
 	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
 	private final String FAILED_FROM_INVENTORY = "Not enough inventory to withdraw";
+	private final String FAILED_FROM_COLLECTION = "The cash may not be collected by the card holder";
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
 	private final String PROMPT_FOR_CHOICE_ERR_HEADER = "Not a valid choice! Please choose your account:";
 	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
@@ -173,29 +171,18 @@ public class WithDrawController extends ProcessController{
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
-		if (!_atmssHandler.doCDEjectCash(withdrawPlan)) {
-			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_CD_EJECTING})) {
-				recordOperation(FAILED_FROM_DISPLAY);
-				return false;
-			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_EJECTING);
-			return false;
-		}
-
-		if (result) { // TODO: if (_atmssHandler.doCDCollectInTime(TIME_LIMIT)) {
+		
+		result = _atmssHandler.doCDEjectCash(withdrawPlan); 
+		// result means whether being collected in time as well
+		if (result) {
 			if (!_atmssHandler.doBAMSUpdateBalance(accountNumber, -withdrawAmount,_session)) {
 				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS_UPDATING_BALANCE);
 				return false;
 			}
 			recordOperation(accountNumber, withdrawAmount);
 			return true;
-		} else { // otherwise not collect in time
-			if (!_atmssHandler.doCDRetainCash()) {
-				// cannot retain and will not inform BAMS
-				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CD_RETAINING);
-				return false;
-			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_USER_COLLECTING);
+		} else {
+			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_COLLECTION);
 			return false;
 		}
 		// <- display the result
