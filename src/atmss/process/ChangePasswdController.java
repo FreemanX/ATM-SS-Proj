@@ -18,9 +18,8 @@ public class ChangePasswdController extends ProcessController {
 	private final String FAILED_FROM_DISPLAY = "No response from the display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
-	private final String[] PROMPT_FOR_OLD_PASSWORD_ERR = {"The new passwords do not equal", "Please type your old password:"};
-	private final String[] PROMPT_FOR_OLD_PASSWORD = {"Please type your old password:"};
 	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please type your new password:"};
+	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please type your new password:"};
 	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please type your new password again:"};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final String[] SHOW_SUCCESS = {"Succeeded!", "The password has been changed."};
@@ -32,40 +31,17 @@ public class ChangePasswdController extends ProcessController {
 	}
 
 	public boolean doChangePasswd() {
-		String oldPassword = "";
 		String newPassword = "";
 		String confirmPassword = "";
 		boolean result = false;
 		
 		// -> preparing the necessary information
-		// get old password from the user
-		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_OLD_PASSWORD)) {
+		// get new password from the user
+		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD)) {
 			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
 		while (true) {
-			oldPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
-			if (oldPassword == null) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
-					recordOperation(FAILED_FROM_DISPLAY);
-					return false;
-				}
-				recordOperation(FAILED_FROM_KEYPAD);
-				return false;
-			} else if (oldPassword.equals(KP_CANCEL)) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
-					recordOperation(FAILED_FROM_DISPLAY);
-					return false;
-				}
-				recordOperation(FAILED_FROM_USER_CANCELLING);
-				return false;
-			}
-			
-			// get new password from the user
-			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD)) {
-				recordOperation(FAILED_FROM_DISPLAY);
-				return false;
-			}
 			newPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
 			if (newPassword == null) {
 				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
@@ -109,7 +85,7 @@ public class ChangePasswdController extends ProcessController {
 			if (newPassword.equals(confirmPassword)) break; 
 			
 			// start again if not equal
-			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_OLD_PASSWORD_ERR)) {
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD_ERR)) {
 				recordOperation(FAILED_FROM_DISPLAY);
 				return false;
 			}
