@@ -57,7 +57,8 @@ public class MBox {
 		}
 
 		Msg msg = mqueue.remove(0);
-		log.info(id + ": receiveing \"" + msg + "\"");
+		if (msg.getType() % 100 != 0)
+			log.info(id + ": receiving \"" + msg + "\"");
 		return msg;
 	} // receive
 

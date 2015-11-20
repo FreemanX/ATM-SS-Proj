@@ -1,10 +1,38 @@
 package hwEmulators;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 //======================================================================
 // ATMSS
 public class ATMSS extends Thread {
+
+	class HWFailureInfo {
+		private int code;
+		private int type;
+		private String message;
+
+		public HWFailureInfo(int type, int code, String message) {
+			this.type = type;
+			this.code = code;
+			this.message = message;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public int getType() {
+			return type;
+		}
+
+	}
+
 	private String id;
 	private Logger log = null;
 	private MBox mbox = null;
@@ -19,6 +47,8 @@ public class ATMSS extends Thread {
 	private Display display = null; // 5
 	private EnvelopDispenser envelopDispenser = null; // 6
 	private Keypad keypad = null; // 7
+
+	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -111,14 +141,57 @@ public class ATMSS extends Thread {
 
 			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
+			System.err.println(id + " receiver " + msg);
 
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
 			} else if (msg.getDetails().equals("Restarted")) {
 				handleComponentRestarted(msg);
 			}
+			if (msg.getDetails().equalsIgnoreCase("normal")) {
+				if (msg.getType() != 5) {
+					removeFailure(msg.getType());
+
+					if (failureInfos.size() == 0)
+						display.restart();
+					else
+						display.setBlueScreen(failureInfos);
+				}
+			}
+			if (msg.getDetails().equalsIgnoreCase("out of service")
+					|| msg.getDetails().equalsIgnoreCase("No Envelop")
+					|| msg.getDetails().equalsIgnoreCase("Paper jammed")
+					|| msg.getDetails().equalsIgnoreCase("No paper or ink")) {
+				if (msg.getType() != 5) {
+					putFailure(new HWFailureInfo(msg.getType(), Integer.valueOf(msg.getSender()), msg.getDetails()));
+					display.setBlueScreen(failureInfos);
+				}
+			}
 		}
 	} // run
+
+	private void putFailure(HWFailureInfo newInfo) { // replace/add failure info
+		removeFailure(newInfo.getType());
+
+		System.out.println("Adding " + newInfo.getType());
+		failureInfos.add(newInfo);
+	}
+
+	private void removeFailure(int type) {
+		List<HWFailureInfo> removeCandidate = new ArrayList<HWFailureInfo>();
+
+		// find candidates
+		for (HWFailureInfo info : failureInfos) {
+			if (info.getType() == type) {
+				removeCandidate.add(info);
+			}
+		}
+		// remove
+		for (HWFailureInfo candidate : removeCandidate) {
+			System.out.println("Removing " + candidate.getType());
+			failureInfos.remove(candidate);
+		}
+	}
 
 	private void handleExceptionEmu(Msg m) {
 		// 1 - ap, 2 - cr, 3 - cd, 4 - dc, 5 - dis, 6 - ed, 7 - kp
