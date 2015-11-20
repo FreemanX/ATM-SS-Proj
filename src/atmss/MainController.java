@@ -212,33 +212,35 @@ public class MainController extends Thread {
 								String userChoise = atmssHandler.doKPGetSingleInput(60);
 								System.out.println("User choise: " + userChoise);
 								if (userChoise.equals("1")) {
-
+									changePasswdController = new ChangePasswdController(getLastSession());
+									if (!changePasswdController.doChangePasswd()) {
+										
+									}
 								} else if (userChoise.equals("2")) {
 
 								} else if (userChoise.equals("3")) {
 
 								} else if (userChoise.equals("4")) {
 
-								} else if (userChoise.equals("5")) {
+								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
 
 								} else if (userChoise.equals("CANCEL")) {
 									clearLines();
 									lines[1] = head + "Card ejected, please take your card" + tail;
 									atmssHandler.doDisDisplayUpper(lines);
-									
+
 									if (!atmssHandler.doCREjectCard()) {
 										clearLines();
 										lines[1] = head + "Your card has been retained, please contact +852 51740740"
 												+ tail;
 										atmssHandler.doDisDisplayUpper(lines);
-										sleep(5000);
 									}
+									sleep(10000);
 									break;
 								}
 
 							}
 							this.endSession();
-							sleep(30000);
 						} else {
 							clearLines();
 							lines[1] = head + "Card ejected" + tail;
@@ -251,12 +253,11 @@ public class MainController extends Thread {
 								clearLines();
 								lines[1] = head + "Your card has been retained, please contact +852 51740740" + tail;
 								atmssHandler.doDisDisplayUpper(lines);
-								sleep(5000);
+								sleep(10000);
 								continue;
 							}
 						}
 
-						sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -272,7 +273,8 @@ public class MainController extends Thread {
 	// TODO Singleton need to be implemented
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
-			Display display, EnvelopDispenser envelopDispenser, Keypad KP) {
+			Display display, EnvelopDispenser envelopDispenser, Keypad KP, MBox AtmssMbox) {
+		this.atmssMBox = AtmssMbox;
 		this.isRunning = true;
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
@@ -294,7 +296,7 @@ public class MainController extends Thread {
 		this.displayController.setMainControllerMBox(mainControllerMBox);
 		this.envelopDispenserController.setMainControllerMBox(mainControllerMBox);
 		this.keypadController.setMainControllerMBox(mainControllerMBox);
-
+		
 		// start Processor
 		this.processor = new Processor();
 		processor.start();
@@ -356,18 +358,19 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPException(Msg msg) {
-		handleFatalExceptions();
+
+		handleFatalExceptions(msg);
 	}
 
 	private void handleCRExceptioin(Msg msg) {
-		handleFatalExceptions();
+		handleFatalExceptions(msg);
 	}
 
 	private void handleCDExceptioin(Msg msg) {
 		if (msg.getType() == 301) {
 			System.err.println("Warning: insufficent amount of cash");
 		} else
-			handleFatalExceptions();
+			handleFatalExceptions(msg);
 	}
 
 	private void handleDCExceptioin(Msg msg) {
@@ -379,7 +382,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisExceptioin(Msg msg) {
-		handleFatalExceptions();
+		handleFatalExceptions(msg);
 		// TODO emulate the display shutdown
 	}
 
@@ -391,10 +394,11 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPExceptioin(Msg msg) {
-		handleFatalExceptions();
+		handleFatalExceptions(msg);
 	}
 
-	private void handleFatalExceptions() {
+	private void handleFatalExceptions(Msg msg) {
+		atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		this.isRunning = false;
 		this.processor.processorPause();
 	}
@@ -478,6 +482,7 @@ public class MainController extends Thread {
 	private ATMSSHandler atmssHandler;
 	private MBox mainControllerMBox;
 	private volatile boolean isRunning;
+	private MBox atmssMBox;
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
 
