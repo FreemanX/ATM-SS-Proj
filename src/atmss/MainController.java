@@ -558,9 +558,8 @@ public class MainController extends Thread {
 			msg = this.mainControllerMBox.receive();
 			handleKPMsg(msg);
 
-			
-			if (b1 && b2 && b3 && b4 && b5){
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>initAll()");
+			// if (true || b1 && b2 && b3 && b4 && b5) { //evil code
+			if (b1 && b2 && b3 && b4 && b5) {
 				initAll();
 			}
 		} catch (Exception e) {
