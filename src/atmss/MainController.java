@@ -134,24 +134,26 @@ public class MainController extends Thread {
 						lines[2] = "Please input your password (20 sec/key)";
 						atmssHandler.doDisDisplayUpper(lines);
 
-						String pin = atmssHandler.doKPGetPasswd(20);
-						if (pin.equals("CANCEL")) {
-							atmssHandler.doCREjectCard();
-							continue;
-						}
-						/*----------------------<Debug-------------------------*/
-						clearLines();
-						lines[1] = head + cardNum + tail;
-						lines[2] = head + pin + tail;
-						atmssHandler.doDisDisplayUpper(lines);
-						sleep(5000);
-						/*----------------------Debug>-------------------------*/
-
 						while (numOfWrongPassed < 3) {
-							// TODO remove true when BAMS function is OK
+							String pin = atmssHandler.doKPGetPasswd(20);
+							if (pin.equals("CANCEL")) {
+								atmssHandler.doCREjectCard();
+								continue;
+							}
+							/*----------------------<Debug-------------------------*/
+							clearLines();
+							lines[1] = head + cardNum + tail;
+							lines[2] = head + pin + tail;
+							atmssHandler.doDisDisplayUpper(lines);
+							sleep(5000);
+							/*----------------------Debug>-------------------------*/
 							if (AutherizePassed(cardNum, pin)) {
 								break;
 							} else {
+								clearLines();
+								lines[1] = head + "Wrong password" + tail;
+								lines[2] = "Please input your password again(20 sec/key)";
+								atmssHandler.doDisDisplayUpper(lines);
 								numOfWrongPassed++;
 							}
 						}
@@ -166,9 +168,13 @@ public class MainController extends Thread {
 							atmssHandler.doDisDisplayUpper(lines);
 							sleep(30000);
 						} else {
+							clearLines();
+							lines[1] = head + "Card ejected" + tail;
+							lines[2] = "You have input wrong password 3 times";
+							atmssHandler.doDisDisplayUpper(lines);
 							atmssHandler.doCREjectCard();
 							this.initProcessor();
-							return;
+							continue;
 						}
 
 						System.out.println(">>>>Processor is running, iteration: " + i);

@@ -43,7 +43,7 @@ public class CardReaderView extends HardwareView {
 	public boolean ejectCard() throws CardReaderException {
 		checkStatus();
 		Timer timer = Timer.getTimer();
-		timer.initTimer(3, cardReaderViewMBox);
+		timer.initTimer(30, cardReaderViewMBox);
 		this._cardReader.ejectCard();
 		timer.start();
 		this.cardReaderViewMBox.clearBox();
