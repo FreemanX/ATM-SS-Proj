@@ -210,20 +210,95 @@ public class MainController extends Thread {
 							atmssHandler.doDisDisplayUpper(lines);
 							while (true) {
 								String userChoise = atmssHandler.doKPGetSingleInput(60);
-								System.out.println("User choise: " + userChoise);
+								Session currentSession = getLastSession();
 								if (userChoise.equals("1")) {
-									changePasswdController = new ChangePasswdController(getLastSession());
-									if (!changePasswdController.doChangePasswd()) {
-										
+
+									changePasswdController = new ChangePasswdController(currentSession);
+									boolean isSuccess = changePasswdController.doChangePasswd();
+									LinkedList<Operation> processOperations = changePasswdController
+											.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
 									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
+
 								} else if (userChoise.equals("2")) {
-
+									withdrawController = new WithDrawController(currentSession);
+									boolean isSuccess = withdrawController.doWithDraw();
+									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
 								} else if (userChoise.equals("3")) {
-
+									enquryController = new EnquryController(currentSession);
+									boolean isSuccess = enquryController.doEnqury();
+									LinkedList<Operation> processOperations = enquryController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
 								} else if (userChoise.equals("4")) {
-
+									transferController = new TransferController(currentSession);
+									boolean isSuccess = transferController.doTransfer();
+									LinkedList<Operation> processOperations = transferController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
 								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
-
+									depositController = new DepositController(currentSession);
+									boolean isSuccess = depositController.doDeopsit();
+									LinkedList<Operation> processOperations = depositController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
 								} else if (userChoise.equals("CANCEL")) {
 									clearLines();
 									lines[1] = head + "Card ejected, please take your card" + tail;
@@ -296,7 +371,7 @@ public class MainController extends Thread {
 		this.displayController.setMainControllerMBox(mainControllerMBox);
 		this.envelopDispenserController.setMainControllerMBox(mainControllerMBox);
 		this.keypadController.setMainControllerMBox(mainControllerMBox);
-		
+
 		// start Processor
 		this.processor = new Processor();
 		processor.start();
