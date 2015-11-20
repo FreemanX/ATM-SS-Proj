@@ -57,20 +57,12 @@ public class ATMSSHandler {
 		return serverCommunicator.getAccounts(currentSession.getCardNo(), currentSession.getCred());
 	}
 
-	/*
-	 * dest account verification is done within transfer public String
-	 * doBAMSVerifyDestAccount(String desAccountNumber) { String verifiedInfo =
-	 * "False";
-	 *
-	 * return verifiedInfo; }
-	 */
-
 	public boolean doBAMSUpdateBalance(String accNumber, double amount, Session currentSession) {
 		long resultAmount = 0;
 
 		if (amount > 0) // deposit
-			resultAmount = Math.round(
-					serverCommunicator.deposit(currentSession.getCardNo(), accNumber, currentSession.getCred(), 0));
+			resultAmount = Math.round(serverCommunicator.deposit(currentSession.getCardNo(), accNumber,
+					currentSession.getCred(), (int) amount)); // round down
 
 		if (amount < 0) // withdraw
 			resultAmount = Math.round(serverCommunicator.cashWithdraw(currentSession.getCardNo(), accNumber,
@@ -90,7 +82,7 @@ public class ATMSSHandler {
 	}
 
 	public boolean doBAMSTransfer(String toAccNo, String destAccNo, double amount, Session currentSession) {
-		double resultAmount = serverCommunicator.transfer(currentSession.getCardNo(), currentSession.getCred(),
+		double resultAmount = serverCommunicator.transfer(currentSession.getCardNo(), currentSession.getCred() + "&",
 				destAccNo, toAccNo, String.valueOf(amount));
 
 		if (resultAmount == amount)

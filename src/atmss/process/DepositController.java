@@ -48,7 +48,8 @@ public class DepositController extends ProcessController {
 		/*
 		 * Implement the process here.
 		 */
-
+		String[] line = {"collecting account"};
+		this._atmssHandler.doDisDisplayUpper(line);
 		// prompt for account to deposit
 		if (!this.doGetAccountToDeposit())
 			return failProcess(SHOW_FAILURE);
@@ -98,7 +99,9 @@ public class DepositController extends ProcessController {
 		return true;
 	}
 	private boolean doGetAccountToDeposit() {
-		if(this._atmssHandler.doDisClearAll())
+		
+		this._atmssHandler.doDisAppendUpper("collecting account to deposit");
+		if(!this._atmssHandler.doDisClearAll())
 			return this.failProcess(FAILED_FROM_DISPLAY);
 
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);

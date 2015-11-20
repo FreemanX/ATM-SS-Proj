@@ -160,7 +160,7 @@ public class MainController extends Thread {
 							atmssHandler.doDisDisplayUpper(lines);
 							sleep(5000);
 							/*----------------------Debug>-------------------------*/
-							if (AutherizePassed(cardNum, pin)) {
+							if (authorizePassed(cardNum, pin)) {
 								break;
 							} else {
 								clearLines();
@@ -304,7 +304,7 @@ public class MainController extends Thread {
 		}
 	}
 
-	public boolean AutherizePassed(String cardNo, String pin) {
+	public boolean authorizePassed(String cardNo, String pin) {
 		String result = serverCommunicator.login(cardNo, pin);
 		if (!result.equalsIgnoreCase("error")) {
 			sessions.add(new Session(new Date().getTime(), result, cardNo));
