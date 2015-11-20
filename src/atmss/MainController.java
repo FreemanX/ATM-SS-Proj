@@ -105,7 +105,7 @@ public class MainController extends Thread {
 							continue;
 						} else if (choise.equals("2")) {
 							depositController = new DepositController(fakeSession);
-							System.out.println("Process finishes, result: " + depositController.doDeopsit());
+							System.out.println("Process finishes, result: " + depositController.doDeposit());
 							continue;
 						} else if (choise.equals("3")) {
 							enquryController = new EnquryController(fakeSession);
@@ -284,7 +284,7 @@ public class MainController extends Thread {
 									}
 								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
 									depositController = new DepositController(currentSession);
-									boolean isSuccess = depositController.doDeopsit();
+									boolean isSuccess = depositController.doDeposit();
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
@@ -426,7 +426,7 @@ public class MainController extends Thread {
 	public boolean authorizePassed(String cardNo, String pin) {
 		String result = serverCommunicator.login(cardNo, pin);
 		if (!result.equalsIgnoreCase("error")) {
-			sessions.add(new Session(new Date().getTime(), result, cardNo));
+			sessionLog.add(new Session(new Date().getTime(), result, cardNo));
 			return true;
 		}
 		return false;
@@ -479,42 +479,7 @@ public class MainController extends Thread {
 	}
 
 	private Session getLastSession() {
-		return sessions.get(sessions.size() - 1);
-	}
-
-	private void handleUserRequest() {
-
-	}
-
-	private boolean createSession() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-
-	private boolean killSession() {
-		boolean isSuccess = false;
-
-		/*
-		 * Implement the process here.
-		 */
-
-		return isSuccess;
-	}
-
-	private boolean addSessionToLog(Session currentSession) {
-		boolean isSuccess = false;
-		/*
-		 * Implement the process here.
-		 */
-		if (currentSession != null) // Session constrains
-			isSuccess = sessionLog.add(currentSession);
-
-		return isSuccess;
+		return sessionLog.get(sessionLog.size() - 1);
 	}
 
 	private void waitForRepair() {
@@ -551,9 +516,8 @@ public class MainController extends Thread {
 	private WithDrawController withdrawController;
 	private DepositController depositController;
 	private BAMSCommunicator serverCommunicator;
-	private LinkedList<Session> sessionLog;
 	private Processor processor;
-	private List<Session> sessions = new ArrayList<Session>();
+	private List<Session> sessionLog = new ArrayList<Session>();
 	private ATMSSHandler atmssHandler;
 	private MBox mainControllerMBox;
 	private volatile boolean isRunning;
