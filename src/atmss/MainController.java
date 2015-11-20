@@ -149,8 +149,8 @@ public class MainController extends Thread {
 						atmssHandler.doDisDisplayUpper(lines);
 						String pin = "";
 						while (numOfWrongPassed < 3) {
-							pin = atmssHandler.doKPGetPasswd(2);
-							if (pin.equals("CANCEL")) {
+							pin = atmssHandler.doKPGetPasswd(20);
+							if (pin == null || pin.equals("CANCEL")) {
 								break;
 							}
 							/*----------------------<Debug-------------------------*/
@@ -171,7 +171,7 @@ public class MainController extends Thread {
 							}
 						}
 
-						if (pin.equals("CANCEL")) {
+						if (pin == null || pin.equals("CANCEL")) {
 							clearLines();
 							lines[1] = head + "Card ejected" + tail;
 							lines[2] = "Please take your card...";
