@@ -25,7 +25,7 @@ public class WithDrawController extends ProcessController{
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
 	private final String PROMPT_FOR_CHOICE_ERR_HEADER = "Not a valid choice! Please choose your account:";
 	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
-	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must end up with at least two 0s:"};
+	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must be divisible by 100 and less or equal to 10000","Please input your withdraw amount again:"};
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final int TIME_LIMIT = 10; // seconds
