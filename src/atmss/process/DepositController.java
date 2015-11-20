@@ -3,7 +3,11 @@
  */
 package atmss.process;
 
-import atmss.MainController;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import java.util.List;
+
 import atmss.Operation;
 import atmss.Session;
 
@@ -27,9 +31,9 @@ public class DepositController extends ProcessController {
 	private final String FAILED_CHOOSE_ACCOUNT = "Failed to choose an account";
 	private final String FAILED_INPUT_AMOUNT = "Failed to input deposit amount";
 	private final String FAILED_CONFIRM_AMOUNT = "Failed to confirm deposit amount";
-	private final String PROMPT_FOR_ACCOUNT = "Please choose your account";
-	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount";
-	private final String PROMPT_FOR_CONFIRM = "Please confirm your deposit amount";
+	private final String PROMPT_FOR_ACCOUNT = "Please select account to deposit :";
+	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount :";
+	private final String PROMPT_FOR_CONFIRM = "Please confirm your deposit amount by ENTER. Press 0 to reinput amount.";
 	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
 	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
 	private final String SHOW_SUCCESS = "Succeeded! The deposit operation succeeds.";
@@ -43,13 +47,11 @@ public class DepositController extends ProcessController {
 		super(Session);
 	}
 
-	public Boolean doDeopsit() {
+	public Boolean doDeposit() {
 		// boolean isSuccess = false;
 		/*
 		 * Implement the process here.
 		 */
-		String[] line = {"collecting account"};
-		this._atmssHandler.doDisDisplayUpper(line);
 		// prompt for account to deposit
 		if (!this.doGetAccountToDeposit())
 			return failProcess(SHOW_FAILURE);
@@ -94,27 +96,32 @@ public class DepositController extends ProcessController {
 	
 		
 	private boolean doPrintReceipt(){
-		if(!this._atmssHandler .doAPPrintStrArray(new String[] {accountToDeposit, Integer.toString(this.amountToDeposit)}))
+		if(!this._atmssHandler .doAPPrintStrArray(new String[] {"Account to deposit: "+accountToDeposit, "Amount to deposit: $"+ Integer.toString(this.amountToDeposit)}))
 			return failProcess(FAILED_FROM_ADVICEPRINTER);
 		return true;
 	}
 	private boolean doGetAccountToDeposit() {
-		
-		this._atmssHandler.doDisAppendUpper("collecting account to deposit");
+
 		if(!this._atmssHandler.doDisClearAll())
 			return this.failProcess(FAILED_FROM_DISPLAY);
+		
+		List<String> accountsToChooseDisplay = new ArrayList<String>(Arrays.asList(new String[] {PROMPT_FOR_ACCOUNT}));
 
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);
 		if(allAccountsInCard.length == 0){
-			return this.failProcess(FAILED_FROM_BAMS);
-			
-		}
-			
-		if(!this._atmssHandler.doDisDisplayUpper(allAccountsInCard)){
-			return this.failProcess(FAILED_FROM_DISPLAY);
+			return this.failProcess(FAILED_FROM_BAMS);		
 		}
 		
-		if(!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_ACCOUNT))
+		int index = 1;
+		for (String account:allAccountsInCard){
+			accountsToChooseDisplay.add("Account "+index+": "+account );
+			index += 1;
+		}
+		
+
+		
+		
+		if(!this._atmssHandler.doDisDisplayUpper(accountsToChooseDisplay.toArray(new String[0])))
 			return this.failProcess(FAILED_FROM_DISPLAY);
 		
 		int accountNoSelectedByUser = allAccountsInCard.length + 1;
@@ -148,7 +155,8 @@ public class DepositController extends ProcessController {
 		boolean confirmAmountToDeposit = false;
 		String userInputAmountToDeposit ="";
 		
-		{
+		 while (!confirmAmountToDeposit){
+			System.out.println("new turn=========================================");
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess(FAILED_FROM_DISPLAY);
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT}))
@@ -160,24 +168,22 @@ public class DepositController extends ProcessController {
 			
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess(FAILED_FROM_DISPLAY);
-			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM}))
-				return failProcess(FAILED_FROM_DISPLAY);
-			if(!this._atmssHandler.doDisAppendUpper(userInputAmountToDeposit))
+			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, "$" + userInputAmountToDeposit}))
 				return failProcess(FAILED_FROM_DISPLAY);
 			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(5000);
-			if(confirmInput != null){
-				switch(confirmInput){
-				case "ENTER":
+			while (confirmInput != null){
+				if (confirmInput.equals("ENTER")){
 					confirmAmountToDeposit = true;
 					break;
-				case  "CANCEL":
-					return failProcess(SHOW_FAILURE);
 				}
+				else if(confirmInput.equals("0")){
+					break;
+				}
+				confirmInput = this._atmssHandler.doKPGetSingleInput(5000);
 			}
-			else return failProcess(FAILED_CONFIRM_AMOUNT);
-		}while (!confirmAmountToDeposit);
-		
+
+		}
 		this.amountToDeposit = Integer.parseInt(userInputAmountToDeposit);
 		return true;
 
