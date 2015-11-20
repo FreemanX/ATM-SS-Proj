@@ -28,16 +28,12 @@ public class DepositController extends ProcessController {
 	private final String FAILED_FROM_DEPOSITCOLLECTOR = "No response from deposit collector";
 	private final String FAILED_FROM_ADVICEPRINTER = "No response from advice printer";
 	private final String FAILED_FROM_BAMS = "Failed from BAMS";
-	private final String FAILED_CHOOSE_ACCOUNT = "Failed to choose an account";
-	private final String FAILED_INPUT_AMOUNT = "Failed to input deposit amount";
-	private final String FAILED_CONFIRM_AMOUNT = "Failed to confirm deposit amount";
 	private final String PROMPT_FOR_ACCOUNT = "Please select account to deposit :";
 	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount :";
 	private final String PROMPT_FOR_CONFIRM = "Please confirm your deposit amount by ENTER. Press 0 to reinput amount.";
 	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
 	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
-	private final String SHOW_SUCCESS = "Succeeded! The deposit operation succeeds.";
-	private final String SHOW_FAILURE = "Failed! The deposit operation failed.";
+	private final String CANCELED = "Operation Canceled!";
 	
 	/**
 	 * 
@@ -47,30 +43,30 @@ public class DepositController extends ProcessController {
 		super(Session);
 	}
 
-	public Boolean doDeposit() {
+	public Boolean doDeopsit() {
 		// boolean isSuccess = false;
 		/*
 		 * Implement the process here.
 		 */
 		// prompt for account to deposit
 		if (!this.doGetAccountToDeposit())
-			return failProcess(SHOW_FAILURE);
+			return false;
 
 		// prompt for amount to deposit
 		if (!this. doGetAmountToDeposit())
-			return failProcess(SHOW_FAILURE);
+			return false;
 
 		if (!this.doPrintReceipt())
-			return failProcess(SHOW_FAILURE);
+			return false;
 
 		if (!this.doEjectEnvelop())
-			return failProcess(SHOW_FAILURE);
+			return false;
 
 		if (!this.doEatEnvelop())
-			return failProcess(SHOW_FAILURE);
+			return false;
 		
 		this.recordOperation();
-		this._atmssHandler.doDisAppendUpper(SHOW_SUCCESS);
+		this.printOperation();
 		return true;
 	}
 	
@@ -128,7 +124,7 @@ public class DepositController extends ProcessController {
 		
 		while(accountNoSelectedByUser > allAccountsInCard.length){
 		
-		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(50000);
+		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(3000);
 		
 		if(accountSelectedByUser!=null){
 			try{
@@ -136,7 +132,7 @@ public class DepositController extends ProcessController {
 			}
 			catch(NumberFormatException e){
 				if(accountSelectedByUser.equals("CANCEL"))
-					return failProcess(FAILED_CHOOSE_ACCOUNT);
+					return failProcess(CANCELED);
 				
 			}
 		}
@@ -162,16 +158,16 @@ public class DepositController extends ProcessController {
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT}))
 				return failProcess(FAILED_FROM_DISPLAY);
 			
-			userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(5000);
+			userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(300);
 			if(userInputAmountToDeposit == null)
-				return failProcess(FAILED_INPUT_AMOUNT);
+				return failProcess(FAILED_FROM_KEYPAD);
 			
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess(FAILED_FROM_DISPLAY);
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, "$" + userInputAmountToDeposit}))
 				return failProcess(FAILED_FROM_DISPLAY);
 			
-			String confirmInput = this._atmssHandler.doKPGetSingleInput(5000);
+			String confirmInput = this._atmssHandler.doKPGetSingleInput(300);
 			while (confirmInput != null){
 				if (confirmInput.equals("ENTER")){
 					confirmAmountToDeposit = true;
@@ -180,7 +176,10 @@ public class DepositController extends ProcessController {
 				else if(confirmInput.equals("0")){
 					break;
 				}
-				confirmInput = this._atmssHandler.doKPGetSingleInput(5000);
+				else if(confirmInput.equals("CANCEL")){
+						return failProcess(CANCELED);
+				}
+				confirmInput = this._atmssHandler.doKPGetSingleInput(300);
 			}
 
 		}
@@ -206,8 +205,6 @@ public class DepositController extends ProcessController {
 	}
 	
 	private boolean failProcess(String FailedReason){
-		this._atmssHandler.doDisClearAll();
-		this._atmssHandler.doDisDisplayUpper(new String[] {FailedReason});
 		recordOperation(FailedReason);
 		return false;
 	}
