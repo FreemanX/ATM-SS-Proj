@@ -22,6 +22,8 @@ public class Display extends Thread implements EmulatorActions {
 	public final static int type = 5;
 	private int status = 500;
 
+	private boolean isBlueScreen = false;
+
 	public Display(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
@@ -39,19 +41,21 @@ public class Display extends Thread implements EmulatorActions {
 	}
 
 	protected void setDisStatus(int Status) {
-		this.status = Status;
+		if (status != Status) {
+			this.status = Status;
 
-		if (status == 500) {
-			atmssMBox.send(new Msg("500", 5, "normal"));
-		}
+			if (status == 500) {
+				atmssMBox.send(new Msg("500", 5, "normal"));
+			}
 
-		if (status == 598) {
-			shutdown();
-		}
+			if (status == 598) {
+				shutdown();
+			}
 
-		if (status == 599) {
-			atmssMBox.send(new Msg("599", 5, "out of service"));
-			fatalHalt();
+			if (status == 599) {
+				atmssMBox.send(new Msg("599", 5, "out of service"));
+				fatalHalt();
+			}
 		}
 	}
 
@@ -106,6 +110,7 @@ public class Display extends Thread implements EmulatorActions {
 		}
 		setDisStatus(500);
 		setUIEnable(true);
+		isBlueScreen = false;
 		atmssMBox.send(new Msg("Component Restarted", 5, "Restarted"));
 	}
 	// --------------------------------------------------------
@@ -117,6 +122,8 @@ public class Display extends Thread implements EmulatorActions {
 				+ "If you are a technician, follow these steps:\n"
 				+ "Check log details failed component(s). Reset the component and restart the ATM.\n\n"
 				+ "Technical information:\n";
+
+		isBlueScreen = true;
 
 		for (ATMSS.HWFailureInfo info : infos) {
 			msg += "*** Failure component type:  " + String.format("0x%08x", info.getType()) + ", code: " + String.format("0x%08x", info.getCode()) + " (" + info.getCode() + ")\n"
@@ -191,6 +198,8 @@ public class Display extends Thread implements EmulatorActions {
 			myFrame.getContentPane().repaint();
 		}
 	}
+
+	public boolean isBlueScreen() { return isBlueScreen; }
 
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
