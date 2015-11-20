@@ -70,6 +70,7 @@ public class CardReaderController extends HardwareController {
 		boolean isSuccess = false;
 		try {
 			this.status = this.cardReaderView.checkStatus();
+			this._maincontrollerMBox.send(new Msg("CR", status, "I'm OK"));
 			isSuccess = true;
 		} catch (CardReaderException e) {
 			// TODO Auto-generated catch block

@@ -7,6 +7,7 @@ import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.exceptioins.KeypadException;
 import atmss.hardware.view.KeypadView;
 import hwEmulators.Keypad;
+import hwEmulators.Msg;
 
 /**
  * @author freeman
@@ -42,6 +43,7 @@ public class KeypadController extends HardwareController {
 		boolean isSuccess = false;
 		try {
 			this.status = this.keypadView.checkStatus();
+			this._maincontrollerMBox.send(new Msg("KP", status, "I'm OK"));
 			isSuccess = true;
 		} catch (KeypadException e) {
 			isSuccess = false;
