@@ -75,7 +75,7 @@ public class ATMKickstarter {
 		envelopDispenser.start();
 
 		// MainController threading test - Tony
-		MainController mc = new MainController(advicePrinter, cardReader, cashDispenser, depositCollector, display, envelopDispenser, keypad);
+		MainController mc = new MainController(advicePrinter, cardReader, cashDispenser, depositCollector, display, envelopDispenser, keypad, atmss.getMBox());
 		mc.start();
 		// NewExceptionEmu debug test
 		exEmu = new NewExceptionEmulator("new Exception", atmss);

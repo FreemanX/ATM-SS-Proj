@@ -141,7 +141,6 @@ public class ATMSS extends Thread {
 	// run
 	public void run() {
 		while (true) {
-
 			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
 			System.err.println(id + " receiver " + msg);
@@ -151,24 +150,32 @@ public class ATMSS extends Thread {
 			} else if (msg.getDetails().equals("Restarted")) {
 				handleComponentRestarted(msg);
 			}
-			if (msg.getDetails().equalsIgnoreCase("normal")) {
-				if (!blueSkipList.contains(msg.getType())) {
-					removeFailure(msg.getType());
+			/*
+			if (msg.getSender().equalsIgnoreCase("MainController")) {
+				System.err.println("From MainController >> type: " + msg.getType() + ", details: " + msg.getDetails());
+				if (msg.getDetails().equalsIgnoreCase("normal")) {
+					if (!blueSkipList.contains(msg.getType())) {
+						removeFailure(msg.getType());
 
-					if (failureInfos.size() == 0)
-						display.restart();
-					else
+						if (failureInfos.size() == 0) {
+							if (display.isBlueScreen())
+								display.restart();
+						} else {
+							display.setBlueScreen(failureInfos);
+						}
+					}
+				}
+				if (msg.getDetails().equalsIgnoreCase("out of service")
+						|| msg.getDetails().equalsIgnoreCase("Paper jammed")
+						|| msg.getDetails().equalsIgnoreCase("No paper or ink")
+						|| msg.getDetails().equalsIgnoreCase("fatal error")) {
+					if (!blueSkipList.contains(msg.getType())) {
+						putFailure(new HWFailureInfo(msg.getType(), Integer.valueOf(msg.getSender()), msg.getDetails()));
 						display.setBlueScreen(failureInfos);
+					}
 				}
 			}
-			if (msg.getDetails().equalsIgnoreCase("out of service")
-					|| msg.getDetails().equalsIgnoreCase("Paper jammed")
-					|| msg.getDetails().equalsIgnoreCase("No paper or ink")) {
-				if (!blueSkipList.contains(msg.getType())) {
-					putFailure(new HWFailureInfo(msg.getType(), Integer.valueOf(msg.getSender()), msg.getDetails()));
-					display.setBlueScreen(failureInfos);
-				}
-			}
+			*/
 		}
 	} // run
 
