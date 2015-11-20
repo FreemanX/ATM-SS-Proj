@@ -149,7 +149,7 @@ public class MainController extends Thread {
 						atmssHandler.doDisDisplayUpper(lines);
 						String pin = "";
 						while (numOfWrongPassed < 3) {
-							pin = atmssHandler.doKPGetPasswd(20);
+							pin = atmssHandler.doKPGetPasswd(2);
 							if (pin.equals("CANCEL")) {
 								break;
 							}
