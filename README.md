@@ -182,6 +182,10 @@ INPORTANT!!!!!!!!
 0. All the functions of hardware has been tested, so far so good.
 1. Now all the process can enter real test stage! Just run the program and select the process you are responsible with.
 	From now on, DO NOT PUSH ANY ERROR CODE!!!!!!!
+	
+###======================Nov 20, 2015 SXM======================
+0. Update Transfer Controller and Enquiry Controller.
+   The main process can work well.
 
 ###======================Nov 20, 2015 Freeman======================
 
@@ -198,3 +202,8 @@ handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
 
 ## To be discussed
 
+###======================Nov 21, 2015 SXM======================
+0. Update Transfer Controller and Enquiry Controller. 
+   They are almost bug free.
+1. A little problem remains to be settled.
+   The advice printer cannot be clear after starting a new process.
