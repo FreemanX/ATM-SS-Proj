@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.*;
+import javax.swing.text.*;
 
 public class Display extends Thread implements EmulatorActions {
 	private String id;
@@ -20,6 +21,8 @@ public class Display extends Thread implements EmulatorActions {
 	private MyPanel myPanel = null;
 	public final static int type = 5;
 	private int status = 500;
+
+	private boolean isBlueScreen = false;
 
 	public Display(String id) {
 		this.id = id;
@@ -38,14 +41,21 @@ public class Display extends Thread implements EmulatorActions {
 	}
 
 	protected void setDisStatus(int Status) {
-		this.status = Status;
+		if (status != Status) {
+			this.status = Status;
 
-		if (status == 598) {
-			shutdown();
-		}
+			if (status == 500) {
+				atmssMBox.send(new Msg("500", 5, "normal"));
+			}
 
-		if (status == 599) {
-			fatalHalt();
+			if (status == 598) {
+				shutdown();
+			}
+
+			if (status == 599) {
+				atmssMBox.send(new Msg("599", 5, "out of service"));
+				fatalHalt();
+			}
 		}
 	}
 
@@ -100,19 +110,43 @@ public class Display extends Thread implements EmulatorActions {
 		}
 		setDisStatus(500);
 		setUIEnable(true);
+		isBlueScreen = false;
 		atmssMBox.send(new Msg("Component Restarted", 5, "Restarted"));
 	}
 	// --------------------------------------------------------
 
-	public void setBlueScreen() {
+	public void setBlueScreen(List<ATMSS.HWFailureInfo> infos) {
+		String msg = "A problem has been detected and ATM has been shut down to prevent damage.\n\n"
+				+ "If this is the first time you've seen this Stop error screen,\n"
+				+ "contact a technician, +852 5174-0740\n\n"
+				+ "If you are a technician, follow these steps:\n"
+				+ "Check log details failed component(s). Reset the component and restart the ATM.\n\n"
+				+ "Technical information:\n";
+
+		isBlueScreen = true;
+
+		for (ATMSS.HWFailureInfo info : infos) {
+			msg += "*** Failure component type:  " + String.format("0x%08x", info.getType()) + ", code: " + String.format("0x%08x", info.getCode()) + " (" + info.getCode() + ")\n"
+					+ "    message: " + info.getMessage() + "\n\n";
+		}
+
 		myFrame.getContentPane().removeAll(); // remove existing content
 
 		// add new panel
-		JPanel panel = new JPanel(new GridBagLayout());
-		JLabel label = new JLabel("BlueScreen message");
-		label.setForeground(Color.WHITE);
-		panel.setBackground(Color.BLUE);
-		panel.add(label, new GridBagConstraints());
+		JPanel panel = new JPanel(new GridLayout(1, 1));
+
+		JTextPane textPane = new JTextPane();
+		textPane.setBackground(Color.BLUE);
+		textPane.setFont(new Font(Font.MONOSPACED, Font.BOLD, 12));
+		StyledDocument doc = textPane.getStyledDocument();
+
+		Style style = textPane.addStyle("whiteText", null);
+		StyleConstants.setForeground(style, Color.white);
+		try {
+			doc.insertString(doc.getLength(), msg, style);
+		} catch (BadLocationException e) {}
+
+		panel.add(textPane);
 		myFrame.getContentPane().add(panel);
 
 		myFrame.getContentPane().revalidate();
@@ -164,6 +198,8 @@ public class Display extends Thread implements EmulatorActions {
 			myFrame.getContentPane().repaint();
 		}
 	}
+
+	public boolean isBlueScreen() { return isBlueScreen; }
 
 	private class MyFrame extends JFrame {
 		// ----------------------------------------

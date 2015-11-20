@@ -120,18 +120,25 @@ public class CashDispenser extends Thread implements EmulatorActions {
 	}
 
 	protected void setCDStatus(int Status) {
-		this.status = Status;
+		if (status != Status) {
+			this.status = Status;
 
-		if (Status == 301) {
-			numOf500 = 0; // For demo only
-		}
+			if (status == 300) {
+				atmssMBox.send(new Msg("300", 3, "normal"));
+			}
 
-		if (status == 398) {
-			shutdown();
-		}
+			if (Status == 301) {
+				numOf500 = 0; // For demo only
+			}
 
-		if (status == 399) {
-			fatalHalt();
+			if (status == 398) {
+				shutdown();
+			}
+
+			if (status == 399) {
+				atmssMBox.send(new Msg("399", 3, "out of service"));
+				fatalHalt();
+			}
 		}
 	}
 

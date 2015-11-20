@@ -1,4 +1,8 @@
-/bin/
+bin/
+out/
 .classpath		
 *.pdf		
 *.docx
+*.iws
+*.iml
+*.ipr

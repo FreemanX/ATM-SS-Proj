@@ -45,22 +45,29 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	}
 
 	protected void setEDStatus(int Status) {
-		this.status = Status;
+		if (status != Status) {
+			this.status = Status;
 
-		if (status == 601) {
-			numOfEnvelop = 0;
-		}
+			if (status == 600) {
+				atmssMBox.send(new Msg("600", 6, "normal"));
+			}
 
-		if (status == 600) {
-			numOfEnvelop = 10000;
-		}
+			if (status == 601) {
+				numOfEnvelop = 0;
+			}
 
-		if (status == 698) {
-			shutdown();
-		}
+			if (status == 600) {
+				numOfEnvelop = 10000;
+			}
 
-		if (status == 699) {
-			fatalHalt();
+			if (status == 698) {
+				shutdown();
+			}
+
+			if (status == 699) {
+				atmssMBox.send(new Msg("699", 6, "out of service"));
+				fatalHalt();
+			}
 		}
 	}
 

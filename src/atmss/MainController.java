@@ -54,6 +54,10 @@ public class MainController extends Thread {
 			this.i = 1;
 		}
 
+		private void endSession() {
+			numOfWrongPassed = 0;
+		}
+
 		protected void processorPause() {
 			this.isRunning = false;
 			checker.pauseCheck();
@@ -98,18 +102,23 @@ public class MainController extends Thread {
 						if (choise.equals("1")) {
 							changePasswdController = new ChangePasswdController(fakeSession);
 							System.out.println("Process finishes, result: " + changePasswdController.doChangePasswd());
+							continue;
 						} else if (choise.equals("2")) {
 							depositController = new DepositController(fakeSession);
 							System.out.println("Process finishes, result: " + depositController.doDeopsit());
+							continue;
 						} else if (choise.equals("3")) {
 							enquryController = new EnquryController(fakeSession);
 							System.out.println("Process finishes, result: " + enquryController.doEnqury());
+							continue;
 						} else if (choise.equals("4")) {
 							transferController = new TransferController(fakeSession);
 							System.out.println("Process finishes, result: " + transferController.doTransfer());
+							continue;
 						} else if (choise.equals("5")) {
 							withdrawController = new WithDrawController(fakeSession);
 							System.out.println("Process finishes, result: " + withdrawController.doWithDraw());
+							continue;
 						} else if (choise.equals("6")) {
 
 						} else {
@@ -158,7 +167,7 @@ public class MainController extends Thread {
 							lines[1] = head + cardNum + tail;
 							lines[2] = head + pin + tail;
 							atmssHandler.doDisDisplayUpper(lines);
-							sleep(5000);
+							sleep(3000);
 							/*----------------------Debug>-------------------------*/
 							if (authorizePassed(cardNum, pin)) {
 								break;
@@ -190,13 +199,123 @@ public class MainController extends Thread {
 						if (numOfWrongPassed < 3) {
 							numOfWrongPassed = 0;
 							clearLines();
+							lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
+							lines[1] = head + "1. Change password" + tail;
+							lines[2] = head + "2. Withdraw money" + tail;
+							lines[3] = head + "3. Enqury" + tail;
+							lines[4] = head + "4. Transfer money" + tail;
 							if (EDIsOk && DCIsOk) {
-								lines[1] = "Welcome! Full functions";
-							} else {
-								lines[1] = "Welcome! Deposit function disabled";
+								lines[5] = head + "5. Deposit money" + tail;
 							}
 							atmssHandler.doDisDisplayUpper(lines);
-							sleep(30000);
+							while (true) {
+								String userChoise = atmssHandler.doKPGetSingleInput(60);
+								Session currentSession = getLastSession();
+								if (userChoise.equals("1")) {
+
+									changePasswdController = new ChangePasswdController(currentSession);
+									boolean isSuccess = changePasswdController.doChangePasswd();
+									LinkedList<Operation> processOperations = changePasswdController
+											.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
+
+								} else if (userChoise.equals("2")) {
+									withdrawController = new WithDrawController(currentSession);
+									boolean isSuccess = withdrawController.doWithDraw();
+									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
+								} else if (userChoise.equals("3")) {
+									enquryController = new EnquryController(currentSession);
+									boolean isSuccess = enquryController.doEnqury();
+									LinkedList<Operation> processOperations = enquryController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
+								} else if (userChoise.equals("4")) {
+									transferController = new TransferController(currentSession);
+									boolean isSuccess = transferController.doTransfer();
+									LinkedList<Operation> processOperations = transferController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
+								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
+									depositController = new DepositController(currentSession);
+									boolean isSuccess = depositController.doDeopsit();
+									LinkedList<Operation> processOperations = depositController.getOperationCache();
+									for (Operation op : processOperations) {
+										currentSession.addOp(op);
+									}
+									if (!isSuccess) {
+										Operation op = processOperations.getLast();
+										if (op.getName().equalsIgnoreCase("cancel")) {
+											break;
+										}
+										/*
+										 * TODO do operation according to
+										 * unified protocol
+										 */
+									}
+								} else if (userChoise.equals("CANCEL")) {
+									clearLines();
+									lines[1] = head + "Card ejected, please take your card" + tail;
+									atmssHandler.doDisDisplayUpper(lines);
+
+									if (!atmssHandler.doCREjectCard()) {
+										clearLines();
+										lines[1] = head + "Your card has been retained, please contact +852 51740740"
+												+ tail;
+										atmssHandler.doDisDisplayUpper(lines);
+									}
+									sleep(10000);
+									break;
+								}
+
+							}
+							this.endSession();
 						} else {
 							clearLines();
 							lines[1] = head + "Card ejected" + tail;
@@ -209,12 +328,11 @@ public class MainController extends Thread {
 								clearLines();
 								lines[1] = head + "Your card has been retained, please contact +852 51740740" + tail;
 								atmssHandler.doDisDisplayUpper(lines);
-								sleep(5000);
+								sleep(10000);
 								continue;
 							}
 						}
 
-						sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -230,7 +348,8 @@ public class MainController extends Thread {
 	// TODO Singleton need to be implemented
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
-			Display display, EnvelopDispenser envelopDispenser, Keypad KP) {
+			Display display, EnvelopDispenser envelopDispenser, Keypad KP, MBox AtmssMbox) {
+		this.atmssMBox = AtmssMbox;
 		this.isRunning = true;
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
@@ -314,18 +433,19 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPException(Msg msg) {
-		handleFatalExceptions();
+
+		handleFatalExceptions(msg);
 	}
 
 	private void handleCRExceptioin(Msg msg) {
-		handleFatalExceptions();
+		handleFatalExceptions(msg);
 	}
 
 	private void handleCDExceptioin(Msg msg) {
 		if (msg.getType() == 301) {
 			System.err.println("Warning: insufficent amount of cash");
 		} else
-			handleFatalExceptions();
+			handleFatalExceptions(msg);
 	}
 
 	private void handleDCExceptioin(Msg msg) {
@@ -337,7 +457,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisExceptioin(Msg msg) {
-		handleFatalExceptions();
+		handleFatalExceptions(msg);
 		// TODO emulate the display shutdown
 	}
 
@@ -349,10 +469,11 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPExceptioin(Msg msg) {
-		handleFatalExceptions();
+		handleFatalExceptions(msg);
 	}
 
-	private void handleFatalExceptions() {
+	private void handleFatalExceptions(Msg msg) {
+		atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		this.isRunning = false;
 		this.processor.processorPause();
 	}
@@ -436,6 +557,7 @@ public class MainController extends Thread {
 	private ATMSSHandler atmssHandler;
 	private MBox mainControllerMBox;
 	private volatile boolean isRunning;
+	private MBox atmssMBox;
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
 

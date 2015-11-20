@@ -43,21 +43,27 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	}
 
 	protected void setAPStatus(int Status) {
-		this.status = Status;
-		if (status == 100) {
-			resource = 10000;
-		}
-		if (status == 101 || status == 102) {
-			this.resource = 0;
-		}
-		if (status == 103) {
-			// TODO simulate Paper jam
-		}
-		if (status == 198) {
-			shutdown();
-		}
-		if (status == 199) {
-			fatalHalt();
+		System.out.println(status + " vs. " + Status);
+		if (status != Status) {
+			this.status = Status;
+			if (status == 100) {
+				resource = 10000;
+				System.out.println("Sending");
+				atmssMBox.send(new Msg("100", 1, "normal"));
+			}
+			if (status == 101 || status == 102) {
+				this.resource = 0;
+			}
+			if (status == 103) {
+				// TODO simulate Paper jam
+			}
+			if (status == 198) {
+				shutdown();
+			}
+			if (status == 199) {
+				atmssMBox.send(new Msg("199", 1, "out of service"));
+				fatalHalt();
+			}
 		}
 	}
 
