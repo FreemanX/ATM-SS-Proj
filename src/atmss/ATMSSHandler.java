@@ -404,7 +404,7 @@ public class ATMSSHandler {
 				doDisClearLower();
 				moneyAmount = "";
 			} else if (currentInput.equals("ENTER")) {
-				if (moneyAmount.length() == lengthLimit) {
+				if (moneyAmount.length() > 0 && moneyAmount.length() <= lengthLimit) {
 					doDisClearLower();
 					break;
 				} else
@@ -453,7 +453,7 @@ public class ATMSSHandler {
 				doDisClearLower();
 				moneyAmount = "";
 			} else if (currentInput.equals("ENTER")) {
-				if (moneyAmount.length() == lengthLimit) {
+				if (moneyAmount.length() > 0 && moneyAmount.length() <= lengthLimit) {
 					doDisClearLower();
 					break;
 				} else
