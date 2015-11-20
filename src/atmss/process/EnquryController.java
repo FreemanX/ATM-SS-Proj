@@ -41,7 +41,8 @@ public class EnquryController extends ProcessController{
 			return false;
 		}
 		
-		this.balance = _atmssHandler.doBAMSCheckBalance(this.accountNumber, _session);		
+		this.balance = _atmssHandler.doBAMSCheckBalance(this.accountNumber, _session);	
+		System.out.println(balance);
 		this.recordOperation();
 		this._atmssHandler.doDisDisplayUpper(new String[] {SHOW_SUCCESS + balance});		
 		return true;

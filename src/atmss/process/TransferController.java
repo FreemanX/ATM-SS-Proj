@@ -16,12 +16,14 @@ public class TransferController extends ProcessController{
 	private String srcAccountNumber;
 	private String desAccountNumber;
 	private double amountToTransfer;
+	private double accountBalance;
 	
 	private final String OPERATION_NAME = "Transfer";
 	private final String FAILED_FROM_DISPLAY = "No response from display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_BAMS = "Failed from BAMS";
 	private final String FAILED_FROM_ADVICEPRINTER = "No response from advice printer";
+	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
 	private final String FAILED_CHOOSE_ACCOUNT = "Failed to choose an account";
 	private final String FAILED_INPUT_ACCOUNT = "Failed to input an account";
 	private final String FAILED_INPUT_AMOUNT = "Failed to input transfer amount";
@@ -54,12 +56,14 @@ public class TransferController extends ProcessController{
 			return failProcess(SHOW_FAILURE);
 		}
 		
-		System.out.println("srcAccountNumber: " + srcAccountNumber);
-		System.out.println("desAccountNumber: " + desAccountNumber);
-		System.out.println("amountToTransfer: " + amountToTransfer);
+//		System.out.println("srcAccountNumber: " + srcAccountNumber);
+//		System.out.println("desAccountNumber: " + desAccountNumber);
+//		System.out.println("amountToTransfer: " + amountToTransfer);
+//		System.out.println(_session.getCardNo());
 				
-		if (!this._atmssHandler.doBAMSTransfer(srcAccountNumber, desAccountNumber, amountToTransfer, _session)) {
-			System.out.println("Line 58"); return failProcess(SHOW_FAILURE);
+		if (!this._atmssHandler.doBAMSTransfer(desAccountNumber, srcAccountNumber, amountToTransfer, _session)) {
+//			System.out.println("Line 63"); 
+			return failProcess(SHOW_FAILURE);
 		}
 		
 		this.recordOperation();
@@ -169,6 +173,16 @@ public class TransferController extends ProcessController{
 			}
 			
 			amountToTransfer = this._atmssHandler.doKPGetDoubleMoneyAmount(30);
+			accountBalance = this._atmssHandler.doBAMSCheckBalance(this.srcAccountNumber, _session);
+			if (Double.parseDouble(amountToTransfer) > accountBalance) {
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{
+						FAILED_FROM_BALANCE, "You can only withdraw $" + accountBalance
+						})) {
+					System.out.println("You can only withdraw $" + accountBalance);
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+			}
 			if (amountToTransfer == null) {
 				return failProcess(FAILED_INPUT_AMOUNT);
 			}
