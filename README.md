@@ -183,6 +183,10 @@ INPORTANT!!!!!!!!
 1. Now all the process can enter real test stage! Just run the program and select the process you are responsible with.
 	From now on, DO NOT PUSH ANY ERROR CODE!!!!!!!
 
+###======================Nov 20, 2015 Freeman======================
+
+0. Main controller amost finish, waiting for the completetion of process controllers
+1. Main controller is waiting for integrated test
 
 ## Notice
 There is a "mistake" in BAMSHandler.java, line 134.
