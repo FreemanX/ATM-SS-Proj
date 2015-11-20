@@ -79,6 +79,8 @@ public class MainController extends Thread {
 			// debug test
 			while (true) {
 				while (isRunning) {
+					System.out.println(">>>>Processor is running, iteration: " + i);
+					i++;
 					try {
 						/*----------------------<Debug-------------------------*/
 						clearLines();
@@ -212,8 +214,6 @@ public class MainController extends Thread {
 							}
 						}
 
-						System.out.println(">>>>Processor is running, iteration: " + i);
-						i++;
 						sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
