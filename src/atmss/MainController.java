@@ -139,24 +139,24 @@ public class MainController extends Thread {
 							atmssHandler.doCREjectCard();
 							continue;
 						}
-						/*----------------------Debug-------------------------*/
+						/*----------------------<Debug-------------------------*/
 						clearLines();
 						lines[1] = head + cardNum + tail;
 						lines[2] = head + pin + tail;
 						atmssHandler.doDisDisplayUpper(lines);
 						sleep(5000);
-						/*----------------------Debug-------------------------*/
+						/*----------------------Debug>-------------------------*/
 
-						// TODO remove true when BAMS function is OK
 						while (numOfWrongPassed < 3) {
-							if (true || AutherizePassed(cardNum, pin)) {
+							// TODO remove true when BAMS function is OK
+							if (AutherizePassed(cardNum, pin)) {
 								break;
 							} else {
 								numOfWrongPassed++;
 							}
 						}
 						if (numOfWrongPassed < 3) {
-
+							numOfWrongPassed = 0;
 							clearLines();
 							if (EDIsOk && DCIsOk) {
 								lines[1] = "Welcome! Full functions";
@@ -198,6 +198,7 @@ public class MainController extends Thread {
 		this.displayController = new DisplayController(display);
 		this.envelopDispenserController = new EnvelopDispenserController(envelopDispenser);
 		this.keypadController = new KeypadController(KP);
+		this.serverCommunicator = new BAMSCommunicator();
 		this.atmssHandler = ATMSSHandler.getHandler();
 		this.atmssHandler.initHandler(cashDispenserController, cardReaderController, keypadController,
 				depositCollectorController, advicePrinterController, displayController, envelopDispenserController,
