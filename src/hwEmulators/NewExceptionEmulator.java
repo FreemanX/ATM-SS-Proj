@@ -177,6 +177,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
     private void buildUI() {
     	setLayout(new BorderLayout());
+        setLocation(UIManager.x + 1250, UIManager.y);
 
         // AdvicePrinter ---------------------------------------
     	//headAP.setBackground(Color.red);
@@ -409,25 +410,25 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnAPNormal) {
             labelStatusAP.setText("Normal");
             log.info(id + ": Setting " + labelStatusAP.getText());
-            atmssMBox.send(new Msg("Advice Printer is fine(100)", 1, labelStatusAP.getText()));
+            atmssMBox.send(new Msg("100", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 100);
         }
         if (src == btnAPOutOfResource) {
             labelStatusAP.setText("No paper or ink");
             log.info(id + ": Setting " + labelStatusAP.getText());
-            atmssMBox.send(new Msg("Advice Printer Exception(101)", 1, labelStatusAP.getText()));
+            atmssMBox.send(new Msg("101", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 101);
         }
         if (src == btnAPJam) {
-            labelStatusAP.setText("Paper jamed");
+            labelStatusAP.setText("Paper jammed");
             log.info(id + ": Setting " + labelStatusAP.getText());
-            atmssMBox.send(new Msg("Advice Printer Exception(103)", 1, labelStatusAP.getText()));
+            atmssMBox.send(new Msg("103", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 103);
         }
         if (src == btnAPFatal) {
             labelStatusAP.setText("Out of service");
             log.info(id + ": Setting " + labelStatusAP.getText());
-            atmssMBox.send(new Msg("Advice Printer Exception(199)", 1, labelStatusAP.getText()));
+            atmssMBox.send(new Msg("199", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 199);
         }
         // end AdvicePrinter --------------------------------------
@@ -436,13 +437,13 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnCRNormal) {
             labelStatusCR.setText("Normal");
             log.info(id + ": Setting " + labelStatusCR.getText());
-            atmssMBox.send(new Msg("Card Reader Normal(200)", 2, labelStatusCR.getText()));
+            atmssMBox.send(new Msg("200", 2, labelStatusCR.getText()));
             atmss.setHWStatus(CardReader.type, 200);
         }
         if (src == btnCRFatal) {
             labelStatusCR.setText("Out of service");
             log.info(id + ": Setting " + labelStatusCR.getText());
-            atmssMBox.send(new Msg("Card Reader Exception(299)", 2, labelStatusCR.getText()));
+            atmssMBox.send(new Msg("299", 2, labelStatusCR.getText()));
             atmss.setHWStatus(CardReader.type, 299);
         }
         // end CardReader ---------------------------------------------
@@ -451,19 +452,19 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnCDNormal) {
             labelStatusCD.setText("Normal");
             log.info(id + ": Setting " + labelStatusCD.getText());
-            atmssMBox.send(new Msg("Cash Dispenser Normal(300)", 3, labelStatusCD.getText()));
+            atmssMBox.send(new Msg("300", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 300);
         }
         if (src == btnCDNoCash) {
             labelStatusCD.setText("Insufficient Cash");
             log.info(id + ": Setting " + labelStatusCD.getText());
-            atmssMBox.send(new Msg("Cash Dispenser Exception(301)", 3, labelStatusCD.getText()));
+            atmssMBox.send(new Msg("301", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 301);
         }
         if (src == btnCDFatal) {
             labelStatusCD.setText("Out of service");
             log.info(id + ": Setting " + labelStatusCD.getText());
-            atmssMBox.send(new Msg("Cash Dispenser Exception(399 or 302)", 3, labelStatusCD.getText()));
+            atmssMBox.send(new Msg("399", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 399);
         }
         // end CashDispenser ------------------------------------------
@@ -472,13 +473,13 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnDCNormal) {
             labelStatusDC.setText("Normal");
             log.info(id + ": Setting " + labelStatusDC.getText());
-            atmssMBox.send(new Msg("Deposit Collector Normal(400)", 4, labelStatusDC.getText()));
+            atmssMBox.send(new Msg("400", 4, labelStatusDC.getText()));
             atmss.setHWStatus(DepositCollector.type, 400);
         }
         if (src == btnDCFatal) {
             labelStatusDC.setText("Out of service");
             log.info(id + ": Setting " + labelStatusDC.getText());
-            atmssMBox.send(new Msg("Deposit Collector Exception(499)", 4, labelStatusDC.getText()));
+            atmssMBox.send(new Msg("499", 4, labelStatusDC.getText()));
             atmss.setHWStatus(DepositCollector.type, 499);
         }
         // end DepositCollector ----------------------------------------
@@ -487,13 +488,13 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnDISNormal) {
             labelStatusDIS.setText("Normal");
             log.info(id + ": Setting " + labelStatusDIS.getText());
-            atmssMBox.send(new Msg("Display Normal(500)", 5, labelStatusDIS.getText()));
+            atmssMBox.send(new Msg("500", 5, labelStatusDIS.getText()));
             atmss.setHWStatus(Display.type, 500);
         }
         if (src == btnDISFatal) {
             labelStatusDIS.setText("Out of service");
             log.info(id + ": Setting " + labelStatusDIS.getText());
-            atmssMBox.send(new Msg("Display Exception(599)", 5, labelStatusDIS.getText()));
+            atmssMBox.send(new Msg("599", 5, labelStatusDIS.getText()));
             atmss.setHWStatus(Display.type, 599);
         }
         // end Display --------------------------------------------------
@@ -502,19 +503,19 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnEDNormal) {
             labelStatusED.setText("Normal");
             log.info(id + ": Setting " + labelStatusED.getText());
-            atmssMBox.send(new Msg("Envelop Dispenser Normal(600)", 6, labelStatusED.getText()));
+            atmssMBox.send(new Msg("600", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 600);
         }
         if (src == btnEDNoEnv) {
             labelStatusED.setText("No Envelop");
             log.info(id + ": Setting " + labelStatusED.getText());
-            atmssMBox.send(new Msg("Envelop Dispenser Exception(601)", 6, labelStatusED.getText()));
+            atmssMBox.send(new Msg("601", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 601);
         }
         if (src == btnEDFatal) {
             labelStatusED.setText("Out of service");
             log.info(id + ": Setting " + labelStatusED.getText());
-            atmssMBox.send(new Msg("Envelop Dispenser Exception(699)", 6, labelStatusED.getText()));
+            atmssMBox.send(new Msg("699", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 699);
         }
         // end EnvelopDispenser --------------------------------------------------
@@ -523,13 +524,13 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         if (src == btnKPNormal) {
             labelStatusKP.setText("Normal");
             log.info(id + ": Setting " + labelStatusKP.getText());
-            atmssMBox.send(new Msg("Keypad Normal(700)", 7, labelStatusKP.getText()));
+            atmssMBox.send(new Msg("700", 7, labelStatusKP.getText()));
             atmss.setHWStatus(Keypad.type, 700);
         }
         if (src == btnKPFatal) {
             labelStatusKP.setText("Out of service");
             log.info(id + ": Setting " + labelStatusKP.getText());
-            atmssMBox.send(new Msg("Keypad Exception(799)", 7, labelStatusKP.getText()));
+            atmssMBox.send(new Msg("799", 7, labelStatusKP.getText()));
             atmss.setHWStatus(Keypad.type, 799);
         }
         // end Keypad -------------------------------------------------------------

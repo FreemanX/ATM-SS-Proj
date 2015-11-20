@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.controller;
 
@@ -17,7 +17,7 @@ public abstract class HardwareController {
 	MBox _maincontrollerMBox;
 
 	/**
-	 * 
+	 *
 	 */
 	public HardwareController() {
 		// TODO Auto-generated constructor stub
