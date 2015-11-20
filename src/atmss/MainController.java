@@ -79,6 +79,8 @@ public class MainController extends Thread {
 			// debug test
 			while (true) {
 				while (isRunning) {
+					System.out.println(">>>>Processor is running, iteration: " + i);
+					i++;
 					try {
 						/*----------------------<Debug-------------------------*/
 						clearLines();
@@ -123,22 +125,33 @@ public class MainController extends Thread {
 						System.out.println("Waing for card...");
 						String cardNum = atmssHandler.doCRReadCard();
 						System.out.println("Rreceive card: " + cardNum);
+						// TODO check if this card is valid card
 						if (!isBankCard(cardNum)) {
-							System.out.println("Here");
-							atmssHandler.doCREjectCard();
-							continue;
+							clearLines();
+							lines[0] = head + "Invalid card, please insert the card from our bank" + tail;
+							lines[1] = head + "Card ejected" + tail;
+							lines[2] = "Please take your card...";
+							atmssHandler.doDisDisplayUpper(lines);
+							if (atmssHandler.doCREjectCard())
+								continue;
+							else {
+								clearLines();
+								lines[1] = head + "Your card has been retained, please contact +852 51740740" + tail;
+								atmssHandler.doDisDisplayUpper(lines);
+								sleep(5000);
+								continue;
+							}
 						}
 
 						clearLines();
 						lines[1] = head + "Card inserted" + tail;
 						lines[2] = "Please input your password (20 sec/key)";
 						atmssHandler.doDisDisplayUpper(lines);
-
+						String pin = "";
 						while (numOfWrongPassed < 3) {
-							String pin = atmssHandler.doKPGetPasswd(20);
+							pin = atmssHandler.doKPGetPasswd(20);
 							if (pin.equals("CANCEL")) {
-								atmssHandler.doCREjectCard();
-								continue;
+								break;
 							}
 							/*----------------------<Debug-------------------------*/
 							clearLines();
@@ -157,6 +170,23 @@ public class MainController extends Thread {
 								numOfWrongPassed++;
 							}
 						}
+
+						if (pin.equals("CANCEL")) {
+							clearLines();
+							lines[1] = head + "Card ejected" + tail;
+							lines[2] = "Please take your card...";
+							atmssHandler.doDisDisplayUpper(lines);
+							if (atmssHandler.doCREjectCard())
+								continue;
+							else {
+								clearLines();
+								lines[1] = head + "Your card has been retained, please contact +852 51740740" + tail;
+								atmssHandler.doDisDisplayUpper(lines);
+								sleep(5000);
+								continue;
+							}
+						}
+
 						if (numOfWrongPassed < 3) {
 							numOfWrongPassed = 0;
 							clearLines();
@@ -170,15 +200,20 @@ public class MainController extends Thread {
 						} else {
 							clearLines();
 							lines[1] = head + "Card ejected" + tail;
-							lines[2] = "You have input wrong password 3 times";
+							lines[2] = "You have input wrong password 3 times, please take your card";
 							atmssHandler.doDisDisplayUpper(lines);
-							atmssHandler.doCREjectCard();
 							this.initProcessor();
-							continue;
+							if (atmssHandler.doCREjectCard())
+								continue;
+							else {
+								clearLines();
+								lines[1] = head + "Your card has been retained, please contact +852 51740740" + tail;
+								atmssHandler.doDisDisplayUpper(lines);
+								sleep(5000);
+								continue;
+							}
 						}
 
-						System.out.println(">>>>Processor is running, iteration: " + i);
-						i++;
 						sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();

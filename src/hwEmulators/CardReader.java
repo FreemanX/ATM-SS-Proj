@@ -274,7 +274,7 @@ public class CardReader extends Thread implements EmulatorActions {
 					// TODO Auto-generated method stub
 					if (waitForTaken && cardToSend.length() > 0) {
 						textField.setText("");
-						msgTextArea.append("Card Ejected\n");
+						msgTextArea.append("Card taken\n");
 						atmssMBox.send(new Msg("CardReader", CardReader.type, "Eject card: " + cardToSend));
 						_crViewMBox.send(new Msg("CardReader", CardReader.type, "Card taken " + cardToSend));
 						log.info(id + ": Ejecting " + cardToSend);
