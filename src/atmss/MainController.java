@@ -54,6 +54,10 @@ public class MainController extends Thread {
 			this.i = 1;
 		}
 
+		private void endSession() {
+			numOfWrongPassed = 0;
+		}
+
 		protected void processorPause() {
 			this.isRunning = false;
 			checker.pauseCheck();
@@ -195,12 +199,45 @@ public class MainController extends Thread {
 						if (numOfWrongPassed < 3) {
 							numOfWrongPassed = 0;
 							clearLines();
+							lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
+							lines[1] = head + "1. Change password" + tail;
+							lines[2] = head + "2. Withdraw money" + tail;
+							lines[3] = head + "3. Enqury" + tail;
+							lines[4] = head + "4. Transfer money" + tail;
 							if (EDIsOk && DCIsOk) {
-								lines[1] = "Welcome! Full functions";
-							} else {
-								lines[1] = "Welcome! Deposit function disabled";
+								lines[5] = head + "5. Deposit money" + tail;
 							}
 							atmssHandler.doDisDisplayUpper(lines);
+							while (true) {
+								String userChoise = atmssHandler.doKPGetSingleInput(60);
+								System.out.println("User choise: " + userChoise);
+								if (userChoise.equals("1")) {
+
+								} else if (userChoise.equals("2")) {
+
+								} else if (userChoise.equals("3")) {
+
+								} else if (userChoise.equals("4")) {
+
+								} else if (userChoise.equals("5")) {
+
+								} else if (userChoise.equals("CANCEL")) {
+									clearLines();
+									lines[1] = head + "Card ejected, please take your card" + tail;
+									atmssHandler.doDisDisplayUpper(lines);
+									
+									if (!atmssHandler.doCREjectCard()) {
+										clearLines();
+										lines[1] = head + "Your card has been retained, please contact +852 51740740"
+												+ tail;
+										atmssHandler.doDisDisplayUpper(lines);
+										sleep(5000);
+									}
+									break;
+								}
+
+							}
+							this.endSession();
 							sleep(30000);
 						} else {
 							clearLines();
