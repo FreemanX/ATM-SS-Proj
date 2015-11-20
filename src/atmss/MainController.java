@@ -68,7 +68,7 @@ public class MainController extends Thread {
 
 		private boolean isBankCard(String s) {
 			if (s != null && s.length() == 12)
-				return true;
+				return atmssHandler.doBAMSCheckCardValid(s);
 			return false;
 		}
 
