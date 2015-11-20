@@ -3,7 +3,6 @@
  */
 package atmss.process;
 
-import atmss.MainController;
 import atmss.Operation;
 import atmss.Session;
 
@@ -23,7 +22,7 @@ public class ChangePasswdController extends ProcessController {
 	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please type your new password again:"};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final String[] SHOW_SUCCESS = {"Succeeded!", "The password has been changed."};
-	private final long TIME_LIMIT = 30 * 1000;
+	private final long TIME_LIMIT = 10; // seconds
 	private final String KP_CANCEL = "CANCEL";
 
 	public ChangePasswdController(Session CurrentSession) {

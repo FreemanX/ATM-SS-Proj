@@ -3,7 +3,6 @@
  */
 package atmss.process;
 
-import atmss.MainController;
 import atmss.Operation;
 import atmss.Session;
 
@@ -29,7 +28,8 @@ public class WithDrawController extends ProcessController{
 	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must end up with at least two 0s:"};
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	private final long TIME_LIMIT = 30 * 1000;
+	private final int TIME_LIMIT = 10; // seconds
+	private final int AMOUNT_LIMIT = 10000;
 	private final String KP_CANCEL = "CANCEL";
 
 	public WithDrawController(Session CurrentSession) {
@@ -218,7 +218,7 @@ public class WithDrawController extends ProcessController{
 	private int amountFromString(String userInput) {
 		try {
 			int withdrawAmount = Integer.parseInt(userInput);
-			if (withdrawAmount > 0 && withdrawAmount <= 10000 && withdrawAmount % 100 == 0){
+			if (withdrawAmount > 0 && withdrawAmount <= AMOUNT_LIMIT && withdrawAmount % 100 == 0){
 				return withdrawAmount;
 			} else {
 				return 0;
