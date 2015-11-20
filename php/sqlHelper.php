@@ -10,6 +10,10 @@
 			, mysql_real_escape_string($accNo));
 		return mysql_query($sql);
 	}
+	function cardRow($cardNo) {
+		$sql = sprintf("SELECT * FROM cards WHERE card_no = '%s'", $cardNo);
+		return mysql_query($sql);
+	}
 	function getBalance($accNo) {
 		$result = accountRow($accNo);
 		if (mysql_num_rows($result) == 1) { // should have 1 match only
