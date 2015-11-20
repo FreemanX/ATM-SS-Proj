@@ -212,20 +212,23 @@ public class MainController extends Thread {
 								String userChoise = atmssHandler.doKPGetSingleInput(60);
 								System.out.println("User choise: " + userChoise);
 								if (userChoise.equals("1")) {
-
+									changePasswdController = new ChangePasswdController(getLastSession());
+									if (!changePasswdController.doChangePasswd()) {
+										
+									}
 								} else if (userChoise.equals("2")) {
 
 								} else if (userChoise.equals("3")) {
 
 								} else if (userChoise.equals("4")) {
 
-								} else if (userChoise.equals("5")) {
+								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
 
 								} else if (userChoise.equals("CANCEL")) {
 									clearLines();
 									lines[1] = head + "Card ejected, please take your card" + tail;
 									atmssHandler.doDisDisplayUpper(lines);
-									
+
 									if (!atmssHandler.doCREjectCard()) {
 										clearLines();
 										lines[1] = head + "Your card has been retained, please contact +852 51740740"
@@ -238,7 +241,7 @@ public class MainController extends Thread {
 
 							}
 							this.endSession();
-							sleep(30000);
+							sleep(3000);
 						} else {
 							clearLines();
 							lines[1] = head + "Card ejected" + tail;
