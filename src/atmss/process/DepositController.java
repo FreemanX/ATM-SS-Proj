@@ -43,7 +43,7 @@ public class DepositController extends ProcessController {
 		super(Session);
 	}
 
-	public Boolean doDeopsit() {
+	public Boolean doDeposit() {
 		// boolean isSuccess = false;
 		/*
 		 * Implement the process here.
