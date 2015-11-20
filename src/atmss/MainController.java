@@ -105,7 +105,7 @@ public class MainController extends Thread {
 							continue;
 						} else if (choise.equals("2")) {
 							depositController = new DepositController(fakeSession);
-							System.out.println("Process finishes, result: " + depositController.doDeposit());
+							System.out.println("Process finishes, result: " + depositController.doDeopsit());
 							continue;
 						} else if (choise.equals("3")) {
 							enquryController = new EnquryController(fakeSession);
@@ -284,7 +284,7 @@ public class MainController extends Thread {
 									}
 								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
 									depositController = new DepositController(currentSession);
-									boolean isSuccess = depositController.doDeposit();
+									boolean isSuccess = depositController.doDeopsit();
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
