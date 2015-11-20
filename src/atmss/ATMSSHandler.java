@@ -472,7 +472,7 @@ public class ATMSSHandler {
 
 	public String doKPGetAccountNum(long Duration) {
 		String inputAccountNum = "";
-		int lengthLimit = 12;
+		int lengthLimit = 11;
 		while (true) {
 			String currentInput = doKPGetSingleInput(Duration);
 			if (currentInput == null) {
