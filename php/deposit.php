@@ -14,6 +14,7 @@
 require_once("settings.php");
 require_once("credManager.php");
 require_once("sqlHelper.php");
+require_once("LogHelper.php");
 
 $_get_lower = array_change_key_case($_GET, CASE_LOWER);
 
@@ -49,6 +50,9 @@ if (!empty($cardNo) && !empty($accNo) && !empty($cred) && !empty($amount)) {
 	}
 }
 echo $requestResult;
+
+$log = new LogHelper();
+$log->write("deposit.php", $_get_lower, $requestResult);
 
 mysql_close($conn);
 ?>

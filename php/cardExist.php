@@ -11,6 +11,7 @@
 require_once("settings.php");
 require_once("credManager.php");
 require_once("sqlHelper.php");
+require_once("LogHelper.php");
 
 // _GET lowercase
 $_get_lower = array_change_key_case($_GET, CASE_LOWER);
@@ -30,6 +31,9 @@ if (!empty($cardNo)) {
     }
 }
 echo $requestResult;
+
+$log = new LogHelper();
+$log->write("cardExist.php", $_get_lower, $requestResult);
 
 mysql_close($conn);
 ?>

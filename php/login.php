@@ -1,6 +1,8 @@
 <?php
+error_reporting(E_ALL);
 require_once("settings.php");
 require_once("credManager.php");
+require_once("LogHelper.php");
 
 $_get_lower = array_change_key_case($_GET, CASE_LOWER);
 
@@ -26,6 +28,9 @@ if (!empty($cardNo) && !empty($pin)) {
 
 // return the credential result
 echo $credential;
+
+$log = new LogHelper();
+$log->write("login.php", $_get_lower, $credential);
 
 // close the connection to DB
 mysql_close($conn);
