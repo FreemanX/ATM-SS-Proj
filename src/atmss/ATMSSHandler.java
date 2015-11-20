@@ -98,6 +98,10 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	public boolean doBAMSCheckCardValid(String cardNo) {
+		return serverCommunicator.isCardExist(cardNo);
+	}
+
 	// >>>>>>>>>>>>>>>>>>1 Functions of advice printer <<<<<<<<<<<<<<<<<<<
 	public boolean doAPPrintAdvice(LinkedList<Operation> operations) {
 		try {

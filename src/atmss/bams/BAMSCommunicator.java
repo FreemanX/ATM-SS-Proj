@@ -39,6 +39,21 @@ public class BAMSCommunicator extends BAMSHandler {
 		return new String[0];
 	}
 
+	/**
+	 * @param cardNo
+	 *            The card number read from the inserted card
+	 * @return true - belongs to our bank, false - doesn't belongs to our bank
+	 */
+	public boolean isCardExist(String cardNo) {
+		String urlStr = prefix + "cardExist.php?cardNo=" + cardNo;
+		String result = sendRequest(urlStr);
+
+		if (result.equalsIgnoreCase("true"))
+			return true;
+
+		return false;
+	}
+
 	// ------------------------------------------------------------
 	// sendRequest
 	/**

@@ -12,7 +12,7 @@ import java.net.URL;
 //======================================================================
 // BAMSHandler
 /**
- * 
+ *
  * The BAMSHandler class is an interface between ATMSS and BAMS. It is used to
  * invoke different PHP programs resided on web server for various functions
  * related to BAMS.
@@ -23,7 +23,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// BAMSHandler
 	/**
-	 * 
+	 *
 	 * @param prefix
 	 *            prefix for connecting to BAMS
 	 */
@@ -34,7 +34,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// login
 	/**
-	 * 
+	 *
 	 * @param cardNo
 	 *            The card number read from the inserted card
 	 * @param pin
@@ -52,7 +52,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// cashWithdraw
 	/**
-	 * 
+	 *
 	 * @param cardNo
 	 *            The card number read from the inserted card
 	 * @param accNo
@@ -75,7 +75,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// deposit
 	/**
-	 * 
+	 *
 	 * @param cardNo
 	 *            The card number read from the inserted card
 	 * @param accNo
@@ -96,7 +96,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// enquiry
 	/**
-	 * 
+	 *
 	 * @param cardNo
 	 *            The card number read from the inserted card
 	 * @param accNo
@@ -116,7 +116,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// transfer
 	/**
-	 * 
+	 *
 	 * @param cardNo
 	 *            The card number read from the inserted card
 	 * @param cred
@@ -142,7 +142,7 @@ public class BAMSHandler {
 	// ------------------------------------------------------------
 	// sendRequest
 	/**
-	 * 
+	 *
 	 * @param urlStr
 	 *            The url (string) for making the request
 	 * @return The reply string received from BAMS.
