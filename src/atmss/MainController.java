@@ -98,18 +98,23 @@ public class MainController extends Thread {
 						if (choise.equals("1")) {
 							changePasswdController = new ChangePasswdController(fakeSession);
 							System.out.println("Process finishes, result: " + changePasswdController.doChangePasswd());
+							continue;
 						} else if (choise.equals("2")) {
 							depositController = new DepositController(fakeSession);
 							System.out.println("Process finishes, result: " + depositController.doDeopsit());
+							continue;
 						} else if (choise.equals("3")) {
 							enquryController = new EnquryController(fakeSession);
 							System.out.println("Process finishes, result: " + enquryController.doEnqury());
+							continue;
 						} else if (choise.equals("4")) {
 							transferController = new TransferController(fakeSession);
 							System.out.println("Process finishes, result: " + transferController.doTransfer());
+							continue;
 						} else if (choise.equals("5")) {
 							withdrawController = new WithDrawController(fakeSession);
 							System.out.println("Process finishes, result: " + withdrawController.doWithDraw());
+							continue;
 						} else if (choise.equals("6")) {
 
 						} else {
@@ -158,7 +163,7 @@ public class MainController extends Thread {
 							lines[1] = head + cardNum + tail;
 							lines[2] = head + pin + tail;
 							atmssHandler.doDisDisplayUpper(lines);
-							sleep(5000);
+							sleep(3000);
 							/*----------------------Debug>-------------------------*/
 							if (authorizePassed(cardNum, pin)) {
 								break;
