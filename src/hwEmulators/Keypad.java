@@ -65,11 +65,16 @@ public class Keypad extends Thread implements EmulatorActions {
 	protected void setKPStatus(int Status) {
 		this.status = Status;
 
+		if (status == 700) {
+			atmssMBox.send(new Msg("700", 7, "normal"));
+		}
+
 		if (status == 798) {
 			shutdown();
 		}
 
 		if (status == 799) {
+			atmssMBox.send(new Msg("700", 7, "out of service"));
 			fatalHalt();
 		}
 	}

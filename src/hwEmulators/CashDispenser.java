@@ -122,6 +122,10 @@ public class CashDispenser extends Thread implements EmulatorActions {
 	protected void setCDStatus(int Status) {
 		this.status = Status;
 
+		if (status == 300) {
+			atmssMBox.send(new Msg("300", 3, "normal"));
+		}
+
 		if (Status == 301) {
 			numOf500 = 0; // For demo only
 		}
@@ -131,6 +135,7 @@ public class CashDispenser extends Thread implements EmulatorActions {
 		}
 
 		if (status == 399) {
+			atmssMBox.send(new Msg("399", 3, "out of service"));
 			fatalHalt();
 		}
 	}

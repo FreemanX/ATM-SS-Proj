@@ -41,11 +41,16 @@ public class Display extends Thread implements EmulatorActions {
 	protected void setDisStatus(int Status) {
 		this.status = Status;
 
+		if (status == 500) {
+			atmssMBox.send(new Msg("500", 5, "normal"));
+		}
+
 		if (status == 598) {
 			shutdown();
 		}
 
 		if (status == 599) {
+			atmssMBox.send(new Msg("599", 5, "out of service"));
 			fatalHalt();
 		}
 	}

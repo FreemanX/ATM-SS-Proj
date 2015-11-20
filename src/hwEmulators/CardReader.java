@@ -77,11 +77,16 @@ public class CardReader extends Thread implements EmulatorActions {
 	protected void setCRStatus(int Status) {
 		this.status = Status;
 
+		if (status == 200) {
+			atmssMBox.send(new Msg("200", 2, "normal"));
+		}
+
 		if (status == 298) {
 			shutdown();
 		}
 
 		if (status == 299) {
+			atmssMBox.send(new Msg("299", 2, "out of service"));
 			fatalHalt();
 		}
 	}

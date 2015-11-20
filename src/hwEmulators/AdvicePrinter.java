@@ -46,6 +46,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		this.status = Status;
 		if (status == 100) {
 			resource = 10000;
+			atmssMBox.send(new Msg("100", 1, "normal"));
 		}
 		if (status == 101 || status == 102) {
 			this.resource = 0;
@@ -57,6 +58,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 			shutdown();
 		}
 		if (status == 199) {
+			atmssMBox.send(new Msg("199", 1, "out of service"));
 			fatalHalt();
 		}
 	}

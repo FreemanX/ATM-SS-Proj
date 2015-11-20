@@ -79,11 +79,16 @@ public class DepositCollector extends Thread implements EmulatorActions {
 	protected void setDCStatus(int Status) {
 		this.status = Status;
 
+		if (status == 400) {
+			atmssMBox.send(new Msg("400", 4, "normal"));
+		}
+
 		if (Status == 498) {
 			shutdown();
 		}
 
 		if (status == 499) {
+			atmssMBox.send(new Msg("499", 4, "out of service"));
 			fatalHalt();
 		}
 	}
