@@ -349,7 +349,7 @@ public class MainController extends Thread {
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
 			Display display, EnvelopDispenser envelopDispenser, Keypad KP, MBox AtmssMbox) {
-		this.atmssMBox = AtmssMbox;
+		this._atmssMBox = AtmssMbox;
 		this.isRunning = true;
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
@@ -387,25 +387,25 @@ public class MainController extends Thread {
 				String sender = msg.getSender();
 				switch (sender) {
 				case "AP":
-					handleAPException(msg);
+					handleAPMsg(msg);
 					break;
 				case "CR":
-					handleCRExceptioin(msg);
+					handleCRMsg(msg);
 					break;
 				case "CD":
-					handleCDExceptioin(msg);
+					handleCDMsg(msg);
 					break;
 				case "DC":
-					handleDCExceptioin(msg);
+					handleDCMsg(msg);
 					break;
 				case "Dis":
-					handleDisExceptioin(msg);
+					handleDisMsg(msg);
 					break;
 				case "ED":
-					handleEDExceptioin(msg);
+					handleEDMsg(msg);
 					break;
 				case "KP":
-					handleKPExceptioin(msg);
+					handleKPMsg(msg);
 					break;
 				default:
 					break;
@@ -413,9 +413,11 @@ public class MainController extends Thread {
 			}
 
 			try {
+				/*-----------------<Debug----------------------*/
 				this.atmssHandler.doDisClearUpper();
 				String[] lines = { "", "Out of service!" };
 				this.atmssHandler.doDisDisplayUpper(lines);
+				/*-----------------Debug>----------------------*/
 				waitForRepair();
 				sleep(300);
 			} catch (InterruptedException e) {
@@ -432,65 +434,51 @@ public class MainController extends Thread {
 		return false;
 	}
 
-	private void handleAPException(Msg msg) {
-
-		handleFatalExceptions(msg);
-	}
-
-	private void handleCRExceptioin(Msg msg) {
-		handleFatalExceptions(msg);
-	}
-
-	private void handleCDExceptioin(Msg msg) {
-		if (msg.getType() == 301) {
-			System.err.println("Warning: insufficent amount of cash");
-		} else
+	private void handleAPMsg(Msg msg) {
+		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
-	private void handleDCExceptioin(Msg msg) {
-		// TODO Not fatal, disable deposit function
+	private void handleCRMsg(Msg msg) {
+		if (msg.getType() % 100 != 0)
+			handleFatalExceptions(msg);
+	}
+
+	private void handleCDMsg(Msg msg) {
+		if (msg.getType() == 301) {
+			System.err.println("Warning: insufficent amount of cash");
+		} else if (msg.getType() % 100 != 0)
+			handleFatalExceptions(msg);
+	}
+
+	private void handleDCMsg(Msg msg) {
 		if (msg.getType() % 100 == 0)
 			processor.setDCIsOK(true);
 		else
 			processor.setDCIsOK(false);
 	}
 
-	private void handleDisExceptioin(Msg msg) {
-		handleFatalExceptions(msg);
-		// TODO emulate the display shutdown
+	private void handleDisMsg(Msg msg) {
+		if (msg.getType() % 100 != 0)
+			handleFatalExceptions(msg);
 	}
 
-	private void handleEDExceptioin(Msg msg) {
+	private void handleEDMsg(Msg msg) {
 		if (msg.getType() % 100 == 0)
 			processor.setEDIsOK(true);
 		else
 			processor.setEDIsOK(false);
 	}
 
-	private void handleKPExceptioin(Msg msg) {
-		handleFatalExceptions(msg);
+	private void handleKPMsg(Msg msg) {
+		if (msg.getType() % 100 != 0)
+			handleFatalExceptions(msg);
 	}
 
 	private void handleFatalExceptions(Msg msg) {
-		atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		this.isRunning = false;
 		this.processor.processorPause();
-	}
-
-	private Session getLastSession() {
-		return sessionLog.get(sessionLog.size() - 1);
-	}
-
-	private void waitForRepair() {
-		try {
-			if (this.advicePrinterController.updateStatus() && this.cardReaderController.updateStatus()
-					&& this.cashDispenserController.updateStatus() && this.depositCollectorController.updateStatus()
-					&& this.displayController.updateStatus() && this.envelopDispenserController.updateStatus()
-					&& this.keypadController.updateStatus())
-				initAll();
-		} catch (Exception e) {
-		}
 	}
 
 	private void initAll() // Initiate all for serving next guest
@@ -500,6 +488,40 @@ public class MainController extends Thread {
 		this.isRunning = true;
 		this.atmssHandler.doDisClearAll();
 		processor.initProcessor();
+	}
+
+	private Session getLastSession() {
+		return sessionLog.get(sessionLog.size() - 1);
+	}
+
+	private void waitForRepair() {
+		Msg msg = null;
+		int statusSum = 0;
+		try {
+			this.advicePrinterController.updateStatus();
+			msg = this.mainControllerMBox.receive();
+			handleAPMsg(msg);
+			statusSum += msg.getType();
+			this.cardReaderController.updateStatus();
+			msg = this.mainControllerMBox.receive();
+			handleCRMsg(msg);
+			statusSum += msg.getType();
+			this.cashDispenserController.updateStatus();
+			msg = this.mainControllerMBox.receive();
+			handleCDMsg(msg);
+			statusSum += msg.getType();
+			this.displayController.updateStatus();
+			msg = this.mainControllerMBox.receive();
+			handleDisMsg(msg);
+			statusSum += msg.getType();
+			this.keypadController.updateStatus();
+			msg = this.mainControllerMBox.receive();
+			handleKPMsg(msg);
+			statusSum += msg.getType();
+			if (statusSum % 100 == 0)
+				initAll();
+		} catch (Exception e) {
+		}
 	}
 
 	// -------------------------------------------------------------------------------------
@@ -521,7 +543,7 @@ public class MainController extends Thread {
 	private ATMSSHandler atmssHandler;
 	private MBox mainControllerMBox;
 	private volatile boolean isRunning;
-	private MBox atmssMBox;
+	private MBox _atmssMBox;
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();
 

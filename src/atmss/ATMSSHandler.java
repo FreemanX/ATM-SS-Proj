@@ -134,7 +134,12 @@ public class ATMSSHandler {
 	// >>>>>>>>>>>>>>>>>>2 Functions of card reader <<<<<<<<<<<<<<<<<<<
 
 	public String doCRGetCardNumebr() {
-		return this.cardReaderController.getCardNumber();
+		try {
+			return this.cardReaderController.getCardNumber();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return null;
+		}
 	}
 
 	public String doCRReadCard() {

@@ -40,14 +40,12 @@ public class DepositCollectorController extends HardwareController {
 	 */
 	@Override
 	public boolean updateStatus() throws Exception {
-		// TODO Auto-generated method stub
 		boolean isSuccess = false;
 		try {
 			this.status = depositCollectorView.checkStatus();
 			this._maincontrollerMBox.send(new Msg("DC", status, "I'm OK"));
 			isSuccess = true;
 		} catch (HardwareException e) {
-			// TODO Auto-generated catch block
 			isSuccess = false;
 			HandleException(e);
 		}

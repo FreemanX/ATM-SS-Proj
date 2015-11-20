@@ -45,9 +45,14 @@ public class CardReaderController extends HardwareController {
 		this.cardNumber = "";
 	}
 
-	public String getCardNumber() {
+	public String getCardNumber() throws Exception {
 		// TODO not finished
-		return cardNumber;
+		try {
+			return this.cardReaderView.getCardNumer();
+		} catch (CardReaderException e) {
+			HandleException(e);
+			return null;
+		}
 	}
 
 	public boolean ejectCard() throws Exception {
