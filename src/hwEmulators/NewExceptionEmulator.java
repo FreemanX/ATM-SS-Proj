@@ -105,7 +105,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
 
     private JPanel bottomCD = new JPanel(new FlowLayout(FlowLayout.LEFT));
     private JRadioButton btnCDNormal = new JRadioButton("Normal");
-    private JRadioButton btnCDNoCash = new JRadioButton("No cash");
+    private JRadioButton btnCDNoCash = new JRadioButton("Insufficient cash");
     private JRadioButton btnCDFatal = new JRadioButton("Fatal");
     private ButtonGroup bgCD = new ButtonGroup();
     // end CashDispenser --------------------------------------------
@@ -430,6 +430,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusAP.getText());
             atmssMBox.send(new Msg("199", 1, labelStatusAP.getText()));
             atmss.setHWStatus(AdvicePrinter.type, 199);
+            setButtonGroupEnable(bgAP, false);
         }
         // end AdvicePrinter --------------------------------------
 
@@ -445,6 +446,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusCR.getText());
             atmssMBox.send(new Msg("299", 2, labelStatusCR.getText()));
             atmss.setHWStatus(CardReader.type, 299);
+            setButtonGroupEnable(bgCR, false);
         }
         // end CardReader ---------------------------------------------
 
@@ -466,6 +468,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusCD.getText());
             atmssMBox.send(new Msg("399", 3, labelStatusCD.getText()));
             atmss.setHWStatus(CashDispenser.type, 399);
+            setButtonGroupEnable(bgCD, false);
         }
         // end CashDispenser ------------------------------------------
 
@@ -481,6 +484,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusDC.getText());
             atmssMBox.send(new Msg("499", 4, labelStatusDC.getText()));
             atmss.setHWStatus(DepositCollector.type, 499);
+            setButtonGroupEnable(bgDC, false);
         }
         // end DepositCollector ----------------------------------------
 
@@ -496,6 +500,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusDIS.getText());
             atmssMBox.send(new Msg("599", 5, labelStatusDIS.getText()));
             atmss.setHWStatus(Display.type, 599);
+            setButtonGroupEnable(bgDIS, false);
         }
         // end Display --------------------------------------------------
 
@@ -517,6 +522,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusED.getText());
             atmssMBox.send(new Msg("699", 6, labelStatusED.getText()));
             atmss.setHWStatus(EnvelopDispenser.type, 699);
+            setButtonGroupEnable(bgED, false);
         }
         // end EnvelopDispenser --------------------------------------------------
 
@@ -532,6 +538,7 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
             log.info(id + ": Setting " + labelStatusKP.getText());
             atmssMBox.send(new Msg("799", 7, labelStatusKP.getText()));
             atmss.setHWStatus(Keypad.type, 799);
+            setButtonGroupEnable(bgKP, false);
         }
         // end Keypad -------------------------------------------------------------
 
