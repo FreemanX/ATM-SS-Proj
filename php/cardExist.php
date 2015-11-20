@@ -33,7 +33,7 @@ if (!empty($cardNo)) {
 echo $requestResult;
 
 $log = new LogHelper();
-$log->write("cashWithdraw.php", $_get_lower, $requestResult);
+$log->write("cardExist.php", $_get_lower, $requestResult);
 
 mysql_close($conn);
 ?>
