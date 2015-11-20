@@ -206,6 +206,7 @@ public class DepositController extends ProcessController {
 	
 	private boolean failProcess(String FailedReason){
 		recordOperation(FailedReason);
+		this.printOperationWhenFail();
 		return false;
 	}
 

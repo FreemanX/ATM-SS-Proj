@@ -57,12 +57,17 @@ public abstract class ProcessController {
 				case "ENTER":
 					this._atmssHandler.doAPPrintAdvice(operationCache);
 					break inputLoop;
+
 				case "0":
 					break inputLoop;
 				}
 				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(300);
 			}
 		}
+	}
+	
+	void printOperationWhenFail(){
+		this._atmssHandler.doAPPrintAdvice(operationCache);
 	}
 
 }
