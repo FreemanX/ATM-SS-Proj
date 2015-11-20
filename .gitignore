@@ -1,4 +1,5 @@
-/bin/
+bin/
+out/
 .classpath		
 *.pdf		
 *.docx

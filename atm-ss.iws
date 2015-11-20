@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4741caf-69a0-46a6-9d45-7713c4ec73a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ATM-SS Proj.iml" afterPath="$PROJECT_DIR$/ATM-SS Proj.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/atm-ss.ipr" afterPath="$PROJECT_DIR$/atm-ss.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/atm-ss.iws" afterPath="$PROJECT_DIR$/atm-ss.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/atmss/hardware/controller/HardwareController.java" afterPath="$PROJECT_DIR$/src/atmss/hardware/controller/HardwareController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" afterPath="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/Display.java" afterPath="$PROJECT_DIR$/src/hwEmulators/Display.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/MBox.java" afterPath="$PROJECT_DIR$/src/hwEmulators/MBox.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" afterPath="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/UIManager.java" afterPath="$PROJECT_DIR$/src/hwEmulators/UIManager.java" />
     </list>
     <ignored path="atm-ss.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,12 +67,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewExceptionEmulator.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NewExceptionEmulator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="466" column="36" selection-start-line="466" selection-start-column="36" selection-end-line="466" selection-end-column="36" />
-              <folding />
+            <state vertical-scroll-proportion="0.5258621">
+              <caret line="432" column="37" selection-start-line="432" selection-start-column="37" selection-end-line="432" selection-end-column="37" />
+              <folding>
+                <element signature="method#handleComponentRequest#0;class#NewExceptionEmulator#0" expanded="false" />
+                <element signature="method#componentRestarted#0;class#NewExceptionEmulator#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,17 +84,37 @@
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMSS.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="175" column="46" selection-start-line="175" selection-start-column="46" selection-end-line="175" selection-end-column="46" />
+              <caret line="163" column="67" selection-start-line="163" selection-start-column="67" selection-end-line="163" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#480#481#0" expanded="true" />
-                <element signature="e#503#504#0" expanded="true" />
-                <element signature="e#529#530#0" expanded="true" />
-                <element signature="e#549#550#0" expanded="true" />
-                <element signature="e#575#576#0" expanded="true" />
-                <element signature="e#595#596#0" expanded="true" />
-                <element signature="e#1173#1188#0" expanded="true" />
-                <element signature="e#4779#4794#0" expanded="true" />
+                <element signature="e#537#538#0" expanded="true" />
+                <element signature="e#560#561#0" expanded="true" />
+                <element signature="e#586#587#0" expanded="true" />
+                <element signature="e#606#607#0" expanded="true" />
+                <element signature="e#632#633#0" expanded="true" />
+                <element signature="e#652#653#0" expanded="true" />
+                <element signature="e#1230#1245#0" expanded="true" />
+                <element signature="e#1704#1705#0" expanded="true" />
+                <element signature="e#1729#1730#0" expanded="true" />
+                <element signature="e#1774#1775#0" expanded="true" />
+                <element signature="e#1796#1797#0" expanded="true" />
+                <element signature="e#1847#1848#0" expanded="true" />
+                <element signature="e#1872#1873#0" expanded="true" />
+                <element signature="e#1929#1930#0" expanded="true" />
+                <element signature="e#1957#1958#0" expanded="true" />
+                <element signature="e#1996#1997#0" expanded="true" />
+                <element signature="e#2015#2016#0" expanded="true" />
+                <element signature="e#2072#2073#0" expanded="true" />
+                <element signature="e#2100#2101#0" expanded="true" />
+                <element signature="e#2137#2138#0" expanded="true" />
+                <element signature="e#2155#2156#0" expanded="true" />
+                <element signature="e#2214#2215#0" expanded="true" />
+                <element signature="e#2245#2246#0" expanded="true" />
+                <element signature="e#3502#3503#0" expanded="true" />
+                <element signature="e#3520#3521#0" expanded="true" />
+                <element signature="e#4910#4925#0" expanded="true" />
+                <element signature="e#6832#6833#0" expanded="true" />
+                <element signature="e#6879#6880#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,10 +130,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Display.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Display.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21551724">
+            <state vertical-scroll-proportion="0.0">
               <caret line="111" column="64" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
               <folding />
             </state>
@@ -127,8 +144,10 @@
         <entry file="file://$PROJECT_DIR$/src/atmss/process/EnquryController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
-              <folding />
+              <caret line="41" column="9" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
+              <folding>
+                <marker date="1448008009624" expanded="true" signature="3522:3540" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -161,9 +180,9 @@
         <option value="$PROJECT_DIR$/src/hwEmulators/UIManager.java" />
         <option value="$PROJECT_DIR$/src/atmss/hardware/controller/HardwareController.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/MBox.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/Display.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
-        <option value="$PROJECT_DIR$/src/hwEmulators/Display.java" />
       </list>
     </option>
   </component>
@@ -746,12 +765,12 @@
       <workItem from="1447987026794" duration="17000" />
       <workItem from="1448001087064" duration="169000" />
       <workItem from="1448001268789" duration="14000" />
-      <workItem from="1448001301201" duration="6607000" />
+      <workItem from="1448001301201" duration="7432000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18608000" />
+    <option name="totallyTimeSpent" value="19433000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="30" width="1608" height="874" extended-state="6" />
@@ -762,13 +781,13 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32918397" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18164313" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32780084" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1076,15 +1095,17 @@
     <entry file="file://$PROJECT_DIR$/src/atmss/process/EnquryController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
-          <folding />
+          <caret line="41" column="9" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
+          <folding>
+            <marker date="1448008009624" expanded="true" signature="3522:3540" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/atmss/hardware/controller/HardwareController.java">
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+          <caret line="111" column="64" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
           <folding />
         </state>
       </provider>
@@ -1097,37 +1118,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/atmss/hardware/controller/HardwareController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMSS.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="175" column="46" selection-start-line="175" selection-start-column="46" selection-end-line="175" selection-end-column="46" />
+          <caret line="163" column="67" selection-start-line="163" selection-start-column="67" selection-end-line="163" selection-end-column="67" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#480#481#0" expanded="true" />
-            <element signature="e#503#504#0" expanded="true" />
-            <element signature="e#529#530#0" expanded="true" />
-            <element signature="e#549#550#0" expanded="true" />
-            <element signature="e#575#576#0" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-            <element signature="e#1173#1188#0" expanded="true" />
-            <element signature="e#4779#4794#0" expanded="true" />
+            <element signature="e#537#538#0" expanded="true" />
+            <element signature="e#560#561#0" expanded="true" />
+            <element signature="e#586#587#0" expanded="true" />
+            <element signature="e#606#607#0" expanded="true" />
+            <element signature="e#632#633#0" expanded="true" />
+            <element signature="e#652#653#0" expanded="true" />
+            <element signature="e#1230#1245#0" expanded="true" />
+            <element signature="e#1704#1705#0" expanded="true" />
+            <element signature="e#1729#1730#0" expanded="true" />
+            <element signature="e#1774#1775#0" expanded="true" />
+            <element signature="e#1796#1797#0" expanded="true" />
+            <element signature="e#1847#1848#0" expanded="true" />
+            <element signature="e#1872#1873#0" expanded="true" />
+            <element signature="e#1929#1930#0" expanded="true" />
+            <element signature="e#1957#1958#0" expanded="true" />
+            <element signature="e#1996#1997#0" expanded="true" />
+            <element signature="e#2015#2016#0" expanded="true" />
+            <element signature="e#2072#2073#0" expanded="true" />
+            <element signature="e#2100#2101#0" expanded="true" />
+            <element signature="e#2137#2138#0" expanded="true" />
+            <element signature="e#2155#2156#0" expanded="true" />
+            <element signature="e#2214#2215#0" expanded="true" />
+            <element signature="e#2245#2246#0" expanded="true" />
+            <element signature="e#3502#3503#0" expanded="true" />
+            <element signature="e#3520#3521#0" expanded="true" />
+            <element signature="e#4910#4925#0" expanded="true" />
+            <element signature="e#6832#6833#0" expanded="true" />
+            <element signature="e#6879#6880#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="466" column="36" selection-start-line="466" selection-start-column="36" selection-end-line="466" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21551724">
-          <caret line="111" column="64" selection-start-line="111" selection-start-column="64" selection-end-line="111" selection-end-column="64" />
-          <folding />
+        <state vertical-scroll-proportion="0.5258621">
+          <caret line="432" column="37" selection-start-line="432" selection-start-column="37" selection-end-line="432" selection-end-column="37" />
+          <folding>
+            <element signature="method#handleComponentRequest#0;class#NewExceptionEmulator#0" expanded="false" />
+            <element signature="method#componentRestarted#0;class#NewExceptionEmulator#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

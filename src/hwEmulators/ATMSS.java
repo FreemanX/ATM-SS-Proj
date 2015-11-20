@@ -1,6 +1,8 @@
 package hwEmulators;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -49,6 +51,7 @@ public class ATMSS extends Thread {
 	private Keypad keypad = null; // 7
 
 	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
+	private List<Integer> blueSkipList = Arrays.asList(5); // add more here to skip bluescreen
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -149,7 +152,7 @@ public class ATMSS extends Thread {
 				handleComponentRestarted(msg);
 			}
 			if (msg.getDetails().equalsIgnoreCase("normal")) {
-				if (msg.getType() != 5) {
+				if (!blueSkipList.contains(msg.getType())) {
 					removeFailure(msg.getType());
 
 					if (failureInfos.size() == 0)
@@ -159,10 +162,9 @@ public class ATMSS extends Thread {
 				}
 			}
 			if (msg.getDetails().equalsIgnoreCase("out of service")
-					|| msg.getDetails().equalsIgnoreCase("No Envelop")
 					|| msg.getDetails().equalsIgnoreCase("Paper jammed")
 					|| msg.getDetails().equalsIgnoreCase("No paper or ink")) {
-				if (msg.getType() != 5) {
+				if (!blueSkipList.contains(msg.getType())) {
 					putFailure(new HWFailureInfo(msg.getType(), Integer.valueOf(msg.getSender()), msg.getDetails()));
 					display.setBlueScreen(failureInfos);
 				}
