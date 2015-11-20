@@ -17,9 +17,8 @@ $_get_lower = array_change_key_case($_GET, CASE_LOWER);
 
 $cardNo = $_get_lower["cardno"];
 $requestResult = "false";
-$verified = false;
 
-if (!empty($cardNo) && !empty($cred)) {
+if (!empty($cardNo)) {
     // open connection to DB
     $conn = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
     mysql_select_db($dbname);
