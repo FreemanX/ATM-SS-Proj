@@ -129,7 +129,7 @@ public class Display extends Thread implements EmulatorActions {
 				+ "contact a technician, +852 5174-0740\n\n"
 				+ "If you are a technician, follow these steps:\n"
 				+ "Check log details failed component(s). Reset the component and restart the ATM.\n\n"
-				+ "Technical information:\n";
+				+ "Technical information [" + infos.size() + "]:\n";
 
 		isBlueScreen = true;
 

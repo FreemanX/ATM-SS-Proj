@@ -50,7 +50,7 @@ public class ATMSS extends Thread {
 	private Keypad keypad = null; // 7
 
 	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
-	private List<int[]> skipList = Arrays.asList(new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
+	private List<int[]> skipList = Arrays.asList(new int[]{400, 499}, new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -176,10 +176,12 @@ public class ATMSS extends Thread {
 						}
 					}
 					if (failureInfos.size() == 0 && code == 0) {
-						display.quitBlueScreen();
+						if (display.getDisStatus() % 100 == 0)
+							display.quitBlueScreen();
 					}
 					if (failureInfos.size() > 0) {
-						display.setBlueScreen(failureInfos);
+						if (display.getDisStatus() % 100 == 0)
+							display.setBlueScreen(failureInfos);
 					}
 				}
 			}
