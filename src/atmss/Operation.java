@@ -22,6 +22,10 @@ public class Operation {
 		return this.name;
 	}
 
+	public int getType() {
+		return this.type;
+	}
+
 	public String getDes() {
 		return this.description;
 	}
