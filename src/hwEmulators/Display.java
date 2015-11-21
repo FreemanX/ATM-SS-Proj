@@ -112,6 +112,9 @@ public class Display extends Thread implements EmulatorActions {
 		setUIEnable(true);
 		isBlueScreen = false;
 		atmssMBox.send(new Msg("Component Restarted", 5, "Restarted"));
+
+		upperArea.setText("");
+		lowerArea.setText("");
 	}
 	// --------------------------------------------------------
 

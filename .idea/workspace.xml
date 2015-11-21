@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ae8af02e-d19c-47c0-b545-16e6972967f4" name="Default" comment="" />
+    <list default="true" id="ae8af02e-d19c-47c0-b545-16e6972967f4" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java" afterPath="$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/CardReader.java" afterPath="$PROJECT_DIR$/src/hwEmulators/CardReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/CashDispenser.java" afterPath="$PROJECT_DIR$/src/hwEmulators/CashDispenser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/DepositCollector.java" afterPath="$PROJECT_DIR$/src/hwEmulators/DepositCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/Display.java" afterPath="$PROJECT_DIR$/src/hwEmulators/Display.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java" afterPath="$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java" />
+    </list>
     <ignored path="ATM-SS Proj.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -23,78 +30,71 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ATMSS.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMSS.java">
+      <file leaf-file-name="AdvicePrinter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="147" column="0" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#624#625#0" expanded="false" />
-                <element signature="e#5816#5831#0" expanded="true" />
-                <element signature="method#handleExceptionEmu#0;class#ATMSS#0" expanded="false" />
-              </folding>
+              <caret line="121" column="27" selection-start-line="121" selection-start-column="27" selection-end-line="121" selection-end-column="27" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Display.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Display.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.583691">
-              <caret line="131" column="40" selection-start-line="131" selection-start-column="40" selection-end-line="131" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="116" column="28" selection-start-line="116" selection-start-column="28" selection-end-line="116" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BAMSCommunicator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/atmss/bams/BAMSCommunicator.java">
+      <file leaf-file-name="EnvelopDispenser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="91" column="42" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="42" />
+            <state vertical-scroll-proportion="-14.96">
+              <caret line="119" column="30" selection-start-line="119" selection-start-column="30" selection-end-line="119" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ATMKickstarter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java">
+      <file leaf-file-name="Keypad.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/hwEmulators/Keypad.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.21518987">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TransferController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/atmss/process/TransferController.java">
+      <file leaf-file-name="CardReader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hwEmulators/CardReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="298" column="39" selection-start-line="298" selection-start-column="39" selection-end-line="298" selection-end-column="39" />
+            <state vertical-scroll-proportion="-9.52">
+              <caret line="123" column="30" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/atmss/MainController.java">
+      <file leaf-file-name="CashDispenser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hwEmulators/CashDispenser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="443" column="0" selection-start-line="443" selection-start-column="0" selection-end-line="443" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-11.56">
+              <caret line="170" column="27" selection-start-line="170" selection-start-column="27" selection-end-line="170" selection-end-column="27" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BAMSHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/atmss/bams/BAMSHandler.java">
+      <file leaf-file-name="DepositCollector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/hwEmulators/DepositCollector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="44" column="4" selection-start-line="44" selection-start-column="4" selection-end-line="139" selection-end-column="17" />
+            <state vertical-scroll-proportion="-16.6">
+              <caret line="121" column="30" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -119,7 +119,12 @@
         <option value="$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java" />
         <option value="$PROJECT_DIR$/src/atmss/MainController.java" />
         <option value="$PROJECT_DIR$/src/atmss/bams/BAMSCommunicator.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/CardReader.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/CashDispenser.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/DepositCollector.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/Display.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java" />
       </list>
     </option>
   </component>
@@ -774,25 +779,25 @@
       <option name="number" value="Default" />
       <updated>1448075456969</updated>
       <workItem from="1448075458798" duration="6484000" />
-      <workItem from="1448083613211" duration="11032000" />
+      <workItem from="1448083613211" duration="11753000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17516000" />
+    <option name="totallyTimeSpent" value="18237000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1608" height="864" extended-state="7" />
+    <frame x="-4" y="-4" width="1608" height="864" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3395973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3395973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19383825" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -845,14 +850,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/atmss/process/EnquryController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="152" column="54" selection-start-line="152" selection-start-column="54" selection-end-line="152" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/atmss/hardware/view/AdvicePrinterView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -877,22 +874,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="109" column="27" selection-start-line="109" selection-start-column="27" selection-end-line="109" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/atmss/process/EnquryController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5092166">
-          <caret line="161" column="53" selection-start-line="161" selection-start-column="53" selection-end-line="161" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-32.555557">
@@ -911,7 +892,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/atmss/bams/BAMSHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="1.2194092">
           <caret line="44" column="4" selection-start-line="44" selection-start-column="4" selection-end-line="139" selection-end-column="17" />
           <folding />
         </state>
@@ -927,10 +908,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/atmss/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="443" column="0" selection-start-line="443" selection-start-column="0" selection-end-line="443" selection-end-column="0" />
+        <state vertical-scroll-proportion="-1.0379747">
+          <caret line="403" column="0" selection-start-line="403" selection-start-column="0" selection-end-line="403" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#2028#2029#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -950,7 +932,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/atmss/bams/BAMSCommunicator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.3586498">
           <caret line="91" column="42" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="42" />
           <folding />
         </state>
@@ -958,7 +940,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMKickstarter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.46624473">
           <caret line="54" column="36" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
           <folding />
         </state>
@@ -966,16 +948,67 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/atmss/process/TransferController.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42616034">
+          <caret line="243" column="39" selection-start-line="243" selection-start-column="39" selection-end-line="243" selection-end-column="39" />
+          <folding>
+            <element signature="e#770#771#0" expanded="false" />
+            <marker date="1448104066248" expanded="true" signature="8381:8385" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/AdvicePrinter.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="298" column="39" selection-start-line="298" selection-start-column="39" selection-end-line="298" selection-end-column="39" />
+          <caret line="121" column="27" selection-start-line="121" selection-start-column="27" selection-end-line="121" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/CardReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.52">
+          <caret line="123" column="30" selection-start-line="123" selection-start-column="30" selection-end-line="123" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/CashDispenser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.56">
+          <caret line="170" column="27" selection-start-line="170" selection-start-column="27" selection-end-line="170" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/DepositCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.6">
+          <caret line="121" column="30" selection-start-line="121" selection-start-column="30" selection-end-line="121" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.583691">
-          <caret line="131" column="40" selection-start-line="131" selection-start-column="40" selection-end-line="131" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="116" column="28" selection-start-line="116" selection-start-column="28" selection-end-line="116" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/EnvelopDispenser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.96">
+          <caret line="119" column="30" selection-start-line="119" selection-start-column="30" selection-end-line="119" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/Keypad.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21518987">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding />
         </state>
       </provider>

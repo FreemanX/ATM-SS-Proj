@@ -118,6 +118,8 @@ public class DepositCollector extends Thread implements EmulatorActions {
 		setDCStatus(400);
 		setUIEnable(true);
 		atmssMBox.send(new Msg("Component Restarted", 4, "Restarted"));
+
+		msgTextArea.setText("");
 	}
 
 	@Override

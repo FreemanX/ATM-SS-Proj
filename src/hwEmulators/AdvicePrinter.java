@@ -118,6 +118,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		setAPStatus(100);
 		atmssMBox.send(new Msg(this.getClass().getSimpleName(), 1, "Restarted"));
 		setUIEnable(true);
+
+		textArea.setText("");
 	}
 
 	@Override

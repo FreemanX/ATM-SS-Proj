@@ -167,6 +167,8 @@ public class CashDispenser extends Thread implements EmulatorActions {
 		setCDStatus(300);
 		setUIEnable(true);
 		atmssMBox.send(new Msg("Component Restarted", 3, "Restarted"));
+
+		textArea.setText("");
 	}
 
 	@Override
