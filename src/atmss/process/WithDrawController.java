@@ -208,7 +208,7 @@ public class WithDrawController extends ProcessController{
 	private void askForPrinting(String AccountNumber, int Amount){
 		String[] toDisplay = {
 				"Operation succeeded!",
-				"You have withdrawn $" + Amount + "from account: " + AccountNumber,				
+				"You have withdrawn $" + Amount + " from account: " + AccountNumber,				
 				"Press 1 -> Print the advice",
 				"Press 2 -> Quit without printing"
 		};
@@ -221,10 +221,10 @@ public class WithDrawController extends ProcessController{
 			if (userInput == null) return;
 			if (userInput.equals("1")) {
 				String[] toPrint = {
-						"Operation Name : " + OPERATION_NAME,
-						"Card Number    : " + _session.getCardNo(),
-						"Account Number : " + AccountNumber,
-						"Amount         : $" + Amount
+						"Operation Name: " + OPERATION_NAME,
+						"Card Number: " + _session.getCardNo(),
+						"Account Number: " + AccountNumber,
+						"Amount: $" + Amount
 				};
 				if (!_atmssHandler.doAPPrintStrArray(toPrint)) record("AP");
 				return;
