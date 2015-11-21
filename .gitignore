@@ -1,5 +1,8 @@
 bin/
 out/
+SessionLog.txt
+atmss_log*
+atmss_log
 .classpath		
 *.pdf		
 *.docx

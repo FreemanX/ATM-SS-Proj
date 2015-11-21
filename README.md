@@ -192,18 +192,13 @@ INPORTANT!!!!!!!!
 0. Main controller amost finish, waiting for the completetion of process controllers
 1. Main controller is waiting for integrated test
 
-## Notice
-There is a "mistake" in BAMSHandler.java, line 134.
-"toAcc=" should be "&toAcc=", whenever you try to use the transfer method, append a "&" behind the cred.
-
-e.g
-
-handler.transfer(cardNo, cred + "&", accNo, toAcc, amount)
-
-## To be discussed
-
 ###======================Nov 21, 2015 SXM======================
 0. Update Transfer Controller and Enquiry Controller. 
    They are almost bug free.
 1. A little problem remains to be settled.
    The advice printer cannot be clear after starting a new process.
+
+## Notice
+0. Usage of log.html; password = 71552236, pattern = (php regex) OR ?clear
+
+## To be discussed

@@ -50,7 +50,8 @@ public class ATMSS extends Thread {
 	private Keypad keypad = null; // 7
 
 	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
-	private List<int[]> skipList = Arrays.asList(new int[]{400, 499}, new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
+	private List<int[]> skipList = Arrays.asList(new int[] { 400, 499 }, new int[] { 500, 599 }, new int[] { 600, 699 },
+			new int[] { 301, 301 }); // add more here to skip bluescreen
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -97,36 +98,36 @@ public class ATMSS extends Thread {
 
 	public void setHWStatus(int type, int statusCode) {
 		switch (type) {
-			case 1:
-				advicePrinter.setAPStatus(statusCode);
-				System.out.println(">>>>>>>>>AP changes to " + advicePrinter.getAPStatus());
-				break;
-			case 2:
-				cardReader.setCRStatus(statusCode);
-				System.out.println(">>>>>>>>>CR changes to " + cardReader.getCRStatus());
-				break;
-			case 3:
-				cashDispenser.setCDStatus(statusCode);
-				System.out.println(">>>>>>>>>cashDispenser changes to " + cashDispenser.getCDStatus());
-				break;
-			case 4:
-				depositCollector.setDCStatus(statusCode);
-				System.out.println(">>>>>>>>>depositCollector changes to " + depositCollector.getDCStatus());
-				break;
-			case 5:
-				display.setDisStatus(statusCode);
-				System.out.println(">>>>>>>>>display changes to " + display.getDisStatus());
-				break;
-			case 6:
-				envelopDispenser.setEDStatus(statusCode);
-				System.out.println(">>>>>>>>>envelopDispenser changes to " + envelopDispenser.getEDStatus());
-				break;
-			case 7:
-				keypad.setKPStatus(statusCode);
-				System.out.println(">>>>>>>>>keypad changes to " + keypad.getKPStatus());
-				break;
-			default:
-				break;
+		case 1:
+			advicePrinter.setAPStatus(statusCode);
+			System.out.println(">>>>>>>>>AP changes to " + advicePrinter.getAPStatus());
+			break;
+		case 2:
+			cardReader.setCRStatus(statusCode);
+			System.out.println(">>>>>>>>>CR changes to " + cardReader.getCRStatus());
+			break;
+		case 3:
+			cashDispenser.setCDStatus(statusCode);
+			System.out.println(">>>>>>>>>cashDispenser changes to " + cashDispenser.getCDStatus());
+			break;
+		case 4:
+			depositCollector.setDCStatus(statusCode);
+			System.out.println(">>>>>>>>>depositCollector changes to " + depositCollector.getDCStatus());
+			break;
+		case 5:
+			display.setDisStatus(statusCode);
+			System.out.println(">>>>>>>>>display changes to " + display.getDisStatus());
+			break;
+		case 6:
+			envelopDispenser.setEDStatus(statusCode);
+			System.out.println(">>>>>>>>>envelopDispenser changes to " + envelopDispenser.getEDStatus());
+			break;
+		case 7:
+			keypad.setKPStatus(statusCode);
+			System.out.println(">>>>>>>>>keypad changes to " + keypad.getKPStatus());
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -141,16 +142,16 @@ public class ATMSS extends Thread {
 	public void run() {
 		while (true) {
 			Msg msg = mbox.receiveTemp();
-			console.println(id + " received " + msg);
-			//System.err.println(id + " received, sender: " + msg.getSender() + ", type: " + msg.getType() + ", details: " + msg.getDetails());
-
+			if (msg.getType() % 100 != 0)
+				console.println(id + " received " + msg);
+			// System.err.println(id + " received, sender: " + msg.getSender() +
+			// ", type: " + msg.getType() + ", details: " + msg.getDetails());
 
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
 			} else if (msg.getDetails().equals("Restarted")) {
 				handleComponentRestarted(msg);
 			}
-
 
 			if (msg.getSender().equalsIgnoreCase("MainController")) {
 				int type = (int) msg.getType() / 100;
@@ -190,11 +191,11 @@ public class ATMSS extends Thread {
 	private void putFailure(HWFailureInfo newInfo) { // replace/add failure info
 		removeFailure(newInfo.getType());
 
-		//System.out.println("Adding " + newInfo.getType());
+		// System.out.println("Adding " + newInfo.getType());
 		failureInfos.add(newInfo);
 
 		sortList();
-		//System.out.println("Put: " + failureInfos.size());
+		// System.out.println("Put: " + failureInfos.size());
 	}
 
 	private void removeFailure(int type) {
@@ -208,7 +209,7 @@ public class ATMSS extends Thread {
 		}
 		// remove
 		for (HWFailureInfo candidate : removeCandidate) {
-			//System.out.println("Removing " + candidate.getType());
+			// System.out.println("Removing " + candidate.getType());
 			failureInfos.remove(candidate);
 		}
 	}
