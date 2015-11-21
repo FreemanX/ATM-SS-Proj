@@ -252,10 +252,10 @@ public class TransferController extends ProcessController{
 	private void doPrintReceipt(){
 		boolean result = _atmssHandler .doAPPrintStrArray(new String[] {
 				"Operation Name: " + OPERATION_NAME,
-				"Card Number   : " + _session.getCardNo(),
-				"From Account  : " + srcAccountNumber,
-				"To Account    : " + desAccountNumber,
-				"Amount        : $" + Double.toString(this.amountToTransfer)
+				"Card Number: " + _session.getCardNo(),
+				"From Account: " + srcAccountNumber,
+				"To Account: " + desAccountNumber,
+				"Amount: $" + Double.toString(this.amountToTransfer)
 		});
 		if (!result) record(OPERATION_NAME+": choose to print the receipt", "AP");
 	}

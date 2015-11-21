@@ -124,9 +124,9 @@ public class EnquiryController extends ProcessController{
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
 				new String("Operation Name: Enquiry"),
-				new String("Card Number   : " + _session.getCardNo()),
-				new String("Account       : " + accountNumber), 
-				new String("Balance       : $" + Double.toString(this.balance))
+				new String("Card Number: " + _session.getCardNo()),
+				new String("Account: " + accountNumber), 
+				new String("Balance: $" + Double.toString(this.balance))
 		})) {
 			return failProcess("Enquiry : print the receipt", 1, FAILED_FROM_PRINTER);
 		}
