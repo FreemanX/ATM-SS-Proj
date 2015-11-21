@@ -27,7 +27,7 @@ public class TransferController extends ProcessController{
 	};
 	private final String SHOW_SUCCESS = "Succeeded! The transfer operation succeeds.";
 	private final String[] PRINT_NOTE_SELECTION = {
-			"Press 1 -> Print advice", "Press 2 -> Quit with out printing"
+			"Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
 	
 	public TransferController(Session session) {
