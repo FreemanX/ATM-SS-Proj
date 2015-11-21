@@ -52,6 +52,8 @@ class SystemCheckThread extends Thread {
 		while (true) {
 			while (isRunning) {
 				try {
+					this._BAMSCommunicater.ping();
+					sleep(100);
 					this._advicePrinterController.updateStatus();
 					sleep(100);
 					this._cardReaderController.updateStatus();
