@@ -1,5 +1,6 @@
 bin/
 out/
+classes/
 SessionLog.txt
 atmss_log*
 atmss_log
