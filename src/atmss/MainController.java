@@ -209,17 +209,17 @@ public class MainController extends Thread {
 
 						if (numOfWrongPassed < 3) {
 							numOfWrongPassed = 0;
-							clearLines();
-							lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
-							lines[1] = head + "1. Change password" + tail;
-							lines[2] = head + "2. Withdraw money" + tail;
-							lines[3] = head + "3. Enqury" + tail;
-							lines[4] = head + "4. Transfer money" + tail;
-							if (EDIsOk && DCIsOk) {
-								lines[5] = head + "5. Deposit money" + tail;
-							}
-							atmssHandler.doDisDisplayUpper(lines);
 							while (true) {
+								clearLines();
+								lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
+								lines[1] = head + "1. Change password" + tail;
+								lines[2] = head + "2. Withdraw money" + tail;
+								lines[3] = head + "3. Enqury" + tail;
+								lines[4] = head + "4. Transfer money" + tail;
+								if (EDIsOk && DCIsOk) {
+									lines[5] = head + "5. Deposit money" + tail;
+								}
+								atmssHandler.doDisDisplayUpper(lines);
 								String userChoise = atmssHandler.doKPGetSingleInput(60);
 								Session currentSession = getLastSession();
 								if (userChoise.equals("1")) {
@@ -241,7 +241,7 @@ public class MainController extends Thread {
 										 * unified protocol
 										 */
 									}
-
+									
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
 									withdrawController = new WithDrawController(currentSession);
@@ -300,20 +300,12 @@ public class MainController extends Thread {
 									this.isInProcess = true;
 									depositController = new DepositController(currentSession);
 									boolean isSuccess = depositController.doDeposit();
+									
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									if (!isSuccess) {
-										Operation op = processOperations.getLast();
-										if (op.getName().equalsIgnoreCase("cancel")) {
-											break;
-										}
-										/*
-										 * TODO do operation according to
-										 * unified protocol
-										 */
-									}
+									
 								} else if (userChoise.equals("CANCEL")) {
 									clearLines();
 									lines[1] = head + "Card ejected, please take your card" + tail;
@@ -335,6 +327,7 @@ public class MainController extends Thread {
 							try (PrintWriter out = new PrintWriter(
 									new BufferedWriter(new FileWriter("SessionLog.txt", true)))) {
 								Session s = getLastSession();
+								out.println();
 								out.println("=====================Session: " + s.getSid() + "=====================");
 								SimpleDateFormat f = new SimpleDateFormat("yyyy.MM.dd G 'at' hh:mm:ss z");
 								out.println("Time: " + f.format(new Date().getTime()));
@@ -342,7 +335,7 @@ public class MainController extends Thread {
 								List<Operation> ops = s.getOps();
 								for (Operation op : ops) {
 									out.println(op.getName() + " [" + op.getType() + "]");
-									out.println("\t" + op.getDes());
+									out.println("\t Result: " + op.getDes());
 								}
 							} catch (IOException e) {
 								System.err.println(">>>>>>>> IOException: write out log");
