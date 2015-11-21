@@ -9,11 +9,13 @@ $passwd = $_get_lower["passwd"];
 $pattern = "/".$_get_lower["pattern"]."/";
 $log = new LogHelper();
 $result = "";
+$count = 1;
 
 if (strcasecmp($hash, hash("sha512", $passwd, false)) == 0) {
 	foreach ($log->getLogs() as $line) {
 		if (preg_match($pattern, $line)) {
-			$result .= $line."<br>";
+			$result .= $count." | ".$line."<br>";
+			$count++;
 		}
 	}
 }
