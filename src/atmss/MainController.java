@@ -450,19 +450,25 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPMsg(Msg msg) {
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCRMsg(Msg msg) {
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCDMsg(Msg msg) {
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() == 301) {
 			System.err.println("Warning: insufficent amount of cash");
 		} else if (msg.getType() % 100 != 0)
@@ -477,7 +483,9 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisMsg(Msg msg) {
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
@@ -490,7 +498,9 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPMsg(Msg msg) {
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
