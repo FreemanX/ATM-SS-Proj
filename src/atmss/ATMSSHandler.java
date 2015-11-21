@@ -169,6 +169,15 @@ public class ATMSSHandler {
 		}
 	}
 
+	public boolean doCRRetainCard() {
+		try {
+			return this.cardReaderController.retainCard();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return false;
+		}
+	}
+
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
 
 	/*
