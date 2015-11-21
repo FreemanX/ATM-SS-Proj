@@ -137,7 +137,7 @@ public class DepositController extends ProcessController {
 		
 		while(accountNoSelectedByUser > allAccountsInCard.length){
 		
-		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(3000);
+		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(200);
 		
 		if(accountSelectedByUser!=null){
 			try{
@@ -174,7 +174,7 @@ public class DepositController extends ProcessController {
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT}))
 				return failProcess("Get amount", 5,FAILED_FROM_DISPLAY);
 			
-			userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(300);
+			userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(20);
 			if(userInputAmountToDeposit == null)
 				return failProcess("Get amount",7,this.FAILED_FROM_KEYPAD);
 			else if(userInputAmountToDeposit.equals("CANCEL"))
@@ -188,7 +188,7 @@ public class DepositController extends ProcessController {
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, "$" + userInputAmountToDeposit}))
 				return failProcess("Get amount",5, FAILED_FROM_DISPLAY);
 			
-			String confirmInput = this._atmssHandler.doKPGetSingleInput(300);
+			String confirmInput = this._atmssHandler.doKPGetSingleInput(20);
 			while (confirmInput != null){
 				if (confirmInput.equals("ENTER")){
 					this.operationCache.add(new Operation("DEPOSIT : Confirm amount", 0, "Confirm"));
@@ -202,7 +202,7 @@ public class DepositController extends ProcessController {
 				else if(confirmInput.equals("CANCEL")){
 						return failProcess("Get amount",8, this.CANCELED);
 				}
-				confirmInput = this._atmssHandler.doKPGetSingleInput(300);
+				confirmInput = this._atmssHandler.doKPGetSingleInput(20);
 			}
 
 		}
@@ -219,7 +219,7 @@ public class DepositController extends ProcessController {
 		if(lastOperation.getType() == 0){
 		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {">Print advice?",">Print advice by press 1", ">Skip by press 2"}))
 		{
-			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(300);
+			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(20);
 			inputLoop: while(inputFromKeypad!=null){
 				switch (inputFromKeypad){
 				case "1":
@@ -229,7 +229,7 @@ public class DepositController extends ProcessController {
 				case "2":
 					break inputLoop;
 				}
-				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(300);
+				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(20);
 			}
 		}
 		}
