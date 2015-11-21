@@ -61,22 +61,22 @@ public class DepositController extends ProcessController {
 		
 		if (!this.doGetAccountToDeposit())
 			return false;
-		this.operationCache.add(new Operation("DEPOSIT : select account",0, this.accountToDeposit));
+		this.operationCache.add(new Operation("DEPOSIT: select account",0, this.accountToDeposit));
 		
 		if (!this. doGetAmountToDeposit())
 			return false;
 		
 		if (!this.doPrintReceipt())
 			return false;
-		this.operationCache.add(new Operation("DEPOSIT : print reiceipt", 0, "Success"));
+		this.operationCache.add(new Operation("DEPOSIT: print reiceipt", 0, "Success"));
 		
 		if (!this.doEjectEnvelop())
 			return false;
-		this.operationCache.add(new Operation("DEPOSIT : eject envelop", 0 , "Success"));
+		this.operationCache.add(new Operation("DEPOSIT: eject envelop", 0 , "Success"));
 		
 		if (!this.doEatEnvelop())
 			return false;
-		this.operationCache.add(new Operation("DEPOSIT : eat envelop", 0 ,"Success"));
+		this.operationCache.add(new Operation("DEPOSIT: eat envelop", 0 ,"Success"));
 		
 
 		this.printLastOperation();
@@ -182,7 +182,7 @@ public class DepositController extends ProcessController {
 				return failProcess("get amount", 8,this.CANCELED);
 			
 			String desc = "$" + userInputAmountToDeposit;
-			this.operationCache.add(new Operation("DEPOSIT : input amount", 0, desc));
+			this.operationCache.add(new Operation("DEPOSIT: input amount", 0, desc));
 			
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess("get amount", 5, this.FAILED_FROM_DISPLAY);
@@ -192,12 +192,12 @@ public class DepositController extends ProcessController {
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(20);
 			while (confirmInput != null){
 				if (confirmInput.equals("1")){
-					this.operationCache.add(new Operation("DEPOSIT : confirm amount", 0, "Confirm"));
+					this.operationCache.add(new Operation("DEPOSIT: confirm amount", 0, "Confirm"));
 					confirmAmountToDeposit = true;
 					break;
 				}
 				else if(confirmInput.equals("2")){
-					this.operationCache.add(new Operation("DEPOSIT : confirm amount", 0, "Not confirm"));
+					this.operationCache.add(new Operation("DEPOSIT: confirm amount", 0, "Not confirm"));
 					break;
 				}
 				else if(confirmInput.equals("CANCEL")){
@@ -227,12 +227,12 @@ public class DepositController extends ProcessController {
 				switch (inputFromKeypad){
 				case "1":
 					if(!this._atmssHandler.doAPPrintStrArray(linesToPrintWhenSucceeded(lastOperation)))
-						this.operationCache.add(new Operation("DEPOSIT : print receipt", 1, "Failure: no response from advice printer"));
-					else this.operationCache.add(new Operation("DEPOSIT : print receipt", 0, "Succeess"));
+						this.operationCache.add(new Operation("DEPOSIT: print receipt", 1, "Failure: no response from advice printer"));
+					else this.operationCache.add(new Operation("DEPOSIT: print receipt", 0, "Succeess"));
 					break inputLoop;
 
 				case "2":
-					this.operationCache.add(new Operation("DEPOSIT : print receipt", 0, "Do not print"));
+					this.operationCache.add(new Operation("DEPOSIT: print receipt", 0, "Do not print"));
 					break inputLoop;
 				}
 				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(20);
@@ -267,7 +267,7 @@ public class DepositController extends ProcessController {
 	
 	
 	private boolean failProcess(String failedStep, int type, String desc){
-		this.operationCache.add(new Operation("DEPOSIT : "+failedStep, type, desc));
+		this.operationCache.add(new Operation("DEPOSIT: "+failedStep, type, desc));
 		this.printLastOperation();
 		this.printOpCache();
 		return false;
