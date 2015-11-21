@@ -273,7 +273,7 @@ public class MainController extends Thread {
 
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
-									withdrawController = new WithDrawController(currentSession);
+									withdrawController = new WithdrawController(currentSession);
 									withdrawController.doWithDraw();
 									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
 									for (Operation op : processOperations) {
@@ -771,7 +771,7 @@ public class MainController extends Thread {
 	private ChangePasswdController changePasswdController;
 	
 	/** The withdraw controller. */
-	private WithDrawController withdrawController;
+	private WithdrawController withdrawController;
 	
 	/** The deposit controller. */
 	private DepositController depositController;
