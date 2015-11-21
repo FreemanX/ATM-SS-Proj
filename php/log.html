@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript">
+		var url = window.location.protocol + "//" + window.location.host + "/~group05/";
+		function search() {
+			var pattern = document.getElementById("pattern").value;
+			var passwd = document.getElementById("passwdField").value;
+			var req = new XMLHttpRequest();
+			console.log(pattern);
+
+			req.onreadystatechange = function() {
+				var resultBox = document.getElementById("resultBox");
+				resultBox.innerHTML = req.responseText;
+				document.getElementById("countEle").innerHTML = " Log entities: <font color='red'>" + (req.responseText.split("<br>").length - 1) + "</font>";
+			}
+
+			req.open("GET", url + "viewLog.php?passwd=" + passwd + "&pattern=" + pattern, true);
+			req.send();
+		}
+	</script>
+</head>
+<body>
+	Passwd: <input type="password" id="passwdField"> Pattern: <input type="text" onkeydown="search()" id="pattern"><span id="countEle"></span><br>
+	<div id="resultBox">
+	</div>
+</body>
+</html>

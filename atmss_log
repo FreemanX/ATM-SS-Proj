@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
+<<<<<<< HEAD
 <record>
   <date>2015-11-21T16:48:34</date>
   <millis>1448095714053</millis>
@@ -78,4 +79,6 @@
   <thread>14</thread>
   <message>con: Exit button clicked</message>
 </record>
+=======
+>>>>>>> cde2a3b44457ef844ef5d10c457a66d716b237da
 </log>

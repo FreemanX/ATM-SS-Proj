@@ -89,7 +89,7 @@ public class BAMSCommunicator extends BAMSHandler {
 	}
 
 	public boolean ping() { // timeout in ms
-		String urlStr = prefix + "login.php?"; // expect "ERROR"
+		String urlStr = prefix + "ping.php"; // expect "ERROR"
 		Msg m = null;
 		try {
 			HttpURLConnection con = (HttpURLConnection) new URL(urlStr).openConnection();

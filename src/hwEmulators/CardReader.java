@@ -63,6 +63,7 @@ public class CardReader extends Thread implements EmulatorActions {
 		waitForTaken = false;
 		msgTextArea.append("Card retained\n");
 		log.info(id + ": Retain " + this.cardToSend);
+		cardToSend = "";
 		atmssMBox.send(new Msg("CardReader", 2, ": Retain " + this.cardToSend));
 	}
 
