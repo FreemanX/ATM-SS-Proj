@@ -30,10 +30,10 @@ public class DepositController extends ProcessController {
 	private final String FAILED_FROM_BAMS = "Failed from BAMS";
 	private final String PROMPT_FOR_ACCOUNT = "Please select account to deposit :";
 	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount :";
-	private final String PROMPT_FOR_CONFIRM = "Please confirm your deposit amount by ENTER. Press 0 to reinput amount.";
+	private final String[] PROMPT_FOR_CONFIRM = {"Please confirm your deposit amount by ENTER."+" Press 0 to reinput amount."};
 	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
 	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
-	private final String CANCELED = "Operation Canceled!";
+	private final String CANCELED = "Canceled!";
 	
 	/**
 	 * 
