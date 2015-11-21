@@ -374,6 +374,7 @@ public class MainController extends Thread {
 			Display display, EnvelopDispenser envelopDispenser, Keypad KP, MBox AtmssMbox) {
 		this._atmssMBox = AtmssMbox;
 		this.isRunning = true;
+		mainControllerMBox = new MBox("MainController");
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
 		this.cashDispenserController = new CashDispenserController(CD);
@@ -381,12 +382,12 @@ public class MainController extends Thread {
 		this.displayController = new DisplayController(display);
 		this.envelopDispenserController = new EnvelopDispenserController(envelopDispenser);
 		this.keypadController = new KeypadController(KP);
-		this.serverCommunicator = new BAMSCommunicator();
+		this.serverCommunicator = new BAMSCommunicator(mainControllerMBox);
 		this.atmssHandler = ATMSSHandler.getHandler();
 		this.atmssHandler.initHandler(cashDispenserController, cardReaderController, keypadController,
 				depositCollectorController, advicePrinterController, displayController, envelopDispenserController,
 				serverCommunicator);
-		mainControllerMBox = new MBox("MainController");
+
 		this.advicePrinterController.setMainControllerMBox(mainControllerMBox);
 		this.cardReaderController.setMainControllerMBox(mainControllerMBox);
 		this.cashDispenserController.setMainControllerMBox(mainControllerMBox);
