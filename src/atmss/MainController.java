@@ -98,46 +98,6 @@ public class MainController extends Thread {
 					System.out.println(">>>>Processor is running, iteration: " + i);
 					i++;
 					try {
-						/*----------------------<Debug-------------------------*/
-						clearLines();
-						lines[0] = head + "Choose the controller you want to debug:" + tail;
-						lines[1] = head + "1. Debug Change password" + tail;
-						lines[3] = head + "3. Debug Enqury" + tail;
-						lines[4] = head + "4. Debug Transfer money" + tail;
-						lines[5] = head + "5. Debug Withdraw money" + tail;
-						lines[6] = head + "6. Debug Main controller" + tail;
-						atmssHandler.doDisDisplayUpper(lines);
-
-						String choise = atmssHandler.doKPGetSingleInput(43200000);
-						Session fakeSession = new Session(1, "612954853189", "981358459216");
-						if (choise.equals("1")) {
-							this.isInProcess = true;
-							changePasswdController = new ChangePasswdController(fakeSession);
-							System.out.println("Process finishes, result: " + changePasswdController.doChangePasswd());
-							continue;
-						} else if (choise.equals("3")) {
-							this.isInProcess = true;
-							enquryController = new EnquiryController(fakeSession);
-							System.out.println("Process finishes, result: " + enquryController.doEnquiry());
-							continue;
-						} else if (choise.equals("4")) {
-							this.isInProcess = true;
-							transferController = new TransferController(fakeSession);
-							System.out.println("Process finishes, result: " + transferController.doTransfer());
-							continue;
-						} else if (choise.equals("5")) {
-							this.isInProcess = true;
-							withdrawController = new WithDrawController(fakeSession);
-							System.out.println("Process finishes, result: " + withdrawController.doWithDraw());
-							continue;
-						} else if (choise.equals("6")) {
-
-						} else {
-							continue;
-						}
-
-						/*----------------------Debug>-------------------------*/
-
 						clearLines();
 						lines[1] = head + "Welcome!!!" + tail;
 						atmssHandler.doDisDisplayUpper(lines);
