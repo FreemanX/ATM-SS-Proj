@@ -588,7 +588,8 @@ public class MainController extends Thread {
 			msg = this.mainControllerMBox.receive();
 			handleKPMsg(msg);
 
-			boolean b6 = this.serverCommunicator.ping();msg = this.mainControllerMBox.receive();
+			boolean b6 = this.serverCommunicator.ping();
+			msg = this.mainControllerMBox.receive();
 			handleBAMSMsg(msg);
 			// if (true || b1 && b2 && b3 && b4 && b5) { //evil code
 			if (b1 && b2 && b3 && b4 && b5 && b6) {
