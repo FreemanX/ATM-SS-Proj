@@ -3,6 +3,7 @@
  */
 package atmss;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -523,7 +524,8 @@ public class MainController extends Thread {
 
 	private void initAll() // Initiate all for serving next guest
 	{
-		_atmssMBox.send(new Msg("MainController", 0, "Everything is fine"));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", 0, "Everything is fine @ " + format.format(new Date().getTime())));
 		this.mainControllerMBox.clearBox();
 		this.cardReaderController.initCR();
 		this.isRunning = true;
