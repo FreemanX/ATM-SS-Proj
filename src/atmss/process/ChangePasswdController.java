@@ -147,7 +147,7 @@ public class ChangePasswdController extends ProcessController {
 				String[] toPrint = {
 						"Operation name: " + OPERATION_NAME,
 						"Card Number: " + _session.getCardNo(),
-						"Result: Succeeded"
+						"Result: succeeded"
 				};
 				if (!_atmssHandler.doAPPrintStrArray(toPrint)) record("AP");
 				return;
