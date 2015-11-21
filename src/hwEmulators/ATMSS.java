@@ -51,7 +51,7 @@ public class ATMSS extends Thread {
 	private Keypad keypad = null; // 7
 
 	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
-	private List<Integer> blueSkipList = Arrays.asList(5); // add more here to skip bluescreen
+	private List<int[]> blueSkipList = Arrays.asList(new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -143,39 +143,46 @@ public class ATMSS extends Thread {
 		while (true) {
 			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
-			System.err.println(id + " receiver " + msg);
+			System.err.println(id + " received, sender: " + msg.getSender() + ", type: " + msg.getType() + ", details: " + msg.getDetails());
+
 
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
 			} else if (msg.getDetails().equals("Restarted")) {
 				handleComponentRestarted(msg);
 			}
-			/*
-			if (msg.getSender().equalsIgnoreCase("MainController")) {
-				System.err.println("From MainController >> type: " + msg.getType() + ", details: " + msg.getDetails());
-				if (msg.getDetails().equalsIgnoreCase("normal")) {
-					if (!blueSkipList.contains(msg.getType())) {
-						removeFailure(msg.getType());
 
-						if (failureInfos.size() == 0) {
-							if (display.isBlueScreen())
-								display.restart();
-						} else {
-							display.setBlueScreen(failureInfos);
-						}
+
+			if (msg.getSender().equalsIgnoreCase("MainController")) {
+				int type = (int) msg.getType() / 100;
+				int code = msg.getType();
+				boolean toDo = true;
+
+				System.out.println("From MainController >> code: " + code + ", details: " + msg.getDetails());
+				for (int[] arr : blueSkipList) {
+					if (code >= arr[0] && code <= arr[1]) {
+						toDo = false;
 					}
 				}
-				if (msg.getDetails().equalsIgnoreCase("out of service")
-						|| msg.getDetails().equalsIgnoreCase("Paper jammed")
-						|| msg.getDetails().equalsIgnoreCase("No paper or ink")
-						|| msg.getDetails().equalsIgnoreCase("fatal error")) {
-					if (!blueSkipList.contains(msg.getType())) {
-						putFailure(new HWFailureInfo(msg.getType(), Integer.valueOf(msg.getSender()), msg.getDetails()));
+				if (toDo) {
+					if (code % 100 == 0) { // normal
+						removeFailure(type);
+					} else { // not normal
+						putFailure(new HWFailureInfo(type, code, msg.getDetails()));
+					}
+					if (code == 0) {
+						for (int i = 1; i < 8; i++) {
+							removeFailure(i);
+						}
+					}
+					if (failureInfos.size() == 0 && code == 0) {
+						display.restart();
+					}
+					if (failureInfos.size() > 0) {
 						display.setBlueScreen(failureInfos);
 					}
 				}
 			}
-			*/
 		}
 	} // run
 
@@ -270,6 +277,7 @@ public class ATMSS extends Thread {
 	}
 
 	private void handleComponentRestarted(Msg m) {
+		System.out.println("MSG:" + m);
 		newExEmu.componentRestarted(m.getType());
 	}
 } // ATMSS
