@@ -117,8 +117,8 @@ public class MainController extends Thread {
 							continue;
 						} else if (choise.equals("3")) {
 							this.isInProcess = true;
-							enquryController = new EnquryController(fakeSession);
-							System.out.println("Process finishes, result: " + enquryController.doEnqury());
+							enquryController = new EnquiryController(fakeSession);
+							System.out.println("Process finishes, result: " + enquryController.doEnquiry());
 							continue;
 						} else if (choise.equals("4")) {
 							this.isInProcess = true;
@@ -270,8 +270,8 @@ public class MainController extends Thread {
 
 								} else if (userChoise.equals("3")) {
 									this.isInProcess = true;
-									enquryController = new EnquryController(currentSession);
-									enquryController.doEnqury();
+									enquryController = new EnquiryController(currentSession);
+									enquryController.doEnquiry();
 									LinkedList<Operation> processOperations = enquryController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
@@ -639,7 +639,7 @@ public class MainController extends Thread {
 	private AdvicePrinterController advicePrinterController;
 	private DisplayController displayController;
 	private EnvelopDispenserController envelopDispenserController;
-	private EnquryController enquryController;
+	private EnquiryController enquryController;
 	private TransferController transferController;
 	private ChangePasswdController changePasswdController;
 	private WithDrawController withdrawController;

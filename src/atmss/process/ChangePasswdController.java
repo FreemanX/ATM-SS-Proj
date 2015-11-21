@@ -136,7 +136,10 @@ public class ChangePasswdController extends ProcessController {
 				"Press 1 -> Print the advice",
 				"Press 2 -> Quit without printing"
 		};
-		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) return;
+		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) {
+			record("Dis");
+			return;
+		}
 		while (true) {
 			String userInput = _atmssHandler.doKPGetSingleInput(TIME_LIMIT);
 			if (userInput == null) return;
@@ -146,7 +149,7 @@ public class ChangePasswdController extends ProcessController {
 						"Card Number: " + _session.getCardNo(),
 						"Result: Succeeded"
 				};
-				_atmssHandler.doAPPrintStrArray(toPrint);
+				if (!_atmssHandler.doAPPrintStrArray(toPrint)) record("AP");
 				return;
 			} else if (userInput.equals("2")) {
 				return;

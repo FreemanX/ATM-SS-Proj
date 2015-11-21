@@ -212,7 +212,10 @@ public class WithDrawController extends ProcessController{
 				"Press 1 -> Print the advice",
 				"Press 2 -> Quit without printing"
 		};
-		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) return;
+		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) {
+			record("Dis");
+			return;
+		}
 		while (true) {
 			String userInput = _atmssHandler.doKPGetSingleInput(TIME_LIMIT);
 			if (userInput == null) return;
@@ -223,7 +226,7 @@ public class WithDrawController extends ProcessController{
 						"Account Number : " + AccountNumber,
 						"Amount         : $" + Amount
 				};
-				_atmssHandler.doAPPrintStrArray(toPrint);
+				if (!_atmssHandler.doAPPrintStrArray(toPrint)) record("AP");
 				return;
 			} else if (userInput.equals("2")) {
 				return;
@@ -268,15 +271,6 @@ public class WithDrawController extends ProcessController{
 		} catch (NumberFormatException e) {
 			return 0;
 		}
-	}
-	
-	private String[] createOptionList(String Header, String[] Body) {
-		String[] lines = new String[Body.length + 1];
-		lines[0] = Header;
-		for (int i = 1; i < lines.length; i++) {
-			lines[i] = "Press " + i + " -> " + Body[i-1];
-		}
-		return lines;
 	}
 	
 	private int[] getWithdrawPlan(int[] inventory, int withdrawAmount) {
