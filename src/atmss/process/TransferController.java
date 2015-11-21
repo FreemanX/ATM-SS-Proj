@@ -3,7 +3,6 @@
  */
 package atmss.process;
 
-import atmss.Operation;
 import atmss.Session;
 
 /**
@@ -38,7 +37,7 @@ public class TransferController extends ProcessController{
 		if(!this._atmssHandler.doDisClearAll()) {
 			return failProcess("Clear the display", 5);
 		}
-		recordOperation("Clear the display", 0, "Succeed");
+		record(OPERATION_NAME+": clear the display", "");
 		
 		if (!this.getSrcAccountNumber()) {
 			return false;
@@ -62,18 +61,18 @@ public class TransferController extends ProcessController{
 			failProcess("Display the result", 5);
 			return false;
 		}
-		recordOperation("Display the result", 0, "Succeed");
+		record(OPERATION_NAME+": display the result", "");
 		
 		while (true) {
 			String nextInput = this._atmssHandler.doKPGetSingleInput(10);
 			
 			if (nextInput == null || nextInput.equals("2")) {
-				recordOperation("Choose not to print the receipt", 0, "Succeed");
+				record("Choose not to print the receipt", "");
 			} else if (nextInput.equals("1")) {
 				if (!this.doPrintReceipt()) {
 					return false;
 				}
-				recordOperation("Choose to print the receipt", 0, "Succeed");
+				record("Choose to print the receipt", "");
 				break;
 			} else {
 				if (!this._atmssHandler.doDisDisplayUpper(new String[] {
@@ -83,10 +82,10 @@ public class TransferController extends ProcessController{
 					failProcess("Display error message", 5);
 					return false;
 				}
-				recordOperation("Display error message", 0, "Succeed");
+				record("Display error message", "");
 			}
 		}
-		recordOperation("", 0, "Succeed");
+		record("", "");
 		return true;
 	}
 	
@@ -94,19 +93,19 @@ public class TransferController extends ProcessController{
 		if(!this._atmssHandler.doDisClearAll()) {
 			return failProcess("Clear the display", 5);
 		}
-		recordOperation("Clear the display", 0, "Succeed");
+		record("Clear the display", "");
 		
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);
 		if (allAccountsInCard.length == 0){
 			return this.failProcess("Waiting for BAMS to get accounts", 10);			
 		}
-		recordOperation("Waiting for BAMS to get accounts", 0, "Succeed");
+		record("Waiting for BAMS to get accounts", "");
 			
 		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_SRCACCOUNT, allAccountsInCard))) {
 			failProcess("Display all accounts in the card", 5);
 			return false;
 		}
-		recordOperation("Display all accounts in the card", 0, "Succeed");
+		record("Display all accounts in the card", "");
 		
 		while (true){		
 			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(10);		
@@ -115,7 +114,7 @@ public class TransferController extends ProcessController{
 					int accountChosen = Integer.parseInt(accountSelectedByUser);
 					if (accountChosen <= allAccountsInCard.length) {
 						this.srcAccountNumber = allAccountsInCard[accountChosen - 1];
-						recordOperation("Select an account", 0, srcAccountNumber);
+						record("Select an account", srcAccountNumber);
 						return true;
 					}
 				}
@@ -138,12 +137,12 @@ public class TransferController extends ProcessController{
 			if(!this._atmssHandler.doDisClearAll()) {
 				return failProcess("Clear the display", 5);
 			}
-			recordOperation("Clear the display", 0, "Succeed");
+			record("Clear the display", "");
 			 
 			if (!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_DESACCOUNT)) {
 				return this.failProcess("Display message", 5);
 			}
-			recordOperation("Display message", 0, "Succeed");
+			record("Display message", "");
 			
 			desAccountNumber = this._atmssHandler.doKPGetAccountNum(30);
 			if (desAccountNumber == null) {
@@ -157,14 +156,14 @@ public class TransferController extends ProcessController{
 			if (!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM[1], desAccountNumber})) {
 				return failProcess("Display the destination account to confirm", 5);
 			}
-			recordOperation("Display the destination account to confirm", 0, desAccountNumber);
+			record("Display the destination account to confirm", desAccountNumber);
 			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(3);
 			if (confirmInput != null) {
 				switch(confirmInput) {
 					case "ENTER":
 						this.desAccountNumber = desAccountNumber;
-						recordOperation("Confirm the desination account", 0, "Succeed");
+						record("Confirm the desination account", "");
 						return true;
 					case "CANCEL":
 						return failProcess("Confirm the desination account", 8);
@@ -182,12 +181,12 @@ public class TransferController extends ProcessController{
 			if(!this._atmssHandler.doDisClearAll()) {
 				return failProcess("Clear the display", 5);
 			}
-			recordOperation("Clear the display", 0, "Succeed");
+			record("Clear the display", "");
 			
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT})) {
 				return failProcess("Display the amount input require message", 5);
 			}
-			recordOperation("Display the amount input require message", 0, "Succeed");
+			record("Display the amount input require message", "");
 			
 			amountToTransfer = this._atmssHandler.doKPGetDoubleMoneyAmount(30);
 			if (amountToTransfer == null) {
@@ -211,7 +210,7 @@ public class TransferController extends ProcessController{
 						failProcess("Display not enough money message", 5);
 						return false;
 					}
-					recordOperation("Display not enough money message", 0, "Succeed");
+					record("Display not enough money message", "");
 					failProcess("Check money available", 10);
 					return false;
 				}
@@ -219,14 +218,14 @@ public class TransferController extends ProcessController{
 				if (!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM[0], amountToTransfer})) {
 					return failProcess("Display transfer amonut to confirm", 5);
 				}
-				recordOperation("Display transfer amonut to confirm", 0, amountToTransfer);
+				record("Display transfer amonut to confirm", amountToTransfer);
 				
 				String confirmInput = this._atmssHandler.doKPGetSingleInput(10);
 				if (confirmInput != null) {
 					switch(confirmInput) {
 						case "ENTER":
 							this.amountToTransfer = Double.parseDouble(amountToTransfer);
-							recordOperation("Confirm the transfer amount", 0, "Succeed");
+							record("Confirm the transfer amount", "");
 							return true;
 						case "CANCEL":
 							return failProcess("Confirm the transfer amount", 8);
@@ -256,7 +255,7 @@ public class TransferController extends ProcessController{
 		})) {
 			return failProcess("Print the receipt", 1);
 		}
-		recordOperation("Print the receipt", 0, "Succeed");
+		record("Print the receipt", "");
 		return true;
 	}
 	/*
@@ -264,7 +263,7 @@ public class TransferController extends ProcessController{
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {msg})) {
 			return failProcess("Print the receipt", 1);
 		}
-		recordOperation("Print the receipt", 0, "Succeed");
+		record("Print the receipt", "");
 		return true;
 	}
 	*/

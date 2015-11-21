@@ -3,7 +3,6 @@
  */
 package atmss.process;
 
-import atmss.Operation;
 import atmss.Session;
 
 /**
@@ -16,9 +15,9 @@ public class ChangePasswdController extends ProcessController {
 	private final String FAILED_FROM_BAMS_UPDATING_PW = "Cannot get approval from BAMS";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
-	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please type your new password:"};
-	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please type your new password:"};
-	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please type your new password again:"};
+	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please input your new password:"};
+	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please input your new password:"};
+	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please input your new password again:"};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final long TIME_LIMIT = 10; // seconds
 	private final String KP_CANCEL = "CANCEL";
@@ -47,7 +46,7 @@ public class ChangePasswdController extends ProcessController {
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			} else if (newPassword.equals(KP_CANCEL)) {
 				record("USER");
@@ -55,7 +54,7 @@ public class ChangePasswdController extends ProcessController {
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			}
 			record("new password typed");
@@ -72,7 +71,7 @@ public class ChangePasswdController extends ProcessController {
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			} else if (confirmPassword.equals(KP_CANCEL)) {
 				record("USER");
@@ -80,7 +79,7 @@ public class ChangePasswdController extends ProcessController {
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			}
 			record("confirm password typed");
@@ -116,54 +115,26 @@ public class ChangePasswdController extends ProcessController {
 				record("Dis");
 				return false;
 			}
-			try { this.wait(3000);} catch (InterruptedException e) {}
+			pause(3);
 			return false;
 		}
 	}
 	
+	private void pause(int Seconds) {
+		long startTime = System.currentTimeMillis();
+		while(System.currentTimeMillis()-startTime < Seconds*1000){}
+	}
+	
 	private void record(String Type) {
-		switch(Type) {
-			case "AP" : recordFailure(1);break;
-			case "CR" : recordFailure(2);break;
-			case "CD" : recordFailure(3);break;
-			case "DC" : recordFailure(4);break;
-			case "Dis": recordFailure(5);break;
-			case "ED" : recordFailure(6);break;
-			case "KP" : recordFailure(7);break;
-			case "USER" : recordFailure(8);break;
-			case "BAMS" : recordFailure(10);break;
-			default: recordSuccess(Type);break;
-		}
-	}
-	
-	private void recordSuccess(String detail) {
-		operationCache.add(new Operation(_currentStep, 0, "Success: "+detail));
-	}
-	
-	private void recordFailure(int Type) {
-		String description;
-		switch(Type) {
-			case 1: description = "Failure: no response from advice printer";break;
-			case 2: description = "Failure: no response from card reader";break;
-			case 3: description = "Failure: no response from cash dispenser";break;
-			case 4: description = "Failure: no response from deposit collector";break;
-			case 5: description = "Failure: no response from display";break;
-			case 6: description = "Failure: no response from evelop dispenser";break;
-			case 7: description = "Failure: no response from keypad";break;
-			case 8: description = "Failure: cancelled by user";break;
-			case 10: description = "Failure: disapproved by the bank system(BAMS)";break;
-			default:description = "Failure: unknown reason";break;
-		}
-		operationCache.add(new Operation(_currentStep, Type, description));
-		_atmssHandler.doAPPrintStrArray(new String[]{_currentStep,description});
+		super.record(_currentStep, Type);
 	}
 	
 	private void askForPrinting(){
 		String[] toDisplay = {
 				"Operation succeeded!",
 				"You have changed your password",
-				"Press button 1 to print the advice,",
-				"button 2 to quit without printing"
+				"Press 1 -> Print the advice",
+				"Press 2 -> Quit without printing"
 		};
 		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) return;
 		while (true) {
