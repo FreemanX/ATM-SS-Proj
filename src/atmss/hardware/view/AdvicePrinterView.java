@@ -3,6 +3,9 @@
  */
 package atmss.hardware.view;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import atmss.hardware.exceptioins.AdvicePrinterException;
 import hwEmulators.AdvicePrinter;
 
@@ -17,15 +20,19 @@ public class AdvicePrinterView extends HardwareView {
 	 * 
 	 */
 	public AdvicePrinterView(AdvicePrinter ap) {
-		// TODO Auto-generated constructor stub
 		this._advicePrinter = ap;
 	}
 
 	public boolean print(String[] advice) throws AdvicePrinterException {
 		boolean isSuccess = false;
-		for (String str : advice) {
+		for (int i = 0; i < advice.length; i++) {
 			checkStatus();
-			this._advicePrinter.println(str);
+			if (i == 0) {
+				this._advicePrinter.println("");
+				SimpleDateFormat f = new SimpleDateFormat("yyyy.MM.dd G 'at' hh:mm:ss z");
+				this._advicePrinter.println("=====" + f.format(new Date().getTime()) + "=====");
+			}
+			this._advicePrinter.println(advice[i]);
 		}
 		isSuccess = true;
 
@@ -33,9 +40,7 @@ public class AdvicePrinterView extends HardwareView {
 	}
 
 	public int checkInventory() throws AdvicePrinterException {
-		/*
-		 * TODO call the hardware to do
-		 */
+
 		int res = this._advicePrinter.getResource();
 		if (res < 1) {
 			throwException(this._advicePrinter.getAPStatus());
@@ -50,7 +55,7 @@ public class AdvicePrinterView extends HardwareView {
 	 */
 	@Override
 	public int checkStatus() throws AdvicePrinterException {
-		
+
 		int currStatus = this._advicePrinter.getAPStatus();
 		if (currStatus % 100 != 0)
 			throwException(currStatus);

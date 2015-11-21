@@ -220,8 +220,7 @@ public class DepositController extends ProcessController {
 		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {">Print advice?",">Print advice by press ENTER.", ">Skip by press 0"}))
 		{
 			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(300);
-			inputLoop: 
-				while(inputFromKeypad!=null){
+			inputLoop: while(inputFromKeypad!=null){
 				switch (inputFromKeypad){
 				case "1":
 					this._atmssHandler.doAPPrintStrArray(linesToPrintWhenSucceeded(lastOperation));

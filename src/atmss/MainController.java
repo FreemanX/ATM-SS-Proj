@@ -3,6 +3,10 @@
  */
 package atmss;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -175,13 +179,7 @@ public class MainController extends Thread {
 							if (pin == null || pin.equals("CANCEL")) {
 								break;
 							}
-							/*----------------------<Debug-------------------------*/
-							clearLines();
-							lines[1] = head + cardNum + tail;
-							lines[2] = head + pin + tail;
-							atmssHandler.doDisDisplayUpper(lines);
-							sleep(3000);
-							/*----------------------Debug>-------------------------*/
+
 							if (authorizePassed(cardNum, pin)) {
 								break;
 							} else {
@@ -211,17 +209,17 @@ public class MainController extends Thread {
 
 						if (numOfWrongPassed < 3) {
 							numOfWrongPassed = 0;
-							clearLines();
-							lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
-							lines[1] = head + "1. Change password" + tail;
-							lines[2] = head + "2. Withdraw money" + tail;
-							lines[3] = head + "3. Enqury" + tail;
-							lines[4] = head + "4. Transfer money" + tail;
-							if (EDIsOk && DCIsOk) {
-								lines[5] = head + "5. Deposit money" + tail;
-							}
-							atmssHandler.doDisDisplayUpper(lines);
 							while (true) {
+								clearLines();
+								lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
+								lines[1] = head + "1. Change password" + tail;
+								lines[2] = head + "2. Withdraw money" + tail;
+								lines[3] = head + "3. Enqury" + tail;
+								lines[4] = head + "4. Transfer money" + tail;
+								if (EDIsOk && DCIsOk) {
+									lines[5] = head + "5. Deposit money" + tail;
+								}
+								atmssHandler.doDisDisplayUpper(lines);
 								String userChoise = atmssHandler.doKPGetSingleInput(60);
 								Session currentSession = getLastSession();
 								if (userChoise.equals("1")) {
@@ -243,7 +241,7 @@ public class MainController extends Thread {
 										 * unified protocol
 										 */
 									}
-
+									
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
 									withdrawController = new WithDrawController(currentSession);
@@ -302,20 +300,12 @@ public class MainController extends Thread {
 									this.isInProcess = true;
 									depositController = new DepositController(currentSession);
 									boolean isSuccess = depositController.doDeposit();
+									
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									if (!isSuccess) {
-										Operation op = processOperations.getLast();
-										if (op.getName().equalsIgnoreCase("cancel")) {
-											break;
-										}
-										/*
-										 * TODO do operation according to
-										 * unified protocol
-										 */
-									}
+									
 								} else if (userChoise.equals("CANCEL")) {
 									clearLines();
 									lines[1] = head + "Card ejected, please take your card" + tail;
@@ -333,6 +323,24 @@ public class MainController extends Thread {
 								}
 
 							}
+							/*---------------------Write out log----------------------------*/
+							try (PrintWriter out = new PrintWriter(
+									new BufferedWriter(new FileWriter("SessionLog.txt", true)))) {
+								Session s = getLastSession();
+								out.println();
+								out.println("=====================Session: " + s.getSid() + "=====================");
+								SimpleDateFormat f = new SimpleDateFormat("yyyy.MM.dd G 'at' hh:mm:ss z");
+								out.println("Time: " + f.format(new Date().getTime()));
+								out.println("Card number: " + s.getCardNo());
+								List<Operation> ops = s.getOps();
+								for (Operation op : ops) {
+									out.println(op.getName() + " [" + op.getType() + "]");
+									out.println("\t Result: " + op.getDes());
+								}
+							} catch (IOException e) {
+								System.err.println(">>>>>>>> IOException: write out log");
+							}
+
 							this.endSession();
 						} else {
 							clearLines();
@@ -360,9 +368,6 @@ public class MainController extends Thread {
 
 	}
 
-	/**
-	 *
-	 */
 	// TODO Singleton need to be implemented
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
@@ -399,11 +404,9 @@ public class MainController extends Thread {
 	public void run() {
 		while (true) {
 			while (isRunning) {
-				// System.out.println(">>>>>>>>>>>>>Main controller is waiting
-				// for msg...");
+
 				Msg msg = this.mainControllerMBox.receive();
-				// System.out.println(">>>>>>>>>>>>>Main controller receives: "
-				// + msg);
+
 				String sender = msg.getSender();
 				switch (sender) {
 				case "AP":
@@ -450,7 +453,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
@@ -458,7 +461,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleCRMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
@@ -466,7 +469,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleCDMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() == 301) {
@@ -483,7 +486,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
@@ -498,7 +501,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
@@ -534,7 +537,7 @@ public class MainController extends Thread {
 
 	private void initAll() // Initiate all for serving next guest
 	{
-		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", 0, "Everything is fine @ " + format.format(new Date().getTime())));
 		this.mainControllerMBox.clearBox();
 		this.cardReaderController.initCR();
@@ -602,7 +605,7 @@ public class MainController extends Thread {
 	private DepositController depositController;
 	private BAMSCommunicator serverCommunicator;
 	private Processor processor;
-	private List<Session> sessionLog = new ArrayList<Session>();
+	private volatile List<Session> sessionLog = new ArrayList<Session>();
 	private ATMSSHandler atmssHandler;
 	private MBox mainControllerMBox;
 	private volatile boolean isRunning;
