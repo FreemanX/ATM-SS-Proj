@@ -138,7 +138,7 @@ public class DepositController extends ProcessController {
 		
 		while(accountNoSelectedByUser > allAccountsInCard.length){
 		
-		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(200);
+		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(20);
 		
 		if(accountSelectedByUser!=null){
 			try{
