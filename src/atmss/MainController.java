@@ -274,7 +274,7 @@ public class MainController extends Thread {
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
 									withdrawController = new WithdrawController(currentSession);
-									withdrawController.doWithDraw();
+									withdrawController.doWithdraw();
 									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);

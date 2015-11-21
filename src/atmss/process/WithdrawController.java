@@ -65,7 +65,7 @@ public class WithdrawController extends ProcessController{
 	private String _currentStep = OPERATION_NAME;
 
 	/**
-	 * Instantiates a new with draw controller.
+	 * Instantiates a new withdraw controller.
 	 *
 	 * @param CurrentSession the current session
 	 */
@@ -78,7 +78,7 @@ public class WithdrawController extends ProcessController{
 	 *
 	 * @return the boolean
 	 */
-	public Boolean doWithDraw() {
+	public Boolean doWithdraw() {
 		String[] accountNumbers;
 		String accountNumber = "";
 		int withdrawAmount = 0;
@@ -320,7 +320,7 @@ public class WithdrawController extends ProcessController{
 	 * @param Duration the duration
 	 * @return the string
 	 */
-	public String doKPGetChoice(long Duration) {
+	private String doKPGetChoice(long Duration) {
 		while (true) {
 			String currentInput = _atmssHandler.doKPGetSingleInput(Duration);
 			if (currentInput == null) {
