@@ -10,18 +10,25 @@ $pattern = "/".$_get_lower["pattern"]."/";
 $modifiers = $_get_lower["modifiers"];
 $log = new LogHelper();
 $result = "";
-$count = 1;
 
 if ((strcasecmp($hash, hash("sha512", $passwd, false)) == 0)) {
 	if (strcasecmp($pattern, "/?clear/") == 0) {
 		// clear log
 		$log->clear();
 	} else {
-		foreach ($log->getLogs() as $line) {
+		$logs = $log->getLogs();
+		$candidiateLog = array();
+
+		foreach ($logs as $line) {
 			if (preg_match($pattern.$modifiers, $line)) {
-				$result .= "#".$count." | ".$line."<br>";
-				$count++;
+				array_push($candidiateLog, $line);
 			}
+		}
+
+		$count = count($candidiateLog);
+		foreach ($candidiateLog as $log) {
+			$result .= "#".$count." | ".$log."<br>";
+			$count--;
 		}
 	}
 }
