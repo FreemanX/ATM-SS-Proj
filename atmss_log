@@ -1,334 +1,466 @@
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<?xml version="1.0" encoding="GBK" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-11-21T14:30:42</date>
-  <millis>1448087442332</millis>
+  <date>2015-11-21T15:22:31</date>
+  <millis>1448090551373</millis>
   <sequence>0</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.NewExceptionEmulator</class>
+  <class>hwEmulators.Keypad$MyListener</class>
   <method>actionPerformed</method>
-  <thread>14</thread>
-  <message>new Exception: Setting Out of service</message>
+  <thread>17</thread>
+  <message>Sending "6"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:47</date>
-  <millis>1448087447649</millis>
+  <date>2015-11-21T15:22:31</date>
+  <millis>1448090551376</millis>
   <sequence>1</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090548398:6"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:47</date>
-  <millis>1448087447652</millis>
+  <date>2015-11-21T15:22:32</date>
+  <millis>1448090552989</millis>
   <sequence>2</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.CardReader$MyPanel$4</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>cr: Sending 981358459216</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:47</date>
-  <millis>1448087447853</millis>
+  <date>2015-11-21T15:22:32</date>
+  <millis>1448090552989</millis>
   <sequence>3</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>cardReaderView: receiving "CardReader(2) -- 981358459216"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:48</date>
-  <millis>1448087448053</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554261</millis>
   <sequence>4</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:51</date>
-  <millis>1448087451253</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554262</millis>
   <sequence>5</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090553031:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:54</date>
-  <millis>1448087454654</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554418</millis>
   <sequence>6</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:57</date>
-  <millis>1448087457855</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554418</millis>
   <sequence>7</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090554263:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:30:58</date>
-  <millis>1448087458055</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554563</millis>
   <sequence>8</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:01</date>
-  <millis>1448087461355</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554564</millis>
   <sequence>9</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090554419:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:04</date>
-  <millis>1448087464957</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554723</millis>
   <sequence>10</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:08</date>
-  <millis>1448087468057</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554724</millis>
   <sequence>11</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090554565:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:08</date>
-  <millis>1448087468458</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554864</millis>
   <sequence>12</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:11</date>
-  <millis>1448087471459</millis>
+  <date>2015-11-21T15:22:34</date>
+  <millis>1448090554865</millis>
   <sequence>13</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090554724:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:11</date>
-  <millis>1448087471659</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555012</millis>
   <sequence>14</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:14</date>
-  <millis>1448087474960</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555013</millis>
   <sequence>15</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090554866:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:18</date>
-  <millis>1448087478560</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555154</millis>
   <sequence>16</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:18</date>
-  <millis>1448087478660</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555155</millis>
   <sequence>17</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090555014:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:22</date>
-  <millis>1448087482060</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555291</millis>
   <sequence>18</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:25</date>
-  <millis>1448087485462</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555292</millis>
   <sequence>19</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090555155:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:28</date>
-  <millis>1448087488862</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555909</millis>
   <sequence>20</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "ENTER"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:32</date>
-  <millis>1448087492063</millis>
+  <date>2015-11-21T15:22:35</date>
+  <millis>1448090555909</millis>
   <sequence>21</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090555292:ENTER"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:32</date>
-  <millis>1448087492163</millis>
+  <date>2015-11-21T15:22:40</date>
+  <millis>1448090560241</millis>
   <sequence>22</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "5"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:35</date>
-  <millis>1448087495464</millis>
+  <date>2015-11-21T15:22:40</date>
+  <millis>1448090560242</millis>
   <sequence>23</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090555931:5"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:35</date>
-  <millis>1448087495665</millis>
+  <date>2015-11-21T15:22:41</date>
+  <millis>1448090561467</millis>
   <sequence>24</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:42</date>
-  <millis>1448087502165</millis>
+  <date>2015-11-21T15:22:41</date>
+  <millis>1448090561467</millis>
   <sequence>25</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090560260:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:42</date>
-  <millis>1448087502265</millis>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562037</millis>
   <sequence>26</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:42</date>
-  <millis>1448087502465</millis>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562038</millis>
   <sequence>27</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090561469:1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:45</date>
-  <millis>1448087505766</millis>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562203</millis>
   <sequence>28</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T14:31:45</date>
-  <millis>1448087505866</millis>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562204</millis>
   <sequence>29</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
-  <thread>25</thread>
-  <message>MainController: receiving "CR(299) -- Fatal Error"</message>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090562038:1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562350</millis>
+  <sequence>30</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562351</millis>
+  <sequence>31</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.MBox</class>
+  <method>receive</method>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090562205:1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562491</millis>
+  <sequence>32</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562491</millis>
+  <sequence>33</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.MBox</class>
+  <method>receive</method>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090562351:1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562635</millis>
+  <sequence>34</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:42</date>
+  <millis>1448090562636</millis>
+  <sequence>35</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.MBox</class>
+  <method>receive</method>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090562492:1"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:43</date>
+  <millis>1448090563252</millis>
+  <sequence>36</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "ENTER"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:43</date>
+  <millis>1448090563252</millis>
+  <sequence>37</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.MBox</class>
+  <method>receive</method>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090562636:ENTER"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:47</date>
+  <millis>1448090567181</millis>
+  <sequence>38</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.Keypad$MyListener</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>Sending "ENTER"</message>
+</record>
+<record>
+  <date>2015-11-21T15:22:47</date>
+  <millis>1448090567181</millis>
+  <sequence>39</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.MBox</class>
+  <method>receive</method>
+  <thread>28</thread>
+  <message>KeypadView: receiving "Keypad(7) -- 1448090563254:ENTER"</message>
+</record>
+<record>
+  <date>2015-11-21T15:23:42</date>
+  <millis>1448090622711</millis>
+  <sequence>40</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.DepositCollector$MyPanel$1</class>
+  <method>actionPerformed</method>
+  <thread>17</thread>
+  <message>dc: Sending "Put in envelop"</message>
+</record>
+<record>
+  <date>2015-11-21T15:23:42</date>
+  <millis>1448090622712</millis>
+  <sequence>41</sequence>
+  <logger>hwEmulators.ATMKickstarter</logger>
+  <level>INFO</level>
+  <class>hwEmulators.MBox</class>
+  <method>receive</method>
+  <thread>28</thread>
+  <message>DepositCollectorView: receiving "DepositCollector(4) -- Put in envelop"</message>
 </record>
 </log>

@@ -312,8 +312,7 @@ public class ATMSSHandler {
 		return false;
 	}
 
-	public boolean doEDEatEnvelop() {
-		int timeout = 10000; // dummy
+	public boolean doEDEatEnvelop(int timeout) {
 		try {
 			return depositCollectorController.collectEnvelop(timeout);
 		} catch (Exception e) {
