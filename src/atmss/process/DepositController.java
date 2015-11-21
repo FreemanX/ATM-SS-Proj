@@ -87,7 +87,7 @@ public class DepositController extends ProcessController {
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_RETURN_ENVELOP}))
 			return failProcess("Eat envelop",5, this.FAILED_FROM_DISPLAY);
 		
-		if(!this._atmssHandler.doEDEatEnvelop())
+		if(!this._atmssHandler.doEDEatEnvelop(20))
 			return failProcess("Eat envelop",4,this.FAILED_FROM_DEPOSITCOLLECTOR);
 		
 		return true;
