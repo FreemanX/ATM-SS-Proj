@@ -124,7 +124,7 @@ public class Display extends Thread implements EmulatorActions {
 	}
 
 	public void setBlueScreen(List<ATMSS.HWFailureInfo> infos) {
-		String[] componentName = new String[]{"AdvicePrinter", "CardReader", "CashDispenser", "DepositCollector", "Display", "EnvelopDispenser", "Keypad"};
+		String[] componentName = new String[]{"AdvicePrinter", "CardReader", "CashDispenser", "DepositCollector", "Display", "EnvelopDispenser", "Keypad", "Network"};
 		String msg = "A problem has been detected and ATM has been shut down to prevent damage.\n\n"
 				+ "If this is the first time you've seen this Stop error screen,\n"
 				+ "contact a technician, +852 5174-0740\n"

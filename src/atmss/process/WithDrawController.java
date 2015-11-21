@@ -14,14 +14,11 @@ public class WithDrawController extends ProcessController{
 
 	private final String OPERATION_NAME = "Withdraw Cash";
 	private final String FAILED_FROM_BAMS_LOADING_ACCOUNTS = "Failed to read account information";
-	private final String FAILED_FROM_BAMS_UPDATING_BALANCE = "Failed to update balance at BAMS";
-	private final String FAILED_FROM_DISPLAY = "No response from the display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_CASHDISPENSER = "No response from the cash dispenser";
 	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
 	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
 	private final String FAILED_FROM_INVENTORY = "Not enough inventory to withdraw";
-	private final String FAILED_FROM_COLLECTION = "The cash may not be collected by the card holder";
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
 	private final String PROMPT_FOR_CHOICE_ERR_HEADER = "Not a valid choice! Please choose your account:";
 	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
@@ -31,6 +28,7 @@ public class WithDrawController extends ProcessController{
 	private final int TIME_LIMIT = 10; // seconds
 	private final int AMOUNT_LIMIT = 10000;
 	private final String KP_CANCEL = "CANCEL";
+	private String _currentStep = OPERATION_NAME;
 
 	public WithDrawController(Session CurrentSession) {
 		super(CurrentSession);
@@ -40,179 +38,226 @@ public class WithDrawController extends ProcessController{
 		String[] accountNumbers;
 		String accountNumber = "";
 		int withdrawAmount = 0;
-		int[] withdrawPlan;
-		int[] cashInventory;
 		double balance = 0;
+		int[] cashInventory;
+		int[] withdrawPlan;
 		boolean result = false;
 
-		// get account numbers from BAMS
-		accountNumbers = _atmssHandler.doBAMSGetAccounts(_session);
-		if (accountNumbers == null || accountNumbers.length == 0) {
-			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BAMS_LOADING_ACCOUNTS})) {
-				recordOperation(FAILED_FROM_DISPLAY);
+		_currentStep = OPERATION_NAME+": loading accounts";
+			accountNumbers = _atmssHandler.doBAMSGetAccounts(_session);
+			if (accountNumbers == null || accountNumbers.length == 0) {
+				record("BAMS");
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BAMS_LOADING_ACCOUNTS})) {
+					record("Dis");
+					return false;
+				}
+				try { this.wait(3000);} catch (InterruptedException e) {}
 				return false;
 			}
-			recordOperation(FAILED_FROM_BAMS_LOADING_ACCOUNTS);
-			return false;
-		}
+		record("accounts loaded");
 
 		// -> preparing the necessary information
-		// get account choice from the user
-		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_HEADER,accountNumbers))) {
-			recordOperation(FAILED_FROM_DISPLAY);
-			return false;
-		}
-		while (true) {
-			String userInput = doKPGetChoice(TIME_LIMIT);
-			if (userInput == null) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
-					recordOperation(FAILED_FROM_DISPLAY);
+		_currentStep = OPERATION_NAME+": getting account choice from user";
+			if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_HEADER,accountNumbers))) {
+				record("Dis");
+				return false;
+			}
+			while (true) {
+				String userInput = doKPGetChoice(TIME_LIMIT);
+				if (userInput == null) {
+					record("KP");
+					if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
+						record("Dis");
+						return false;
+					}
+					try { this.wait(3000);} catch (InterruptedException e) {}
+					return false;
+				} else if (userInput.equals(KP_CANCEL)) {
+					record("USER");
+					if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
+						record("Dis");
+						return false;
+					}
+					try { this.wait(3000);} catch (InterruptedException e) {}
 					return false;
 				}
-				recordOperation(FAILED_FROM_KEYPAD);
-				return false;
-			} else if (userInput.equals(KP_CANCEL)) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
-					recordOperation(FAILED_FROM_DISPLAY);
+				int choice = choiceFromString(userInput);
+				if ( 0 < choice && choice <= accountNumbers.length ) {
+					accountNumber = accountNumbers[choice-1];
+					break;
+				}
+				if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_ERR_HEADER,accountNumbers))) {
+					record("Dis");
 					return false;
 				}
-				recordOperation(FAILED_FROM_USER_CANCELLING);
-				return false;
 			}
-			int choice = choiceFromString(userInput);
-			if ( 0 < choice && choice <= accountNumbers.length ) {
-				accountNumber = accountNumbers[choice-1];
-				break;
-			}
-			if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_ERR_HEADER,accountNumbers))) {
-				recordOperation(FAILED_FROM_DISPLAY);
-				return false;
-			}
-		}
+		record("account chosen " + accountNumber);
 
-		// get withdraw amount from the user
-		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT)) {
-			recordOperation(FAILED_FROM_DISPLAY);
-			return false;
-		}
-		while (true) {
-			String userInput= _atmssHandler.doKPGetIntegerMoneyAmount(TIME_LIMIT);
-			if (userInput == null) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
-					recordOperation(FAILED_FROM_DISPLAY);
+		_currentStep = OPERATION_NAME+": getting withdraw amount from user";
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT)) {
+				record("Dis");
+				return false;
+			}
+			while (true) {
+				String userInput= _atmssHandler.doKPGetIntegerMoneyAmount(TIME_LIMIT);
+				if (userInput == null) {
+					record("KP");
+					if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
+						record("Dis");
+						return false;
+					}
+					try { this.wait(3000);} catch (InterruptedException e) {}
+					return false;
+				} else if (userInput.equals(KP_CANCEL)) {
+					record("USER");
+					if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
+						record("Dis");
+						return false;
+					}
+					try { this.wait(3000);} catch (InterruptedException e) {}
 					return false;
 				}
-				recordOperation(FAILED_FROM_KEYPAD);
-				return false;
-			} else if (userInput.equals(KP_CANCEL)) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
-					recordOperation(FAILED_FROM_DISPLAY);
+				int amount = amountFromString(userInput);
+				if (amount != 0) {
+					withdrawAmount = amount;
+					break;
+				}
+				if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT_ERR)) {
+					record("Dis");
 					return false;
 				}
-				recordOperation(FAILED_FROM_USER_CANCELLING);
-				return false;
 			}
-			int amount = amountFromString(userInput);
-			if (amount != 0) {
-				withdrawAmount = amount;
-				break;
-			}
-			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT_ERR)) {
-				recordOperation(FAILED_FROM_DISPLAY);
-				return false;
-			}
-		}
+		record("withdraw amount typed $" + withdrawAmount);
 		// <- preparing the necessary information
 
-		// contact BAMS, 1. get current balance
-		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
-			recordOperation(FAILED_FROM_DISPLAY);
-			return false;
-		}
-		balance = _atmssHandler.doBAMSCheckBalance(accountNumber, _session);
-		
-		// -> display the result
-		// FAILED_FROM_BALANCE
-		if (withdrawAmount > balance) {
-			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BALANCE,"You can only withdraw $"+balance})) {
-				recordOperation(FAILED_FROM_DISPLAY);
+		// -> processing
+		_currentStep = OPERATION_NAME+": checking withdraw amount against balance";
+			if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
+				record("Dis");
 				return false;
 			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BALANCE);
-			return false;
-		} 
+			balance = _atmssHandler.doBAMSCheckBalance(accountNumber, _session);
+			if (withdrawAmount > balance) {
+				record("BAMS");
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BALANCE,"You can only withdraw $"+balance})) {
+					record("Dis");
+					return false;
+				}
+				try { this.wait(3000);} catch (InterruptedException e) {}
+				return false;
+			}
+		record("balance is enough");
 		
+		_currentStep = OPERATION_NAME+": checking cash inventory";
 		cashInventory = _atmssHandler.doCDCheckCashInventory();
-		
-		// FAILED_FROM_CASHDISPENSER
-		if (cashInventory == null) {
-			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_CASHDISPENSER})) {
-				recordOperation(FAILED_FROM_DISPLAY);
+			if (cashInventory == null) {
+				record("CD");
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_CASHDISPENSER})) {
+					record("Dis");
+					return false;
+				}
+				try { this.wait(3000);} catch (InterruptedException e) {}
 				return false;
 			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_CASHDISPENSER);
-			return false;
-		}
+		record("inventory seems enough");
 		
-		withdrawPlan = getWithdrawPlan(cashInventory, withdrawAmount);
-		
-		// FAILED_FROM_INVENTORY
-		if (withdrawPlan[0] == -1) {
-			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_INVENTORY})) {
-				recordOperation(FAILED_FROM_DISPLAY);
+		_currentStep = OPERATION_NAME+": getting withdraw plan";
+			withdrawPlan = getWithdrawPlan(cashInventory, withdrawAmount);
+			if (withdrawPlan[0] == -1) {
+				record("CD");
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_INVENTORY})) {
+					record("Dis");
+					return false;
+				}
+				try { this.wait(3000);} catch (InterruptedException e) {}
 				return false;
 			}
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_INVENTORY);
-			return false;
-		}
+		record("withdraw plan loaded");
+		// <- processing
 
-		// eject the cash
+		// -> display the result
+		_currentStep = OPERATION_NAME+": waiting for collecting cash";
 		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_COLLECTION)) {
-			recordOperation(FAILED_FROM_DISPLAY);
+			record("Dis");
 			return false;
 		}
-		
 		result = _atmssHandler.doCDEjectCash(withdrawPlan); 
-		// result means whether being collected in time as well
 		if (result) {
+			record("cash collected");
 			if (!_atmssHandler.doBAMSUpdateBalance(accountNumber, -withdrawAmount,_session)) {
-				recordOperation(accountNumber, withdrawAmount, FAILED_FROM_BAMS_UPDATING_BALANCE);
+				record("BAMS");
 				return false;
 			}
-			recordOperation(accountNumber, withdrawAmount);
+			askForPrinting(accountNumber, withdrawAmount);
 			return true;
 		} else {
-			recordOperation(accountNumber, withdrawAmount, FAILED_FROM_COLLECTION);
+			record("CD");
 			return false;
 		}
 		// <- display the result
 	}
-
-	private void recordOperation(String AccountNumber, int Amount, String FailedReason) {
-		String description =
-				"Card Number: " + _session.getCardNo() + "; " +
-				"Account Number: " + AccountNumber + "; " +
-				"Amount: " + Amount + "; " +
-				"Result: " + "Failed; " +
-				"Reason: " + FailedReason;
-		operationCache.add(new Operation(OPERATION_NAME, description));
+	
+	private void record(String Type) {
+		switch(Type) {
+			case "AP" : recordFailure(1);break;
+			case "CR" : recordFailure(2);break;
+			case "CD" : recordFailure(3);break;
+			case "DC" : recordFailure(4);break;
+			case "Dis": recordFailure(5);break;
+			case "ED" : recordFailure(6);break;
+			case "KP" : recordFailure(7);break;
+			case "USER" : recordFailure(8);break;
+			case "BAMS" : recordFailure(10);break;
+			default: recordSuccess(Type);break;
+		}
 	}
-
-	private void recordOperation(String AccountNumber, int Amount) {
-		String description =
-				"Card Number: " + _session.getCardNo() + "; " +
-				"Account Number: " + AccountNumber + "; " +
-				"Amount: " + Amount + "; " +
-				"Result: " + "Succeeded; ";
-		operationCache.add(new Operation(OPERATION_NAME, description));
+	
+	private void recordSuccess(String detail) {
+		operationCache.add(new Operation(_currentStep, 0, "Success: "+detail));
 	}
-
-	private void recordOperation(String FailedReason) {
-		String description =
-				"Card Number: " + _session.getCardNo() + "; " +
-				"Result: " + "Failed; " +
-				"Reason: " + FailedReason;
-		operationCache.add(new Operation(OPERATION_NAME, description));
+	
+	private void recordFailure(int Type) {
+		String description;
+		switch(Type) {
+			case 1: description = "Failure: no response from advice printer";break;
+			case 2: description = "Failure: no response from card reader";break;
+			case 3: description = "Failure: no response from cash dispenser";break;
+			case 4: description = "Failure: no response from deposit collector";break;
+			case 5: description = "Failure: no response from display";break;
+			case 6: description = "Failure: no response from evelop dispenser";break;
+			case 7: description = "Failure: no response from keypad";break;
+			case 8: description = "Failure: cancelled by user";break;
+			case 10: description = "Failure: disapproved by the bank system(BAMS)";break;
+			default:description = "Failure: unknown reason";break;
+		}
+		operationCache.add(new Operation(_currentStep, Type, description));
+		_atmssHandler.doAPPrintStrArray(new String[]{_currentStep,description});
+	}
+	
+	private void askForPrinting(String AccountNumber, int Amount){
+		String[] toDisplay = {
+				"Operation succeeded!",
+				"You have withdrawn $" + Amount + "from account: " + AccountNumber,
+				"Press button 1 to print the advice,",
+				"button 2 to quit without printing"
+		};
+		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) return;
+		while (true) {
+			String userInput = _atmssHandler.doKPGetSingleInput(TIME_LIMIT);
+			if (userInput == null) return;
+			if (userInput.equals("1")) {
+				String[] toPrint = {
+						"Operation name: " + OPERATION_NAME,
+						"Card Number: " + _session.getCardNo(),
+						"Account Number: " + AccountNumber,
+						"Amount: " + Amount
+				};
+				_atmssHandler.doAPPrintStrArray(toPrint);
+				return;
+			} else if (userInput.equals("2")) {
+				return;
+			}
+		}
 	}
 	
 	private int amountFromString(String userInput) {

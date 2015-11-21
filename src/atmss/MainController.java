@@ -102,7 +102,6 @@ public class MainController extends Thread {
 						clearLines();
 						lines[0] = head + "Choose the controller you want to debug:" + tail;
 						lines[1] = head + "1. Debug Change password" + tail;
-						lines[2] = head + "2. Debug Deposit money" + tail;
 						lines[3] = head + "3. Debug Enqury" + tail;
 						lines[4] = head + "4. Debug Transfer money" + tail;
 						lines[5] = head + "5. Debug Withdraw money" + tail;
@@ -115,11 +114,6 @@ public class MainController extends Thread {
 							this.isInProcess = true;
 							changePasswdController = new ChangePasswdController(fakeSession);
 							System.out.println("Process finishes, result: " + changePasswdController.doChangePasswd());
-							continue;
-						} else if (choise.equals("2")) {
-							this.isInProcess = true;
-							depositController = new DepositController(fakeSession);
-							System.out.println("Process finishes, result: " + depositController.doDeposit());
 							continue;
 						} else if (choise.equals("3")) {
 							this.isInProcess = true;
@@ -424,6 +418,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleBAMSMsg(Msg msg) {
+		System.out.println("NETOWKR MSG: " + msg);
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
