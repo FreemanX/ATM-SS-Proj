@@ -158,7 +158,7 @@ public class ATMSS extends Thread {
 				int code = msg.getType();
 				boolean toDo = true;
 
-				System.out.println("From MainController >> code: " + code + ", details: " + msg.getDetails());
+//				System.out.println("From MainController >> code: " + code + ", details: " + msg.getDetails());
 				for (int[] arr : skipList) {
 					if (code >= arr[0] && code <= arr[1]) {
 						toDo = false;

@@ -144,30 +144,6 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         setTitle(title + " | X:" + getWidth() + " Y:" + getHeight());
         setLayout(new GridLayout(0, 1)); // many row, one column
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        addComponentListener(new ComponentListener() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                setTitle(title + " | X:" + getWidth() + " Y:" + getHeight());
-                System.out.println(getTitle());
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-
-            }
-        });
-
         buildUI();
 
         setSize(265, 700);
