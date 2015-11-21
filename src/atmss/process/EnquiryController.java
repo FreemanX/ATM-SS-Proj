@@ -24,7 +24,7 @@ public class EnquiryController extends ProcessController{
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account to Enquiry";
 	private final String SHOW_SUCCESS = "Your balance is $";
 	private final String[] PRINT_NOTE_SELECTION = {
-			 "Press 1 -> Print advice", "Press 2 -> Quit with out printing"
+			 "Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
 	
 	public void printOpCache(){
