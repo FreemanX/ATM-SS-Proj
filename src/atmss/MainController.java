@@ -225,81 +225,44 @@ public class MainController extends Thread {
 								if (userChoise.equals("1")) {
 									this.isInProcess = true;
 									changePasswdController = new ChangePasswdController(currentSession);
-									boolean isSuccess = changePasswdController.doChangePasswd();
+									changePasswdController.doChangePasswd();
 									LinkedList<Operation> processOperations = changePasswdController
 											.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									if (!isSuccess) {
-										Operation op = processOperations.getLast();
-										if (op.getName().equalsIgnoreCase("cancel")) {
-											break;
-										}
-										/*
-										 * TODO do operation according to
-										 * unified protocol
-										 */
-									}
 
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
 									withdrawController = new WithDrawController(currentSession);
-									boolean isSuccess = withdrawController.doWithDraw();
+									withdrawController.doWithDraw();
 									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									if (!isSuccess) {
-										Operation op = processOperations.getLast();
-										if (op.getName().equalsIgnoreCase("cancel")) {
-											break;
-										}
-										/*
-										 * TODO do operation according to
-										 * unified protocol
-										 */
-									}
+
 								} else if (userChoise.equals("3")) {
 									this.isInProcess = true;
 									enquryController = new EnquryController(currentSession);
-									boolean isSuccess = enquryController.doEnqury();
+									enquryController.doEnqury();
 									LinkedList<Operation> processOperations = enquryController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									if (!isSuccess) {
-										Operation op = processOperations.getLast();
-										if (op.getName().equalsIgnoreCase("cancel")) {
-											break;
-										}
-										/*
-										 * TODO do operation according to
-										 * unified protocol
-										 */
-									}
+
 								} else if (userChoise.equals("4")) {
 									this.isInProcess = true;
 									transferController = new TransferController(currentSession);
-									boolean isSuccess = transferController.doTransfer();
+									transferController.doTransfer();
 									LinkedList<Operation> processOperations = transferController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									if (!isSuccess) {
-										Operation op = processOperations.getLast();
-										if (op.getName().equalsIgnoreCase("cancel")) {
-											break;
-										}
-										/*
-										 * TODO do operation according to
-										 * unified protocol
-										 */
-									}
+
 								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
 									this.isInProcess = true;
 									depositController = new DepositController(currentSession);
-									boolean isSuccess = depositController.doDeposit();
+									depositController.doDeposit();
 
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
