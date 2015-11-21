@@ -226,10 +226,13 @@ public class DepositController extends ProcessController {
 			inputLoop: while(inputFromKeypad!=null){
 				switch (inputFromKeypad){
 				case "1":
-					this._atmssHandler.doAPPrintStrArray(linesToPrintWhenSucceeded(lastOperation));
+					if(!this._atmssHandler.doAPPrintStrArray(linesToPrintWhenSucceeded(lastOperation)))
+						this.operationCache.add(new Operation("DEPOSIT : print receipt", 1, "Failure: no response from advice printer"));
+					else this.operationCache.add(new Operation("DEPOSIT : print receipt", 0, "Succeess"));
 					break inputLoop;
 
 				case "2":
+					this.operationCache.add(new Operation("DEPOSIT : print receipt", 0, "Do not print"));
 					break inputLoop;
 				}
 				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(20);
