@@ -18,13 +18,13 @@ public class EnquiryController extends ProcessController{
 	private String accountNumber;
 	private double balance;
 	
-	//private final String OPERATION_NAME = "Operation : Enquiry";
+	private final int    TIME_OUT_LIMIT = 30;
 	private final String FAILED_FROM_DISPLAY = "Failure: no response from display";
 	private final String FAILED_FROM_PRINTER = "Failure: no response from advice printer";
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account to Enquiry";
 	private final String SHOW_SUCCESS = "Your balance is $";
 	private final String[] PRINT_NOTE_SELECTION = {
-			 "Press 1-> Print advice", "Press 2-> Quit with out printing"
+			 "Press 1 -> Print advice", "Press 2 -> Quit with out printing"
 	};
 	
 	public void printOpCache(){
@@ -41,7 +41,6 @@ public class EnquiryController extends ProcessController{
 		if (!this._atmssHandler.doDisClearAll()) {
 			return failProcess("Enquiry : display accounts", 5, FAILED_FROM_DISPLAY);
 		}
-		//recordOperation("Enquiry : Clear the display", 0, "Success");
 		
 		if (!this.getAccountNumber()) {
 			return false;
@@ -58,7 +57,7 @@ public class EnquiryController extends ProcessController{
 		recordOperation("Enquiry : display the balance", 0, Double.toString(balance));
 		
 		while (true) {
-			String nextInput = this._atmssHandler.doKPGetSingleInput(10);
+			String nextInput = this._atmssHandler.doKPGetSingleInput(TIME_OUT_LIMIT);
 			
 			if (nextInput == null || nextInput.equals("2")) {
 				recordOperation("Enquiry : choose not to print the receipt", 0, "Success");
@@ -69,15 +68,6 @@ public class EnquiryController extends ProcessController{
 				}
 				recordOperation("Enquiry : choose to print the receipt", 0, "Success");
 				break;
-			} else {
-				if (!this._atmssHandler.doDisDisplayUpper(new String[] {
-						SHOW_SUCCESS + balance, PRINT_NOTE_SELECTION[0], 
-						//PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2], "Wrong input!"
-				})) {
-					failProcess("Enquiry : display error message", 5, FAILED_FROM_DISPLAY);
-					return false;
-				}
-				recordOperation(" Enquiry : display error message", 0, "Success");
 			}		
 		}
 		recordOperation("Enquiry : ", 0, "Success");
@@ -109,7 +99,7 @@ public class EnquiryController extends ProcessController{
 		
 		while(accountNoSelectedByUser > allAccountsInCard.length){
 		
-		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(200);
+		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(TIME_OUT_LIMIT);
 		
 		if(accountSelectedByUser!=null){
 			try{
@@ -144,50 +134,11 @@ public class EnquiryController extends ProcessController{
 
 		return true;
 	}
-	/*
-	private boolean doPrintReceipt(String msg){
-		if(!this._atmssHandler.doAPPrintStrArray(new String[] {msg})) {
-			return failProcess("Print the receipt", 1);
-		}
-		recordOperation("Print the receipt", 0, "Success");
-		return true;
-	}
-	*/
 	private void recordOperation(String operation, int type, String result){
-		/*
-		String result = "";
-		switch (type) {
-			case 0:
-				result = "Successful";				
-				break;
-			case 1:
-				result = "Failed";
-				doPrintReceipt("No response from advice printer.");
-				break;
-			case 5:
-				result = "Failed";
-				doPrintReceipt("No response from display.");
-				break;
-			case 7:
-				result = "Failed";
-				doPrintReceipt("No input from keypad.");
-				break;
-			case 8:
-				result = "Failed";
-				doPrintReceipt("Process cancelled.");
-				break;
-			case 10:
-				result = "Failed";
-				doPrintReceipt("No response from BAMS.");
-				break;
-		}
-	    */
 		operationCache.add(new Operation(operation, type, result));
 	}
 	
 	private boolean failProcess(String operation, int type, String desc){
-		//this._atmssHandler.doDisClearAll();
-		//this._atmssHandler.doDisDisplayUpper(new String[] {operation});
 		recordOperation(operation, type, desc);
 		printOpCache();
 		return false;
