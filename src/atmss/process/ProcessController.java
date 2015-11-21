@@ -32,6 +32,15 @@ public abstract class ProcessController {
 		return this.operationCache;
 	}
 	
+	String[] createOptionList(String Header, String[] Body) {
+		String[] lines = new String[Body.length + 1];
+		lines[0] = Header;
+		for (int i = 1; i < lines.length; i++) {
+			lines[i] = "Press " + i + " -> " + Body[i-1];
+		}
+		return lines;
+	}
+	
 	void record(String OperationName, String Type) {
 		switch(Type) {
 			case "AP" : recordFailure(OperationName, 1);break;
@@ -47,11 +56,11 @@ public abstract class ProcessController {
 		}
 	}
 	
-	void recordSuccess(String OperationName, String detail) {
+	private void recordSuccess(String OperationName, String detail) {
 		operationCache.add(new Operation(OperationName, 0, "Success: "+detail));
 	}
 	
-	void recordFailure(String OperationName, int Type) {
+	private void recordFailure(String OperationName, int Type) {
 		String description;
 		switch(Type) {
 			case 1 : description = "Failure: no response from advice printer";break;
