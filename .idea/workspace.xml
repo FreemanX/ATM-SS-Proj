@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ae8af02e-d19c-47c0-b545-16e6972967f4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/Display.java" afterPath="$PROJECT_DIR$/src/hwEmulators/Display.java" />
-    </list>
+    <list default="true" id="ae8af02e-d19c-47c0-b545-16e6972967f4" name="Default" comment="" />
     <ignored path="ATM-SS Proj.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -84,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/src/atmss/MainController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+              <caret line="443" column="0" selection-start-line="443" selection-start-column="0" selection-end-line="443" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -776,12 +774,12 @@
       <option name="number" value="Default" />
       <updated>1448075456969</updated>
       <workItem from="1448075458798" duration="6484000" />
-      <workItem from="1448083613211" duration="10106000" />
+      <workItem from="1448083613211" duration="10434000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16590000" />
+    <option name="totallyTimeSpent" value="16918000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="864" extended-state="6" />
@@ -930,7 +928,7 @@
     <entry file="file://$PROJECT_DIR$/src/atmss/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
+          <caret line="443" column="0" selection-start-line="443" selection-start-column="0" selection-end-line="443" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
