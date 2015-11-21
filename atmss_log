@@ -2,30 +2,30 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2015-11-21T15:35:38</date>
-  <millis>1448091338475</millis>
+  <date>2015-11-21T16:48:34</date>
+  <millis>1448095714053</millis>
   <sequence>0</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.Keypad$MyListener</class>
   <method>actionPerformed</method>
   <thread>14</thread>
-  <message>Sending "2"</message>
+  <message>Sending "3"</message>
 </record>
 <record>
-  <date>2015-11-21T15:35:38</date>
-  <millis>1448091338479</millis>
+  <date>2015-11-21T16:48:34</date>
+  <millis>1448095714058</millis>
   <sequence>1</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
   <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448091337048:2"</message>
+  <message>KeypadView: receiving "Keypad(7) -- 1448095711931:3"</message>
 </record>
 <record>
-  <date>2015-11-21T15:35:39</date>
-  <millis>1448091339425</millis>
+  <date>2015-11-21T16:48:36</date>
+  <millis>1448095716374</millis>
   <sequence>2</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
@@ -35,19 +35,19 @@
   <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T15:35:39</date>
-  <millis>1448091339425</millis>
+  <date>2015-11-21T16:48:36</date>
+  <millis>1448095716375</millis>
   <sequence>3</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
   <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448091338521:1"</message>
+  <message>KeypadView: receiving "Keypad(7) -- 1448095715110:1"</message>
 </record>
 <record>
-  <date>2015-11-21T15:35:39</date>
-  <millis>1448091339816</millis>
+  <date>2015-11-21T16:48:37</date>
+  <millis>1448095717661</millis>
   <sequence>4</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
@@ -57,108 +57,20 @@
   <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T15:35:39</date>
-  <millis>1448091339817</millis>
+  <date>2015-11-21T16:48:37</date>
+  <millis>1448095717661</millis>
   <sequence>5</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
   <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448091339427:1"</message>
+  <message>KeypadView: receiving "Keypad(7) -- 1448095716502:1"</message>
 </record>
 <record>
-  <date>2015-11-21T15:35:40</date>
-  <millis>1448091340448</millis>
+  <date>2015-11-21T16:48:45</date>
+  <millis>1448095725579</millis>
   <sequence>6</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.Keypad$MyListener</class>
-  <method>actionPerformed</method>
-  <thread>14</thread>
-  <message>Sending "ENTER"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:40</date>
-  <millis>1448091340448</millis>
-  <sequence>7</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448091339818:ENTER"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:41</date>
-  <millis>1448091341706</millis>
-  <sequence>8</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.Keypad$MyListener</class>
-  <method>actionPerformed</method>
-  <thread>14</thread>
-  <message>Sending "ENTER"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:41</date>
-  <millis>1448091341707</millis>
-  <sequence>9</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448091340450:ENTER"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:46</date>
-  <millis>1448091346530</millis>
-  <sequence>10</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.DepositCollector$MyPanel$1</class>
-  <method>actionPerformed</method>
-  <thread>14</thread>
-  <message>dc: Sending "Put in envelop"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:46</date>
-  <millis>1448091346531</millis>
-  <sequence>11</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>24</thread>
-  <message>DepositCollectorView: receiving "DepositCollector(4) -- Put in envelop"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:59</date>
-  <millis>1448091359477</millis>
-  <sequence>12</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.Keypad$MyListener</class>
-  <method>actionPerformed</method>
-  <thread>14</thread>
-  <message>Sending "1"</message>
-</record>
-<record>
-  <date>2015-11-21T15:35:59</date>
-  <millis>1448091359478</millis>
-  <sequence>13</sequence>
-  <logger>hwEmulators.ATMKickstarter</logger>
-  <level>INFO</level>
-  <class>hwEmulators.MBox</class>
-  <method>receive</method>
-  <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448091346533:1"</message>
-</record>
-<record>
-  <date>2015-11-21T15:36:07</date>
-  <millis>1448091367143</millis>
-  <sequence>14</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.ATMSSDBugConsole$MyPanel$2</class>
