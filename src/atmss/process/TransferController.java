@@ -3,7 +3,6 @@
  */
 package atmss.process;
 
-import atmss.MainController;
 import atmss.Operation;
 import atmss.Session;
 
@@ -34,12 +33,19 @@ public class TransferController extends ProcessController{
 	private final String PROMPT_FOR_CONFIRM = "Please confirm your transfer amount";
 	private final String SHOW_SUCCESS = "Succeeded! The transfer operation succeeds.";
 	private final String SHOW_FAILURE = "Failed! The transfer operation failed.";
+	private final String[] PRINT_NOTE_SELECTION = {
+			"Do you want to print note?", "Press ENTER to print", "Press CANCEL not to print"
+	};
 	
 	public TransferController(Session session) {
 		super(session);
 	}
 	
-	public Boolean doTransfer() {		
+	public Boolean doTransfer() {	
+		if(!this._atmssHandler.doDisClearAll()) {
+			return failProcess(FAILED_FROM_DISPLAY);
+		}
+		
 		if (!this.getSrcAccountNumber()) {
 			return failProcess(SHOW_FAILURE);
 		}
@@ -51,28 +57,48 @@ public class TransferController extends ProcessController{
 		if (!this.getAmountToTransfer()) {
 			return failProcess(SHOW_FAILURE);
 		}
-
-		if (!this.doPrintReceipt()) {
-			return failProcess(SHOW_FAILURE);
-		}
-		
-//		System.out.println("srcAccountNumber: " + srcAccountNumber);
-//		System.out.println("desAccountNumber: " + desAccountNumber);
-//		System.out.println("amountToTransfer: " + amountToTransfer);
-//		System.out.println(_session.getCardNo());
 				
 		if (!this._atmssHandler.doBAMSTransfer(desAccountNumber, srcAccountNumber, amountToTransfer, _session)) {
-//			System.out.println("Line 63"); 
 			return failProcess(SHOW_FAILURE);
 		}
 		
-		this.recordOperation();
-		this._atmssHandler.doDisAppendUpper(SHOW_SUCCESS);
+		if (!this._atmssHandler.doDisDisplayUpper(new String[] {
+				SHOW_SUCCESS, PRINT_NOTE_SELECTION[0], PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2]
+		})) {
+			recordOperation(FAILED_FROM_DISPLAY);
+			return false;
+		}
+		
+		while (true) {
+			String nextInput = this._atmssHandler.doKPGetSingleInput(10);
+			
+			if (nextInput.equals("ENTER")) {
+				if (!this.doPrintReceipt()) {
+					return failProcess(SHOW_FAILURE);
+				}
+				break;
+			} else if (!nextInput.equals("CANCEL")) {
+				if (!this._atmssHandler.doDisDisplayUpper(new String[] {
+						SHOW_SUCCESS, PRINT_NOTE_SELECTION[0], 
+						PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2], "Wrong input!"
+				})) {
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+			} else {		
+				this.recordOperation(srcAccountNumber, desAccountNumber, amountToTransfer);
+				this._atmssHandler.doDisAppendUpper(SHOW_SUCCESS);
+				break;
+			}		
+		}
 		return true;
 	}
 	
 	private boolean getSrcAccountNumber() {
-
+		if(!this._atmssHandler.doDisClearAll()) {
+			return failProcess(FAILED_FROM_DISPLAY);
+		}
+		
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);
 		if (allAccountsInCard.length == 0){
 			return this.failProcess(FAILED_FROM_BAMS);			
@@ -92,7 +118,7 @@ public class TransferController extends ProcessController{
 		}
 		
 		while (true){		
-			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(20);		
+			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(10);		
 			if (accountSelectedByUser != null) {
 				try{
 					int accountChosen = Integer.parseInt(accountSelectedByUser);
@@ -121,10 +147,6 @@ public class TransferController extends ProcessController{
 				return failProcess(FAILED_FROM_DISPLAY);
 			}
 			
-			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT})) {
-				return failProcess(FAILED_FROM_DISPLAY);
-			}
-			
 			if (!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_DESACCOUNT))
 				return this.failProcess(FAILED_FROM_DISPLAY);
 			
@@ -133,15 +155,11 @@ public class TransferController extends ProcessController{
 				return failProcess(FAILED_INPUT_ACCOUNT);
 			}
 			
-			if (!this._atmssHandler.doDisClearAll()) {
-				return failProcess(FAILED_FROM_DISPLAY);
+			if (desAccountNumber.equals("CANCEL")) {
+				return failProcess(SHOW_FAILURE);
 			}
 			
-			if (!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM})) {
-				return failProcess(FAILED_FROM_DISPLAY);
-			}
-			
-			if (!this._atmssHandler.doDisAppendUpper(desAccountNumber)) {
+			if (!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, desAccountNumber})) {
 				return failProcess(FAILED_FROM_DISPLAY);
 			}
 			
@@ -173,29 +191,31 @@ public class TransferController extends ProcessController{
 			}
 			
 			amountToTransfer = this._atmssHandler.doKPGetDoubleMoneyAmount(30);
-			accountBalance = this._atmssHandler.doBAMSCheckBalance(this.srcAccountNumber, _session);
-			if (Double.parseDouble(amountToTransfer) > accountBalance) {
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{
-						FAILED_FROM_BALANCE, "You can only withdraw $" + accountBalance
-						})) {
-					System.out.println("You can only withdraw $" + accountBalance);
-					recordOperation(FAILED_FROM_DISPLAY);
-					return false;
-				}
-			}
 			if (amountToTransfer == null) {
 				return failProcess(FAILED_INPUT_AMOUNT);
 			}
 			
-			if (!this._atmssHandler.doDisClearAll()) {
-				return failProcess(FAILED_FROM_DISPLAY);
+			if (amountToTransfer.contains("CANCEL")) {
+				return failProcess(SHOW_FAILURE);
 			}
 			
-			if (!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM})) {
-				return failProcess(FAILED_FROM_DISPLAY);
+			accountBalance = this._atmssHandler.doBAMSCheckBalance(this.srcAccountNumber, _session);
+			if (Double.parseDouble(amountToTransfer) > accountBalance) {
+				if (!_atmssHandler.doDisDisplayUpper(new String[]{
+						FAILED_FROM_BALANCE, "You can only withdraw $" + accountBalance, 
+						"Press any button to end"
+						})) {					
+					recordOperation(FAILED_FROM_DISPLAY);
+					return false;
+				}
+				String nextInput = this._atmssHandler.doKPGetSingleInput(10);
+				if (nextInput != null) {
+					recordOperation(FAILED_FROM_BALANCE);
+					return false;
+				}
 			}
 			
-			if (!this._atmssHandler.doDisAppendUpper(amountToTransfer)) {
+			if (!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, amountToTransfer})) {
 				return failProcess(FAILED_FROM_DISPLAY);
 			}
 			
@@ -214,6 +234,16 @@ public class TransferController extends ProcessController{
 		}
 	}
 	
+	private void recordOperation(String srcAccount, String desAccount, double amount) {
+		String description =
+				"Card Number: " + _session.getCardNo() + "; " +
+				"From Account Number: " + srcAccount + "; " +
+				"To Account Number: " + desAccount + "; " +
+				"Amount: " + amount + "; " +
+				"Result: " + "Succeeded; ";
+		operationCache.add(new Operation(OPERATION_NAME, description));
+	}
+	
 	private String[] createOptionList(String Header, String[] Body) {
 		String[] lines = new String[Body.length + 1];
 		lines[0] = Header;
@@ -225,16 +255,11 @@ public class TransferController extends ProcessController{
 	
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler .doAPPrintStrArray(new String[] {
-				srcAccountNumber, desAccountNumber, Double.toString(this.amountToTransfer)}))
+				new String("From:      " + srcAccountNumber), 
+				new String("To:           " + desAccountNumber),
+				new String("Amount: " + Double.toString(this.amountToTransfer))}))
 			return failProcess(FAILED_FROM_ADVICEPRINTER);
 		return true;
-	}
-	
-	private void recordOperation(){
-		String description = 
-				"Card Number: " + this._session.getCardNo() + ";" +
-				"Result: " + "Succeeded; ";
-		operationCache.add(new Operation(OPERATION_NAME,description));
 	}
 	
 	private void recordOperation(String FailedReason){

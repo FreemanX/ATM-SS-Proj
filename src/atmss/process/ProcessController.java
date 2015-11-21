@@ -44,11 +44,11 @@ public abstract class ProcessController {
 
 	void addOperation(Operation operation) {
 		operationCache.add(operation);
-		this._session.addOp(operation);
+		
 	}
 	
 	void printOperation(){
-		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {"Print advice: press ENTER. Do not print advice: press 0"}))
+		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {"Print advice: press ENTER."+" Do not print advice: press 0"}))
 		{
 			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(300);
 			inputLoop: 

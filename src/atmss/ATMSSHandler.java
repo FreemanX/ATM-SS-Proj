@@ -134,7 +134,12 @@ public class ATMSSHandler {
 	// >>>>>>>>>>>>>>>>>>2 Functions of card reader <<<<<<<<<<<<<<<<<<<
 
 	public String doCRGetCardNumebr() {
-		return this.cardReaderController.getCardNumber();
+		try {
+			return this.cardReaderController.getCardNumber();
+		} catch (Exception e) {
+			handleUnknownExceptions(e);
+			return null;
+		}
 	}
 
 	public String doCRReadCard() {
@@ -244,7 +249,6 @@ public class ATMSSHandler {
 		} catch (Exception e) {
 			handleUnknownExceptions(e);
 		}
-
 		return false;
 	}
 
@@ -450,6 +454,7 @@ public class ATMSSHandler {
 				moneyAmount = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
+				inputDot = false;
 				doDisClearLower();
 				moneyAmount = "";
 			} else if (currentInput.equals("ENTER")) {

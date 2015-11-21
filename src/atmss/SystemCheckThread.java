@@ -53,13 +53,19 @@ class SystemCheckThread extends Thread {
 			while (isRunning) {
 				try {
 					this._advicePrinterController.updateStatus();
+					sleep(100);
 					this._cardReaderController.updateStatus();
+					sleep(100);
 					this._cashDispenerController.updateStatus();
+					sleep(100);
 					this._depositCollectorController.updateStatus();
+					sleep(100);
 					this._displayController.updateStatus();
+					sleep(100);
 					this._envelopDispenserController.updateStatus();
+					sleep(100);
 					this._keypadController.updateStatus();
-					sleep(3000); // Statuses will be checked every 60 seconds
+					sleep(5000); // Statuses will be checked every 60 seconds
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

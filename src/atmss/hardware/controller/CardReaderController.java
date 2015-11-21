@@ -45,9 +45,14 @@ public class CardReaderController extends HardwareController {
 		this.cardNumber = "";
 	}
 
-	public String getCardNumber() {
+	public String getCardNumber() throws Exception {
 		// TODO not finished
-		return cardNumber;
+		try {
+			return this.cardReaderView.getCardNumer();
+		} catch (CardReaderException e) {
+			HandleException(e);
+			return null;
+		}
 	}
 
 	public boolean ejectCard() throws Exception {
@@ -65,6 +70,7 @@ public class CardReaderController extends HardwareController {
 		boolean isSuccess = false;
 		try {
 			this.status = this.cardReaderView.checkStatus();
+			this._maincontrollerMBox.send(new Msg("CR", status, "I'm OK"));
 			isSuccess = true;
 		} catch (CardReaderException e) {
 			// TODO Auto-generated catch block

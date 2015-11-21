@@ -53,6 +53,7 @@ public class CashDispenserController extends HardwareController {
 		boolean isSuccess = false;
 		try {
 			this.status = this.cashDispenserView.checkStatus();
+			this._maincontrollerMBox.send(new Msg("CD", status, "I'm OK"));
 			isSuccess = true;
 		} catch (CashDispenserException e) {
 			// TODO Auto-generated catch block
