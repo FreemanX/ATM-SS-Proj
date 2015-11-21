@@ -1,52 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script type="text/javascript">
-		var url = window.location.protocol + "//" + window.location.host + "/~group05/";
-		function search() {
-			var pattern = document.getElementById("pattern").value;
-			var modifiers = document.getElementById("modifiers").value;
-			var passwd = document.getElementById("passwdField").value;
-			var req = new XMLHttpRequest();
-			console.log(pattern);
+    <script type="text/javascript">
+        var url = window.location.protocol + "//" + window.location.host + "/~group05/";
+        function search() {
+            var pattern = document.getElementById("pattern").value;
+            var modifiers = document.getElementById("modifiers").value;
+            var passwd = document.getElementById("passwdField").value;
+            var req = new XMLHttpRequest();
+            console.log(pattern);
 
-			req.onreadystatechange = function() {
-				var resultBox = document.getElementById("resultBox");
-				resultBox.innerHTML = req.responseText;
-				document.getElementById("countEle").innerHTML = " Log entities: <font color='red'>" + (req.responseText.split("<br>").length - 1) + "</font>";
-			}
+            req.onreadystatechange = function () {
+                var resultBox = document.getElementById("resultBox");
+                resultBox.innerHTML = req.responseText;
+                document.getElementById("countEle").innerHTML = " Log entities: <font color='red'>" + (req.responseText.split("<br>").length - 1) + "</font>";
+            }
 
-			req.open("GET", url + "viewLog.php?passwd=" + passwd + "&pattern=" + pattern + "&modifiers=" + modifiers, true);
-			req.send();
-		}
-		function popHelp() {
-			document.getElementById("help").style.opacity = "1";
-		}
-		function keyDown(event) {
-			if (event.keyCode == 13) {
-				search();
-				return false;
-			}
-		}
-		window.onload = function() {
-			document.getElementById("resultBox").style.height = (window.innerHeight - 155) + "px";
+            req.open("GET", url + "viewLog.php?passwd=" + passwd + "&pattern=" + pattern + "&modifiers=" + modifiers, true);
+            req.send();
+        }
+        function popHelp() {
+            document.getElementById("help").style.opacity = "1";
+        }
+        function keyDown(event) {
+            if (event.keyCode == 13) {
+                search();
+                return false;
+            }
+        }
+        window.onload = function () {
+            document.getElementById("resultBox").style.height = (window.innerHeight - 155) + "px";
 
-		}
-		window.onresize = function(event) {
-			document.getElementById("resultBox").style.height = (window.innerHeight - 155) + "px";
-		}
-	</script>
+        }
+        window.onresize = function (event) {
+            document.getElementById("resultBox").style.height = (window.innerHeight - 155) + "px";
+        }
+    </script>
 </head>
 <body style="margin: 0;">
-	<div id="upper" style="margin-left: 5px;">
-		<h1>Log viewer</h1>
-		<span id="countEle"></span><br>
-		Passwd: <input onkeydown="keyDown(event)" type="password" id="passwdField"><br>
-		/<input style="margin-top: 5px;" type="text" placeholder="pattern" onkeydown="keyDown(event)" id="pattern">/<input type="text" placeholder="modifiers" onkeydown="keyDown(event)" size="5" id="modifiers"> <span style="text-decoration: none; cursor: pointer; color: red;" onclick="popHelp()">?help</span> <span style="opacity: 0;" id="help">Pattern could be 1.<b><i>&lt;<a target="_blank" href="http://www.tutorialspoint.com/php/php_regular_expression.htm">php regex pattern</a>&gt;</i></b> , or 2.<b><i>"?clear"</i></b> - to clear log. E.g. <b><i>".*"</i></b> - to display all log</span>
-		<br>
-	</div>
-	<hr style="margin-bottom: 0;">
-	<div id="resultBox" style="overflow-y: scroll;">
-	</div>
+<div id="upper" style="margin-left: 5px;">
+    <h1>Log viewer</h1>
+    <span id="countEle"></span><br>
+    Passwd: <input onkeydown="keyDown(event)" type="password" id="passwdField"><br>
+    /<input style="margin-top: 5px;" type="text" placeholder="pattern" onkeydown="keyDown(event)" id="pattern">/<input
+        type="text" placeholder="modifiers" onkeydown="keyDown(event)" size="5" id="modifiers"> <span
+        style="text-decoration: none; cursor: pointer; color: red;" onclick="popHelp()">?help</span> <span
+        style="opacity: 0;" id="help">Pattern could be 1.<b><i>&lt;<a target="_blank"
+                                                                      href="http://www.tutorialspoint.com/php/php_regular_expression.htm">php
+    regex pattern</a>&gt;</i></b> , or 2.<b><i>"?clear"</i></b> - to clear log. E.g. <b><i>".*"</i></b> - to display all log</span>
+    <br>
+</div>
+<hr style="margin-bottom: 0;">
+<div id="resultBox" style="overflow-y: scroll;">
+</div>
 </body>
 </html>
