@@ -239,15 +239,6 @@ public class TransferController extends ProcessController{
 			}
 		}
 	}
-		
-	private String[] createOptionList(String Header, String[] Body) {
-		String[] lines = new String[Body.length + 1];
-		lines[0] = Header;
-		for (int i = 1; i < lines.length; i++) {
-			lines[i] = "-> " + i + ": " + Body[i-1];
-		}
-		return lines;
-	}
 	
 	private void doPrintReceipt(){
 		boolean result = _atmssHandler .doAPPrintStrArray(new String[] {

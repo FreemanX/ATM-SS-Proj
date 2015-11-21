@@ -273,15 +273,6 @@ public class WithDrawController extends ProcessController{
 		}
 	}
 	
-	private String[] createOptionList(String Header, String[] Body) {
-		String[] lines = new String[Body.length + 1];
-		lines[0] = Header;
-		for (int i = 1; i < lines.length; i++) {
-			lines[i] = "Press " + i + " -> " + Body[i-1];
-		}
-		return lines;
-	}
-	
 	private int[] getWithdrawPlan(int[] inventory, int withdrawAmount) {
 		int[] plan = new int[3];
 		plan[2] = withdrawAmount / 1000;
