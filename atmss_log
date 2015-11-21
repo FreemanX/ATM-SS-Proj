@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
-<<<<<<< HEAD
 <record>
-  <date>2015-11-21T16:48:34</date>
-  <millis>1448095714053</millis>
+  <date>2015-11-21T18:43:27</date>
+  <millis>1448102607010</millis>
   <sequence>0</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
@@ -14,19 +13,19 @@
   <message>Sending "3"</message>
 </record>
 <record>
-  <date>2015-11-21T16:48:34</date>
-  <millis>1448095714058</millis>
+  <date>2015-11-21T18:43:27</date>
+  <millis>1448102607014</millis>
   <sequence>1</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
   <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448095711931:3"</message>
+  <message>KeypadView: receiving "Keypad(7) -- 1448102605657:3"</message>
 </record>
 <record>
-  <date>2015-11-21T16:48:36</date>
-  <millis>1448095716374</millis>
+  <date>2015-11-21T18:43:28</date>
+  <millis>1448102608200</millis>
   <sequence>2</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
@@ -36,19 +35,19 @@
   <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T16:48:36</date>
-  <millis>1448095716375</millis>
+  <date>2015-11-21T18:43:28</date>
+  <millis>1448102608200</millis>
   <sequence>3</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
   <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448095715110:1"</message>
+  <message>KeypadView: receiving "Keypad(7) -- 1448102607161:1"</message>
 </record>
 <record>
-  <date>2015-11-21T16:48:37</date>
-  <millis>1448095717661</millis>
+  <date>2015-11-21T18:43:30</date>
+  <millis>1448102610310</millis>
   <sequence>4</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
@@ -58,19 +57,19 @@
   <message>Sending "1"</message>
 </record>
 <record>
-  <date>2015-11-21T16:48:37</date>
-  <millis>1448095717661</millis>
+  <date>2015-11-21T18:43:30</date>
+  <millis>1448102610311</millis>
   <sequence>5</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
   <class>hwEmulators.MBox</class>
   <method>receive</method>
   <thread>24</thread>
-  <message>KeypadView: receiving "Keypad(7) -- 1448095716502:1"</message>
+  <message>KeypadView: receiving "Keypad(7) -- 1448102608218:1"</message>
 </record>
 <record>
-  <date>2015-11-21T16:48:45</date>
-  <millis>1448095725579</millis>
+  <date>2015-11-21T18:43:37</date>
+  <millis>1448102617449</millis>
   <sequence>6</sequence>
   <logger>hwEmulators.ATMKickstarter</logger>
   <level>INFO</level>
@@ -79,6 +78,4 @@
   <thread>14</thread>
   <message>con: Exit button clicked</message>
 </record>
-=======
->>>>>>> cde2a3b44457ef844ef5d10c457a66d716b237da
 </log>
