@@ -64,7 +64,7 @@ public class ATMSSDBugConsole {
 			MyPanel myPanel = new MyPanel();
 			add(myPanel);
 			pack();
-			setSize(550, 400);
+			setSize(550, 450);
 			setResizable(true);
 			setVisible(true);
 		} // MyFrame
@@ -89,8 +89,7 @@ public class ATMSSDBugConsole {
 			exitButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					log.info(id + ": Exit button clicked");
-					myFrame.dispatchEvent(new WindowEvent(myFrame,
-							WindowEvent.WINDOW_CLOSING));
+					myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));
 				}
 			});
 
