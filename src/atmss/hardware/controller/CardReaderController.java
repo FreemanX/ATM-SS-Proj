@@ -64,6 +64,16 @@ public class CardReaderController extends HardwareController {
 		}
 	}
 
+	public boolean retainCard() throws Exception {
+		try {
+			this.cardReaderView.retainCard();
+			return true;
+		} catch (CardReaderException e) {
+			HandleException(e);
+			return false;
+		}
+	}
+
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub

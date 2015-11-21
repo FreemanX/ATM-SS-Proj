@@ -57,7 +57,7 @@ public class CardReaderView extends HardwareView {
 		}
 	}
 
-	void retainCard() throws CardReaderException {
+	public void retainCard() throws CardReaderException {
 		checkStatus();
 		this._cardReader.eatCard();
 	}
