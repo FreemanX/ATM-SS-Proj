@@ -356,7 +356,7 @@ public class MainController extends Thread {
 						}
 
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+
 					}
 				}
 			}
