@@ -29,7 +29,7 @@ public class DepositController extends ProcessController {
 	private final String FAILED_FROM_ADVICEPRINTER = "Failure: no response from advice printer";
 	private final String FAILED_FROM_BAMS = "Failure: no response from bank system (BAMS)";
 	private final String PROMPT_FOR_ACCOUNT = "Please choose an account to deposit:";
-	private final String PROMPT_FOR_AMOUNT = "Please inpur your deposit amount:";
+	private final String PROMPT_FOR_AMOUNT = "Please input your deposit amount:";
 	private final String PROMPT_FOR_CONFIRM1 = "Press 1 -> Confirm your deposit amount";
 	private final String PROMPT_FOR_CONFIRM2 = "Press 2 -> Reinput your deposit amount";
 	private final String PROMPT_FOR_CONFIRM3 = "Press CANCEL -> Quit process";
@@ -124,7 +124,7 @@ public class DepositController extends ProcessController {
 		
 		int index = 1;
 		for (String account:allAccountsInCard){
-			accountsToChooseDisplay.add("-> "+index+ ": "+account );
+			accountsToChooseDisplay.add("Press "+index+ "-> "+account );
 			index += 1;
 		}
 		
@@ -138,7 +138,7 @@ public class DepositController extends ProcessController {
 		
 		while(accountNoSelectedByUser > allAccountsInCard.length){
 		
-		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(200);
+		String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(20);
 		
 		if(accountSelectedByUser!=null){
 			try{
@@ -186,7 +186,7 @@ public class DepositController extends ProcessController {
 			
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess("get amount", 5, this.FAILED_FROM_DISPLAY);
-			if(!this._atmssHandler.doDisDisplayUpper(new String[] {" Your deposit amoun-: $" + userInputAmountToDeposit, PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, PROMPT_FOR_CONFIRM3}))
+			if(!this._atmssHandler.doDisDisplayUpper(new String[] {" Your deposit amoun: $" + userInputAmountToDeposit, PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, PROMPT_FOR_CONFIRM3}))
 				return failProcess("get amount",5, FAILED_FROM_DISPLAY);
 			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(20);
