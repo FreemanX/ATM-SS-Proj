@@ -241,7 +241,7 @@ public class MainController extends Thread {
 										 * unified protocol
 										 */
 									}
-									
+
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
 									withdrawController = new WithDrawController(currentSession);
@@ -300,12 +300,12 @@ public class MainController extends Thread {
 									this.isInProcess = true;
 									depositController = new DepositController(currentSession);
 									boolean isSuccess = depositController.doDeposit();
-									
+
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
-									
+
 								} else if (userChoise.equals("CANCEL")) {
 									clearLines();
 									lines[1] = head + "Card ejected, please take your card" + tail;
@@ -374,6 +374,7 @@ public class MainController extends Thread {
 			Display display, EnvelopDispenser envelopDispenser, Keypad KP, MBox AtmssMbox) {
 		this._atmssMBox = AtmssMbox;
 		this.isRunning = true;
+		mainControllerMBox = new MBox("MainController");
 		this.advicePrinterController = new AdvicePrinterController(AP);
 		this.cardReaderController = new CardReaderController(CR);
 		this.cashDispenserController = new CashDispenserController(CD);
@@ -381,12 +382,12 @@ public class MainController extends Thread {
 		this.displayController = new DisplayController(display);
 		this.envelopDispenserController = new EnvelopDispenserController(envelopDispenser);
 		this.keypadController = new KeypadController(KP);
-		this.serverCommunicator = new BAMSCommunicator();
+		this.serverCommunicator = new BAMSCommunicator(mainControllerMBox);
 		this.atmssHandler = ATMSSHandler.getHandler();
 		this.atmssHandler.initHandler(cashDispenserController, cardReaderController, keypadController,
 				depositCollectorController, advicePrinterController, displayController, envelopDispenserController,
 				serverCommunicator);
-		mainControllerMBox = new MBox("MainController");
+
 		this.advicePrinterController.setMainControllerMBox(mainControllerMBox);
 		this.cardReaderController.setMainControllerMBox(mainControllerMBox);
 		this.cashDispenserController.setMainControllerMBox(mainControllerMBox);
@@ -406,7 +407,6 @@ public class MainController extends Thread {
 			while (isRunning) {
 
 				Msg msg = this.mainControllerMBox.receive();
-
 				String sender = msg.getSender();
 				switch (sender) {
 				case "AP":
@@ -430,11 +430,13 @@ public class MainController extends Thread {
 				case "KP":
 					handleKPMsg(msg);
 					break;
+				case "BAMS":
+					handleBAMSMsg(msg);
+					break;
 				default:
 					break;
 				}
 			}
-
 			try {
 				waitForRepair();
 				sleep(3000);
@@ -452,26 +454,32 @@ public class MainController extends Thread {
 		return false;
 	}
 
-	private void handleAPMsg(Msg msg) {
+	private void sendToBAMS(Msg msg) {
 		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
+	}
+
+	private void handleBAMSMsg(Msg msg) {
+		sendToBAMS(msg);
+		if (msg.getType() % 100 != 0)
+			handleFatalExceptions(msg);
+	}
+
+	private void handleAPMsg(Msg msg) {
+		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCRMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
-		_atmssMBox.send(new Msg("MainController", msg.getType(),
-				msg.getDetails() + ": " + format.format(new Date().getTime())));
+		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCDMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
-		_atmssMBox.send(new Msg("MainController", msg.getType(),
-				msg.getDetails() + ": " + format.format(new Date().getTime())));
+		sendToBAMS(msg);
 		if (msg.getType() == 301) {
 			System.err.println("Warning: insufficent amount of cash");
 		} else if (msg.getType() % 100 != 0)
@@ -486,9 +494,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
-		_atmssMBox.send(new Msg("MainController", msg.getType(),
-				msg.getDetails() + ": " + format.format(new Date().getTime())));
+		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
@@ -501,9 +507,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPMsg(Msg msg) {
-		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
-		_atmssMBox.send(new Msg("MainController", msg.getType(),
-				msg.getDetails() + ": " + format.format(new Date().getTime())));
+		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
