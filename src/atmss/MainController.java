@@ -228,6 +228,21 @@ public class MainController extends Thread {
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
+									}
 
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
@@ -236,6 +251,21 @@ public class MainController extends Thread {
 									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
+									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
 									}
 
 								} else if (userChoise.equals("3")) {
@@ -246,6 +276,21 @@ public class MainController extends Thread {
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
+									}
 
 								} else if (userChoise.equals("4")) {
 									this.isInProcess = true;
@@ -254,6 +299,21 @@ public class MainController extends Thread {
 									LinkedList<Operation> processOperations = transferController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
+									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
 									}
 
 								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
@@ -264,6 +324,21 @@ public class MainController extends Thread {
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
+									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
 									}
 
 								} else if (userChoise.equals("CANCEL")) {
