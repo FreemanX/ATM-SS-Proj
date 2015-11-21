@@ -79,7 +79,7 @@ public class DepositController extends ProcessController {
 		
 
 		this.printLastOperation();
-		printOpCache();
+		//printOpCache();
 		return true;
 	}
 	
@@ -217,7 +217,7 @@ public class DepositController extends ProcessController {
 		Operation lastOperation = this.operationCache.getLast();
 		
 		if(lastOperation.getType() == 0){
-		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {">Print advice?",">Print advice by press ENTER.", ">Skip by press 0"}))
+		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {">Print advice?",">Print advice by press 1", ">Skip by press 2"}))
 		{
 			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(300);
 			inputLoop: while(inputFromKeypad!=null){
@@ -263,7 +263,7 @@ public class DepositController extends ProcessController {
 	private boolean failProcess(String failedStep, int type, String desc){
 		this.operationCache.add(new Operation("DEPOSIT : "+failedStep, type, desc));
 		this.printLastOperation();
-		this.printOpCache();
+		//this.printOpCache();
 		return false;
 	}
 
