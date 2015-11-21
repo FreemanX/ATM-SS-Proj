@@ -514,7 +514,7 @@ public class MainController extends Thread {
 			// wait for the current process finishes
 		}
 		this.atmssHandler.doDisClearUpper();
-		String[] lines = { "", "This ATM is out of service!!!" };
+		String[] lines = { "", "This ATM is out of service!!!~" };
 		this.atmssHandler.doDisDisplayUpper(lines);
 		this.processor.stop();
 //		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));

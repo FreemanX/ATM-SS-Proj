@@ -1,6 +1,5 @@
 package hwEmulators;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +50,7 @@ public class ATMSS extends Thread {
 	private Keypad keypad = null; // 7
 
 	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
-	private List<int[]> blueSkipList = Arrays.asList(new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
+	private List<int[]> skipList = Arrays.asList(new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -159,11 +158,12 @@ public class ATMSS extends Thread {
 				boolean toDo = true;
 
 				System.out.println("From MainController >> code: " + code + ", details: " + msg.getDetails());
-				for (int[] arr : blueSkipList) {
+				for (int[] arr : skipList) {
 					if (code >= arr[0] && code <= arr[1]) {
 						toDo = false;
 					}
 				}
+				System.out.println(toDo);
 				if (toDo) {
 					if (code % 100 == 0) { // normal
 						removeFailure(type);
@@ -176,7 +176,7 @@ public class ATMSS extends Thread {
 						}
 					}
 					if (failureInfos.size() == 0 && code == 0) {
-						display.restart();
+						display.quitBlueScreen();
 					}
 					if (failureInfos.size() > 0) {
 						display.setBlueScreen(failureInfos);
