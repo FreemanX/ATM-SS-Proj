@@ -449,16 +449,19 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPMsg(Msg msg) {
+		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCRMsg(Msg msg) {
+		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCDMsg(Msg msg) {
+		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		if (msg.getType() == 301) {
 			System.err.println("Warning: insufficent amount of cash");
 		} else if (msg.getType() % 100 != 0)
@@ -473,6 +476,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisMsg(Msg msg) {
+		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
@@ -485,6 +489,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPMsg(Msg msg) {
+		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
@@ -512,7 +517,7 @@ public class MainController extends Thread {
 		String[] lines = { "", "This ATM is out of service!!!" };
 		this.atmssHandler.doDisDisplayUpper(lines);
 		this.processor.stop();
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+//		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
 	}
 
 	private void initAll() // Initiate all for serving next guest
