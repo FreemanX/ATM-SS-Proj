@@ -142,8 +142,7 @@ public class ATMSS extends Thread {
 	public void run() {
 		while (true) {
 			Msg msg = mbox.receiveTemp();
-			if (msg.getType() % 100 != 0)
-				console.println(id + " received " + msg);
+			console.println(id + " received " + msg);
 			// System.err.println(id + " received, sender: " + msg.getSender() +
 			// ", type: " + msg.getType() + ", details: " + msg.getDetails());
 
@@ -171,7 +170,7 @@ public class ATMSS extends Thread {
 						putFailure(new HWFailureInfo(type, code, msg.getDetails()));
 					}
 					if (code == 0) {
-						for (int i = 1; i < 8; i++) {
+						for (int i = 1; i <= 8; i++) { // 1 - 8
 							removeFailure(i);
 						}
 					}
