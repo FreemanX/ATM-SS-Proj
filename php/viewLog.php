@@ -18,7 +18,7 @@ if ((strcasecmp($hash, hash("sha512", $passwd, false)) == 0)) {
 	} else {
 		foreach ($log->getLogs() as $line) {
 			if (preg_match($pattern, $line)) {
-				$result .= $count." | ".$line."<br>";
+				$result .= "#".$count." | ".$line."<br>";
 				$count++;
 			}
 		}

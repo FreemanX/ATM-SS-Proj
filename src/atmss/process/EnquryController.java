@@ -13,6 +13,8 @@ import atmss.Session;
 public class EnquryController extends ProcessController{
 	
 	private final String FAILED_FROM_BAMS = "No response from BAMS";
+	private final String FAILED_FROM_KEYPAD = "No response from BAMS";
+	private final String CANCELED = "Canceled!";
 	private String accountNumber;
 	private double balance;
 	
@@ -39,7 +41,7 @@ public class EnquryController extends ProcessController{
 		if (!this._atmssHandler.doDisClearAll()) {
 			return failProcess("ENQURY : Display accounts", 5, FAILED_FROM_DISPLAY);
 		}
-		//recordOperation("ENQURY : Clear the display", 0, "Succeed");
+		//recordOperation("ENQURY : Clear the display", 0, "Success");
 		
 		if (!this.getAccountNumber()) {
 			return false;
@@ -78,7 +80,7 @@ public class EnquryController extends ProcessController{
 				recordOperation(" ENQURY : Display error message", 0, "Success");
 			}		
 		}
-		recordOperation("", 0, "Succeed");
+		recordOperation("ENQURY : ", 0, "Success");
 		this.printOpCache();
 		return true;
 	}
@@ -88,19 +90,21 @@ public class EnquryController extends ProcessController{
 			return failProcess("ENQURY : Clear the diaplay", 5, FAILED_FROM_DISPLAY);
 		}
 		recordOperation("ENQURY : Clear the display", 0, "Success");
-		
+		//==================================================
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(_session);
 		if (allAccountsInCard.length == 0){
 			return failProcess("ENQURY : Get accounts from BAMS", 10, FAILED_FROM_BAMS);			
 		}
-		recordOperation("ENQURY : Get accounts", 0, "Succeed");
-		
+		recordOperation("ENQURY : Get accounts from BAMS", 0, "Success");
+
+		//==================================================
 		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_ACCOUNT, allAccountsInCard))) {
-			failProcess("ENQURY : Get accounts",5, FAILED_FROM_DISPLAY);
+			failProcess("ENQURY : Display accounts",5, FAILED_FROM_DISPLAY);
 			return false;
 		}
-		recordOperation("ENQURY : Get accounts", 0, "Succeed");
-		
+		recordOperation("ENQURY : Display accounts", 0, "Success");
+
+		//==================================================
 		while (true){		
 			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(10);	
 			if (accountSelectedByUser != null){
@@ -114,12 +118,12 @@ public class EnquryController extends ProcessController{
 				}
 				catch(NumberFormatException e){
 					if(accountSelectedByUser.equals("CANCEL")) {
-						return failProcess("User cancels the process", 8);
+						return failProcess("ENQURY : Select account", 8, CANCELED);
 					}
 				}
 			}
 			else {
-				return failProcess("Select an account", 7);		
+				return failProcess("ENQURY : Select account", 7, FAILED_FROM_KEYPAD);		
 			}
 		}		
 	}
@@ -136,13 +140,14 @@ public class EnquryController extends ProcessController{
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
 				new String("Operation Name : ENQURY"),
-				new String("Card Number    : " + _session.getCardNo()),
+				new String("Card Number     : " + _session.getCardNo()),
 				new String("Account Number : " + accountNumber), 
-				new String("Balance        : $" + Double.toString(this.balance))
+				new String("Balance          : $" + Double.toString(this.balance))
 		})) {
-			return failProcess("Print the receipt", 1);
+			return failProcess("ENQURY : Print the receipt", 1, FAILED_FROM_KEYPAD);
 		}
-		recordOperation("Print the receipt", 0, "Succeed");
+		recordOperation("ENQURY : Print the receipt", 0, "Success");
+
 		return true;
 	}
 	/*
@@ -150,7 +155,7 @@ public class EnquryController extends ProcessController{
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {msg})) {
 			return failProcess("Print the receipt", 1);
 		}
-		recordOperation("Print the receipt", 0, "Succeed");
+		recordOperation("Print the receipt", 0, "Success");
 		return true;
 	}
 	*/

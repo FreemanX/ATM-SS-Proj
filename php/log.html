@@ -18,10 +18,15 @@
 			req.open("GET", url + "viewLog.php?passwd=" + passwd + "&pattern=" + pattern, true);
 			req.send();
 		}
+		function popHelp() {
+			document.getElementById("help").style.opacity = "1";
+		}
 	</script>
 </head>
 <body>
-	Passwd: <input type="password" id="passwdField"> Pattern: <input type="text" onkeydown="search()" id="pattern"><span id="countEle"></span><br>
+	<h1>Log viewer</h1>
+	<span id="countEle"></span><br>
+	Passwd: <input type="password" id="passwdField"> Pattern: /<input type="text" onkeydown="search()" id="pattern">/ <span style="text-decoration: none; cursor: pointer; color: red;" onclick="popHelp()">?help</span> <span style="opacity: 0;" id="help">Pattern could be 1.<b><i>&lt;<a target="_blank" href="http://www.tutorialspoint.com/php/php_regular_expression.htm">php regex pattern</a>&gt;</i></b> , or 2.<b><i>"?clear"</i></b> - to clear log. E.g. <b><i>".*"</i></b> - to display all log</span><br><hr>
 	<div id="resultBox">
 	</div>
 </body>

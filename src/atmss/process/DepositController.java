@@ -207,6 +207,7 @@ public class DepositController extends ProcessController {
 
 		}
 		this.amountToDeposit = Integer.parseInt(userInputAmountToDeposit);
+		
 		return true;
 
 	}
