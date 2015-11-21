@@ -90,16 +90,22 @@ public class BAMSCommunicator extends BAMSHandler {
 
 	public boolean ping() { // timeout in ms
 		String urlStr = prefix + "login.php?"; // expect "ERROR"
+		Msg m = null;
 		try {
 			HttpURLConnection con = (HttpURLConnection) new URL(urlStr).openConnection();
 			con.setConnectTimeout(timeout);
 			int code = con.getResponseCode();
-			maincontrollerBox.send(new Msg("BAMS", 800, "ResponseCode: " + code));
+			m = new Msg("BAMS", 800, "ResponseCode: " + code);
+
 			return true;
 		} catch (SocketTimeoutException e) {
 			// timeout
-			maincontrollerBox.send(new Msg("BAMS", 899, "Connection error..."));
-		} catch (IOException e) {}
+			m = new Msg("BAMS", 899, "Connection error...");
+		} catch (IOException e) {
+			m = new Msg("BAMS", 899, "Connection error...");
+		}
+		System.out.println("BAMS sending: " + m);
+		maincontrollerBox.send(m);
 		return false;
 	}
 

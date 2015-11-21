@@ -418,6 +418,7 @@ public class MainController extends Thread {
 	}
 
 	private void handleBAMSMsg(Msg msg) {
+		System.out.println("NETOWKR MSG: " + msg);
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
