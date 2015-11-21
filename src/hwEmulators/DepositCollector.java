@@ -209,10 +209,10 @@ public class DepositCollector extends Thread implements EmulatorActions {
 						log.info(id + ": Sending \"Put in envelop\"");
 						setHasEnvelop(true);
 						atmssMBox.send(new Msg("Deposit collector", 4, "Put in envelop"));
-						msgTextArea.setText(msgTextArea.getText() + "Envelop put in, waiting atmss.");
+						msgTextArea.setText(msgTextArea.getText() + "Envelop put in, waiting atmss.\n");
 						viewMbox.send(new Msg("DepositCollector", 4, "Put in envelop"));
 					} else {
-						msgTextArea.setText(msgTextArea.getText() + "Failed! Slot not open.");
+						msgTextArea.setText(msgTextArea.getText() + "Failed! Slot not open.\n");
 					}
 				}
 			});
