@@ -145,7 +145,6 @@ public class MainController extends Thread {
 						System.out.println("Waing for card...");
 						String cardNum = atmssHandler.doCRReadCard();
 						System.out.println("Rreceive card: " + cardNum);
-						// TODO check if this card is valid card
 						if (!isBankCard(cardNum)) {
 							clearLines();
 							lines[0] = head + "Invalid card, please insert the card from our bank" + tail;
@@ -214,7 +213,11 @@ public class MainController extends Thread {
 									lines[5] = head + "5. Deposit money" + tail;
 								}
 								atmssHandler.doDisDisplayUpper(lines);
-								String userChoise = atmssHandler.doKPGetSingleInput(60);
+								String userChoise = atmssHandler.doKPGetSingleInput(30);
+								if (userChoise == null) {
+									atmssHandler.doCRRetainCard();
+									break;
+								}
 								Session currentSession = getLastSession();
 								if (userChoise.equals("1")) {
 									this.isInProcess = true;
@@ -279,7 +282,8 @@ public class MainController extends Thread {
 									break;
 								}
 
-							}
+							} // End of while
+
 							/*---------------------Write out log----------------------------*/
 							try (PrintWriter out = new PrintWriter(
 									new BufferedWriter(new FileWriter("SessionLog.txt", true)))) {
