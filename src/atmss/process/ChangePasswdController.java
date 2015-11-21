@@ -19,7 +19,7 @@ public class ChangePasswdController extends ProcessController {
 	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please input your new password:"};
 	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please input your new password again:"};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	private final long TIME_LIMIT = 10; // seconds
+	private final long TIME_LIMIT = 20; // seconds
 	private final String KP_CANCEL = "CANCEL";
 	private String _currentStep = OPERATION_NAME;
 
@@ -147,7 +147,7 @@ public class ChangePasswdController extends ProcessController {
 				String[] toPrint = {
 						"Operation name: " + OPERATION_NAME,
 						"Card Number: " + _session.getCardNo(),
-						"Result: Succeeded"
+						"Result: succeeded"
 				};
 				if (!_atmssHandler.doAPPrintStrArray(toPrint)) record("AP");
 				return;

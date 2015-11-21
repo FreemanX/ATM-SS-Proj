@@ -24,7 +24,7 @@ public class WithDrawController extends ProcessController{
 	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must be divisible by 100 and less or equal to 10000","Please input your withdraw amount again:"};
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	private final int TIME_LIMIT = 10; // seconds
+	private final int TIME_LIMIT = 20; // seconds
 	private final int AMOUNT_LIMIT = 10000;
 	private final String KP_CANCEL = "CANCEL";
 	private String _currentStep = OPERATION_NAME;

@@ -94,6 +94,12 @@ public class MainController extends Thread {
 			// debug test
 			while (true) {
 				while (isRunning) {
+					boolean success = serverCommunicator.ping();
+					System.out.println("ping check..." + success);
+					if (!success)
+						break;
+					_atmssMBox.send(new Msg("MainController", 800, "OK"));
+
 					this.endSession();
 					System.out.println(">>>>Processor is running, iteration: " + i);
 					i++;
@@ -457,7 +463,6 @@ public class MainController extends Thread {
 	}
 
 	private void handleBAMSMsg(Msg msg) {
-		System.out.println("NETOWKR MSG: " + msg);
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
@@ -583,8 +588,7 @@ public class MainController extends Thread {
 			msg = this.mainControllerMBox.receive();
 			handleKPMsg(msg);
 
-			boolean b6 = this.serverCommunicator.ping();
-			msg = this.mainControllerMBox.receive();
+			boolean b6 = this.serverCommunicator.ping();msg = this.mainControllerMBox.receive();
 			handleBAMSMsg(msg);
 			// if (true || b1 && b2 && b3 && b4 && b5) { //evil code
 			if (b1 && b2 && b3 && b4 && b5 && b6) {
