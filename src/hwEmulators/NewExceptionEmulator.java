@@ -680,30 +680,37 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         switch (type) {
             case 1:
                 labelStatusAP.setText("Normal");
+                bgAP.setSelected(btnAPNormal.getModel(), true);
                 setButtonGroupEnable(bgAP, true);
                 break;
             case 2:
                 labelStatusCR.setText("Normal");
+                bgCR.setSelected(btnCRNormal.getModel(), true);
                 setButtonGroupEnable(bgCR, true);
                 break;
             case 3:
                 labelStatusCD.setText("Normal");
+                bgCD.setSelected(btnCDNormal.getModel(), true);
                 setButtonGroupEnable(bgCD, true);
                 break;
             case 4:
                 labelStatusDC.setText("Normal");
+                bgDC.setSelected(btnDCNormal.getModel(), true);
                 setButtonGroupEnable(bgDC, true);
                 break;
             case 5:
                 labelStatusDIS.setText("Normal");
+                bgDIS.setSelected(btnDISNormal.getModel(), true);
                 setButtonGroupEnable(bgDIS, true);
                 break;
             case 6:
                 labelStatusED.setText("Normal");
+                bgED.setSelected(btnEDNormal.getModel(), true);
                 setButtonGroupEnable(bgED, true);
                 break;
             case 7:
                 labelStatusKP.setText("Normal");
+                bgKP.setSelected(btnKPNormal.getModel(), true);
                 setButtonGroupEnable(bgKP, true);
                 break;
         }

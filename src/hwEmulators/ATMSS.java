@@ -142,7 +142,7 @@ public class ATMSS extends Thread {
 		while (true) {
 			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
-			System.err.println(id + " received, sender: " + msg.getSender() + ", type: " + msg.getType() + ", details: " + msg.getDetails());
+			//System.err.println(id + " received, sender: " + msg.getSender() + ", type: " + msg.getType() + ", details: " + msg.getDetails());
 
 
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
@@ -191,7 +191,7 @@ public class ATMSS extends Thread {
 	private void putFailure(HWFailureInfo newInfo) { // replace/add failure info
 		removeFailure(newInfo.getType());
 
-		System.out.println("Adding " + newInfo.getType());
+		//System.out.println("Adding " + newInfo.getType());
 		failureInfos.add(newInfo);
 	}
 
@@ -206,7 +206,7 @@ public class ATMSS extends Thread {
 		}
 		// remove
 		for (HWFailureInfo candidate : removeCandidate) {
-			System.out.println("Removing " + candidate.getType());
+			//System.out.println("Removing " + candidate.getType());
 			failureInfos.remove(candidate);
 		}
 	}
