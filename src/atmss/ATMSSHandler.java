@@ -249,7 +249,6 @@ public class ATMSSHandler {
 		} catch (Exception e) {
 			handleUnknownExceptions(e);
 		}
-
 		return false;
 	}
 
