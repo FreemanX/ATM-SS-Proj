@@ -68,7 +68,7 @@ public class CashDispenserView extends HardwareView {
 	public int checkStatus() throws CashDispenserException {
 		// TODO Auto-generated method stub
 		int currStatus = this._cashDispenser.getCDStatus();
-		if (currStatus % 100 != 0)
+		if (currStatus % 100 != 0 && currStatus > 310)
 			throwException(currStatus);
 		return currStatus;
 	}
