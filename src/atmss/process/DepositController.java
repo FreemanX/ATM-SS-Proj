@@ -73,20 +73,20 @@ public class DepositController extends ProcessController {
 	
 	private boolean doEatEnvelop(){
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_RETURN_ENVELOP}))
-			return failProcess(FAILED_FROM_DISPLAY);
+			return failProcess(FAILED_FROM_DISPLAY,5);
 		
 		if(!this._atmssHandler.doEDEatEnvelop())
-			return failProcess(FAILED_FROM_DEPOSITCOLLECTOR);
+			return failProcess(FAILED_FROM_DEPOSITCOLLECTOR,4);
 		
 		return true;
 	}
 	
 	private boolean doEjectEnvelop(){
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_COLLECT_ENVELOP}))
-			return failProcess(FAILED_FROM_DISPLAY);
+			return failProcess(FAILED_FROM_DISPLAY,5);
 		
 		if(!this._atmssHandler.doEDEjectEnvelop())
-			return failProcess(FAILED_FROM_ENVELOPDISPENSER);
+			return failProcess(FAILED_FROM_ENVELOPDISPENSER, 6);
 
 		return true;
 	}
@@ -94,19 +94,19 @@ public class DepositController extends ProcessController {
 		
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler .doAPPrintStrArray(new String[] {"Account to deposit: "+accountToDeposit, "Amount to deposit: $"+ Integer.toString(this.amountToDeposit)}))
-			return failProcess(FAILED_FROM_ADVICEPRINTER);
+			return failProcess(FAILED_FROM_ADVICEPRINTER, 1);
 		return true;
 	}
 	private boolean doGetAccountToDeposit() {
 
 		if(!this._atmssHandler.doDisClearAll())
-			return this.failProcess(FAILED_FROM_DISPLAY);
+			return this.failProcess(FAILED_FROM_DISPLAY,5);
 		
 		List<String> accountsToChooseDisplay = new ArrayList<String>(Arrays.asList(new String[] {PROMPT_FOR_ACCOUNT}));
 
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(this._session);
 		if(allAccountsInCard.length == 0){
-			return this.failProcess(FAILED_FROM_BAMS);		
+			return this.failProcess(FAILED_FROM_BAMS, 10);		
 		}
 		
 		int index = 1;
@@ -119,7 +119,7 @@ public class DepositController extends ProcessController {
 		
 		
 		if(!this._atmssHandler.doDisDisplayUpper(accountsToChooseDisplay.toArray(new String[0])))
-			return this.failProcess(FAILED_FROM_DISPLAY);
+			return this.failProcess(FAILED_FROM_DISPLAY, 5);
 		
 		int accountNoSelectedByUser = allAccountsInCard.length + 1;
 		
@@ -133,11 +133,11 @@ public class DepositController extends ProcessController {
 			}
 			catch(NumberFormatException e){
 				if(accountSelectedByUser.equals("CANCEL"))
-					return failProcess(CANCELED);
+					return failProcess(CANCELED, 8);
 				
 			}
 		}
-		else return this.failProcess(FAILED_FROM_KEYPAD);
+		else return this.failProcess(FAILED_FROM_KEYPAD, 7);
 		
 		}
 		
@@ -155,18 +155,18 @@ public class DepositController extends ProcessController {
 		 while (!confirmAmountToDeposit){
 			System.out.println("new turn=========================================");
 			if(!this._atmssHandler.doDisClearAll())
-				return failProcess(FAILED_FROM_DISPLAY);
+				return failProcess(FAILED_FROM_DISPLAY, 5);
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT}))
-				return failProcess(FAILED_FROM_DISPLAY);
+				return failProcess(FAILED_FROM_DISPLAY, 5);
 			
 			userInputAmountToDeposit = this._atmssHandler.doKPGetIntegerMoneyAmount(300);
 			if(userInputAmountToDeposit == null)
-				return failProcess(FAILED_FROM_KEYPAD);
+				return failProcess(FAILED_FROM_KEYPAD, 7);
 			
 			if(!this._atmssHandler.doDisClearAll())
-				return failProcess(FAILED_FROM_DISPLAY);
+				return failProcess(FAILED_FROM_DISPLAY, 5);
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, "$" + userInputAmountToDeposit}))
-				return failProcess(FAILED_FROM_DISPLAY);
+				return failProcess(FAILED_FROM_DISPLAY, 5);
 			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(300);
 			while (confirmInput != null){
@@ -178,7 +178,7 @@ public class DepositController extends ProcessController {
 					break;
 				}
 				else if(confirmInput.equals("CANCEL")){
-						return failProcess(CANCELED);
+						return failProcess(CANCELED, 8);
 				}
 				confirmInput = this._atmssHandler.doKPGetSingleInput(300);
 			}
@@ -201,12 +201,12 @@ public class DepositController extends ProcessController {
 				"Card Number: " + this._session.getCardNo() + ";" +
 				"Result: " + "Failed;"+ 
 				"Reason: " + FailedReason;
-		operationCache.add(new Operation(OPERATION_NAME, description));
+		operationCache.add(new Operation(OPERATION_NAME, type, description));
 		
 	}
 	
-	private boolean failProcess(String FailedReason){
-		recordOperation(FailedReason);
+	private boolean failProcess(String FailedReason, int type){
+		recordOperation(FailedReason, type);
 		this.printOperationWhenFail();
 		return false;
 	}
