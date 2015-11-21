@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae8af02e-d19c-47c0-b545-16e6972967f4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" afterPath="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" afterPath="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hwEmulators/Display.java" afterPath="$PROJECT_DIR$/src/hwEmulators/Display.java" />
     </list>
     <ignored path="ATM-SS Proj.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,33 +30,31 @@
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMSS.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="140" column="22" selection-start-line="140" selection-start-column="22" selection-end-line="140" selection-end-column="22" />
+              <caret line="195" column="8" selection-start-line="195" selection-start-column="8" selection-end-line="195" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#run#0;class#ATMSS#0" expanded="false" />
-                <element signature="method#putFailure#0;class#ATMSS#0" expanded="false" />
-                <element signature="method#removeFailure#0;class#ATMSS#0" expanded="false" />
+                <element signature="e#5788#5803#0" expanded="true" />
                 <element signature="method#handleExceptionEmu#0;class#ATMSS#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewExceptionEmulator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NewExceptionEmulator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4349711">
-              <caret line="696" column="48" selection-start-line="696" selection-start-column="48" selection-end-line="696" selection-end-column="48" />
+            <state vertical-scroll-proportion="-9.888889">
+              <caret line="691" column="48" selection-start-line="691" selection-start-column="48" selection-end-line="691" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Display.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Display.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5201669">
+              <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -77,9 +75,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/atmss/MainController.java" />
-        <option value="$PROJECT_DIR$/src/hwEmulators/Display.java" />
-        <option value="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
         <option value="$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/ATMSS.java" />
+        <option value="$PROJECT_DIR$/src/hwEmulators/Display.java" />
       </list>
     </option>
   </component>
@@ -712,12 +710,12 @@
       <option name="number" value="Default" />
       <updated>1448075456969</updated>
       <workItem from="1448075458798" duration="6484000" />
-      <workItem from="1448083613211" duration="1204000" />
+      <workItem from="1448083613211" duration="3007000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7688000" />
+    <option name="totallyTimeSpent" value="9491000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1608" height="864" extended-state="6" />
@@ -768,9 +766,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#run#0;class#ATMSS#0" expanded="false" />
-            <element signature="method#putFailure#0;class#ATMSS#0" expanded="false" />
-            <element signature="method#removeFailure#0;class#ATMSS#0" expanded="false" />
+            <element signature="e#5788#5803#0" expanded="true" />
             <element signature="method#handleExceptionEmu#0;class#ATMSS#0" expanded="false" />
           </folding>
         </state>
@@ -855,10 +851,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+        <state vertical-scroll-proportion="-9.888889">
+          <caret line="691" column="48" selection-start-line="691" selection-start-column="48" selection-end-line="691" selection-end-column="48" />
           <folding />
         </state>
       </provider>
@@ -866,21 +862,19 @@
     <entry file="file://$PROJECT_DIR$/src/hwEmulators/ATMSS.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="140" column="22" selection-start-line="140" selection-start-column="22" selection-end-line="140" selection-end-column="22" />
+          <caret line="195" column="8" selection-start-line="195" selection-start-column="8" selection-end-line="195" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#run#0;class#ATMSS#0" expanded="false" />
-            <element signature="method#putFailure#0;class#ATMSS#0" expanded="false" />
-            <element signature="method#removeFailure#0;class#ATMSS#0" expanded="false" />
+            <element signature="e#5788#5803#0" expanded="true" />
             <element signature="method#handleExceptionEmu#0;class#ATMSS#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/hwEmulators/NewExceptionEmulator.java">
+    <entry file="file://$PROJECT_DIR$/src/hwEmulators/Display.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4349711">
-          <caret line="696" column="48" selection-start-line="696" selection-start-column="48" selection-end-line="696" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.5201669">
+          <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
           <folding />
         </state>
       </provider>

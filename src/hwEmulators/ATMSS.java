@@ -163,7 +163,6 @@ public class ATMSS extends Thread {
 						toDo = false;
 					}
 				}
-				System.out.println(toDo);
 				if (toDo) {
 					if (code % 100 == 0) { // normal
 						removeFailure(type);
@@ -193,6 +192,9 @@ public class ATMSS extends Thread {
 
 		//System.out.println("Adding " + newInfo.getType());
 		failureInfos.add(newInfo);
+
+		sortList();
+		//System.out.println("Put: " + failureInfos.size());
 	}
 
 	private void removeFailure(int type) {
@@ -209,6 +211,28 @@ public class ATMSS extends Thread {
 			//System.out.println("Removing " + candidate.getType());
 			failureInfos.remove(candidate);
 		}
+	}
+
+	private void sortList() {
+		List<HWFailureInfo> result = new ArrayList<HWFailureInfo>();
+
+		while (failureInfos.size() > 0) {
+			result.add(0, popMaxType());
+		}
+
+		failureInfos = result;
+	}
+
+	private HWFailureInfo popMaxType() {
+		HWFailureInfo maxTypeInfo = new HWFailureInfo(0, 0, "");
+
+		for (HWFailureInfo info : failureInfos) {
+			if (info.getType() > maxTypeInfo.getType())
+				maxTypeInfo = info;
+		}
+
+		failureInfos.remove(maxTypeInfo);
+		return maxTypeInfo;
 	}
 
 	private void handleExceptionEmu(Msg m) {
