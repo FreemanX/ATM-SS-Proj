@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MainController.
  *
@@ -38,22 +37,22 @@ public class MainController extends Thread {
 				cashDispenserController, depositCollectorController, displayController, envelopDispenserController,
 				keypadController, serverCommunicator);
 		
-		/** The is running. */
+		/** The processor is running. */
 		private volatile boolean isRunning = true;
 		
-		/** The ED is ok. */
+		/** The Envelop Dispenser works fine. */
 		private volatile boolean EDIsOk = true;
 		
-		/** The DC is ok. */
+		/** The Deposit collector works fine. */
 		private volatile boolean DCIsOk = true;
 		
-		/** The is in process. */
+		/** There is a process in process. */
 		private volatile boolean isInProcess = false;
 		
-		/** The i. */
+		/** The i, count for iteration. */
 		int i = 1;
 		
-		/** The lines. */
+		/** The lines to be display. */
 		private String[] lines;
 		
 		/** The Constant head. */
@@ -62,14 +61,13 @@ public class MainController extends Thread {
 		/** The Constant tail. */
 		private final static String tail = " <<<<<<<<<<";
 		
-		/** The num of wrong passed. */
+		/** The number of typing in wrong passed. */
 		private int numOfWrongPassed = 0;
 
 		/**
 		 * Instantiates a new processor.
 		 */
 		public Processor() {
-			// constructor...
 			lines = new String[10];
 		}
 
@@ -83,18 +81,18 @@ public class MainController extends Thread {
 		}
 
 		/**
-		 * Sets the ED is ok.
+		 * Sets the Envelop Dispenser is OK.
 		 *
-		 * @param b the new ED is ok
+		 * @param b the Envelop Dispenser is OK
 		 */
 		protected void setEDIsOK(boolean b) {
 			this.EDIsOk = b;
 		}
 
 		/**
-		 * Sets the DC is ok.
+		 * Sets the Deposit collector is OK.
 		 *
-		 * @param b the new DC is ok
+		 * @param b the Deposit collector is OK
 		 */
 		protected void setDCIsOK(boolean b) {
 			this.DCIsOk = b;
@@ -137,14 +135,14 @@ public class MainController extends Thread {
 		}
 
 		/**
-		 * Checks if is bank card.
+		 * Checks if is a card of our bank.
 		 *
-		 * @param s the s
+		 * @param cardNumber
 		 * @return true, if is bank card
 		 */
-		private boolean isBankCard(String s) {
-			if (s != null && s.length() == 12)
-				return atmssHandler.doBAMSCheckCardValid(s);
+		private boolean isBankCard(String cardNumber) {
+			if (cardNumber != null && cardNumber.length() == 12)
+				return atmssHandler.doBAMSCheckCardValid(cardNumber);
 			return false;
 		}
 
@@ -155,7 +153,6 @@ public class MainController extends Thread {
 			// thread start...
 			checker.start();
 
-			// debug test
 			while (true) {
 				while (isRunning) {
 					boolean success = serverCommunicator.ping();
@@ -434,18 +431,17 @@ public class MainController extends Thread {
 
 	}
 
-	// TODO Singleton need to be implemented
 	/**
 	 * Instantiates a new main controller.
 	 *
-	 * @param AP the ap
-	 * @param CR the cr
-	 * @param CD the cd
+	 * @param AP the Advice Printer
+	 * @param CR the Card Reader
+	 * @param CD the Cash dispenser
 	 * @param depositCollector the deposit collector
 	 * @param display the display
 	 * @param envelopDispenser the envelop dispenser
-	 * @param KP the kp
-	 * @param AtmssMbox the atmss mbox
+	 * @param KP the keypad
+	 * @param AtmssMbox the mbox from atmss
 	 */
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
@@ -527,10 +523,10 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Authorize passed.
+	 * Authorize pin.
 	 *
-	 * @param cardNo the card no
-	 * @param pin the pin
+	 * @param cardNo the card number
+	 * @param pin the card password
 	 * @return true, if successful
 	 */
 	public boolean authorizePassed(String cardNo, String pin) {
@@ -565,7 +561,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle ap msg.
+	 * Handle Advice Printer msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -576,7 +572,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle cr msg.
+	 * Handle Card Reader msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -587,7 +583,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle cd msg.
+	 * Handle Cash dispenser msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -600,7 +596,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle dc msg.
+	 * Handle Deposit collector msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -612,7 +608,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle dis msg.
+	 * Handle Display msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -623,7 +619,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle ed msg.
+	 * Handle Envelop Dispenser msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -635,7 +631,7 @@ public class MainController extends Thread {
 	}
 
 	/**
-	 * Handle kp msg.
+	 * Handle keypad msg.
 	 *
 	 * @param msg the msg
 	 */
@@ -652,7 +648,7 @@ public class MainController extends Thread {
 	 */
 	private void handleFatalExceptions(Msg msg) {
 		this.isRunning = false;
-		String card = this.atmssHandler.doCRGetCardNumebr();
+		String card = this.atmssHandler.doCRGetCardNumber();
 		if (card != null && card.length() == 12) {
 			this.atmssHandler.doDisClearUpper();
 			String[] lines = { "", "This ATM is out of service, please take your card" };
@@ -673,14 +669,12 @@ public class MainController extends Thread {
 		String[] lines = { "", "This ATM is out of service!!!~" };
 		this.atmssHandler.doDisDisplayUpper(lines);
 		this.processor.stop();
-		// _atmssMBox.send(new Msg("MainController", msg.getType(),
-		// msg.getDetails()));
 	}
 
 	/**
-	 * Inits the all.
+	 * Inits all variable for serving next guest after repairing.
 	 */
-	private void initAll() // Initiate all for serving next guest
+	private void initAll()
 	{
 		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", 0, "Everything is fine @ " + format.format(new Date().getTime())));
@@ -747,7 +741,6 @@ public class MainController extends Thread {
 	}
 
 	/** The cash dispenser controller. */
-	// -------------------------------------------------------------------------------------
 	private CashDispenserController cashDispenserController;
 	
 	/** The card reader controller. */
@@ -795,15 +788,12 @@ public class MainController extends Thread {
 	/** The atmss handler. */
 	private ATMSSHandler atmssHandler;
 	
-	/** The main controller m box. */
+	/** The main controller MBox. */
 	private MBox mainControllerMBox;
 	
 	/** The is running. */
 	private volatile boolean isRunning;
 	
-	/** The _atmss m box. */
+	/** The _atmss MBox. */
 	private MBox _atmssMBox;
-	// TODO Singleton need to be implemented
-	// private static MainController self = new MainController();
-
 }

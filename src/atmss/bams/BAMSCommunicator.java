@@ -36,6 +36,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		this.maincontrollerBox = maincontrollerBox;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#login(java.lang.String, java.lang.String)
 	 */
@@ -45,6 +46,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		}
 		return "ERROR";
 	}
+
 
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#cashWithdraw(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
@@ -56,6 +58,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		return -1;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#deposit(java.lang.String, java.lang.String, java.lang.String, int)
 	 */
@@ -66,6 +69,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		return -1;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#enquiry(java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -75,6 +79,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		}
 		return -1;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#transfer(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
