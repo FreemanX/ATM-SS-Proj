@@ -1,5 +1,6 @@
 bin/
 out/
+atmss_log
 .classpath		
 *.pdf		
 *.docx
