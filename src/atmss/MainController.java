@@ -517,7 +517,8 @@ public class MainController extends Thread {
 		String[] lines = { "", "This ATM is out of service!!!~" };
 		this.atmssHandler.doDisDisplayUpper(lines);
 		this.processor.stop();
-//		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		// _atmssMBox.send(new Msg("MainController", msg.getType(),
+		// msg.getDetails()));
 	}
 
 	private void initAll() // Initiate all for serving next guest
@@ -550,6 +551,9 @@ public class MainController extends Thread {
 			sleep(100);
 
 			boolean b3 = this.cashDispenserController.updateStatus();
+			if (b3 == false && msg.getType() == 301) {
+				b3 = true;
+			}
 			msg = this.mainControllerMBox.receive();
 			handleCDMsg(msg);
 			sleep(100);
