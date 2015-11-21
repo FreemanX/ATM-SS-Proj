@@ -11,14 +11,18 @@ $log = new LogHelper();
 $result = "";
 $count = 1;
 
-if (strcasecmp($hash, hash("sha512", $passwd, false)) == 0) {
-	foreach ($log->getLogs() as $line) {
-		if (preg_match($pattern, $line)) {
-			$result .= $count." | ".$line."<br>";
-			$count++;
+if ((strcasecmp($hash, hash("sha512", $passwd, false)) == 0)) {
+	if (strcasecmp($pattern, "/?clear/") == 0) {
+		// clear log
+		$log->clear();
+	} else {
+		foreach ($log->getLogs() as $line) {
+			if (preg_match($pattern, $line)) {
+				$result .= $count." | ".$line."<br>";
+				$count++;
+			}
 		}
 	}
 }
-
 echo $result;
 ?>
