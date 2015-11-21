@@ -7,128 +7,285 @@ import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 /**
  * Created by e4206692 on 11/18/2015.
  */
 public class NewExceptionEmulator extends JFrame implements ActionListener {
 
+    /** The title. */
     private String title = "";
 
+    /** The center wrapper. */
     private JPanel centerWrapper = new JPanel(new GridLayout(0, 1));
+    
+    /** The bg component. */
     private ButtonGroup bgComponent = new ButtonGroup();
 
+    /** The btn ap select. */
     // advice printer ------------------------------------------------
     private JRadioButton btnAPSelect = new JRadioButton();
+    
+    /** The panel ap. */
     private JPanel panelAP = new JPanel(new BorderLayout());
+    
+    /** The panel ap left. */
     private JPanel panelAPLeft = new JPanel(new BorderLayout());
+    
+    /** The head ap. */
     private JPanel headAP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label ap. */
     private JLabel labelAP = new JLabel("AdvicePrinter:");
+    
+    /** The label status ap. */
     private JLabel labelStatusAP = new JLabel("Normal");
 
+    /** The bottom ap. */
     private JPanel bottomAP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn ap normal. */
     private JRadioButton btnAPNormal = new JRadioButton("Normal");
+    
+    /** The btn ap out of resource. */
     private JRadioButton btnAPOutOfResource = new JRadioButton("Out of resource");
+    
+    /** The btn ap jam. */
     private JRadioButton btnAPJam = new JRadioButton("Paper jam");
+    
+    /** The btn ap fatal. */
     private JRadioButton btnAPFatal = new JRadioButton("Fatal");
+    
+    /** The bg ap. */
     private ButtonGroup bgAP = new ButtonGroup();
     // end advice printer --------------------------------------------
 
+    /** The btn cr select. */
     // card reader ------------------------------------------------
     private JRadioButton btnCRSelect = new JRadioButton();
+    
+    /** The panel cr. */
     private JPanel panelCR = new JPanel(new BorderLayout());
+    
+    /** The panel cr left. */
     private JPanel panelCRLeft = new JPanel(new BorderLayout());
+    
+    /** The head cr. */
     private JPanel headCR = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label cr. */
     private JLabel labelCR = new JLabel("CardReader:");
+    
+    /** The label status cr. */
     private JLabel labelStatusCR = new JLabel("Normal");
 
+    /** The bottom cr. */
     private JPanel bottomCR = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn cr normal. */
     private JRadioButton btnCRNormal = new JRadioButton("Normal");
+    
+    /** The btn cr fatal. */
     private JRadioButton btnCRFatal = new JRadioButton("Fatal");
+    
+    /** The bg cr. */
     private ButtonGroup bgCR = new ButtonGroup();
     // end card reader --------------------------------------------
 
+    /** The btn dc select. */
     // deposit collector ------------------------------------------------
     private JRadioButton btnDCSelect = new JRadioButton();
+    
+    /** The panel dc. */
     private JPanel panelDC = new JPanel(new BorderLayout());
+    
+    /** The panel dc left. */
     private JPanel panelDCLeft = new JPanel(new BorderLayout());
+    
+    /** The head dc. */
     private JPanel headDC = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label dc. */
     private JLabel labelDC = new JLabel("DepositCollector:");
+    
+    /** The label status dc. */
     private JLabel labelStatusDC = new JLabel("Normal");
 
+    /** The bottom dc. */
     private JPanel bottomDC = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn dc normal. */
     private JRadioButton btnDCNormal = new JRadioButton("Normal");
+    
+    /** The btn dc fatal. */
     private JRadioButton btnDCFatal = new JRadioButton("Fatal");
+    
+    /** The bg dc. */
     private ButtonGroup bgDC = new ButtonGroup();
     // end deposit collector --------------------------------------------
 
+    /** The btn dis select. */
     // display ------------------------------------------------
     private JRadioButton btnDISSelect = new JRadioButton();
+    
+    /** The panel dis. */
     private JPanel panelDIS = new JPanel(new BorderLayout());
+    
+    /** The panel dis left. */
     private JPanel panelDISLeft = new JPanel(new GridLayout(0, 1));
+    
+    /** The head dis. */
     private JPanel headDIS = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label dis. */
     private JLabel labelDIS = new JLabel("Display:");
+    
+    /** The label status dis. */
     private JLabel labelStatusDIS = new JLabel("Normal");
 
+    /** The bottom dis. */
     private JPanel bottomDIS = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn dis normal. */
     private JRadioButton btnDISNormal = new JRadioButton("Normal");
+    
+    /** The btn dis fatal. */
     private JRadioButton btnDISFatal = new JRadioButton("Fatal");
+    
+    /** The bg dis. */
     private ButtonGroup bgDIS = new ButtonGroup();
     // end dispaly --------------------------------------------
 
+    /** The btn ed select. */
     // EnvelopDispenser ------------------------------------------------
     private JRadioButton btnEDSelect = new JRadioButton();
+    
+    /** The panel ed. */
     private JPanel panelED = new JPanel(new BorderLayout());
+    
+    /** The panel ed left. */
     private JPanel panelEDLeft = new JPanel(new BorderLayout());
+    
+    /** The head ed. */
     private JPanel headED = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label ed. */
     private JLabel labelED = new JLabel("EnvelopDispenser:");
+    
+    /** The label status ed. */
     private JLabel labelStatusED = new JLabel("Normal");
 
+    /** The bottom ed. */
     private JPanel bottomED = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn ed normal. */
     private JRadioButton btnEDNormal = new JRadioButton("Normal");
+    
+    /** The btn ed no env. */
     private JRadioButton btnEDNoEnv = new JRadioButton("No envelop");
+    
+    /** The btn ed fatal. */
     private JRadioButton btnEDFatal = new JRadioButton("Fatal");
+    
+    /** The bg ed. */
     private ButtonGroup bgED = new ButtonGroup();
     // end EnvelopDispenser --------------------------------------------
 
+    /** The btn cd select. */
     // CashDispenser ------------------------------------------------
     private JRadioButton btnCDSelect = new JRadioButton();
+    
+    /** The panel cd. */
     private JPanel panelCD = new JPanel(new BorderLayout());
+    
+    /** The panel cd left. */
     private JPanel panelCDLeft = new JPanel(new BorderLayout());
+    
+    /** The head cd. */
     private JPanel headCD = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label cd. */
     private JLabel labelCD = new JLabel("CashDispenser:");
+    
+    /** The label status cd. */
     private JLabel labelStatusCD = new JLabel("Normal");
 
+    /** The bottom cd. */
     private JPanel bottomCD = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn cd normal. */
     private JRadioButton btnCDNormal = new JRadioButton("Normal");
+    
+    /** The btn cd no cash. */
     private JRadioButton btnCDNoCash = new JRadioButton("Insufficient cash");
+    
+    /** The btn cd fatal. */
     private JRadioButton btnCDFatal = new JRadioButton("Fatal");
+    
+    /** The bg cd. */
     private ButtonGroup bgCD = new ButtonGroup();
     // end CashDispenser --------------------------------------------
 
+    /** The btn kp select. */
     // Keypad ------------------------------------------------
     private JRadioButton btnKPSelect = new JRadioButton();
+    
+    /** The panel kp. */
     private JPanel panelKP = new JPanel(new BorderLayout());
+    
+    /** The panel kp left. */
     private JPanel panelKPLeft = new JPanel(new BorderLayout());
+    
+    /** The head kp. */
     private JPanel headKP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The label kp. */
     private JLabel labelKP = new JLabel("Keypad:");
+    
+    /** The label status kp. */
     private JLabel labelStatusKP = new JLabel("Normal");
 
+    /** The bottom kp. */
     private JPanel bottomKP = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    
+    /** The btn kp normal. */
     private JRadioButton btnKPNormal = new JRadioButton("Normal");
+    
+    /** The btn kp fatal. */
     private JRadioButton btnKPFatal = new JRadioButton("Fatal");
+    
+    /** The bg kp. */
     private ButtonGroup bgKP = new ButtonGroup();
     // end Keypad --------------------------------------------
 
+    /** The panel atmss. */
     // atmss
     private JPanel panelATMSS = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    
+    /** The btn shutdown. */
     private JButton btnShutdown = new JButton("Shutdown");
+    
+    /** The btn restart. */
     private JButton btnRestart = new JButton("Restart");
 
+    /** The id. */
     private String id = "";
+    
+    /** The log. */
     private Logger log = null;
+    
+    /** The atmss. */
     private ATMSS atmss = null;
+    
+    /** The atmss m box. */
     private MBox atmssMBox = null;
 
+    /**
+     * Instantiates a new new exception emulator.
+     *
+     * @param id the id
+     * @param atmss the atmss
+     */
     public NewExceptionEmulator(String id, ATMSS atmss) {
         this.id = id;
         log = ATMKickstarter.getLogger();
@@ -146,6 +303,9 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * Builds the ui.
+     */
     private void buildUI() {
     	setLayout(new BorderLayout());
         setLocation(UIManager.x + 1250, UIManager.y);
@@ -373,6 +533,9 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         add(panelATMSS, BorderLayout.SOUTH);
     }
 
+    /* (non-Javadoc)
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
@@ -547,6 +710,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         // end atmss components--------------------------------------------------------
     }
 
+    /**
+     * Handle component request.
+     *
+     * @param src the src
+     * @param command the command
+     */
     public void handleComponentRequest(Object src, String command) {
     	boolean isShutdown = true;
 
@@ -646,6 +815,11 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
     	System.out.println("handleComponentRequest: " + command);
     }
 
+    /**
+     * Component restarted.
+     *
+     * @param type the type
+     */
     public void componentRestarted(int type) { // 1 - ap, 2 - cr, 3 - cd, 4 - dc, 5 - dis, 6 - ed, 7 - kp
         System.out.println("Component Restarted >> type: " + type);
         switch (type) {
@@ -687,6 +861,12 @@ public class NewExceptionEmulator extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Sets the button group enable.
+     *
+     * @param bg the bg
+     * @param isEnable the is enable
+     */
     private void setButtonGroupEnable(ButtonGroup bg, boolean isEnable) {
         for (Enumeration<AbstractButton> buttons = bg.getElements(); buttons.hasMoreElements();) {
             AbstractButton btn = buttons.nextElement();

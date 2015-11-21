@@ -4,10 +4,17 @@ import java.util.Calendar;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+// TODO: Auto-generated Javadoc
 //======================================================================
+/**
+ * The Class ATMSSLogFormatter.
+ */
 // ATMSSLogFormatter
 public class ATMSSLogFormatter extends Formatter {
 	// ------------------------------------------------------------
+	/* (non-Javadoc)
+	 * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
+	 */
 	// format
 	public String format(LogRecord rec) {
 		Calendar cal = Calendar.getInstance();

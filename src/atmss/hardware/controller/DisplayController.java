@@ -9,21 +9,33 @@ import atmss.hardware.view.DisplayView;
 import hwEmulators.Display;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class DisplayController.
  *
+ * @author freeman
  */
 public class DisplayController extends HardwareController {
 
+	/** The display view. */
 	private DisplayView displayView;
 
 	/**
+	 * Instantiates a new display controller.
 	 *
+	 * @param display the display
 	 */
 	public DisplayController(Display display) {
 		displayView = new DisplayView(display);
 	}
 
+	/**
+	 * Display upper.
+	 *
+	 * @param lines the lines
+	 * @return true, if successful
+	 * @throws DisplayException the display exception
+	 */
 	public boolean displayUpper(String[] lines) throws DisplayException {
 		try {
 			displayView.displayUpper(lines);
@@ -34,6 +46,13 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Display lower.
+	 *
+	 * @param line the line
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean displayLower(String line) throws Exception {
 		try {
 			displayView.displayLower(line);
@@ -44,6 +63,13 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Append upper.
+	 *
+	 * @param lines the lines
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean appendUpper(String[] lines) throws Exception {
 		try {
 			for (String line : lines) {
@@ -56,6 +82,13 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Append upper.
+	 *
+	 * @param line the line
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean appendUpper(String line) throws Exception {
 		try {
 			displayView.displayUpper(line);
@@ -66,6 +99,13 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Append lower.
+	 *
+	 * @param str the str
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean appendLower(String str) throws Exception {
 		try {
 			displayView.appendLower(str);
@@ -76,6 +116,12 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Clear all.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean clearAll() throws Exception {
 		try {
 			clearUpper();
@@ -87,6 +133,12 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Clear upper.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean clearUpper() throws Exception {
 		try {
 			displayView.clearUpper();
@@ -97,6 +149,12 @@ public class DisplayController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Clear lower.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean clearLower() throws Exception {
 		try {
 			displayView.clearLower();

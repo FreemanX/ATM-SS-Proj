@@ -6,16 +6,36 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 //======================================================================
+/**
+ * The Class ATMSSDBugConsole.
+ */
 // ATMSSDBugConsole
 public class ATMSSDBugConsole {
+	
+	/** The id. */
 	private String id;
+	
+	/** The log. */
 	private Logger log = null;
+	
+	/** The atmss. */
 	private ATMSS atmss = null;
+	
+	/** The text area. */
 	private JTextArea textArea = null;
+	
+	/** The my frame. */
 	private MyFrame myFrame = null;
 
 	// ------------------------------------------------------------
+	/**
+	 * Instantiates a new ATMSSD bug console.
+	 *
+	 * @param id the id
+	 * @param atmss the atmss
+	 */
 	// ATMSSDBugConsole
 	public ATMSSDBugConsole(String id, ATMSS atmss) {
 		// init
@@ -30,6 +50,11 @@ public class ATMSSDBugConsole {
 	} // ATMSSDBugConsole
 
 	// ------------------------------------------------------------
+	/**
+	 * Prints the.
+	 *
+	 * @param str the str
+	 */
 	// print
 	public void print(String str) {
 		textArea.append(str);
@@ -37,6 +62,11 @@ public class ATMSSDBugConsole {
 	} // println
 
 	// ------------------------------------------------------------
+	/**
+	 * Println.
+	 *
+	 * @param str the str
+	 */
 	// println
 	public void println(String str) {
 		print(str);
@@ -45,9 +75,17 @@ public class ATMSSDBugConsole {
 	} // println
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyFrame.
+	 */
 	// MyFrame
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my frame.
+		 *
+		 * @param title the title
+		 */
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
@@ -63,9 +101,15 @@ public class ATMSSDBugConsole {
 	} // MyFrame
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyPanel.
+	 */
 	// MyPanel
 	private class MyPanel extends JPanel {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my panel.
+		 */
 		// MyPanel
 		public MyPanel() {
 			// clear button

@@ -9,20 +9,33 @@ import atmss.hardware.view.KeypadView;
 import hwEmulators.Keypad;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class KeypadController.
  *
+ * @author freeman
  */
 public class KeypadController extends HardwareController {
+	
+	/** The keypad view. */
 	private KeypadView keypadView;
 
 	/**
-	 * 
+	 * Instantiates a new keypad controller.
+	 *
+	 * @param KP the kp
 	 */
 	public KeypadController(Keypad KP) {
 		this.keypadView = new KeypadView(KP);
 	}
 
+	/**
+	 * Read user input.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	public String readUserInput(long Duration) throws Exception {
 		try {
 			return this.keypadView.readUserInput(Duration);

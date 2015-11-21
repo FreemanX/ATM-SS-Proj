@@ -8,27 +8,68 @@ import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 //======================================================================
+/**
+ * The Class CardReader.
+ */
 // CardReader
 public class CardReader extends Thread implements EmulatorActions {
+	
+	/** The id. */
 	private String id;
+	
+	/** The log. */
 	private Logger log = null;
+	
+	/** The atmss. */
 	private ATMSS atmss = null;
+	
+	/** The atmss m box. */
 	private MBox atmssMBox = null;
+	
+	/** The _cr view m box. */
 	private MBox _crViewMBox = null;
+	
+	/** The text field. */
 	private JTextField textField = null;
+	
+	/** The msg text area. */
 	private JTextArea msgTextArea = null;
+	
+	/** The Constant type. */
 	public final static int type = 2;
+	
+	/** The status. */
 	private int status = 200;
+	
+	/** The Card1. */
 	private final String Card1 = "981358459216";
+	
+	/** The Card2. */
 	private final String Card2 = "981370846450";
+	
+	/** The Card3. */
 	private final String Card3 = "Joker from poker";
+	
+	/** The card to send. */
 	private String cardToSend = "";
+	
+	/** The wait for taken. */
 	private boolean waitForTaken = false;
+	
+	/** The my frame. */
 	private JFrame myFrame = null;
+	
+	/** The my panel. */
 	private MyPanel myPanel = null;
 
 	// ------------------------------------------------------------
+	/**
+	 * Instantiates a new card reader.
+	 *
+	 * @param id the id
+	 */
 	// CardReader
 	public CardReader(String id) {
 		this.id = id;
@@ -38,6 +79,9 @@ public class CardReader extends Thread implements EmulatorActions {
 		myFrame = new MyFrame("Card Reader");
 	} // CardReader
 
+	/**
+	 * Eject card.
+	 */
 	public void ejectCard() {
 		waitForTaken = true;
 		msgTextArea.append("Card" + this.cardToSend + " Ejected, please take the card\n");
@@ -45,10 +89,18 @@ public class CardReader extends Thread implements EmulatorActions {
 		atmssMBox.send(new Msg("CardReader", 2, textField.getText()));
 	}
 
+	/**
+	 * Sets the CR view box.
+	 *
+	 * @param CRViewMBox the new CR view box
+	 */
 	public void setCRViewBox(MBox CRViewMBox) {
 		this._crViewMBox = CRViewMBox;
 	}
 
+	/**
+	 * Eat card.
+	 */
 	public void eatCard() {
 		waitForTaken = false;
 		msgTextArea.append("Card retained\n");
@@ -57,14 +109,29 @@ public class CardReader extends Thread implements EmulatorActions {
 		atmssMBox.send(new Msg("CardReader", 2, ": Retain " + this.cardToSend));
 	}
 
+	/**
+	 * Gets the card.
+	 *
+	 * @return the card
+	 */
 	public String getCard() {
 		return cardToSend;
 	}
 
+	/**
+	 * Gets the CR status.
+	 *
+	 * @return the CR status
+	 */
 	public int getCRStatus() {
 		return status;
 	}
 
+	/**
+	 * Sets the CR status.
+	 *
+	 * @param Status the new CR status
+	 */
 	protected void setCRStatus(int Status) {
 		if (status != Status) {
 			this.status = Status;
@@ -85,12 +152,20 @@ public class CardReader extends Thread implements EmulatorActions {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * Sets the atmss.
+	 *
+	 * @param newAtmss the new atmss
+	 */
 	// setATMSS
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#shutdown()
+	 */
 	@Override
 	public void shutdown() {
 		if (status != 298)
@@ -98,6 +173,9 @@ public class CardReader extends Thread implements EmulatorActions {
 		setUIEnable(false, true);
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#restart()
+	 */
 	@Override
 	public void restart() {
 		shutdown();
@@ -114,6 +192,9 @@ public class CardReader extends Thread implements EmulatorActions {
 		msgTextArea.setText("");
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#fatalHalt()
+	 */
 	@Override
 	public void fatalHalt() {
 		if (status != 299)
@@ -121,10 +202,21 @@ public class CardReader extends Thread implements EmulatorActions {
 		setUIEnable(false, false);
 	}
 
+	/**
+	 * Sets the UI enable.
+	 *
+	 * @param isEnable the new UI enable
+	 */
 	private void setUIEnable(boolean isEnable) {
 		setUIEnable(isEnable, true);
 	}
 
+	/**
+	 * Sets the ui enable.
+	 *
+	 * @param isEnable the is enable
+	 * @param isShutdown the is shutdown
+	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
 		Color screenColor = Color.RED;
@@ -161,9 +253,17 @@ public class CardReader extends Thread implements EmulatorActions {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyFrame.
+	 */
 	// MyFrame
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my frame.
+		 *
+		 * @param title the title
+		 */
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
@@ -179,9 +279,15 @@ public class CardReader extends Thread implements EmulatorActions {
 	} // MyFrame
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyPanel.
+	 */
 	// MyPanel
 	private class MyPanel extends JPanel {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my panel.
+		 */
 		// MyPanel
 		public MyPanel() {
 			// create the panels
@@ -198,6 +304,11 @@ public class CardReader extends Thread implements EmulatorActions {
 		} // MyPanel
 
 		// ----------------------------------------
+		/**
+		 * Creates the button panel.
+		 *
+		 * @return the j panel
+		 */
 		// createButtonPanel
 		private JPanel createButtonPanel() {
 			// create the buttons
@@ -231,6 +342,11 @@ public class CardReader extends Thread implements EmulatorActions {
 		} // createButtonPanel
 
 		// ----------------------------------------
+		/**
+		 * Creates the card num panel.
+		 *
+		 * @return the j panel
+		 */
 		// createCardNumPanel
 		private JPanel createCardNumPanel() {
 			// create the label and the card num text field
@@ -245,6 +361,11 @@ public class CardReader extends Thread implements EmulatorActions {
 		} // createCardNumPanel
 
 		// ----------------------------------------
+		/**
+		 * Creates the send reset panel.
+		 *
+		 * @return the j panel
+		 */
 		// createSendResetPanel
 		private JPanel createSendResetPanel() {
 			// create the two buttons
@@ -303,6 +424,11 @@ public class CardReader extends Thread implements EmulatorActions {
 		} // createSendResetPanel
 
 		// ----------------------------------------
+		/**
+		 * Creates the msg panel.
+		 *
+		 * @return the j panel
+		 */
 		// createMsgPanel
 		private JPanel createMsgPanel() {
 			// create the msg text area

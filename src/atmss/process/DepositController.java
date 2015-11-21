@@ -10,45 +10,88 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Lihui
+ * The Class DepositController.
  *
+ * @author Lihui
  */
 public class DepositController extends ProcessController {
 
+	/** The account to deposit. */
 	//private int amount;
 	private String accountToDeposit;
+	
+	/** The amount to deposit. */
 	private int amountToDeposit;
 
+	/** The failed from display. */
 	//private final String OPERATION_NAME = "DEPOSIT: ";
 	private final String FAILED_FROM_DISPLAY = "Failure: no response from display";
+	
+	/** The failed from keypad. */
 	private final String FAILED_FROM_KEYPAD = "Failure: no response from the keypad";
+	
+	/** The failed from envelopdispenser. */
 	private final String FAILED_FROM_ENVELOPDISPENSER = "Failure: no response from envelop dispenser";
+	
+	/** The failed from depositcollector. */
 	private final String FAILED_FROM_DEPOSITCOLLECTOR = "Failure: no response from deposit collector";
+	
+	/** The failed from adviceprinter. */
 	private final String FAILED_FROM_ADVICEPRINTER = "Failure: no response from advice printer";
+	
+	/** The failed from bams. */
 	private final String FAILED_FROM_BAMS = "Failure: no response from bank system (BAMS)";
+	
+	/** The prompt for account. */
 	private final String PROMPT_FOR_ACCOUNT = "Please choose an account to deposit:";
+	
+	/** The prompt for amount. */
 	private final String PROMPT_FOR_AMOUNT = "Please input your deposit amount:";
+	
+	/** The PROMP t_ fo r_ confir m1. */
 	private final String PROMPT_FOR_CONFIRM1 = "Press 1 -> Confirm your deposit amount";
+	
+	/** The PROMP t_ fo r_ confir m2. */
 	private final String PROMPT_FOR_CONFIRM2 = "Press 2 -> Reinput your deposit amount";
+	
+	/** The PROMP t_ fo r_ confir m3. */
 	private final String PROMPT_FOR_CONFIRM3 = "Press CANCEL -> Quit process";
+	
+	/** The prompt for collect envelop. */
 	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
+	
+	/** The prompt for return envelop. */
 	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
+	
+	/** The canceled. */
 	private final String CANCELED = "Failure: cancellation from user";
 	
 	/**
-	 * 
+	 * Instantiates a new deposit controller.
+	 *
+	 * @param Session the session
 	 */
 	public DepositController(Session Session) {
 		// TODO Auto-generated constructor stub
 		super(Session);
 	}
 
+	/**
+	 * Prints the op cache.
+	 */
 	public void printOpCache(){
 		for(Operation op: operationCache){
 			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
 		}
 	}
+	
+	/**
+	 * Do deposit.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean doDeposit() {
 		// boolean isSuccess = false;
 		/*
@@ -83,6 +126,11 @@ public class DepositController extends ProcessController {
 		return true;
 	}
 	
+	/**
+	 * Do eat envelop.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean doEatEnvelop(){
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_RETURN_ENVELOP}))
 			return failProcess("eat envelop",5, this.FAILED_FROM_DISPLAY);
@@ -93,6 +141,11 @@ public class DepositController extends ProcessController {
 		return true;
 	}
 	
+	/**
+	 * Do eject envelop.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean doEjectEnvelop(){
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_COLLECT_ENVELOP}))
 			return failProcess("eject envelop", 5, this.FAILED_FROM_DISPLAY);
@@ -104,11 +157,22 @@ public class DepositController extends ProcessController {
 	}
 	
 		
+	/**
+	 * Do print receipt.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler .doAPPrintStrArray(new String[] {"Account to deposit: "+accountToDeposit, "Amount to deposit: $"+ Integer.toString(this.amountToDeposit)}))
 			return failProcess("print receipt",1,this.FAILED_FROM_ADVICEPRINTER);
 		return true;
 	}
+	
+	/**
+	 * Do get account to deposit.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean doGetAccountToDeposit() {
 
 		if(!this._atmssHandler.doDisClearAll())
@@ -160,6 +224,11 @@ public class DepositController extends ProcessController {
 
 	}
 
+	/**
+	 * Do get amount to deposit.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean doGetAmountToDeposit() {
 		
 
@@ -214,6 +283,9 @@ public class DepositController extends ProcessController {
 	
 
 	
+	/**
+	 * Prints the last operation.
+	 */
 	void printLastOperation(){
 		Operation lastOperation = this.operationCache.getLast();
 		
@@ -243,6 +315,12 @@ public class DepositController extends ProcessController {
 	
 
 	
+	/**
+	 * Lines to print when succeeded.
+	 *
+	 * @param lastOp the last op
+	 * @return the string[]
+	 */
 	private String[] linesToPrintWhenSucceeded(Operation lastOp){
 		String[] lines = new String[4];
 		
@@ -255,6 +333,12 @@ public class DepositController extends ProcessController {
 		return lines;
 	}
 	
+	/**
+	 * Lines to print when failed.
+	 *
+	 * @param lastOp the last op
+	 * @return the string[]
+	 */
 	private String[] linesToPrintWhenFailed(Operation lastOp){
 		String[] lines = new String[2];
 		lines[0] = "Operation Name: "+ lastOp.getName();
@@ -265,6 +349,14 @@ public class DepositController extends ProcessController {
 	}
 	
 	
+	/**
+	 * Fail process.
+	 *
+	 * @param failedStep the failed step
+	 * @param type the type
+	 * @param desc the desc
+	 * @return true, if successful
+	 */
 	private boolean failProcess(String failedStep, int type, String desc){
 		this.operationCache.add(new Operation("DEPOSIT: "+failedStep, type, desc));
 		this.printLastOperation();

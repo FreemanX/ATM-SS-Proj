@@ -9,20 +9,33 @@ import hwEmulators.AdvicePrinter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class AdvicePrinterView.
  *
+ * @author freeman
  */
 public class AdvicePrinterView extends HardwareView {
+	
+	/** The _advice printer. */
 	private AdvicePrinter _advicePrinter;
 
 	/**
-	 * 
+	 * Instantiates a new advice printer view.
+	 *
+	 * @param ap the ap
 	 */
 	public AdvicePrinterView(AdvicePrinter ap) {
 		this._advicePrinter = ap;
 	}
 
+	/**
+	 * Prints the.
+	 *
+	 * @param advice the advice
+	 * @return true, if successful
+	 * @throws AdvicePrinterException the advice printer exception
+	 */
 	public boolean print(String[] advice) throws AdvicePrinterException {
 		boolean isSuccess = false;
 		for (int i = 0; i < advice.length; i++) {
@@ -39,6 +52,12 @@ public class AdvicePrinterView extends HardwareView {
 		return isSuccess;
 	}
 
+	/**
+	 * Check inventory.
+	 *
+	 * @return the int
+	 * @throws AdvicePrinterException the advice printer exception
+	 */
 	public int checkInventory() throws AdvicePrinterException {
 
 		int res = this._advicePrinter.getResource();

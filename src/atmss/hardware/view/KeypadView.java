@@ -9,16 +9,24 @@ import hwEmulators.Keypad;
 import hwEmulators.MBox;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class KeypadView.
  *
+ * @author freeman
  */
 public class KeypadView extends HardwareView {
+	
+	/** The _keypad. */
 	private Keypad _keypad;
+	
+	/** The keypad view m box. */
 	private MBox keypadViewMBox;
 
 	/**
-	 * 
+	 * Instantiates a new keypad view.
+	 *
+	 * @param KP the kp
 	 */
 	public KeypadView(Keypad KP) {
 		this._keypad = KP;
@@ -26,6 +34,13 @@ public class KeypadView extends HardwareView {
 		this._keypad.setViewMBox(keypadViewMBox);
 	}
 
+	/**
+	 * Read user input.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 * @throws KeypadException the keypad exception
+	 */
 	public String readUserInput(long Duration) throws KeypadException {
 		checkStatus();
 		String buf = "";

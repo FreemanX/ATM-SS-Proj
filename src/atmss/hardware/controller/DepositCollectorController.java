@@ -9,21 +9,33 @@ import atmss.hardware.view.DepositCollectorView;
 import hwEmulators.DepositCollector;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman, tony
+ * The Class DepositCollectorController.
  *
+ * @author freeman, tony
  */
 public class DepositCollectorController extends HardwareController {
 
+	/** The deposit collector view. */
 	private DepositCollectorView depositCollectorView;
 
 	/**
+	 * Instantiates a new deposit collector controller.
 	 *
+	 * @param depositCollector the deposit collector
 	 */
 	public DepositCollectorController(DepositCollector depositCollector) {
 		depositCollectorView = new DepositCollectorView(depositCollector);
 	}
 
+	/**
+	 * Collect envelop.
+	 *
+	 * @param timeout the timeout
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean collectEnvelop(int timeout) throws Exception {
 		try {
 			return depositCollectorView.collectEnvelop(timeout);

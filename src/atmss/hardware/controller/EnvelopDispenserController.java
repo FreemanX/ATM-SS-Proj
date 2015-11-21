@@ -9,21 +9,32 @@ import atmss.hardware.view.EnvelopDispenserView;
 import hwEmulators.EnvelopDispenser;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class EnvelopDispenserController.
  *
+ * @author freeman
  */
 public class EnvelopDispenserController extends HardwareController {
 
+	/** The envelop dispenser view. */
 	private EnvelopDispenserView envelopDispenserView;
 
 	/**
+	 * Instantiates a new envelop dispenser controller.
 	 *
+	 * @param envelopDispenser the envelop dispenser
 	 */
 	public EnvelopDispenserController(EnvelopDispenser envelopDispenser) {
 		this.envelopDispenserView = new EnvelopDispenserView(envelopDispenser);
 	}
 
+	/**
+	 * Eject envelop.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean ejectEnvelop() throws Exception {
 		try {
 			return envelopDispenserView.ejectEnvelop();
@@ -33,6 +44,12 @@ public class EnvelopDispenserController extends HardwareController {
 		return false;
 	}
 
+	/**
+	 * Gets the envelop count.
+	 *
+	 * @return the envelop count
+	 * @throws Exception the exception
+	 */
 	public int getEnvelopCount() throws Exception {
 		try {
 			return envelopDispenserView.getEnvelopCount();

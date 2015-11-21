@@ -8,21 +8,50 @@ import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 //======================================================================
+/**
+ * The Class EnvelopDispenser.
+ */
 // EnvelopDispenser
 public class EnvelopDispenser extends Thread implements EmulatorActions {
+	
+	/** The id. */
 	private String id;
+	
+	/** The log. */
 	private Logger log = null;
+	
+	/** The atmss. */
 	private ATMSS atmss = null;
+	
+	/** The atmss m box. */
 	private MBox atmssMBox = null;
+	
+	/** The msg text area. */
 	private JTextArea msgTextArea = null;
+	
+	/** The Constant type. */
 	public final static int type = 6;
+	
+	/** The status. */
 	private int status = 600;
+	
+	/** The num of envelop. */
 	private int numOfEnvelop = 10000;
+	
+	/** The my frame. */
 	private MyFrame myFrame = null;
+	
+	/** The my panel. */
 	private MyPanel myPanel = null;
 
 	// ------------------------------------- -----------------------
+	/**
+	 * Instantiates a new envelop dispenser.
+	 *
+	 * @param id the id
+	 */
 	// EnvelopDispenser
 	public EnvelopDispenser(String id) {
 		this.id = id;
@@ -32,10 +61,20 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		myFrame = new MyFrame("Envelop Dispenser");
 	} // EnvelopDispenser
 
+	/**
+	 * Gets the ED status.
+	 *
+	 * @return the ED status
+	 */
 	public int getEDStatus() {
 		return status;
 	}
 
+	/**
+	 * Sets the ED status.
+	 *
+	 * @param Status the new ED status
+	 */
 	protected void setEDStatus(int Status) {
 		if (status != Status) {
 			this.status = Status;
@@ -64,12 +103,22 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * Sets the atmss.
+	 *
+	 * @param newAtmss the new atmss
+	 */
 	// setATMSS
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
+	/**
+	 * Eject envelop.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean ejectEnvelop() {
 		if (getEnvelopCount() > 0) {
 			msgTextArea.append("Preparing for ejecting...\n");
@@ -82,6 +131,11 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		}
 	}
 
+	/**
+	 * Gets the envelop count.
+	 *
+	 * @return the envelop count
+	 */
 	public int getEnvelopCount() {
 		if (numOfEnvelop < 1) {
 			this.status = 601;
@@ -90,6 +144,9 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		return numOfEnvelop;
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#shutdown()
+	 */
 	@Override
 	public void shutdown() {
 		if (status != 698)
@@ -97,6 +154,9 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		setUIEnable(false, true);
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#restart()
+	 */
 	@Override
 	public void restart() {
 		shutdown();
@@ -112,6 +172,9 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		msgTextArea.setText("");
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#fatalHalt()
+	 */
 	@Override
 	public void fatalHalt() {
 		if (status != 699)
@@ -119,10 +182,21 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		setUIEnable(false, false);
 	}
 
+	/**
+	 * Sets the UI enable.
+	 *
+	 * @param isEnable the new UI enable
+	 */
 	private void setUIEnable(boolean isEnable) {
 		setUIEnable(isEnable, true);
 	}
 
+	/**
+	 * Sets the ui enable.
+	 *
+	 * @param isEnable the is enable
+	 * @param isShutdown the is shutdown
+	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
 		Color screenColor = Color.RED;
@@ -159,11 +233,21 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyFrame.
+	 */
 	// MyFrame
 	private class MyFrame extends JFrame {
+		
+		/** The Constant serialVersionUID. */
 		public static final long serialVersionUID = 1L;
 
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my frame.
+		 *
+		 * @param title the title
+		 */
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
@@ -178,10 +262,18 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		} // MyFrame
 	} // MyFrame
 
+	/**
+	 * The Class MyPanel.
+	 */
 	private class MyPanel extends JPanel {
+		
+		/** The Constant serialVersionUID. */
 		public static final long serialVersionUID = 1L;
 
 		// -----------------------------------------
+		/**
+		 * Instantiates a new my panel.
+		 */
 		// MyPanel
 		public MyPanel() {
 			// create the panels
@@ -194,6 +286,11 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		}
 
 		// ----------------------------------------
+		/**
+		 * Creates the button panel.
+		 *
+		 * @return the j panel
+		 */
 		// createButtonPanel
 		private JPanel createButtonPanel() {
 			// create the buttons
@@ -213,6 +310,11 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 		} // createButtonPanel
 
 		// ----------------------------------------
+		/**
+		 * Creates the msg panel.
+		 *
+		 * @return the j panel
+		 */
 		// createMsgPanel
 		private JPanel createMsgPanel() {
 			JPanel msgPanel = new JPanel();

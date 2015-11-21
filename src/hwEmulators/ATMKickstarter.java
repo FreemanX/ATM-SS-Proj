@@ -8,29 +8,60 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 //======================================================================
+/**
+ * The Class ATMKickstarter.
+ */
 // ATMKickstarter
 public class ATMKickstarter {
+	
+	/** The log. */
 	private static Logger log = null;
 
+	/** The advice printer. */
 	// HW components
 	AdvicePrinter advicePrinter;
+	
+	/** The card reader. */
 	CardReader cardReader;
+	
+	/** The cash dispenser. */
 	CashDispenser cashDispenser;
+	
+	/** The deposit collector. */
 	DepositCollector depositCollector;
+	
+	/** The display. */
 	Display display;
+	
+	/** The envelop dispenser. */
 	EnvelopDispenser envelopDispenser;
+	
+	/** The keypad. */
 	Keypad keypad;
+	
+	/** The atmss. */
 	ATMSS atmss;
+	
+	/** The ex emu. */
 	NewExceptionEmulator exEmu;
 	// view components
 
 	// ------------------------------------------------------------
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	// main
 	public static void main(String args[]) {
 		new ATMKickstarter();
 	} // main
 
+	/**
+	 * Instantiates a new ATM kickstarter.
+	 */
 	public ATMKickstarter() {
 		// create and configure logger
 		ConsoleHandler conHd = new ConsoleHandler();
@@ -89,6 +120,11 @@ public class ATMKickstarter {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * Gets the logger.
+	 *
+	 * @return the logger
+	 */
 	// getLogger
 	public static Logger getLogger() {
 		return log;

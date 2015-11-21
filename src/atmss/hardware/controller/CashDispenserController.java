@@ -9,21 +9,33 @@ import atmss.hardware.view.CashDispenserView;
 import hwEmulators.CashDispenser;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class CashDispenserController.
  *
+ * @author freeman
  */
 public class CashDispenserController extends HardwareController {
+	
+	/** The cash dispenser view. */
 	private CashDispenserView cashDispenserView;
 
 	/**
-	 * 
+	 * Instantiates a new cash dispenser controller.
+	 *
+	 * @param CD the cd
 	 */
 	public CashDispenserController(CashDispenser CD) {
 		// TODO Auto-generated constructor stub
 		this.cashDispenserView = new CashDispenserView(CD);
 	}
 
+	/**
+	 * Check cash invetory.
+	 *
+	 * @return the int[]
+	 * @throws Exception the exception
+	 */
 	public int[] checkCashInvetory() throws Exception {
 		try {
 			return this.cashDispenserView.checkCashInventory();
@@ -33,6 +45,13 @@ public class CashDispenserController extends HardwareController {
 		}
 	}
 
+	/**
+	 * Eject cash.
+	 *
+	 * @param ejectPlan the eject plan
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean ejectCash(int[] ejectPlan) throws Exception {
 		try {
 			return this.cashDispenserView.ejectCash(ejectPlan);

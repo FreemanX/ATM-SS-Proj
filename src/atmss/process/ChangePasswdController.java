@@ -5,28 +5,61 @@ package atmss.process;
 
 import atmss.Session;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author DJY
+ * The Class ChangePasswdController.
  *
+ * @author DJY
  */
 public class ChangePasswdController extends ProcessController {
 
+	/** The operation name. */
 	private final String OPERATION_NAME = "Change Password";
+	
+	/** The failed from bams updating pw. */
 	private final String FAILED_FROM_BAMS_UPDATING_PW = "Cannot get approval from BAMS";
+	
+	/** The failed from keypad. */
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
+	
+	/** The failed from user cancelling. */
 	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
+	
+	/** The prompt for new password. */
 	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please input your new password:"};
+	
+	/** The prompt for new password err. */
 	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please input your new password:"};
+	
+	/** The prompt for confirm password. */
 	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please input your new password again:"};
+	
+	/** The show please wait. */
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
+	
+	/** The time limit. */
 	private final long TIME_LIMIT = 20; // seconds
+	
+	/** The kp cancel. */
 	private final String KP_CANCEL = "CANCEL";
+	
+	/** The _current step. */
 	private String _currentStep = OPERATION_NAME;
 
+	/**
+	 * Instantiates a new change passwd controller.
+	 *
+	 * @param CurrentSession the current session
+	 */
 	public ChangePasswdController(Session CurrentSession) {
 		super(CurrentSession);
 	}
 
+	/**
+	 * Do change passwd.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean doChangePasswd() {
 		String newPassword = "";
 		String confirmPassword = "";
@@ -120,15 +153,28 @@ public class ChangePasswdController extends ProcessController {
 		}
 	}
 	
+	/**
+	 * Pause.
+	 *
+	 * @param Seconds the seconds
+	 */
 	private void pause(int Seconds) {
 		long startTime = System.currentTimeMillis();
 		while(System.currentTimeMillis()-startTime < Seconds*1000){}
 	}
 	
+	/**
+	 * Record.
+	 *
+	 * @param Type the type
+	 */
 	private void record(String Type) {
 		super.record(_currentStep, Type);
 	}
 	
+	/**
+	 * Ask for printing.
+	 */
 	private void askForPrinting(){
 		String[] toDisplay = {
 				"Operation succeeded!",

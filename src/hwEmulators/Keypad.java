@@ -8,27 +8,66 @@ import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 // ======================================================================
+/**
+ * The Class Keypad.
+ */
 // Keypad
 public class Keypad extends Thread implements EmulatorActions {
 
+	/** The id. */
 	private String id;
+	
+	/** The log. */
 	private Logger log = null;
+	
+	/** The atmss. */
 	private ATMSS atmss = null;
+	
+	/** The atmss m box. */
 	private MBox atmssMBox = null;
+	
+	/** The _keypad view mbox. */
 	private MBox _keypadViewMbox = null;
+	
+	/** The Constant type. */
 	public final static int type = 7;
+	
+	/** The status. */
 	private int status = 700;
+	
+	/** The _input id. */
 	private long _inputId = 0;
+	
+	/** The my frame. */
 	private MyFrame myFrame = null;
+	
+	/** The my panel. */
 	private MyPanel myPanel = null;
+	
+	/** The enabled. */
 	// ------------------------------------------------------------------
 	private volatile boolean enabled = false;
 
 	// ------------------------------------------------------------------
+	/**
+	 * The listener interface for receiving my events.
+	 * The class that is interested in processing a my
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addMyListener<code> method. When
+	 * the my event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see MyEvent
+	 */
 	// Listener
 	class MyListener implements ActionListener {
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -47,6 +86,11 @@ public class Keypad extends Thread implements EmulatorActions {
 	} // listener
 
 	// ------------------------------------------------------------
+	/**
+	 * Instantiates a new keypad.
+	 *
+	 * @param id the id
+	 */
 	// Keypad
 	public Keypad(String id) {
 		this.id = id;
@@ -56,10 +100,20 @@ public class Keypad extends Thread implements EmulatorActions {
 		myFrame = new MyFrame("Keypad");
 	} // Keypad
 
+	/**
+	 * Gets the KP status.
+	 *
+	 * @return the KP status
+	 */
 	public int getKPStatus() {
 		return status;
 	}
 
+	/**
+	 * Sets the KP status.
+	 *
+	 * @param Status the new KP status
+	 */
 	protected void setKPStatus(int Status) {
 		if (status != Status) {
 			this.status = Status;
@@ -80,22 +134,41 @@ public class Keypad extends Thread implements EmulatorActions {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * Sets the atmss.
+	 *
+	 * @param newAtmss the new atmss
+	 */
 	// setATMSS
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	} // setATMSS
 
+	/**
+	 * Sets the keypad enable.
+	 *
+	 * @param isEnable the is enable
+	 * @param InputId the input id
+	 */
 	// toggle keypad listening state
 	public void setKeypadEnable(boolean isEnable, long InputId) {
 		this.enabled = isEnable;
 		this._inputId = InputId;
 	}
 
+	/**
+	 * Sets the view m box.
+	 *
+	 * @param KeypadViewMBox the new view m box
+	 */
 	public void setViewMBox(MBox KeypadViewMBox) {
 		this._keypadViewMbox = KeypadViewMBox;
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#shutdown()
+	 */
 	@Override
 	public void shutdown() {
 		if (status != 798)
@@ -103,6 +176,9 @@ public class Keypad extends Thread implements EmulatorActions {
 		setUIEnable(false, true);
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#restart()
+	 */
 	@Override
 	public void restart() {
 		shutdown();
@@ -116,6 +192,9 @@ public class Keypad extends Thread implements EmulatorActions {
 		atmssMBox.send(new Msg("Component Restarted", 7, "Restarted"));
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#fatalHalt()
+	 */
 	@Override
 	public void fatalHalt() {
 		if (status != 799)
@@ -123,10 +202,21 @@ public class Keypad extends Thread implements EmulatorActions {
 		setUIEnable(false, false);
 	}
 
+	/**
+	 * Sets the UI enable.
+	 *
+	 * @param isEnable the new UI enable
+	 */
 	private void setUIEnable(boolean isEnable) {
 		setUIEnable(isEnable, true);
 	}
 
+	/**
+	 * Sets the ui enable.
+	 *
+	 * @param isEnable the is enable
+	 * @param isShutdown the is shutdown
+	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
 		Color screenColor = Color.RED;
@@ -163,9 +253,17 @@ public class Keypad extends Thread implements EmulatorActions {
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyFrame.
+	 */
 	// MyFrame
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my frame.
+		 *
+		 * @param title the title
+		 */
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
@@ -181,11 +279,21 @@ public class Keypad extends Thread implements EmulatorActions {
 	} // MyFrame
 
 	// ------------------------------------------------------------
+	/**
+	 * The Class MyPanel.
+	 */
 	// MyPanel
 	private class MyPanel extends JPanel {
+		
+		/** The listener. */
 		MyListener listener = null;
 
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my panel.
+		 *
+		 * @param listener the listener
+		 */
 		// MyPanel
 		public MyPanel(MyListener listener) {
 			this.listener = listener;
@@ -201,6 +309,11 @@ public class Keypad extends Thread implements EmulatorActions {
 			this.add(numPannel4);
 		} // MyPanel
 
+		/**
+		 * Creates the functions panel.
+		 *
+		 * @return the j panel
+		 */
 		private JPanel createFunctionsPanel() {
 			JButton cancelButton = new JButton("CANCEL");
 			JButton clearButton = new JButton("CLEAR");
@@ -223,6 +336,11 @@ public class Keypad extends Thread implements EmulatorActions {
 			return functionPannel;
 		}
 
+		/**
+		 * Creates the num pannel1.
+		 *
+		 * @return the j panel
+		 */
 		private JPanel createNumPannel1() {
 			JPanel numPannel1 = new JPanel();
 			JButton[] num = new JButton[3];
@@ -240,6 +358,11 @@ public class Keypad extends Thread implements EmulatorActions {
 			return numPannel1;
 		}
 
+		/**
+		 * Creates the num pannel2.
+		 *
+		 * @return the j panel
+		 */
 		private JPanel createNumPannel2() {
 			JPanel numPannel2 = new JPanel();
 			JButton[] num = new JButton[3];
@@ -257,6 +380,11 @@ public class Keypad extends Thread implements EmulatorActions {
 			return numPannel2;
 		}
 
+		/**
+		 * Creates the num pannel3.
+		 *
+		 * @return the j panel
+		 */
 		private JPanel createNumPannel3() {
 			JPanel numPannel3 = new JPanel();
 			JButton[] num = new JButton[3];
@@ -274,6 +402,11 @@ public class Keypad extends Thread implements EmulatorActions {
 			return numPannel3;
 		}
 
+		/**
+		 * Creates the num pannel4.
+		 *
+		 * @return the j panel
+		 */
 		private JPanel createNumPannel4() {
 			JButton num0 = new JButton("0");
 			JButton numPoint = new JButton(".");

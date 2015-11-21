@@ -8,18 +8,47 @@ import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AdvicePrinter.
+ */
 public class AdvicePrinter extends Thread implements EmulatorActions {
+	
+	/** The id. */
 	private String id;
+	
+	/** The log. */
 	private Logger log = null;
+	
+	/** The atmss. */
 	private ATMSS atmss = null;
+	
+	/** The atmss m box. */
 	private MBox atmssMBox = null;
+	
+	/** The text area. */
 	private JTextArea textArea = null;
+	
+	/** The my frame. */
 	private MyFrame myFrame = null;
+	
+	/** The my panel. */
 	private MyPanel myPanel = null;
+	
+	/** The Constant type. */
 	public final static int type = 1;
+	
+	/** The status. */
 	private int status = 100;
+	
+	/** The resource. */
 	private int resource = 10000;
 
+	/**
+	 * Instantiates a new advice printer.
+	 *
+	 * @param id the id
+	 */
 	public AdvicePrinter(String id) {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
@@ -30,16 +59,31 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		myFrame = new MyFrame("Advice Printer");
 	}
 
+	/**
+	 * Gets the AP status.
+	 *
+	 * @return the AP status
+	 */
 	public int getAPStatus() {
 		return status;
 	}
 
+	/**
+	 * Gets the resource.
+	 *
+	 * @return the resource
+	 */
 	public int getResource() {
 		if (resource < 1)
 			this.status = 101;
 		return resource;
 	}
 
+	/**
+	 * Sets the AP status.
+	 *
+	 * @param Status the new AP status
+	 */
 	protected void setAPStatus(int Status) {
 		System.out.println(status + " vs. " + Status);
 		if (status != Status) {
@@ -65,12 +109,22 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		}
 	}
 
+	/**
+	 * Sets the atmss.
+	 *
+	 * @param newAtmss the new atmss
+	 */
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
 		atmssMBox = atmss.getMBox();
 	}
 
 	// ------------------------------------------------------------
+	/**
+	 * Prints the.
+	 *
+	 * @param str the str
+	 */
 	// print
 	public void print(String str) {
 		if (getResource() > 1) {
@@ -84,6 +138,11 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	} // print
 
 	// ------------------------------------------------------------
+	/**
+	 * Println.
+	 *
+	 * @param str the str
+	 */
 	// println
 	public void println(String str) {
 		try {
@@ -96,6 +155,9 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	} // println
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#shutdown()
+	 */
 	@Override
 	public void shutdown() {
 		// set exception status
@@ -104,6 +166,9 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		setUIEnable(false, true);
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#restart()
+	 */
 	@Override
 	public void restart() {
 		shutdown();
@@ -120,6 +185,9 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		textArea.setText("");
 	}
 
+	/* (non-Javadoc)
+	 * @see hwEmulators.EmulatorActions#fatalHalt()
+	 */
 	@Override
 	public void fatalHalt() {
 		if (status != 199)
@@ -127,10 +195,21 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		setUIEnable(false, false);
 	}
 
+	/**
+	 * Sets the UI enable.
+	 *
+	 * @param isEnable the new UI enable
+	 */
 	private void setUIEnable(boolean isEnable) {
 		setUIEnable(isEnable, true);
 	}
 
+	/**
+	 * Sets the ui enable.
+	 *
+	 * @param isEnable the is enable
+	 * @param isShutdown the is shutdown
+	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
 		Color screenColor = Color.RED;
@@ -165,8 +244,16 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		}
 	}
 
+	/**
+	 * The Class MyFrame.
+	 */
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my frame.
+		 *
+		 * @param title the title
+		 */
 		// MyFrame
 		public MyFrame(String title) {
 			setTitle(title);
@@ -181,8 +268,14 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		} // MyFrame
 	}
 
+	/**
+	 * The Class MyPanel.
+	 */
 	private class MyPanel extends JPanel {
 		// ----------------------------------------
+		/**
+		 * Instantiates a new my panel.
+		 */
 		// MyPanel
 		public MyPanel() {
 			JButton clearButton = new JButton("Clear");

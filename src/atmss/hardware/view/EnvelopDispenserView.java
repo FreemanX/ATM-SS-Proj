@@ -7,26 +7,43 @@ import atmss.hardware.exceptioins.EnvelopDispenserException;
 import atmss.hardware.exceptioins.HardwareException;
 import hwEmulators.EnvelopDispenser;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class EnvelopDispenserView.
  *
+ * @author freeman
  */
 public class EnvelopDispenserView extends HardwareView {
 
+	/** The envelop dispenser. */
 	private EnvelopDispenser envelopDispenser;
 
 	/**
+	 * Instantiates a new envelop dispenser view.
 	 *
+	 * @param envelopDispenser the envelop dispenser
 	 */
 	public EnvelopDispenserView(EnvelopDispenser envelopDispenser) {
 		this.envelopDispenser = envelopDispenser;
 	}
 
+	/**
+	 * Eject envelop.
+	 *
+	 * @return true, if successful
+	 * @throws EnvelopDispenserException the envelop dispenser exception
+	 */
 	public boolean ejectEnvelop() throws EnvelopDispenserException {
 		checkStatus();
 		return envelopDispenser.ejectEnvelop();
 	}
 
+	/**
+	 * Gets the envelop count.
+	 *
+	 * @return the envelop count
+	 * @throws EnvelopDispenserException the envelop dispenser exception
+	 */
 	public int getEnvelopCount() throws EnvelopDispenserException {
 		checkStatus();
 		return envelopDispenser.getEnvelopCount();

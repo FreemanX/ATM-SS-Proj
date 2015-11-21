@@ -5,22 +5,57 @@ import atmss.hardware.controller.*;
 
 import java.util.LinkedList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ATMSSHandler.
+ */
 public class ATMSSHandler {
 
+	/** The atmss handler. */
 	private static ATMSSHandler atmssHandler = null;
+	
+	/** The cash dispenser controller. */
 	private CashDispenserController cashDispenserController;
+	
+	/** The card reader controller. */
 	private CardReaderController cardReaderController;
+	
+	/** The keypad controller. */
 	private KeypadController keypadController;
+	
+	/** The deposit collector controller. */
 	private DepositCollectorController depositCollectorController;
+	
+	/** The advice printer controller. */
 	private AdvicePrinterController advicePrinterController;
+	
+	/** The display controller. */
 	private DisplayController displayController;
+	
+	/** The envelop dispenser controller. */
 	private EnvelopDispenserController envelopDispenserController;
+	
+	/** The server communicator. */
 	private BAMSCommunicator serverCommunicator;
 
+	/**
+	 * Instantiates a new ATMSS handler.
+	 */
 	private ATMSSHandler() {
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Inits the handler.
+	 *
+	 * @param CashDispenserController the cash dispenser controller
+	 * @param CardReaderController the card reader controller
+	 * @param KeypadController the keypad controller
+	 * @param DepositCollectorController the deposit collector controller
+	 * @param AdvicePrinterController the advice printer controller
+	 * @param DisplayController the display controller
+	 * @param EnvelopDispenserController the envelop dispenser controller
+	 * @param BAMSCommunicator the BAMS communicator
+	 */
 	void initHandler(CashDispenserController CashDispenserController, CardReaderController CardReaderController,
 			KeypadController KeypadController, DepositCollectorController DepositCollectorController,
 			AdvicePrinterController AdvicePrinterController, DisplayController DisplayController,
@@ -35,6 +70,11 @@ public class ATMSSHandler {
 		this.serverCommunicator = BAMSCommunicator;
 	}
 
+	/**
+	 * Gets the handler.
+	 *
+	 * @return the handler
+	 */
 	public static ATMSSHandler getHandler() {
 		if (atmssHandler == null) {
 			synchronized (ATMSSHandler.class) {
@@ -48,15 +88,36 @@ public class ATMSSHandler {
 
 	// >>>>>>>>>>>>>>>>>>>>0. functions of BAMS Handler<<<<<<<<<<<<<<<<<<<
 
+	/**
+	 * Do bams check balance.
+	 *
+	 * @param accNo the acc no
+	 * @param currentSession the current session
+	 * @return the double
+	 */
 	// get input params from Session
 	public double doBAMSCheckBalance(String accNo, Session currentSession) {
 		return serverCommunicator.enquiry(currentSession.getCardNo(), accNo, currentSession.getCred());
 	}
 
+	/**
+	 * Do bams get accounts.
+	 *
+	 * @param currentSession the current session
+	 * @return the string[]
+	 */
 	public String[] doBAMSGetAccounts(Session currentSession) {
 		return serverCommunicator.getAccounts(currentSession.getCardNo(), currentSession.getCred());
 	}
 
+	/**
+	 * Do bams update balance.
+	 *
+	 * @param accNumber the acc number
+	 * @param amount the amount
+	 * @param currentSession the current session
+	 * @return true, if successful
+	 */
 	public boolean doBAMSUpdateBalance(String accNumber, double amount, Session currentSession) {
 		long resultAmount = 0;
 
@@ -74,6 +135,13 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do bams update passwd.
+	 *
+	 * @param newPin the new pin
+	 * @param currentSession the current session
+	 * @return true, if successful
+	 */
 	public boolean doBAMSUpdatePasswd(String newPin, Session currentSession) {
 		if (serverCommunicator.changePin(currentSession.getCardNo(), currentSession.getCred(), newPin) == 1) {
 			return true;
@@ -81,6 +149,15 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do bams transfer.
+	 *
+	 * @param toAccNo the to acc no
+	 * @param destAccNo the dest acc no
+	 * @param amount the amount
+	 * @param currentSession the current session
+	 * @return true, if successful
+	 */
 	public boolean doBAMSTransfer(String toAccNo, String destAccNo, double amount, Session currentSession) {
 		double resultAmount = serverCommunicator.transfer(currentSession.getCardNo(), currentSession.getCred() + "&",
 				destAccNo, toAccNo, String.valueOf(amount));
@@ -90,10 +167,22 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do bams check card valid.
+	 *
+	 * @param cardNo the card no
+	 * @return true, if successful
+	 */
 	public boolean doBAMSCheckCardValid(String cardNo) {
 		return serverCommunicator.isCardExist(cardNo);
 	}
 
+	/**
+	 * Do ap print advice.
+	 *
+	 * @param operations the operations
+	 * @return true, if successful
+	 */
 	// >>>>>>>>>>>>>>>>>>1 Functions of advice printer <<<<<<<<<<<<<<<<<<<
 	public boolean doAPPrintAdvice(LinkedList<Operation> operations) {
 		try {
@@ -104,6 +193,12 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do ap print str array.
+	 *
+	 * @param toPrint the to print
+	 * @return true, if successful
+	 */
 	public boolean doAPPrintStrArray(String[] toPrint) {
 		try {
 			return this.advicePrinterController.printStrArray(toPrint);
@@ -113,6 +208,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do ap check inventory.
+	 *
+	 * @return the int
+	 */
 	public int doAPCheckInventory() {
 		try {
 			return this.advicePrinterController.checkInventory();
@@ -122,6 +222,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do ap get status.
+	 *
+	 * @return the int
+	 */
 	public int doAPGetStatus() {
 		try {
 			return this.advicePrinterController.getStatus();
@@ -133,6 +238,11 @@ public class ATMSSHandler {
 
 	// >>>>>>>>>>>>>>>>>>2 Functions of card reader <<<<<<<<<<<<<<<<<<<
 
+	/**
+	 * Do cr get card numebr.
+	 *
+	 * @return the string
+	 */
 	public String doCRGetCardNumebr() {
 		try {
 			return this.cardReaderController.getCardNumber();
@@ -142,6 +252,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do cr read card.
+	 *
+	 * @return the string
+	 */
 	public String doCRReadCard() {
 		try {
 			return this.cardReaderController.readCard();
@@ -151,6 +266,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do cr getstatus.
+	 *
+	 * @return the int
+	 */
 	public int doCRGetstatus() {
 		try {
 			return this.cardReaderController.getStatus();
@@ -160,6 +280,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do cr eject card.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean doCREjectCard() {
 		try {
 			return this.cardReaderController.ejectCard();
@@ -169,6 +294,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do cr retain card.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean doCRRetainCard() {
 		try {
 			return this.cardReaderController.retainCard();
@@ -180,6 +310,12 @@ public class ATMSSHandler {
 
 	// >>>>>>>>>>>>>>>>>>3 Functions of Cash dispenser <<<<<<<<<<<<<<<<<<<
 
+	/**
+	 * Do cd eject cash.
+	 *
+	 * @param ejectPlan the eject plan
+	 * @return true, if successful
+	 */
 	/*
 	 * doCDEjectCash:
 	 *
@@ -196,6 +332,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do cd check cash inventory.
+	 *
+	 * @return the int[]
+	 */
 	/*
 	 * doCDEjectCash:
 	 *
@@ -212,6 +353,11 @@ public class ATMSSHandler {
 		}
 	}
 
+	/**
+	 * Do cd get status.
+	 *
+	 * @return the int
+	 */
 	public int doCDGetStatus() {
 		try {
 			return this.cashDispenserController.getStatus();
@@ -223,6 +369,12 @@ public class ATMSSHandler {
 
 	// >>>>>>>>>>>>>>>>>>4 Functions of Deposit collector <<<<<<<<<<<<<<<<<<<
 
+	/**
+	 * Do dc collect envelop.
+	 *
+	 * @param timeout the timeout
+	 * @return true, if successful
+	 */
 	public boolean doDCCollectEnvelop(int timeout) {
 		try {
 			return depositCollectorController.collectEnvelop(timeout);
@@ -232,6 +384,12 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis display upper.
+	 *
+	 * @param lines the lines
+	 * @return true, if successful
+	 */
 	// >>>>>>>>>>>>>>>>>>5 Functions of Display <<<<<<<<<<<<<<<<<<<
 	public boolean doDisDisplayUpper(String[] lines) {
 		try {
@@ -242,6 +400,12 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis append upper.
+	 *
+	 * @param lines the lines
+	 * @return true, if successful
+	 */
 	public boolean doDisAppendUpper(String[] lines) {
 		try {
 			return displayController.appendUpper(lines);
@@ -252,6 +416,12 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis append upper.
+	 *
+	 * @param line the line
+	 * @return true, if successful
+	 */
 	public boolean doDisAppendUpper(String line) {
 		try {
 			return displayController.appendUpper(line);
@@ -261,6 +431,12 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis display lower.
+	 *
+	 * @param line the line
+	 * @return true, if successful
+	 */
 	public boolean doDisDisplayLower(String line) {
 		try {
 			return displayController.displayLower(line);
@@ -271,6 +447,12 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis append lower.
+	 *
+	 * @param str the str
+	 * @return true, if successful
+	 */
 	public boolean doDisAppendLower(String str) {
 		try {
 			return displayController.appendLower(str);
@@ -281,6 +463,11 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis clear all.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean doDisClearAll() {
 		try {
 			return displayController.clearAll();
@@ -291,6 +478,11 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis clear upper.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean doDisClearUpper() {
 		try {
 			return displayController.clearUpper();
@@ -301,6 +493,11 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do dis clear lower.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean doDisClearLower() {
 		try {
 			return displayController.clearLower();
@@ -311,6 +508,11 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do ed eject envelop.
+	 *
+	 * @return true, if successful
+	 */
 	// >>>>>>>>>>>>>>>>>>6 Functions of Envelop dispenser <<<<<<<<<<<<<<<<<<<
 	public boolean doEDEjectEnvelop() {
 		try {
@@ -321,6 +523,12 @@ public class ATMSSHandler {
 		return false;
 	}
 
+	/**
+	 * Do ed eat envelop.
+	 *
+	 * @param timeout the timeout
+	 * @return true, if successful
+	 */
 	public boolean doEDEatEnvelop(int timeout) {
 		try {
 			return depositCollectorController.collectEnvelop(timeout);
@@ -332,6 +540,12 @@ public class ATMSSHandler {
 
 	// >>>>>>>>>>>>>>>>>>7 Functions of Function of keypad <<<<<<<<<<<<<<<<<<<
 
+	/**
+	 * Do kp get single input.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 */
 	/*
 	 * @param Duration time for timeout
 	 */
@@ -358,6 +572,12 @@ public class ATMSSHandler {
 	 * @return inputPasswd the passwd user types in
 	 */
 
+	/**
+	 * Do kp get passwd.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 */
 	public String doKPGetPasswd(long Duration) {
 		String inputPasswd = "";
 		int lengthLimit = 6;
@@ -394,6 +614,12 @@ public class ATMSSHandler {
 		return inputPasswd;
 	}
 
+	/**
+	 * Do kp get integer money amount.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 */
 	public String doKPGetIntegerMoneyAmount(long Duration) {
 		String moneyAmount = "";
 		int lengthLimit = 8; // Max 999,000 per day
@@ -433,6 +659,12 @@ public class ATMSSHandler {
 		return moneyAmount;
 	}
 
+	/**
+	 * Do kp get double money amount.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 */
 	public String doKPGetDoubleMoneyAmount(long Duration) {
 		String moneyAmount = "";
 		int lengthLimit = 8; // Max 999,000 per day
@@ -483,6 +715,12 @@ public class ATMSSHandler {
 		return moneyAmount;
 	}
 
+	/**
+	 * Do kp get account num.
+	 *
+	 * @param Duration the duration
+	 * @return the string
+	 */
 	public String doKPGetAccountNum(long Duration) {
 		String inputAccountNum = "";
 		int lengthLimit = 11;
@@ -523,6 +761,11 @@ public class ATMSSHandler {
 
 	// >>>>>>>>>>>>>>>>>>> End of functions <<<<<<<<<<<<<<<<<<
 
+	/**
+	 * Handle unknown exceptions.
+	 *
+	 * @param e the e
+	 */
 	private void handleUnknownExceptions(Exception e) {
 		// TODO handles unexpected exceptions
 		e.printStackTrace();

@@ -3,15 +3,26 @@ package atmss;
 import hwEmulators.MBox;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TimerTest.
+ */
 public class TimerTest extends Thread {
 
+	/** The my box. */
 	private MBox myBox;
 
+	/**
+	 * Instantiates a new timer test.
+	 */
 	public TimerTest() {
 		// TODO Auto-generated constructor stub
 		myBox = new MBox("TimerTest");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		System.out.println(">>>>>>>>>>>>> Task 1 <<<<<<<<<<<<<<<<<");
@@ -65,6 +76,11 @@ public class TimerTest extends Thread {
 
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		TimerTest t1 = new TimerTest();
 		t1.start();

@@ -18,45 +18,91 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class MainController.
  *
+ * @author freeman
  */
 public class MainController extends Thread {
 
 	// Processing thread
+	/**
+	 * The Class Processor.
+	 */
 	// ----------------------------------------------------------------
 	class Processor extends Thread {
+		
+		/** The checker. */
 		SystemCheckThread checker = new SystemCheckThread(advicePrinterController, cardReaderController,
 				cashDispenserController, depositCollectorController, displayController, envelopDispenserController,
 				keypadController, serverCommunicator);
+		
+		/** The is running. */
 		private volatile boolean isRunning = true;
+		
+		/** The ED is ok. */
 		private volatile boolean EDIsOk = true;
+		
+		/** The DC is ok. */
 		private volatile boolean DCIsOk = true;
+		
+		/** The is in process. */
 		private volatile boolean isInProcess = false;
+		
+		/** The i. */
 		int i = 1;
+		
+		/** The lines. */
 		private String[] lines;
+		
+		/** The Constant head. */
 		private final static String head = ">>>>>>>>>> ";
+		
+		/** The Constant tail. */
 		private final static String tail = " <<<<<<<<<<";
+		
+		/** The num of wrong passed. */
 		private int numOfWrongPassed = 0;
 
+		/**
+		 * Instantiates a new processor.
+		 */
 		public Processor() {
 			// constructor...
 			lines = new String[10];
 		}
 
+		/**
+		 * Checks if is in process.
+		 *
+		 * @return true, if is in process
+		 */
 		protected boolean isInProcess() {
 			return this.isInProcess;
 		}
 
+		/**
+		 * Sets the ED is ok.
+		 *
+		 * @param b the new ED is ok
+		 */
 		protected void setEDIsOK(boolean b) {
 			this.EDIsOk = b;
 		}
 
+		/**
+		 * Sets the DC is ok.
+		 *
+		 * @param b the new DC is ok
+		 */
 		protected void setDCIsOK(boolean b) {
 			this.DCIsOk = b;
 		}
 
+		/**
+		 * Inits the processor.
+		 */
 		protected void initProcessor() {
 			numOfWrongPassed = 0;
 			checker.resumeCheck();
@@ -64,16 +110,25 @@ public class MainController extends Thread {
 			this.i = 1;
 		}
 
+		/**
+		 * End session.
+		 */
 		private void endSession() {
 			this.isInProcess = false;
 			numOfWrongPassed = 0;
 		}
 
+		/**
+		 * Processor pause.
+		 */
 		protected void processorPause() {
 			this.isRunning = false;
 			checker.pauseCheck();
 		}
 
+		/**
+		 * Clear lines.
+		 */
 		private void clearLines() {
 			for (int j = 0; j < lines.length; j++) {
 				lines[j] = "";
@@ -81,12 +136,21 @@ public class MainController extends Thread {
 			}
 		}
 
+		/**
+		 * Checks if is bank card.
+		 *
+		 * @param s the s
+		 * @return true, if is bank card
+		 */
 		private boolean isBankCard(String s) {
 			if (s != null && s.length() == 12)
 				return atmssHandler.doBAMSCheckCardValid(s);
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Thread#run()
+		 */
 		public void run() {
 			// thread start...
 			checker.start();
@@ -371,6 +435,18 @@ public class MainController extends Thread {
 	}
 
 	// TODO Singleton need to be implemented
+	/**
+	 * Instantiates a new main controller.
+	 *
+	 * @param AP the ap
+	 * @param CR the cr
+	 * @param CD the cd
+	 * @param depositCollector the deposit collector
+	 * @param display the display
+	 * @param envelopDispenser the envelop dispenser
+	 * @param KP the kp
+	 * @param AtmssMbox the atmss mbox
+	 */
 	// public static MainController getInstance() { return self; }
 	public MainController(AdvicePrinter AP, CardReader CR, CashDispenser CD, DepositCollector depositCollector,
 			Display display, EnvelopDispenser envelopDispenser, Keypad KP, MBox AtmssMbox) {
@@ -403,6 +479,9 @@ public class MainController extends Thread {
 		processor.start();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		while (true) {
@@ -447,6 +526,13 @@ public class MainController extends Thread {
 		}
 	}
 
+	/**
+	 * Authorize passed.
+	 *
+	 * @param cardNo the card no
+	 * @param pin the pin
+	 * @return true, if successful
+	 */
 	public boolean authorizePassed(String cardNo, String pin) {
 		String result = serverCommunicator.login(cardNo, pin);
 		if (!result.equalsIgnoreCase("error")) {
@@ -456,30 +542,55 @@ public class MainController extends Thread {
 		return false;
 	}
 
+	/**
+	 * Send to bams.
+	 *
+	 * @param msg the msg
+	 */
 	private void sendToBAMS(Msg msg) {
 		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
 		_atmssMBox.send(new Msg("MainController", msg.getType(),
 				msg.getDetails() + ": " + format.format(new Date().getTime())));
 	}
 
+	/**
+	 * Handle bams msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleBAMSMsg(Msg msg) {
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
+	/**
+	 * Handle ap msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleAPMsg(Msg msg) {
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
+	/**
+	 * Handle cr msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleCRMsg(Msg msg) {
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
+	/**
+	 * Handle cd msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleCDMsg(Msg msg) {
 		sendToBAMS(msg);
 		if (msg.getType() == 301) {
@@ -488,6 +599,11 @@ public class MainController extends Thread {
 			handleFatalExceptions(msg);
 	}
 
+	/**
+	 * Handle dc msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleDCMsg(Msg msg) {
 		if (msg.getType() % 100 == 0)
 			processor.setDCIsOK(true);
@@ -495,12 +611,22 @@ public class MainController extends Thread {
 			processor.setDCIsOK(false);
 	}
 
+	/**
+	 * Handle dis msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleDisMsg(Msg msg) {
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
+	/**
+	 * Handle ed msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleEDMsg(Msg msg) {
 		if (msg.getType() % 100 == 0)
 			processor.setEDIsOK(true);
@@ -508,12 +634,22 @@ public class MainController extends Thread {
 			processor.setEDIsOK(false);
 	}
 
+	/**
+	 * Handle kp msg.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleKPMsg(Msg msg) {
 		sendToBAMS(msg);
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
+	/**
+	 * Handle fatal exceptions.
+	 *
+	 * @param msg the msg
+	 */
 	private void handleFatalExceptions(Msg msg) {
 		this.isRunning = false;
 		String card = this.atmssHandler.doCRGetCardNumebr();
@@ -541,6 +677,9 @@ public class MainController extends Thread {
 		// msg.getDetails()));
 	}
 
+	/**
+	 * Inits the all.
+	 */
 	private void initAll() // Initiate all for serving next guest
 	{
 		SimpleDateFormat format = new SimpleDateFormat("H:mm:ss");
@@ -553,10 +692,18 @@ public class MainController extends Thread {
 		this.processor.start();
 	}
 
+	/**
+	 * Gets the last session.
+	 *
+	 * @return the last session
+	 */
 	private Session getLastSession() {
 		return sessionLog.get(sessionLog.size() - 1);
 	}
 
+	/**
+	 * Wait for repair.
+	 */
 	private void waitForRepair() {
 		Msg msg = null;
 
@@ -599,25 +746,62 @@ public class MainController extends Thread {
 		}
 	}
 
+	/** The cash dispenser controller. */
 	// -------------------------------------------------------------------------------------
 	private CashDispenserController cashDispenserController;
+	
+	/** The card reader controller. */
 	private CardReaderController cardReaderController;
+	
+	/** The keypad controller. */
 	private KeypadController keypadController;
+	
+	/** The deposit collector controller. */
 	private DepositCollectorController depositCollectorController;
+	
+	/** The advice printer controller. */
 	private AdvicePrinterController advicePrinterController;
+	
+	/** The display controller. */
 	private DisplayController displayController;
+	
+	/** The envelop dispenser controller. */
 	private EnvelopDispenserController envelopDispenserController;
+	
+	/** The enqury controller. */
 	private EnquiryController enquryController;
+	
+	/** The transfer controller. */
 	private TransferController transferController;
+	
+	/** The change passwd controller. */
 	private ChangePasswdController changePasswdController;
+	
+	/** The withdraw controller. */
 	private WithDrawController withdrawController;
+	
+	/** The deposit controller. */
 	private DepositController depositController;
+	
+	/** The server communicator. */
 	private BAMSCommunicator serverCommunicator;
+	
+	/** The processor. */
 	private Processor processor;
+	
+	/** The session log. */
 	private volatile List<Session> sessionLog = new ArrayList<Session>();
+	
+	/** The atmss handler. */
 	private ATMSSHandler atmssHandler;
+	
+	/** The main controller m box. */
 	private MBox mainControllerMBox;
+	
+	/** The is running. */
 	private volatile boolean isRunning;
+	
+	/** The _atmss m box. */
 	private MBox _atmssMBox;
 	// TODO Singleton need to be implemented
 	// private static MainController self = new MainController();

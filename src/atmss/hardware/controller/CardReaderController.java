@@ -9,16 +9,24 @@ import atmss.hardware.view.CardReaderView;
 import hwEmulators.CardReader;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class CardReaderController.
  *
+ * @author freeman
  */
 public class CardReaderController extends HardwareController {
+	
+	/** The card number. */
 	private String cardNumber = "";
+	
+	/** The card reader view. */
 	private CardReaderView cardReaderView;
 
 	/**
-	 * 
+	 * Instantiates a new card reader controller.
+	 *
+	 * @param CR the cr
 	 */
 	public CardReaderController(CardReader CR) {
 		this.cardReaderView = new CardReaderView(CR);
@@ -30,6 +38,12 @@ public class CardReaderController extends HardwareController {
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 
+	/**
+	 * Read card.
+	 *
+	 * @return the string
+	 * @throws Exception the exception
+	 */
 	public String readCard() throws Exception {
 		try {
 			this.cardNumber = this.cardReaderView.readCard();
@@ -41,10 +55,19 @@ public class CardReaderController extends HardwareController {
 
 	}
 
+	/**
+	 * Inits the cr.
+	 */
 	public void initCR() {
 		this.cardNumber = "";
 	}
 
+	/**
+	 * Gets the card number.
+	 *
+	 * @return the card number
+	 * @throws Exception the exception
+	 */
 	public String getCardNumber() throws Exception {
 		// TODO not finished
 		try {
@@ -55,6 +78,12 @@ public class CardReaderController extends HardwareController {
 		}
 	}
 
+	/**
+	 * Eject card.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean ejectCard() throws Exception {
 		try {
 			return this.cardReaderView.ejectCard();
@@ -64,6 +93,12 @@ public class CardReaderController extends HardwareController {
 		}
 	}
 
+	/**
+	 * Retain card.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean retainCard() throws Exception {
 		try {
 			this.cardReaderView.retainCard();
@@ -74,6 +109,9 @@ public class CardReaderController extends HardwareController {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see atmss.hardware.controller.HardwareController#updateStatus()
+	 */
 	@Override
 	public boolean updateStatus() throws Exception {
 		// TODO Auto-generated method stub

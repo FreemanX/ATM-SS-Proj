@@ -9,16 +9,24 @@ import hwEmulators.CashDispenser;
 import hwEmulators.MBox;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class CashDispenserView.
  *
+ * @author freeman
  */
 public class CashDispenserView extends HardwareView {
+	
+	/** The _cash dispenser. */
 	private CashDispenser _cashDispenser;
+	
+	/** The cash dispenser m box. */
 	MBox cashDispenserMBox;
 
 	/**
-	 * 
+	 * Instantiates a new cash dispenser view.
+	 *
+	 * @param CD the cd
 	 */
 	public CashDispenserView(CashDispenser CD) {
 		// TODO Auto-generated constructor stub
@@ -27,6 +35,12 @@ public class CashDispenserView extends HardwareView {
 		this._cashDispenser.setViewBox(cashDispenserMBox);
 	}
 
+	/**
+	 * Check cash inventory.
+	 *
+	 * @return the int[]
+	 * @throws CashDispenserException the cash dispenser exception
+	 */
 	public int[] checkCashInventory() throws CashDispenserException {
 		checkStatus();
 		int[] cashInventory = { this._cashDispenser.getNumOf100(), this._cashDispenser.getNumOf500(),
@@ -34,6 +48,13 @@ public class CashDispenserView extends HardwareView {
 		return cashInventory;
 	}
 
+	/**
+	 * Eject cash.
+	 *
+	 * @param ejectPlan the eject plan
+	 * @return true, if successful
+	 * @throws CashDispenserException the cash dispenser exception
+	 */
 	public boolean ejectCash(int[] ejectPlan) throws CashDispenserException {
 		checkStatus();
 		if (this._cashDispenser.ejectCash(ejectPlan[0], ejectPlan[1], ejectPlan[2])) {
@@ -54,6 +75,11 @@ public class CashDispenserView extends HardwareView {
 			return false;
 	}
 
+	/**
+	 * Retain cash.
+	 *
+	 * @throws CashDispenserException the cash dispenser exception
+	 */
 	void retainCash() throws CashDispenserException {
 		checkStatus();
 		this._cashDispenser.retainCash();

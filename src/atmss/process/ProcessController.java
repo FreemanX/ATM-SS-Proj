@@ -10,21 +10,38 @@ import atmss.Session;
 
 import java.util.LinkedList;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Lihui
+ * The Class ProcessController.
  *
+ * @author Lihui
  */
 public abstract class ProcessController {
 
+	/** The operation cache. */
 	LinkedList<Operation> operationCache;
+	
+	/** The _main controller. */
 	MainController _mainController;
+	
+	/** The _session. */
 	Session _session;
+	
+	/** The _atmss handler. */
 	ATMSSHandler _atmssHandler;
 
+	/**
+	 * Instantiates a new process controller.
+	 */
 	public ProcessController() {
 		System.err.println("You have to pass me AccountNumbre and Maincontroller...");
 	}
 
+	/**
+	 * Instantiates a new process controller.
+	 *
+	 * @param CurrentSession the current session
+	 */
 	public ProcessController(Session CurrentSession) {
 		// TODO Auto-generated constructor stub
 		operationCache = new LinkedList<>();
@@ -32,10 +49,22 @@ public abstract class ProcessController {
 		this._atmssHandler = ATMSSHandler.getHandler();
 	}
 	
+	/**
+	 * Gets the operation cache.
+	 *
+	 * @return the operation cache
+	 */
 	public LinkedList<Operation> getOperationCache() {
 		return this.operationCache;
 	}
 	
+	/**
+	 * Creates the option list.
+	 *
+	 * @param Header the header
+	 * @param Body the body
+	 * @return the string[]
+	 */
 	String[] createOptionList(String Header, String[] Body) {
 		String[] lines = new String[Body.length + 1];
 		lines[0] = Header;
@@ -45,6 +74,12 @@ public abstract class ProcessController {
 		return lines;
 	}
 	
+	/**
+	 * Record.
+	 *
+	 * @param OperationName the operation name
+	 * @param Type the type
+	 */
 	void record(String OperationName, String Type) {
 		switch(Type) {
 			case "AP" : recordFailure(OperationName, 1);break;
@@ -60,10 +95,22 @@ public abstract class ProcessController {
 		}
 	}
 	
+	/**
+	 * Record success.
+	 *
+	 * @param OperationName the operation name
+	 * @param detail the detail
+	 */
 	private void recordSuccess(String OperationName, String detail) {
 		operationCache.add(new Operation(OperationName, 0, "Success: "+detail));
 	}
 	
+	/**
+	 * Record failure.
+	 *
+	 * @param OperationName the operation name
+	 * @param Type the type
+	 */
 	private void recordFailure(String OperationName, int Type) {
 		String description;
 		switch(Type) {

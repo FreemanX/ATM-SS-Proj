@@ -12,22 +12,34 @@ import hwEmulators.Msg;
 
 import java.util.LinkedList;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class AdvicePrinterController.
  *
+ * @author freeman
  */
 public class AdvicePrinterController extends HardwareController {
 
+	/** The advice printer. */
 	private AdvicePrinterView advicePrinter;
 
 	/**
-	 * 
+	 * Instantiates a new advice printer controller.
+	 *
+	 * @param AP the ap
 	 */
 	public AdvicePrinterController(AdvicePrinter AP) {
 		// TODO Auto-generated constructor stub
 		advicePrinter = new AdvicePrinterView(AP);
 	}
 
+	/**
+	 * Prints the operations.
+	 *
+	 * @param operations the operations
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	// Non-overrided methods:
 	public boolean printOperations(LinkedList<Operation> operations) throws Exception {
 
@@ -42,6 +54,13 @@ public class AdvicePrinterController extends HardwareController {
 		return printStrArray(strLines);
 	}
 
+	/**
+	 * Prints the str array.
+	 *
+	 * @param toPrint the to print
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean printStrArray(String[] toPrint) throws Exception {
 		boolean isSuccess = false;
 
@@ -56,6 +75,12 @@ public class AdvicePrinterController extends HardwareController {
 		return isSuccess;
 	}
 
+	/**
+	 * Check inventory.
+	 *
+	 * @return the int
+	 * @throws Exception the exception
+	 */
 	public int checkInventory() throws Exception {
 		try {
 			return advicePrinter.checkInventory();

@@ -5,35 +5,71 @@ package atmss.process;
 
 import atmss.Session;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author SXM
+ * The Class TransferController.
  *
+ * @author SXM
  */
 public class TransferController extends ProcessController{
 
+	/** The src account number. */
 	private String srcAccountNumber;
+	
+	/** The des account number. */
 	private String desAccountNumber;
+	
+	/** The amount to transfer. */
 	private double amountToTransfer;
+	
+	/** The account balance. */
 	private double accountBalance;
 	
+	/** The time out limit. */
 	private final int    TIME_OUT_LIMIT = 30;
+	
+	/** The operation name. */
 	private final String OPERATION_NAME = "Transfer";
+	
+	/** The failed from balance. */
 	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
+	
+	/** The prompt for amount. */
 	private final String PROMPT_FOR_AMOUNT = "Please type in your transfer amount";
+	
+	/** The prompt for srcaccount. */
 	private final String PROMPT_FOR_SRCACCOUNT = "Please choose your account";
+	
+	/** The prompt for desaccount. */
 	private final String PROMPT_FOR_DESACCOUNT = "Please type in your target account";
+	
+	/** The prompt for confirm. */
 	private final String[] PROMPT_FOR_CONFIRM = {
 			"Please confirm your transfer amount", "Please confirm the account"
 	};
+	
+	/** The show success. */
 	private final String SHOW_SUCCESS = "Succeeded! The transfer operation succeeds.";
+	
+	/** The print note selection. */
 	private final String[] PRINT_NOTE_SELECTION = {
 			"Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
 	
+	/**
+	 * Instantiates a new transfer controller.
+	 *
+	 * @param session the session
+	 */
 	public TransferController(Session session) {
 		super(session);
 	}
 	
+	/**
+	 * Do transfer.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean doTransfer() {
 		if(!this._atmssHandler.doDisClearAll()) {
 			record(OPERATION_NAME+": clear the display", "Dis");
@@ -68,6 +104,11 @@ public class TransferController extends ProcessController{
 		}
 	}
 	
+	/**
+	 * Gets the src account number.
+	 *
+	 * @return the src account number
+	 */
 	private boolean getSrcAccountNumber() {
 		if(!this._atmssHandler.doDisClearAll()) {
 			record(OPERATION_NAME+": clear the display", "Dis");
@@ -113,6 +154,11 @@ public class TransferController extends ProcessController{
 		}
 	}
 	
+	/**
+	 * Gets the des account number.
+	 *
+	 * @return the des account number
+	 */
 	private boolean getDesAccountNumber() {
 		String desAccountNumber ="";
 		
@@ -164,6 +210,11 @@ public class TransferController extends ProcessController{
 		}		
 	}
 	
+	/**
+	 * Gets the amount to transfer.
+	 *
+	 * @return the amount to transfer
+	 */
 	private boolean getAmountToTransfer() {		
 		String amountToTransfer ="";
 		
@@ -249,6 +300,9 @@ public class TransferController extends ProcessController{
 		}
 	}
 	
+	/**
+	 * Do print receipt.
+	 */
 	private void doPrintReceipt(){
 		boolean result = _atmssHandler .doAPPrintStrArray(new String[] {
 				"Operation Name: " + OPERATION_NAME,

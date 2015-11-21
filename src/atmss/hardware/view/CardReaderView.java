@@ -9,16 +9,24 @@ import hwEmulators.CardReader;
 import hwEmulators.MBox;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman
+ * The Class CardReaderView.
  *
+ * @author freeman
  */
 public class CardReaderView extends HardwareView {
+	
+	/** The _card reader. */
 	private CardReader _cardReader;
+	
+	/** The card reader view m box. */
 	private MBox cardReaderViewMBox = new MBox("cardReaderView");
 
 	/**
-	 * 
+	 * Instantiates a new card reader view.
+	 *
+	 * @param CR the cr
 	 */
 	public CardReaderView(CardReader CR) {
 		// TODO Auto-generated constructor stub
@@ -26,6 +34,12 @@ public class CardReaderView extends HardwareView {
 		this._cardReader.setCRViewBox(this.cardReaderViewMBox);
 	}
 
+	/**
+	 * Read card.
+	 *
+	 * @return the string
+	 * @throws CardReaderException the card reader exception
+	 */
 	public String readCard() throws CardReaderException {
 		checkStatus();
 		Msg msg = this.cardReaderViewMBox.receive();
@@ -35,11 +49,23 @@ public class CardReaderView extends HardwareView {
 			return null;
 	}
 
+	/**
+	 * Gets the card numer.
+	 *
+	 * @return the card numer
+	 * @throws CardReaderException the card reader exception
+	 */
 	public String getCardNumer() throws CardReaderException {
 		checkStatus();
 		return this._cardReader.getCard();
 	}
 
+	/**
+	 * Eject card.
+	 *
+	 * @return true, if successful
+	 * @throws CardReaderException the card reader exception
+	 */
 	public boolean ejectCard() throws CardReaderException {
 		checkStatus();
 		Timer timer = Timer.getTimer();
@@ -57,6 +83,11 @@ public class CardReaderView extends HardwareView {
 		}
 	}
 
+	/**
+	 * Retain card.
+	 *
+	 * @throws CardReaderException the card reader exception
+	 */
 	public void retainCard() throws CardReaderException {
 		checkStatus();
 		this._cardReader.eatCard();

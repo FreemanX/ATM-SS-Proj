@@ -9,17 +9,24 @@ import hwEmulators.DepositCollector;
 import hwEmulators.MBox;
 import hwEmulators.Msg;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author freeman, tony
+ * The Class DepositCollectorView.
  *
+ * @author freeman, tony
  */
 public class DepositCollectorView extends HardwareView {
 
+	/** The deposit collector. */
 	private DepositCollector depositCollector;
+	
+	/** The mbox. */
 	private MBox mbox = new MBox("DepositCollectorView");
 
 	/**
+	 * Instantiates a new deposit collector view.
 	 *
+	 * @param depositCollector the deposit collector
 	 */
 	public DepositCollectorView(DepositCollector depositCollector) {
 		this.depositCollector = depositCollector;
@@ -27,6 +34,13 @@ public class DepositCollectorView extends HardwareView {
 		// this.depositCollector.setMBox(mbox);
 	}
 
+	/**
+	 * Collect envelop.
+	 *
+	 * @param timeout the timeout
+	 * @return true, if successful
+	 * @throws DepositCollectorException the deposit collector exception
+	 */
 	public boolean collectEnvelop(int timeout) throws DepositCollectorException {
 		checkStatus();
 		Timer timer = Timer.getTimer();
@@ -61,6 +75,12 @@ public class DepositCollectorView extends HardwareView {
 		return false;
 	}
 
+	/**
+	 * Collect timeout.
+	 *
+	 * @return true, if successful
+	 * @throws DepositCollectorException the deposit collector exception
+	 */
 	// if timeout, reject the collection
 	private boolean collectTimeout() throws DepositCollectorException {
 		if (!depositCollector.getHasEnvelop()) { // has no envelop inside

@@ -6,37 +6,72 @@ package atmss.process;
 import atmss.Operation;
 import atmss.Session;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author SXM
+ * The Class EnquiryController.
  *
+ * @author SXM
  */
 public class EnquiryController extends ProcessController{
 	
+	/** The failed from bams. */
 	private final String FAILED_FROM_BAMS = "Failure: no response from BAMS";
+	
+	/** The failed from keypad. */
 	private final String FAILED_FROM_KEYPAD = "Failure: no response from BAMS";
+	
+	/** The canceled. */
 	private final String CANCELED = "Failure: cancellation from user";
+	
+	/** The account number. */
 	private String accountNumber;
+	
+	/** The balance. */
 	private double balance;
 	
+	/** The time out limit. */
 	private final int    TIME_OUT_LIMIT = 30;
+	
+	/** The failed from display. */
 	private final String FAILED_FROM_DISPLAY = "Failure: no response from display";
+	
+	/** The failed from printer. */
 	private final String FAILED_FROM_PRINTER = "Failure: no response from advice printer";
+	
+	/** The prompt for account. */
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account to Enquiry";
+	
+	/** The show success. */
 	private final String SHOW_SUCCESS = "Your balance is $";
+	
+	/** The print note selection. */
 	private final String[] PRINT_NOTE_SELECTION = {
 			 "Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
 	
+	/**
+	 * Prints the op cache.
+	 */
 	public void printOpCache(){
 		for(Operation op: operationCache){
 			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
 		}
 	}
 	
+	/**
+	 * Instantiates a new enquiry controller.
+	 *
+	 * @param session the session
+	 */
 	public EnquiryController(Session session) {
 		super(session);
 	}
 	
+	/**
+	 * Do enquiry.
+	 *
+	 * @return the boolean
+	 */
 	public Boolean doEnquiry() {	
 		if (!this._atmssHandler.doDisClearAll()) {
 			return failProcess("Enquiry : display accounts", 5, FAILED_FROM_DISPLAY);
@@ -75,6 +110,11 @@ public class EnquiryController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Gets the account number.
+	 *
+	 * @return the account number
+	 */
 	private boolean getAccountNumber() {		
 		if (!this._atmssHandler.doDisClearAll()) {
 			return failProcess("Enquiry : clear the diaplay", 5, FAILED_FROM_DISPLAY);
@@ -121,6 +161,11 @@ public class EnquiryController extends ProcessController{
 	}
 
 	
+	/**
+	 * Do print receipt.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
 				new String("Operation Name: Enquiry"),
@@ -134,10 +179,26 @@ public class EnquiryController extends ProcessController{
 
 		return true;
 	}
+	
+	/**
+	 * Record operation.
+	 *
+	 * @param operation the operation
+	 * @param type the type
+	 * @param result the result
+	 */
 	private void recordOperation(String operation, int type, String result){
 		operationCache.add(new Operation(operation, type, result));
 	}
 	
+	/**
+	 * Fail process.
+	 *
+	 * @param operation the operation
+	 * @param type the type
+	 * @param desc the desc
+	 * @return true, if successful
+	 */
 	private boolean failProcess(String operation, int type, String desc){
 		recordOperation(operation, type, desc);
 		printOpCache();
