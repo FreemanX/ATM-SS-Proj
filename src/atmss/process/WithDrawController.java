@@ -3,7 +3,6 @@
  */
 package atmss.process;
 
-import atmss.Operation;
 import atmss.Session;
 
 /**
@@ -19,7 +18,7 @@ public class WithDrawController extends ProcessController{
 	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
 	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
 	private final String FAILED_FROM_INVENTORY = "Not enough inventory to withdraw";
-	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your account:";
+	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your withdraw account:";
 	private final String PROMPT_FOR_CHOICE_ERR_HEADER = "Not a valid choice! Please choose your account:";
 	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
 	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must be divisible by 100 and less or equal to 10000","Please input your withdraw amount again:"};
@@ -51,7 +50,7 @@ public class WithDrawController extends ProcessController{
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			}
 		record("accounts loaded");
@@ -70,7 +69,7 @@ public class WithDrawController extends ProcessController{
 						record("Dis");
 						return false;
 					}
-					try { this.wait(3000);} catch (InterruptedException e) {}
+					pause(3);
 					return false;
 				} else if (userInput.equals(KP_CANCEL)) {
 					record("USER");
@@ -78,7 +77,7 @@ public class WithDrawController extends ProcessController{
 						record("Dis");
 						return false;
 					}
-					try { this.wait(3000);} catch (InterruptedException e) {}
+					pause(3);
 					return false;
 				}
 				int choice = choiceFromString(userInput);
@@ -106,7 +105,7 @@ public class WithDrawController extends ProcessController{
 						record("Dis");
 						return false;
 					}
-					try { this.wait(3000);} catch (InterruptedException e) {}
+					pause(3);
 					return false;
 				} else if (userInput.equals(KP_CANCEL)) {
 					record("USER");
@@ -114,7 +113,7 @@ public class WithDrawController extends ProcessController{
 						record("Dis");
 						return false;
 					}
-					try { this.wait(3000);} catch (InterruptedException e) {}
+					pause(3);
 					return false;
 				}
 				int amount = amountFromString(userInput);
@@ -143,7 +142,7 @@ public class WithDrawController extends ProcessController{
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			}
 		record("balance is enough");
@@ -156,7 +155,7 @@ public class WithDrawController extends ProcessController{
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			}
 		record("inventory seems enough");
@@ -169,7 +168,7 @@ public class WithDrawController extends ProcessController{
 					record("Dis");
 					return false;
 				}
-				try { this.wait(3000);} catch (InterruptedException e) {}
+				pause(3);
 				return false;
 			}
 		record("withdraw plan loaded");
@@ -197,55 +196,21 @@ public class WithDrawController extends ProcessController{
 		// <- display the result
 	}
 	
+	private void pause(int Seconds) {
+		long startTime = System.currentTimeMillis();
+		while(System.currentTimeMillis()-startTime < Seconds*1000){}
+	}
+	
 	private void record(String Type) {
-		switch(Type) {
-			case "AP" : recordFailure(1);break;
-			case "CR" : recordFailure(2);break;
-			case "CD" : recordFailure(3);break;
-			case "DC" : recordFailure(4);break;
-			case "Dis": recordFailure(5);break;
-			case "ED" : recordFailure(6);break;
-			case "KP" : recordFailure(7);break;
-			case "USER" : recordFailure(8);break;
-			case "BAMS" : recordFailure(10);break;
-			default: recordSuccess(Type);break;
-		}
+		super.record(_currentStep, Type);
 	}
-	
-	private void recordSuccess(String detail) {
-		operationCache.add(new Operation(_currentStep, 0, "Success: "+detail));
-	}
-	
-	private void recordFailure(int Type) {
-		String description;
-		switch(Type) {
-			case 1: description = "Failure: no response from advice printer";break;
-			case 2: description = "Failure: no response from card reader";break;
-			case 3: description = "Failure: no response from cash dispenser";break;
-			case 4: description = "Failure: no response from deposit collector";break;
-			case 5: description = "Failure: no response from display";break;
-			case 6: description = "Failure: no response from evelop dispenser";break;
-			case 7: description = "Failure: no response from keypad";break;
-			case 8: description = "Failure: cancellation from user";break;
-			case 10: description = "Failure: disapproval from bank system (BAMS)";break;
-			default:description = "Failure: unknown reason";break;
-		}
-		operationCache.add(new Operation(_currentStep, Type, description));
-		_atmssHandler.doAPPrintStrArray(new String[]{_currentStep,description});
-	}
-	
+		
 	private void askForPrinting(String AccountNumber, int Amount){
 		String[] toDisplay = {
 				"Operation succeeded!",
-				"You have withdrawn $" + Amount + "from account: " + AccountNumber,
-				
-				
-				
-				"Please choose an account to withdraw:",
+				"You have withdrawn $" + Amount + "from account: " + AccountNumber,				
 				"Press 1 -> Print the advice",
-				"Press 2 -> Quit without printing",
-				"Press CANCEL -> Quit process"
-
+				"Press 2 -> Quit without printing"
 		};
 		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) return;
 		while (true) {
@@ -309,7 +274,7 @@ public class WithDrawController extends ProcessController{
 		String[] lines = new String[Body.length + 1];
 		lines[0] = Header;
 		for (int i = 1; i < lines.length; i++) {
-			lines[i] = "-> " + i + ": " + Body[i-1];
+			lines[i] = "Press " + i + " -> " + Body[i-1];
 		}
 		return lines;
 	}

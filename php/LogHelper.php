@@ -21,7 +21,7 @@ class LogHelper {
 
 		if ($logFile) {
 			while (($line = fgets($logFile)) != false) {
-				array_push($logLines, $line);
+				array_unshift($logLines, $line);
 			}
 			fclose($logFile);
 		}

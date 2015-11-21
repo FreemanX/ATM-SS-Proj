@@ -145,7 +145,6 @@ public class MainController extends Thread {
 						System.out.println("Waing for card...");
 						String cardNum = atmssHandler.doCRReadCard();
 						System.out.println("Rreceive card: " + cardNum);
-						// TODO check if this card is valid card
 						if (!isBankCard(cardNum)) {
 							clearLines();
 							lines[0] = head + "Invalid card, please insert the card from our bank" + tail;
@@ -214,7 +213,11 @@ public class MainController extends Thread {
 									lines[5] = head + "5. Deposit money" + tail;
 								}
 								atmssHandler.doDisDisplayUpper(lines);
-								String userChoise = atmssHandler.doKPGetSingleInput(60);
+								String userChoise = atmssHandler.doKPGetSingleInput(30);
+								if (userChoise == null) {
+									atmssHandler.doCRRetainCard();
+									break;
+								}
 								Session currentSession = getLastSession();
 								if (userChoise.equals("1")) {
 									this.isInProcess = true;
@@ -225,6 +228,21 @@ public class MainController extends Thread {
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
+									}
 
 								} else if (userChoise.equals("2")) {
 									this.isInProcess = true;
@@ -233,6 +251,21 @@ public class MainController extends Thread {
 									LinkedList<Operation> processOperations = withdrawController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
+									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
 									}
 
 								} else if (userChoise.equals("3")) {
@@ -243,6 +276,21 @@ public class MainController extends Thread {
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
 									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
+									}
 
 								} else if (userChoise.equals("4")) {
 									this.isInProcess = true;
@@ -251,6 +299,21 @@ public class MainController extends Thread {
 									LinkedList<Operation> processOperations = transferController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
+									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
 									}
 
 								} else if (EDIsOk && DCIsOk && userChoise.equals("5")) {
@@ -261,6 +324,21 @@ public class MainController extends Thread {
 									LinkedList<Operation> processOperations = depositController.getOperationCache();
 									for (Operation op : processOperations) {
 										currentSession.addOp(op);
+									}
+									if (processOperations.getLast().getType() != 0) {
+										clearLines();
+										lines[1] = head + "Card ejected" + tail;
+										lines[2] = "Please take your card...";
+										atmssHandler.doDisDisplayUpper(lines);
+										if (atmssHandler.doCREjectCard()) {
+										} else {
+											clearLines();
+											lines[1] = head
+													+ "Your card has been retained, please contact +852 51740740"
+													+ tail;
+											atmssHandler.doDisDisplayUpper(lines);
+										}
+										break;
 									}
 
 								} else if (userChoise.equals("CANCEL")) {
@@ -279,7 +357,8 @@ public class MainController extends Thread {
 									break;
 								}
 
-							}
+							} // End of while
+
 							/*---------------------Write out log----------------------------*/
 							try (PrintWriter out = new PrintWriter(
 									new BufferedWriter(new FileWriter("SessionLog.txt", true)))) {
