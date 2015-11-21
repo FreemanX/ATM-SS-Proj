@@ -12,7 +12,7 @@ import atmss.Session;
  */
 public class WithDrawController extends ProcessController{
 
-	private final String OPERATION_NAME = "Withdraw Cash";
+	private final String OPERATION_NAME = "Withdraw";
 	private final String FAILED_FROM_BAMS_LOADING_ACCOUNTS = "Failed to read account information";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_CASHDISPENSER = "No response from the cash dispenser";
@@ -226,8 +226,8 @@ public class WithDrawController extends ProcessController{
 			case 5: description = "Failure: no response from display";break;
 			case 6: description = "Failure: no response from evelop dispenser";break;
 			case 7: description = "Failure: no response from keypad";break;
-			case 8: description = "Failure: cancelled by user";break;
-			case 10: description = "Failure: disapproved by the bank system(BAMS)";break;
+			case 8: description = "Failure: cancellation from user";break;
+			case 10: description = "Failure: disapproval from bank system (BAMS)";break;
 			default:description = "Failure: unknown reason";break;
 		}
 		operationCache.add(new Operation(_currentStep, Type, description));
@@ -238,8 +238,14 @@ public class WithDrawController extends ProcessController{
 		String[] toDisplay = {
 				"Operation succeeded!",
 				"You have withdrawn $" + Amount + "from account: " + AccountNumber,
-				"Press button 1 to print the advice,",
-				"button 2 to quit without printing"
+				
+				
+				
+				"Please choose an account to withdraw:",
+				"Press 1 -> Print the advice",
+				"Press 2 -> Quit without printing",
+				"Press CANCEL -> Quit process"
+
 		};
 		if (!_atmssHandler.doDisDisplayUpper(toDisplay)) return;
 		while (true) {
@@ -247,10 +253,10 @@ public class WithDrawController extends ProcessController{
 			if (userInput == null) return;
 			if (userInput.equals("1")) {
 				String[] toPrint = {
-						"Operation name: " + OPERATION_NAME,
-						"Card Number: " + _session.getCardNo(),
-						"Account Number: " + AccountNumber,
-						"Amount: " + Amount
+						"Operation Name : " + OPERATION_NAME,
+						"Card Number    : " + _session.getCardNo(),
+						"Account Number : " + AccountNumber,
+						"Amount         : $" + Amount
 				};
 				_atmssHandler.doAPPrintStrArray(toPrint);
 				return;
