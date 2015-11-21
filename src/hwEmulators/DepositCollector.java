@@ -1,22 +1,12 @@
 package hwEmulators;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.text.DefaultCaret;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class DepositCollector extends Thread implements EmulatorActions {
 

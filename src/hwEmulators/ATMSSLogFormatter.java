@@ -1,9 +1,8 @@
 package hwEmulators;
 
+import java.util.Calendar;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
-import java.util.logging.Level;
-import java.util.Calendar;
 
 //======================================================================
 // ATMSSLogFormatter

@@ -1,9 +1,9 @@
 package atmss;
 
-import java.util.LinkedList;
-
-import atmss.bams.*;
+import atmss.bams.BAMSCommunicator;
 import atmss.hardware.controller.*;
+
+import java.util.LinkedList;
 
 public class ATMSSHandler {
 

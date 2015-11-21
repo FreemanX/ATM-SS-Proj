@@ -3,6 +3,11 @@
  */
 package atmss;
 
+import atmss.bams.BAMSCommunicator;
+import atmss.hardware.controller.*;
+import atmss.process.*;
+import hwEmulators.*;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,11 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import atmss.bams.*;
-import atmss.hardware.controller.*;
-import atmss.process.*;
-import hwEmulators.*;
 
 /**
  * @author freeman

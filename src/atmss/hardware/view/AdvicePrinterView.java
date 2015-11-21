@@ -3,11 +3,11 @@
  */
 package atmss.hardware.view;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import atmss.hardware.exceptioins.AdvicePrinterException;
 import hwEmulators.AdvicePrinter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author freeman

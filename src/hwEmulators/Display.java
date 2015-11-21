@@ -1,14 +1,16 @@
 package hwEmulators;
 
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
-
-import javax.swing.*;
-import javax.swing.text.*;
 
 public class Display extends Thread implements EmulatorActions {
 	private String id;

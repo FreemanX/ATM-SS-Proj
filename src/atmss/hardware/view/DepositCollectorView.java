@@ -5,7 +5,6 @@ package atmss.hardware.view;
 
 import atmss.Timer;
 import atmss.hardware.exceptioins.DepositCollectorException;
-import atmss.hardware.exceptioins.HardwareException;
 import hwEmulators.DepositCollector;
 import hwEmulators.MBox;
 import hwEmulators.Msg;

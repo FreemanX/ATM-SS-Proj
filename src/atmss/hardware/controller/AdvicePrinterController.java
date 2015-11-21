@@ -3,14 +3,14 @@
  */
 package atmss.hardware.controller;
 
-import java.util.LinkedList;
-
 import atmss.Operation;
 import atmss.hardware.exceptioins.AdvicePrinterException;
 import atmss.hardware.exceptioins.HardwareException;
 import atmss.hardware.view.AdvicePrinterView;
 import hwEmulators.AdvicePrinter;
 import hwEmulators.Msg;
+
+import java.util.LinkedList;
 
 /**
  * @author freeman

@@ -1,18 +1,10 @@
 package hwEmulators;
 
-import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.text.DefaultCaret;
-import java.awt.event.WindowEvent;
-
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.util.logging.Logger;
 
 //======================================================================
 // ATMSSDBugConsole

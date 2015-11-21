@@ -1,12 +1,12 @@
 package hwEmulators;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.Random;
 import java.util.logging.Logger;
-import javax.swing.*;
 
 public class CashDispenser extends Thread implements EmulatorActions {
 	private String id;

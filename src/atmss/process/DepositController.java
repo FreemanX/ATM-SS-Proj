@@ -3,13 +3,12 @@
  */
 package atmss.process;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.util.List;
-
 import atmss.Operation;
 import atmss.Session;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Lihui

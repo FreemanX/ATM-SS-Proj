@@ -3,11 +3,8 @@
  */
 package atmss;
 
-import atmss.bams.*;
+import atmss.bams.BAMSCommunicator;
 import atmss.hardware.controller.*;
-
-import java.util.Date;
-import java.util.Random;
 
 /**
  * @author freeman

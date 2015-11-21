@@ -3,8 +3,12 @@
  */
 package atmss.process;
 
-import java.util.*;
-import atmss.*;
+import atmss.ATMSSHandler;
+import atmss.MainController;
+import atmss.Operation;
+import atmss.Session;
+
+import java.util.LinkedList;
 
 /**
  * @author Lihui

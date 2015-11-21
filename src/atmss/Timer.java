@@ -1,9 +1,9 @@
 package atmss;
 
-import java.util.Date;
-
 import hwEmulators.MBox;
 import hwEmulators.Msg;
+
+import java.util.Date;
 
 public class Timer extends Thread {
 	private static int timerId = 0;
