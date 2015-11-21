@@ -3,6 +3,7 @@
  */
 package atmss;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -449,16 +450,25 @@ public class MainController extends Thread {
 	}
 
 	private void handleAPMsg(Msg msg) {
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCRMsg(Msg msg) {
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
 
 	private void handleCDMsg(Msg msg) {
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() == 301) {
 			System.err.println("Warning: insufficent amount of cash");
 		} else if (msg.getType() % 100 != 0)
@@ -473,6 +483,9 @@ public class MainController extends Thread {
 	}
 
 	private void handleDisMsg(Msg msg) {
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
@@ -485,6 +498,9 @@ public class MainController extends Thread {
 	}
 
 	private void handleKPMsg(Msg msg) {
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", msg.getType(),
+				msg.getDetails() + ": " + format.format(new Date().getTime())));
 		if (msg.getType() % 100 != 0)
 			handleFatalExceptions(msg);
 	}
@@ -509,15 +525,17 @@ public class MainController extends Thread {
 			// wait for the current process finishes
 		}
 		this.atmssHandler.doDisClearUpper();
-		String[] lines = { "", "This ATM is out of service!!!" };
+		String[] lines = { "", "This ATM is out of service!!!~" };
 		this.atmssHandler.doDisDisplayUpper(lines);
 		this.processor.stop();
-		_atmssMBox.send(new Msg("MainController", msg.getType(), msg.getDetails()));
+		// _atmssMBox.send(new Msg("MainController", msg.getType(),
+		// msg.getDetails()));
 	}
 
 	private void initAll() // Initiate all for serving next guest
 	{
-		_atmssMBox.send(new Msg("MainController", 0, "Everything is fine"));
+		SimpleDateFormat format = new SimpleDateFormat("H:m:s");
+		_atmssMBox.send(new Msg("MainController", 0, "Everything is fine @ " + format.format(new Date().getTime())));
 		this.mainControllerMBox.clearBox();
 		this.cardReaderController.initCR();
 		this.isRunning = true;
@@ -545,6 +563,9 @@ public class MainController extends Thread {
 			sleep(100);
 
 			boolean b3 = this.cashDispenserController.updateStatus();
+			if (b3 == false && msg.getType() == 301) {
+				b3 = true;
+			}
 			msg = this.mainControllerMBox.receive();
 			handleCDMsg(msg);
 			sleep(100);

@@ -115,13 +115,21 @@ public class Display extends Thread implements EmulatorActions {
 	}
 	// --------------------------------------------------------
 
+	public void quitBlueScreen() {
+		myFrame.getContentPane().removeAll();
+		myFrame.getContentPane().add(myPanel);
+		myFrame.getContentPane().revalidate();
+		myFrame.getContentPane().repaint();
+		isBlueScreen = false;
+	}
+
 	public void setBlueScreen(List<ATMSS.HWFailureInfo> infos) {
 		String msg = "A problem has been detected and ATM has been shut down to prevent damage.\n\n"
 				+ "If this is the first time you've seen this Stop error screen,\n"
 				+ "contact a technician, +852 5174-0740\n\n"
 				+ "If you are a technician, follow these steps:\n"
 				+ "Check log details failed component(s). Reset the component and restart the ATM.\n\n"
-				+ "Technical information:\n";
+				+ "Technical information [" + infos.size() + "]:\n";
 
 		isBlueScreen = true;
 
