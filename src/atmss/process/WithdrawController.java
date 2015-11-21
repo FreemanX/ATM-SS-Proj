@@ -11,7 +11,7 @@ import atmss.Session;
  *
  * @author DJY
  */
-public class WithDrawController extends ProcessController{
+public class WithdrawController extends ProcessController{
 
 	/** The operation name. */
 	private final String OPERATION_NAME = "Withdraw";
@@ -69,7 +69,7 @@ public class WithDrawController extends ProcessController{
 	 *
 	 * @param CurrentSession the current session
 	 */
-	public WithDrawController(Session CurrentSession) {
+	public WithdrawController(Session CurrentSession) {
 		super(CurrentSession);
 	}
 
