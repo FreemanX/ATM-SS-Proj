@@ -21,7 +21,7 @@ public class DepositController extends ProcessController {
 	private String accountToDeposit;
 	private int amountToDeposit;
 
-	private final String OPERATION_NAME = "DEPOSIT: ";
+	//private final String OPERATION_NAME = "DEPOSIT: ";
 	private final String FAILED_FROM_DISPLAY = "No response from display";
 	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
 	private final String FAILED_FROM_ENVELOPDISPENSER = "No response from envelop dispenser";
@@ -45,9 +45,8 @@ public class DepositController extends ProcessController {
 	}
 
 	public void printOpCache(){
-		String[] operations = this.operationCache.toString().split(",");
-		for(String operation: operations){
-			System.out.println(operation);
+		for(Operation op: operationCache){
+			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
 		}
 	}
 	public Boolean doDeposit() {
@@ -80,7 +79,7 @@ public class DepositController extends ProcessController {
 		
 
 		this.printLastOperation();
-		printOpCache();
+		//printOpCache();
 		return true;
 	}
 	
@@ -212,31 +211,22 @@ public class DepositController extends ProcessController {
 
 	}
 	
-//	private void recordOperation(){
-//		String description = 
-//				"Card Number: " + this._session.getCardNo() + ";" +
-//				"Destination account: "+ this.accountToDeposit + ";" +
-//				"Amount: " + this.amountToDeposit + ";" + 
-//				"Result: " + "Succeeded";
-//		
-//		operationCache.add(new Operation(OPERATION_NAME,0,description));
-//	}
-	
+
 	
 	void printLastOperation(){
 		Operation lastOperation = this.operationCache.getLast();
 		
 		if(lastOperation.getType() == 0){
-		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {">Print advice?",">Print advice by press ENTER.", ">Skip by press 0"}))
+		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {">Print advice?",">Print advice by press 1", ">Skip by press 2"}))
 		{
 			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(300);
 			inputLoop: while(inputFromKeypad!=null){
 				switch (inputFromKeypad){
-				case "ENTER":
+				case "1":
 					this._atmssHandler.doAPPrintStrArray(linesToPrintWhenSucceeded(lastOperation));
 					break inputLoop;
 
-				case "0":
+				case "2":
 					break inputLoop;
 				}
 				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(300);
@@ -251,7 +241,7 @@ public class DepositController extends ProcessController {
 	private String[] linesToPrintWhenSucceeded(Operation lastOp){
 		String[] lines = new String[5];
 		
-		lines[0] = "Operation Name ; DEPOSIT";
+		lines[0] = "Operation Name : DEPOSIT";
 		lines[1] = "Card Number : "+this._session.getCardNo();
 		lines[2] = "To Account : " + this.accountToDeposit;
 		lines[3] = "Amount : $"+ this.amountToDeposit;
@@ -271,9 +261,9 @@ public class DepositController extends ProcessController {
 	
 	
 	private boolean failProcess(String failedStep, int type, String desc){
-		this.operationCache.add(new Operation("DEPOSIT : "+failedStep, type, "Failure"));
+		this.operationCache.add(new Operation("DEPOSIT : "+failedStep, type, desc));
 		this.printLastOperation();
-		this.printOpCache();
+		//this.printOpCache();
 		return false;
 	}
 

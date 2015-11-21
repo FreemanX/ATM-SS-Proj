@@ -1,5 +1,7 @@
 package hwEmulators;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 import atmss.MainController;
@@ -37,6 +39,11 @@ public class ATMKickstarter {
 		log = Logger.getLogger(ATMKickstarter.class.getName());
 		log.setUseParentHandlers(false);
 		log.addHandler(conHd);
+		try {
+			log.addHandler(new FileHandler("atmss_log"));
+		} catch (IOException e) {
+			System.err.println("Failed to set log file... @ " + this.getClass().getSimpleName());
+		}
 		log.setLevel(Level.INFO);
 
 		// create components

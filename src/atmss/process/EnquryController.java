@@ -16,15 +16,10 @@ public class EnquryController extends ProcessController{
 	private double balance;
 	
 	private final String OPERATION_NAME = "Enquiry";
-	private final String FAILED_FROM_BAMS = "Failed from BAMS";
-	private final String FAILED_FROM_DISPLAY = "No response from display";
-	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
-	private final String FAILED_FROM_ADVICEPRINTER = "No response from advice printer";
-	private final String FAILED_CHOOSE_ACCOUNT = "Failed to choose an account";
+	private final String FAILED_FROM_DISPLAY = "no response from display"
+			+ "no response from advice printer";
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account";
 	private final String SHOW_SUCCESS = "Your balance is ";
-	private final String SHOW_FAILURE = "Failed! The enquiry operation failed.";
-	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	private final String[] PRINT_NOTE_SELECTION = {
 			"Do you want to print note?", "Press ENTER to print", "Press CANCEL not to print"
 	};
@@ -33,17 +28,13 @@ public class EnquryController extends ProcessController{
 		super(session);
 	}
 	
-	public Boolean doEnqury() {		
-		if(!this._atmssHandler.doDisClearAll()) {
-			return failProcess(FAILED_FROM_DISPLAY);
+	public Boolean doEnqury() {	
+		if (!this._atmssHandler.doDisClearAll()) {
+			return failProcess(FAILED_FROM_DISPLAY, 5);
 		}
+		recordOperation("Clear the display", 0, "Succeed");
 		
 		if (!this.getAccountNumber()) {
-			return failProcess(SHOW_FAILURE);
-		}
-		
-		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
-			recordOperation(FAILED_FROM_DISPLAY);
 			return false;
 		}
 		
@@ -51,77 +42,75 @@ public class EnquryController extends ProcessController{
 		if (!this._atmssHandler.doDisDisplayUpper(new String[] {
 				SHOW_SUCCESS + balance, PRINT_NOTE_SELECTION[0], PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2]
 		})) {
-			recordOperation(FAILED_FROM_DISPLAY);
+			failProcess("Display the balance", 5);
 			return false;
 		}
+		recordOperation("Display the balance", 0, Double.toString(balance));
 		
 		while (true) {
 			String nextInput = this._atmssHandler.doKPGetSingleInput(10);
 			
-			if (nextInput.equals("ENTER")) {
-				if (!this.doPrintReceipt()) {
-					return failProcess(SHOW_FAILURE);
-				}
+			if (nextInput == null || nextInput.equals("2")) {
+				recordOperation("Choose not to print the receipt", 0, "Succeed");
 				break;
-			} else if (!nextInput.equals("CANCEL")) {
+			} else if (nextInput.equals("1")) {
+				if (!this.doPrintReceipt()) {
+					return false;
+				}
+				recordOperation("Choose to print the receipt", 0, "Succeed");
+				break;
+			} else {
 				if (!this._atmssHandler.doDisDisplayUpper(new String[] {
 						SHOW_SUCCESS + balance, PRINT_NOTE_SELECTION[0], 
 						PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2], "Wrong input!"
 				})) {
-					recordOperation(FAILED_FROM_DISPLAY);
+					failProcess("Display error message", 5);
 					return false;
 				}
-			} else {		
-				this.recordOperation();
-				this._atmssHandler.doDisAppendUpper(SHOW_SUCCESS);
-				break;
+				recordOperation("Display error message", 0, "Succeed");
 			}		
 		}
+		recordOperation("", 0, "Succeed");
 		return true;
 	}
 	
 	private boolean getAccountNumber() {		
 		if (!this._atmssHandler.doDisClearAll()) {
-			return failProcess(FAILED_FROM_DISPLAY);
+			return failProcess("Clear the diaplay", 5);
 		}
+		recordOperation("Clear the display", 0, "Succeed");
 		
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(_session);
 		if (allAccountsInCard.length == 0){
-			return this.failProcess(FAILED_FROM_BAMS);			
+			return failProcess("Waiting for BAMS to get accounts", 10);			
 		}
-			
-		if (!this._atmssHandler.doDisDisplayUpper(allAccountsInCard)){
-			return this.failProcess(FAILED_FROM_DISPLAY);
-		}
-		
-		if (!this._atmssHandler.doDisAppendUpper(PROMPT_FOR_ACCOUNT)) {
-			return this.failProcess(FAILED_FROM_DISPLAY);
-		}
+		recordOperation("Waiting for BAMS to get accounts", 0, "Succeed");
 		
 		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_ACCOUNT, allAccountsInCard))) {
-			recordOperation(FAILED_FROM_DISPLAY);
+			failProcess("Display all accounts in the card", 5);
 			return false;
 		}
+		recordOperation("Display all accounts in the card", 0, "Succeed");
 		
 		while (true){		
-			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(10);
-		
+			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(10);	
 			if (accountSelectedByUser != null){
 				try{
 					int accountChosen = Integer.parseInt(accountSelectedByUser);
 					if (accountChosen <= allAccountsInCard.length) {
 						this.accountNumber = allAccountsInCard[accountChosen - 1];
+						recordOperation("Select an account", 0, accountNumber);
 						return true;
 					}
 				}
 				catch(NumberFormatException e){
 					if(accountSelectedByUser.equals("CANCEL")) {
-						return failProcess(FAILED_CHOOSE_ACCOUNT);
+						return failProcess("User cancels the process", 8);
 					}
 				}
 			}
 			else {
-				return this.failProcess(FAILED_FROM_KEYPAD);		
+				return failProcess("Select an account", 7);		
 			}
 		}		
 	}
@@ -136,33 +125,61 @@ public class EnquryController extends ProcessController{
 	}
 	
 	private boolean doPrintReceipt(){
-		if(!this._atmssHandler .doAPPrintStrArray(new String[] {
+		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
+				new String("Card No.:       " + _session.getCardNo()),
 				new String("Account NO.: " + accountNumber), 
-				new String("Balance:        " + Double.toString(this.balance))}))
-			return failProcess(FAILED_FROM_ADVICEPRINTER);
+				new String("Balance:         " + Double.toString(this.balance))
+		})) {
+			return failProcess("Print the receipt", 1);
+		}
+		recordOperation("Print the receipt", 0, "Succeed");
 		return true;
 	}
-	
-	private void recordOperation(){
-		String description = 
-				"Card Number: " + this._session.getCardNo() + ";" +
-				"Result: " + "Succeeded; ";
-		operationCache.add(new Operation(OPERATION_NAME,description));
+	/*
+	private boolean doPrintReceipt(String msg){
+		if(!this._atmssHandler.doAPPrintStrArray(new String[] {msg})) {
+			return failProcess("Print the receipt", 1);
+		}
+		recordOperation("Print the receipt", 0, "Succeed");
+		return true;
+	}
+	*/
+	private void recordOperation(String operation, int type, String result){
+		/*
+		String result = "";
+		switch (type) {
+			case 0:
+				result = "Successful";				
+				break;
+			case 1:
+				result = "Failed";
+				doPrintReceipt("No response from advice printer.");
+				break;
+			case 5:
+				result = "Failed";
+				doPrintReceipt("No response from display.");
+				break;
+			case 7:
+				result = "Failed";
+				doPrintReceipt("No input from keypad.");
+				break;
+			case 8:
+				result = "Failed";
+				doPrintReceipt("Process cancelled.");
+				break;
+			case 10:
+				result = "Failed";
+				doPrintReceipt("No response from BAMS.");
+				break;
+		}
+	    */
+		operationCache.add(new Operation(OPERATION_NAME + ": " + operation, type, result));
 	}
 	
-	private void recordOperation(String FailedReason){
-		String description = 
-				"Card Number: " + this._session.getCardNo() + ";" +
-				"Result: " + "Failed;" + 
-				"Reason: " + FailedReason;
-		operationCache.add(new Operation(OPERATION_NAME, description));
-		
-	}
-	
-	private boolean failProcess(String FailedReason){
+	private boolean failProcess(String operation, int type){
 		this._atmssHandler.doDisClearAll();
-		this._atmssHandler.doDisDisplayUpper(new String[] {FailedReason});
-		recordOperation(FailedReason);
+		this._atmssHandler.doDisDisplayUpper(new String[] {operation});
+		recordOperation(operation, type, "Failed");
 		return false;
 	}
 

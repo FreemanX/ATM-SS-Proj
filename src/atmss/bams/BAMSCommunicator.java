@@ -1,5 +1,8 @@
 package atmss.bams;
 
+import hwEmulators.MBox;
+import hwEmulators.Msg;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,17 +13,19 @@ import java.net.URL;
 public class BAMSCommunicator extends BAMSHandler {
 
 	private final static String prefix = "http://cs6063.comp.hkbu.edu.hk/~group05/";
+	private MBox maincontrollerBox  = null;
 
-	public BAMSCommunicator() {
+	public BAMSCommunicator(MBox maincontrollerBox) {
 		super(prefix);
+		this.maincontrollerBox = maincontrollerBox;
 	}
 
-	public boolean ping() {
+	public void ping() {
 		String urlStr = prefix + "login.php?"; // expect "ERROR"
-		if (sendRequest(urlStr).equalsIgnoreCase("error")) {
-			return true;
+		if (!sendRequest(urlStr).equalsIgnoreCase("error")) {
+			new Msg("BAMS", 899, "Connection failed...");
 		}
-		return false;
+		new Msg("BAMS", 800, "Connection success...");
 	}
 
 	public int changePin(String cardNo, String cred, String newPin) {

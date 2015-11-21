@@ -10,6 +10,24 @@ class LogHelper {
 		$logFile = fopen($this->logDir."log.txt", "a");
 		$f = fwrite($logFile, $msg.PHP_EOL);
 		fclose($f);
+		fclose($logFile);
+	}
+
+	public function getLogs() {
+
+		$logLines = array();
+		
+		$logFile = fopen($this->logDir."log.txt", "r");
+
+		if ($logFile) {
+			while (($line = fgets($logFile)) != false) {
+				array_push($logLines, $line);
+			}
+			fclose($logFile);
+		}
+		
+
+		return $logLines;
 	}
 
 	private function arrToString($assoArr) {
@@ -24,5 +42,6 @@ class LogHelper {
 
 		return $s;
 	}
+
 }
 ?>
