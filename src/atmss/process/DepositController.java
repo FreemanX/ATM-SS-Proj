@@ -27,7 +27,7 @@ public class DepositController extends ProcessController {
 	private final String FAILED_FROM_ENVELOPDISPENSER = "No response from envelop dispenser";
 	private final String FAILED_FROM_DEPOSITCOLLECTOR = "No response from deposit collector";
 	private final String FAILED_FROM_ADVICEPRINTER = "No response from advice printer";
-	private final String FAILED_FROM_BAMS = "Failed from BAMS";
+	private final String FAILED_FROM_BAMS = "No response from BAMS";
 	private final String PROMPT_FOR_ACCOUNT = ">Please select account to deposit :";
 	private final String PROMPT_FOR_AMOUNT = ">Please type in your deposit amount :";
 	private final String PROMPT_FOR_CONFIRM1 = ">Please confirm your deposit amount by ENTER.";
@@ -87,7 +87,7 @@ public class DepositController extends ProcessController {
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_RETURN_ENVELOP}))
 			return failProcess("Eat envelop",5, this.FAILED_FROM_DISPLAY);
 		
-		if(!this._atmssHandler.doEDEatEnvelop())
+		if(!this._atmssHandler.doEDEatEnvelop(20))
 			return failProcess("Eat envelop",4,this.FAILED_FROM_DEPOSITCOLLECTOR);
 		
 		return true;
@@ -242,9 +242,9 @@ public class DepositController extends ProcessController {
 		String[] lines = new String[5];
 		
 		lines[0] = "Operation Name : DEPOSIT";
-		lines[1] = "Card Number : "+this._session.getCardNo();
-		lines[2] = "To Account : " + this.accountToDeposit;
-		lines[3] = "Amount : $"+ this.amountToDeposit;
+		lines[1] = "Card Number    : "+this._session.getCardNo();
+		lines[2] = "To Account     : " + this.accountToDeposit;
+		lines[3] = "Amount         : $"+ this.amountToDeposit;
 		lines[4] = "Success";
 		
 		return lines;
@@ -253,7 +253,7 @@ public class DepositController extends ProcessController {
 	private String[] linesToPrintWhenFailed(Operation lastOp){
 		String[] lines = new String[3];
 		lines[0] = "Operation Name : DEPOSIT";
-		lines[1] = "Card Number : " + this._session.getCardNo();
+		lines[1] = "Card Number    : " + this._session.getCardNo();
 		lines[2] = lastOp.getDes();
 				
 		return lines;

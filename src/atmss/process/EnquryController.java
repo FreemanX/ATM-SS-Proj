@@ -12,17 +12,24 @@ import atmss.Session;
  */
 public class EnquryController extends ProcessController{
 	
+	private final String FAILED_FROM_BAMS = "No response from BAMS";
 	private String accountNumber;
 	private double balance;
 	
-	private final String OPERATION_NAME = "Enquiry";
-	private final String FAILED_FROM_DISPLAY = "no response from display"
-			+ "no response from advice printer";
+	//private final String OPERATION_NAME = "Operation : ENQURY";
+	private final String FAILED_FROM_DISPLAY = "No response from display"
+			+ "No response from advice printer";
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account";
 	private final String SHOW_SUCCESS = "Your balance is ";
 	private final String[] PRINT_NOTE_SELECTION = {
 			"Do you want to print note?", "Press ENTER to print", "Press CANCEL not to print"
 	};
+	
+	public void printOpCache(){
+		for(Operation op: operationCache){
+			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
+		}
+	}
 	
 	public EnquryController(Session session) {
 		super(session);
@@ -30,19 +37,20 @@ public class EnquryController extends ProcessController{
 	
 	public Boolean doEnqury() {	
 		if (!this._atmssHandler.doDisClearAll()) {
-			return failProcess(FAILED_FROM_DISPLAY, 5);
+			return failProcess("ENQURY : Display accounts", 5, FAILED_FROM_DISPLAY);
 		}
-		recordOperation("Clear the display", 0, "Succeed");
+		//recordOperation("ENQURY : Clear the display", 0, "Succeed");
 		
 		if (!this.getAccountNumber()) {
 			return false;
 		}
+		recordOperation("ENQURY : Get account", 0, "Success");
 		
 		this.balance = _atmssHandler.doBAMSCheckBalance(this.accountNumber, _session);
 		if (!this._atmssHandler.doDisDisplayUpper(new String[] {
 				SHOW_SUCCESS + balance, PRINT_NOTE_SELECTION[0], PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2]
 		})) {
-			failProcess("Display the balance", 5);
+			failProcess("ENQURY : Display the balance", 5, FAILED_FROM_DISPLAY);
 			return false;
 		}
 		recordOperation("Display the balance", 0, Double.toString(balance));
@@ -51,46 +59,47 @@ public class EnquryController extends ProcessController{
 			String nextInput = this._atmssHandler.doKPGetSingleInput(10);
 			
 			if (nextInput == null || nextInput.equals("2")) {
-				recordOperation("Choose not to print the receipt", 0, "Succeed");
+				recordOperation("Choose not to print the receipt", 0, "Success");
 				break;
 			} else if (nextInput.equals("1")) {
 				if (!this.doPrintReceipt()) {
 					return false;
 				}
-				recordOperation("Choose to print the receipt", 0, "Succeed");
+				recordOperation("Choose to print the receipt", 0, "Success");
 				break;
 			} else {
 				if (!this._atmssHandler.doDisDisplayUpper(new String[] {
 						SHOW_SUCCESS + balance, PRINT_NOTE_SELECTION[0], 
 						PRINT_NOTE_SELECTION[1],PRINT_NOTE_SELECTION[2], "Wrong input!"
 				})) {
-					failProcess("Display error message", 5);
+					failProcess("ENQURY : Display error message", 5, FAILED_FROM_DISPLAY);
 					return false;
 				}
-				recordOperation("Display error message", 0, "Succeed");
+				recordOperation(" ENQURY : Display error message", 0, "Success");
 			}		
 		}
 		recordOperation("", 0, "Succeed");
+		this.printOpCache();
 		return true;
 	}
 	
 	private boolean getAccountNumber() {		
 		if (!this._atmssHandler.doDisClearAll()) {
-			return failProcess("Clear the diaplay", 5);
+			return failProcess("ENQURY : Clear the diaplay", 5, FAILED_FROM_DISPLAY);
 		}
-		recordOperation("Clear the display", 0, "Succeed");
+		recordOperation("ENQURY : Clear the display", 0, "Success");
 		
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(_session);
 		if (allAccountsInCard.length == 0){
-			return failProcess("Waiting for BAMS to get accounts", 10);			
+			return failProcess("ENQURY : Get accounts from BAMS", 10, FAILED_FROM_BAMS);			
 		}
-		recordOperation("Waiting for BAMS to get accounts", 0, "Succeed");
+		recordOperation("ENQURY : Get accounts", 0, "Succeed");
 		
 		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_ACCOUNT, allAccountsInCard))) {
-			failProcess("Display all accounts in the card", 5);
+			failProcess("ENQURY : Get accounts",5, FAILED_FROM_DISPLAY);
 			return false;
 		}
-		recordOperation("Display all accounts in the card", 0, "Succeed");
+		recordOperation("ENQURY : Get accounts", 0, "Succeed");
 		
 		while (true){		
 			String accountSelectedByUser = this._atmssHandler.doKPGetSingleInput(10);	
@@ -126,9 +135,10 @@ public class EnquryController extends ProcessController{
 	
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
-				new String("Card No.:       " + _session.getCardNo()),
-				new String("Account NO.: " + accountNumber), 
-				new String("Balance:         " + Double.toString(this.balance))
+				new String("Operation Name : ENQURY"),
+				new String("Card Number    : " + _session.getCardNo()),
+				new String("Account Number : " + accountNumber), 
+				new String("Balance        : $" + Double.toString(this.balance))
 		})) {
 			return failProcess("Print the receipt", 1);
 		}
@@ -173,13 +183,14 @@ public class EnquryController extends ProcessController{
 				break;
 		}
 	    */
-		operationCache.add(new Operation(OPERATION_NAME + ": " + operation, type, result));
+		operationCache.add(new Operation(operation, type, result));
 	}
 	
-	private boolean failProcess(String operation, int type){
-		this._atmssHandler.doDisClearAll();
-		this._atmssHandler.doDisDisplayUpper(new String[] {operation});
-		recordOperation(operation, type, "Failed");
+	private boolean failProcess(String operation, int type, String desc){
+		//this._atmssHandler.doDisClearAll();
+		//this._atmssHandler.doDisDisplayUpper(new String[] {operation});
+		recordOperation(operation, type, desc);
+		printOpCache();
 		return false;
 	}
 
