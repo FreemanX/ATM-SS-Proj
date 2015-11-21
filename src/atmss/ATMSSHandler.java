@@ -455,6 +455,7 @@ public class ATMSSHandler {
 				moneyAmount = "CANCEL";
 				break;
 			} else if (currentInput.equals("CLEAR")) {
+				inputDot = false;
 				doDisClearLower();
 				moneyAmount = "";
 			} else if (currentInput.equals("ENTER")) {
