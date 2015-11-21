@@ -186,7 +186,7 @@ public class DepositController extends ProcessController {
 			
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess("get amount", 5, this.FAILED_FROM_DISPLAY);
-			if(!this._atmssHandler.doDisDisplayUpper(new String[] {" Your deposit amoun: $" + userInputAmountToDeposit, PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, PROMPT_FOR_CONFIRM3}))
+			if(!this._atmssHandler.doDisDisplayUpper(new String[] {" Your deposit amount: $" + userInputAmountToDeposit, PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, PROMPT_FOR_CONFIRM3}))
 				return failProcess("get amount",5, FAILED_FROM_DISPLAY);
 			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(20);

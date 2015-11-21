@@ -176,7 +176,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 			myPanel = new MyPanel();
 			add(myPanel);
 			pack();
-			setSize(350, 400);
+			setSize(350, 450);
 			setResizable(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);

@@ -170,10 +170,10 @@ public class MainController extends Thread {
 							numOfWrongPassed = 0;
 							while (true) {
 								clearLines();
-								lines[0] = "Welcome! Please select the function you want to use, press CANCLE to exit";
+								lines[0] = "Welcome! Please select the function you want to use, press CANCEL to exit";
 								lines[1] = head + "1. Change password" + tail;
 								lines[2] = head + "2. Withdraw money" + tail;
-								lines[3] = head + "3. Enqury" + tail;
+								lines[3] = head + "3. Enquiry" + tail;
 								lines[4] = head + "4. Transfer money" + tail;
 								if (EDIsOk && DCIsOk) {
 									lines[5] = head + "5. Deposit money" + tail;
