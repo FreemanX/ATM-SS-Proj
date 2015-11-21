@@ -56,7 +56,7 @@ public class ChangePasswdController extends ProcessController {
 	}
 
 	/**
-	 * Do change passwd.
+	 * Do change password.
 	 *
 	 * @return true, if successful
 	 */
