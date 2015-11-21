@@ -30,7 +30,8 @@ public class DepositController extends ProcessController {
 	private final String FAILED_FROM_BAMS = "Failed from BAMS";
 	private final String PROMPT_FOR_ACCOUNT = "Please select account to deposit :";
 	private final String PROMPT_FOR_AMOUNT = "Please type in your deposit amount :";
-	private final String[] PROMPT_FOR_CONFIRM = {"Please confirm your deposit amount by ENTER."+" Press 0 to reinput amount."};
+	private final String PROMPT_FOR_CONFIRM1 = "Please confirm your deposit amount by ENTER.";
+	private final String PROMPT_FOR_CONFIRM2 = " Press 0 to reinput amount.";
 	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
 	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
 	private final String CANCELED = "Canceled!";
@@ -164,7 +165,7 @@ public class DepositController extends ProcessController {
 			
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess(FAILED_FROM_DISPLAY);
-			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM, "$" + userInputAmountToDeposit}))
+			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_CONFIRM1,PROMPT_FOR_CONFIRM2, "$" + userInputAmountToDeposit}))
 				return failProcess(FAILED_FROM_DISPLAY);
 			
 			String confirmInput = this._atmssHandler.doKPGetSingleInput(300);
@@ -192,10 +193,10 @@ public class DepositController extends ProcessController {
 		String description = 
 				"Card Number: " + this._session.getCardNo() + ";" +
 				"Result: " + "Succeeded; ";
-		operationCache.add(new Operation(OPERATION_NAME,description));
+		operationCache.add(new Operation(OPERATION_NAME,0,description));
 	}
 	
-	private void recordOperation(String FailedReason){
+	private void recordOperation(String FailedReason, int type){
 		String description = 
 				"Card Number: " + this._session.getCardNo() + ";" +
 				"Result: " + "Failed;"+ 
