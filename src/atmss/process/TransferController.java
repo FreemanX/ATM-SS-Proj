@@ -13,10 +13,10 @@ import atmss.Session;
  */
 public class TransferController extends ProcessController{
 
-	/** The src account number. */
+	/** The source account number. */
 	private String srcAccountNumber;
 	
-	/** The des account number. */
+	/** The destination account number. */
 	private String desAccountNumber;
 	
 	/** The amount to transfer. */
@@ -37,10 +37,10 @@ public class TransferController extends ProcessController{
 	/** The prompt for amount. */
 	private final String PROMPT_FOR_AMOUNT = "Please type in your transfer amount";
 	
-	/** The prompt for srcaccount. */
+	/** The prompt for source account. */
 	private final String PROMPT_FOR_SRCACCOUNT = "Please choose your account";
 	
-	/** The prompt for desaccount. */
+	/** The prompt for destination account. */
 	private final String PROMPT_FOR_DESACCOUNT = "Please type in your target account";
 	
 	/** The prompt for confirm. */
@@ -105,9 +105,9 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Gets the src account number.
+	 * Gets the source account number.
 	 *
-	 * @return the src account number
+	 * @return the boolean
 	 */
 	private boolean getSrcAccountNumber() {
 		if(!this._atmssHandler.doDisClearAll()) {
@@ -155,9 +155,9 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Gets the des account number.
+	 * Gets the destination account number.
 	 *
-	 * @return the des account number
+	 * @return the boolean
 	 */
 	private boolean getDesAccountNumber() {
 		String desAccountNumber ="";
