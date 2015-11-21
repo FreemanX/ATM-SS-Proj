@@ -1,5 +1,7 @@
 bin/
 out/
+SessionLog.txt
+atmss_log*
 atmss_log
 .classpath		
 *.pdf		
@@ -7,3 +9,4 @@ atmss_log
 *.iws
 *.iml
 *.ipr
+atmss_log
