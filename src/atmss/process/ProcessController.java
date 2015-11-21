@@ -46,28 +46,5 @@ public abstract class ProcessController {
 		operationCache.add(operation);
 		
 	}
-	
-	void printOperation(){
-		if(this._atmssHandler.doDisClearAll() && this._atmssHandler.doDisDisplayUpper(new String[] {"Print advice: press ENTER."+" Do not print advice: press 0"}))
-		{
-			String inputFromKeypad = _atmssHandler.doKPGetSingleInput(300);
-			inputLoop: 
-				while(inputFromKeypad!=null){
-				switch (inputFromKeypad){
-				case "ENTER":
-					this._atmssHandler.doAPPrintAdvice(operationCache);
-					break inputLoop;
-
-				case "0":
-					break inputLoop;
-				}
-				inputFromKeypad = this._atmssHandler.doKPGetSingleInput(300);
-			}
-		}
-	}
-	
-	void printOperationWhenFail(){
-		this._atmssHandler.doAPPrintAdvice(operationCache);
-	}
 
 }

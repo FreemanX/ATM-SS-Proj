@@ -1,6 +1,5 @@
 package hwEmulators;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +50,7 @@ public class ATMSS extends Thread {
 	private Keypad keypad = null; // 7
 
 	private List<HWFailureInfo> failureInfos = new ArrayList<HWFailureInfo>();
-	private List<Integer> blueSkipList = Arrays.asList(5); // add more here to skip bluescreen
+	private List<int[]> skipList = Arrays.asList(new int[]{400, 499}, new int[]{500, 599}, new int[]{600, 699}, new int[]{301,301}); // add more here to skip bluescreen
 
 	// ------------------------------------------------------------
 	// ATMSS
@@ -143,47 +142,59 @@ public class ATMSS extends Thread {
 		while (true) {
 			Msg msg = mbox.receiveTemp();
 			console.println(id + " received " + msg);
-			System.err.println(id + " receiver " + msg);
+			//System.err.println(id + " received, sender: " + msg.getSender() + ", type: " + msg.getType() + ", details: " + msg.getDetails());
+
 
 			if (msg.getSender().equalsIgnoreCase("NewExceptionEmulator")) {
 				handleExceptionEmu(msg);
 			} else if (msg.getDetails().equals("Restarted")) {
 				handleComponentRestarted(msg);
 			}
-			/*
-			if (msg.getSender().equalsIgnoreCase("MainController")) {
-				System.err.println("From MainController >> type: " + msg.getType() + ", details: " + msg.getDetails());
-				if (msg.getDetails().equalsIgnoreCase("normal")) {
-					if (!blueSkipList.contains(msg.getType())) {
-						removeFailure(msg.getType());
 
-						if (failureInfos.size() == 0) {
-							if (display.isBlueScreen())
-								display.restart();
-						} else {
-							display.setBlueScreen(failureInfos);
-						}
+
+			if (msg.getSender().equalsIgnoreCase("MainController")) {
+				int type = (int) msg.getType() / 100;
+				int code = msg.getType();
+				boolean toDo = true;
+
+				System.out.println("From MainController >> code: " + code + ", details: " + msg.getDetails());
+				for (int[] arr : skipList) {
+					if (code >= arr[0] && code <= arr[1]) {
+						toDo = false;
 					}
 				}
-				if (msg.getDetails().equalsIgnoreCase("out of service")
-						|| msg.getDetails().equalsIgnoreCase("Paper jammed")
-						|| msg.getDetails().equalsIgnoreCase("No paper or ink")
-						|| msg.getDetails().equalsIgnoreCase("fatal error")) {
-					if (!blueSkipList.contains(msg.getType())) {
-						putFailure(new HWFailureInfo(msg.getType(), Integer.valueOf(msg.getSender()), msg.getDetails()));
-						display.setBlueScreen(failureInfos);
+				if (toDo) {
+					if (code % 100 == 0) { // normal
+						removeFailure(type);
+					} else { // not normal
+						putFailure(new HWFailureInfo(type, code, msg.getDetails()));
+					}
+					if (code == 0) {
+						for (int i = 1; i < 8; i++) {
+							removeFailure(i);
+						}
+					}
+					if (failureInfos.size() == 0 && code == 0) {
+						if (display.getDisStatus() % 100 == 0)
+							display.quitBlueScreen();
+					}
+					if (failureInfos.size() > 0) {
+						if (display.getDisStatus() % 100 == 0)
+							display.setBlueScreen(failureInfos);
 					}
 				}
 			}
-			*/
 		}
 	} // run
 
 	private void putFailure(HWFailureInfo newInfo) { // replace/add failure info
 		removeFailure(newInfo.getType());
 
-		System.out.println("Adding " + newInfo.getType());
+		//System.out.println("Adding " + newInfo.getType());
 		failureInfos.add(newInfo);
+
+		sortList();
+		//System.out.println("Put: " + failureInfos.size());
 	}
 
 	private void removeFailure(int type) {
@@ -197,9 +208,31 @@ public class ATMSS extends Thread {
 		}
 		// remove
 		for (HWFailureInfo candidate : removeCandidate) {
-			System.out.println("Removing " + candidate.getType());
+			//System.out.println("Removing " + candidate.getType());
 			failureInfos.remove(candidate);
 		}
+	}
+
+	private void sortList() {
+		List<HWFailureInfo> result = new ArrayList<HWFailureInfo>();
+
+		while (failureInfos.size() > 0) {
+			result.add(0, popMaxType());
+		}
+
+		failureInfos = result;
+	}
+
+	private HWFailureInfo popMaxType() {
+		HWFailureInfo maxTypeInfo = new HWFailureInfo(0, 0, "");
+
+		for (HWFailureInfo info : failureInfos) {
+			if (info.getType() > maxTypeInfo.getType())
+				maxTypeInfo = info;
+		}
+
+		failureInfos.remove(maxTypeInfo);
+		return maxTypeInfo;
 	}
 
 	private void handleExceptionEmu(Msg m) {
@@ -270,6 +303,7 @@ public class ATMSS extends Thread {
 	}
 
 	private void handleComponentRestarted(Msg m) {
+		System.out.println("MSG:" + m);
 		newExEmu.componentRestarted(m.getType());
 	}
 } // ATMSS
