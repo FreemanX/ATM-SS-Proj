@@ -35,7 +35,7 @@
 	<span id="countEle"></span><br>
 	Passwd: <input onkeydown="keyDown(event)" type="password" id="passwdField"><br>
 	/<input style="margin-top: 5px;" type="text" placeholder="pattern" onkeydown="keyDown(event)" id="pattern">/<input type="text" placeholder="modifiers" onkeydown="keyDown(event)" size="5" id="modifiers"> <span style="text-decoration: none; cursor: pointer; color: red;" onclick="popHelp()">?help</span> <span style="opacity: 0;" id="help">Pattern could be 1.<b><i>&lt;<a target="_blank" href="http://www.tutorialspoint.com/php/php_regular_expression.htm">php regex pattern</a>&gt;</i></b> , or 2.<b><i>"?clear"</i></b> - to clear log. E.g. <b><i>".*"</i></b> - to display all log</span><br><hr>
-	<div id="resultBox">
+	<div id="resultBox" style="position: fixed; height: 100%; overflow-y: scroll;">
 	</div>
 </body>
 </html>
