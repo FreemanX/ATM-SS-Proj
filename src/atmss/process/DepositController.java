@@ -78,14 +78,6 @@ public class DepositController extends ProcessController {
 		super(Session);
 	}
 
-	/**
-	 * Prints the whole operation cache.
-	 */
-	public void printOpCache(){
-		for(Operation op: operationCache){
-			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
-		}
-	}
 	
 	/**
 	 * Process deposit operation.
@@ -361,6 +353,15 @@ public class DepositController extends ProcessController {
 		this.printLastOperation();
 		this.printOpCache();
 		return false;
+	}
+	
+	/**
+	 * Prints the whole operation cache.
+	 */
+	public void printOpCache(){
+		for(Operation op: operationCache){
+			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
+		}
 	}
 
 }

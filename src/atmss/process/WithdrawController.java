@@ -100,7 +100,7 @@ public class WithdrawController extends ProcessController{
 	 *
 	 * @return true, if all the relevant hardwares work fine, the user does not cancel or get time out, and the process can get approval from the banking system over the network; otherwise return false.
 	 */
-	public Boolean doWithdraw() {
+	public boolean doWithdraw() {
 		if (!doLoadAccounts()) return false;
 		if (!doGetAccountChoice()) return false;
 		if (!doGetWithdrawAmount()) return false;		

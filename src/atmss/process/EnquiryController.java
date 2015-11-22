@@ -48,16 +48,7 @@ public class EnquiryController extends ProcessController{
 	private final String[] PRINT_NOTE_SELECTION = {
 			 "Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
-	
-	/**
-	 * Print the operation cache.
-	 */
-	public void printOpCache(){
-		for(Operation op: operationCache){
-			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
-		}
-	}
-	
+
 	/**
 	 * Instantiate a new enquiry controller.
 	 *
@@ -120,7 +111,7 @@ public class EnquiryController extends ProcessController{
 			return failProcess("Enquiry : clear the diaplay", 5, FAILED_FROM_DISPLAY);
 		}
 		recordOperation("Enquiry : clear the display", 0, "Success");
-		//==================================================
+		
 		String[] allAccountsInCard = this._atmssHandler.doBAMSGetAccounts(_session);
 		if (allAccountsInCard.length == 0){
 			return failProcess("Enquiry : get accounts from BAMS", 10, FAILED_FROM_BAMS);			
@@ -134,7 +125,7 @@ public class EnquiryController extends ProcessController{
 		}
 		recordOperation("Enquiry : display accounts", 0, "Success");
 		
-		System.out.println("===================================display accounts!!!!!!");
+
 		int accountNoSelectedByUser = allAccountsInCard.length + 1;
 		
 		while(accountNoSelectedByUser > allAccountsInCard.length){
@@ -204,5 +195,16 @@ public class EnquiryController extends ProcessController{
 		printOpCache();
 		return false;
 	}
+	
+	
+	/**
+	 * Print the operation cache.
+	 */
+	public void printOpCache(){
+		for(Operation op: operationCache){
+			System.out.println(op.getName() + " "+ op.getType() + " "+op.getDes());
+		}
+	}
+	
 
 }
