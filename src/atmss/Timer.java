@@ -53,7 +53,7 @@ public class Timer extends Thread {
 	}
 
 	/**
-	 * Inits the timer.
+	 * Initiates the timer.
 	 *
 	 * @param DurationSecond the duration second
 	 * @param MBox the m box
@@ -77,7 +77,7 @@ public class Timer extends Thread {
 	}
 
 	/**
-	 * Gets the timer.
+	 * Get a timer.
 	 *
 	 * @return the timer
 	 */
