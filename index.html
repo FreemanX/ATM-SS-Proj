@@ -43,8 +43,8 @@
 
 <ol>
 <li><p>Set up a server that support PHP and put everything in php/ to your server.</p></li>
-<li><p>Set up mysql database server and run the script in sql_dump/ to build a test database with the necessary tables and records.</p></li>
-<li><p>Change the value of prefix in atmss.bams.BAMSCommunicator to your own server.</p></li>
+<li><p>Set up mysql database server and run the script in sql_dump/ to build a test database with the necessary tables and records. E.g., <em><code>mysql -u &lt;username&gt; -p &lt;db_name&gt; &lt;&lt; group05_dmp.sql</code></em></p></li>
+<li><p>Change the value of prefix in <em>atmss.bams.BAMSCommunicator</em> and <em>php/settings.php</em> to match with your server.</p></li>
 </ol>
 
 <h3>
@@ -57,21 +57,58 @@
 
 <p>The system will record 3 log files during the run time.</p>
 
-<h3>
-<a id="1-atmss_loglocal----in-the-form-of-xml-records-all-the-operations-that-the-user-interact-with-hardware-emulators" class="anchor" href="#1-atmss_loglocal----in-the-form-of-xml-records-all-the-operations-that-the-user-interact-with-hardware-emulators" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. atmss_log(local) --&gt; in the form of xml records all the operations that the user interact with hardware emulators.</h3>
+<h4>
+<a id="1-atmss_loglocal----in-the-form-of-xml-records-all-the-operations-that-the-user-interact-with-hardware-emulators" class="anchor" href="#1-atmss_loglocal----in-the-form-of-xml-records-all-the-operations-that-the-user-interact-with-hardware-emulators" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. atmss_log(local) --&gt; in the form of xml records all the operations that the user interact with hardware emulators.</h4>
 
-<h3>
-<a id="2-sessionloglocal----records-the-user-behaviors-after-the-user-successfully-log-into-the-system" class="anchor" href="#2-sessionloglocal----records-the-user-behaviors-after-the-user-successfully-log-into-the-system" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. SessionLog(local) --&gt; records the user behaviors after the user successfully log into the system.</h3>
+<h4>
+<a id="2-sessionloglocal----records-the-user-behaviors-after-the-user-successfully-log-into-the-system" class="anchor" href="#2-sessionloglocal----records-the-user-behaviors-after-the-user-successfully-log-into-the-system" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. SessionLog(local) --&gt; records the user behaviors after the user successfully log into the system.</h4>
 
-<h3>
-<a id="3-server-logserver----records-all-the-requests-from-atm-machiens-can-be-viewd-by-loghtml-with-the-password-of-group05-log-in-password" class="anchor" href="#3-server-logserver----records-all-the-requests-from-atm-machiens-can-be-viewd-by-loghtml-with-the-password-of-group05-log-in-password" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Server log(server) --&gt; records all the requests from ATM machiens, can be viewd by log.html with the password of group05 log in password</h3>
+<h4>
+<a id="3-server-logserver----records-all-the-requests-from-atm-machiens-can-be-viewd-by-loghtml-with-the-password-of-group05-log-in-password" class="anchor" href="#3-server-logserver----records-all-the-requests-from-atm-machiens-can-be-viewd-by-loghtml-with-the-password-of-group05-log-in-password" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Server log(server) --&gt; records all the requests from ATM machiens, can be viewd by log.html with the password of group05 log in password</h4>
 
 <h2>
 <a id="notice" class="anchor" href="#notice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notice</h2>
 
 <ol>
-<li>The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.</li>
-<li>For more details of the project please refer to Java documnet in doc/</li>
+<li>
+<p>The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.</p>
+
+<p>Databash infomation(22/11/2015):</p>
+
+<pre><code>MariaDB [group05]&gt; show tables;
++-------------------+
+| Tables_in_group05 |
++-------------------+
+| accounts          |
+| cards             |
++-------------------+
+
+MariaDB [group05]&gt; select * from accounts;
++-------------+--------------+------------+
+| account_no  | card_no      | balance    |
++-------------+--------------+------------+
+| 15494572221 | 981370846450 |     150000 |
+| 15498562384 | 981358459216 |      46044 |
+| 23651154897 | 981370846450 |      80000 |
+| 61945738628 | 981358459216 | 4992454.81 |
+| 79548621118 | 981370846450 |       8000 |
+| 95846285951 | 981398412504 |    6534520 |
++-------------+--------------+------------+
+
+MariaDB [group05]&gt; select * from cards;
++--------------+--------+
+| card_no      | pin    |
++--------------+--------+
+| 981358459216 | 222222 |
+| 981370846450 | 458496 |
+| 981398412504 | 804946 |
++--------------+--------+
+</code></pre>
+
+<p>The pin may be changed if someone tests changing password fucntion.
+Card Reader provides the first 2 cards if you want to play with the 3rd one, you need to type in manaualy.</p>
+</li>
+<li><p>For more details of the project please refer to Java documnet in doc/</p></li>
 </ol>
         </section>
 
