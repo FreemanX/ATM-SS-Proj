@@ -18,34 +18,34 @@ public class Keypad extends Thread implements EmulatorActions {
 
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
-	/** The _keypad view mbox. */
+
+	/** The KeypadView mbox. */
 	private MBox _keypadViewMbox = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 7;
-	
+
 	/** The status. */
 	private int status = 700;
-	
+
 	/** The _input id. */
 	private long _inputId = 0;
-	
-	/** The my frame. */
+
+	/** The frame. */
 	private MyFrame myFrame = null;
-	
-	/** The my panel. */
+
+	/** The panel. */
 	private MyPanel myPanel = null;
-	
+
 	/** The enabled. */
 	// ------------------------------------------------------------------
 	private volatile boolean enabled = false;
@@ -59,8 +59,6 @@ public class Keypad extends Thread implements EmulatorActions {
 	 * component's <code>addMyListener<code> method. When
 	 * the my event occurs, that object's appropriate
 	 * method is invoked.
-	 *
-	 * @see MyEvent
 	 */
 	// Listener
 	class MyListener implements ActionListener {
@@ -101,18 +99,18 @@ public class Keypad extends Thread implements EmulatorActions {
 	} // Keypad
 
 	/**
-	 * Gets the KP status.
+	 * Gets the Keypad status.
 	 *
-	 * @return the KP status
+	 * @return the Keypad status
 	 */
 	public int getKPStatus() {
 		return status;
 	}
 
 	/**
-	 * Sets the KP status.
+	 * Sets the Keypad status.
 	 *
-	 * @param Status the new KP status
+	 * @param Status the new Keypad status
 	 */
 	protected void setKPStatus(int Status) {
 		if (status != Status) {
@@ -148,7 +146,7 @@ public class Keypad extends Thread implements EmulatorActions {
 	/**
 	 * Sets the keypad enable.
 	 *
-	 * @param isEnable the is enable
+	 * @param isEnable should the Keypad enable?
 	 * @param InputId the input id
 	 */
 	// toggle keypad listening state
@@ -158,9 +156,9 @@ public class Keypad extends Thread implements EmulatorActions {
 	}
 
 	/**
-	 * Sets the view m box.
+	 * Sets the KeypadView mbox.
 	 *
-	 * @param KeypadViewMBox the new view m box
+	 * @param KeypadViewMBox the new KeypadView mbox
 	 */
 	public void setViewMBox(MBox KeypadViewMBox) {
 		this._keypadViewMbox = KeypadViewMBox;
@@ -214,8 +212,8 @@ public class Keypad extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable should the UI enable?
+	 * @param isShutdown shudown the UI?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
@@ -284,7 +282,7 @@ public class Keypad extends Thread implements EmulatorActions {
 	 */
 	// MyPanel
 	private class MyPanel extends JPanel {
-		
+
 		/** The listener. */
 		MyListener listener = null;
 
@@ -312,7 +310,7 @@ public class Keypad extends Thread implements EmulatorActions {
 		/**
 		 * Creates the functions panel.
 		 *
-		 * @return the j panel
+		 * @return the JPanel
 		 */
 		private JPanel createFunctionsPanel() {
 			JButton cancelButton = new JButton("CANCEL");
@@ -339,7 +337,7 @@ public class Keypad extends Thread implements EmulatorActions {
 		/**
 		 * Creates the num pannel1.
 		 *
-		 * @return the j panel
+		 * @return the JPanel
 		 */
 		private JPanel createNumPannel1() {
 			JPanel numPannel1 = new JPanel();
@@ -361,7 +359,7 @@ public class Keypad extends Thread implements EmulatorActions {
 		/**
 		 * Creates the num pannel2.
 		 *
-		 * @return the j panel
+		 * @return the JPanel
 		 */
 		private JPanel createNumPannel2() {
 			JPanel numPannel2 = new JPanel();
@@ -383,7 +381,7 @@ public class Keypad extends Thread implements EmulatorActions {
 		/**
 		 * Creates the num pannel3.
 		 *
-		 * @return the j panel
+		 * @return the JPanel
 		 */
 		private JPanel createNumPannel3() {
 			JPanel numPannel3 = new JPanel();
@@ -405,7 +403,7 @@ public class Keypad extends Thread implements EmulatorActions {
 		/**
 		 * Creates the num pannel4.
 		 *
-		 * @return the j panel
+		 * @return the JPanel
 		 */
 		private JPanel createNumPannel4() {
 			JButton num0 = new JButton("0");

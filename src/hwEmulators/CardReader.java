@@ -15,52 +15,52 @@ import java.util.logging.Logger;
  */
 // CardReader
 public class CardReader extends Thread implements EmulatorActions {
-	
+
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
+
 	/** The _cr view m box. */
 	private MBox _crViewMBox = null;
-	
+
 	/** The text field. */
 	private JTextField textField = null;
-	
+
 	/** The msg text area. */
 	private JTextArea msgTextArea = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 2;
-	
+
 	/** The status. */
 	private int status = 200;
-	
+
 	/** The Card1. */
 	private final String Card1 = "981358459216";
-	
+
 	/** The Card2. */
 	private final String Card2 = "981370846450";
-	
+
 	/** The Card3. */
 	private final String Card3 = "Joker from poker";
-	
+
 	/** The card to send. */
 	private String cardToSend = "";
-	
+
 	/** The wait for taken. */
 	private boolean waitForTaken = false;
-	
+
 	/** The my frame. */
 	private JFrame myFrame = null;
-	
+
 	/** The my panel. */
 	private MyPanel myPanel = null;
 
@@ -214,8 +214,8 @@ public class CardReader extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable should the UI enable?
+	 * @param isShutdown should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
