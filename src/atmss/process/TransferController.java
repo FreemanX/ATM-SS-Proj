@@ -31,27 +31,27 @@ public class TransferController extends ProcessController{
 	/** The operation name. */
 	private final String OPERATION_NAME = "Transfer";
 	
-	/** The failed from balance. */
+	/** The display message when failure from balance. */
 	private final String FAILED_FROM_BALANCE = "Not enough balance to withdraw";
 	
-	/** The prompt for amount. */
+	/** The message prompt for amount. */
 	private final String PROMPT_FOR_AMOUNT = "Please type in your transfer amount";
 	
-	/** The prompt for source account. */
+	/** The message prompt for source account. */
 	private final String PROMPT_FOR_SRCACCOUNT = "Please choose your account";
 	
-	/** The prompt for destination account. */
+	/** The message prompt for destination account. */
 	private final String PROMPT_FOR_DESACCOUNT = "Please type in your target account";
 	
-	/** The prompt for confirm. */
+	/** The message prompt for confirmation. */
 	private final String[] PROMPT_FOR_CONFIRM = {
 			"Please confirm your transfer amount", "Please confirm the account"
 	};
 	
-	/** The show success. */
+	/** The success message. */
 	private final String SHOW_SUCCESS = "Succeeded! The transfer operation succeeds.";
 	
-	/** The print note selection. */
+	/** The options of printing advice. */
 	private final String[] PRINT_NOTE_SELECTION = {
 			"Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
@@ -213,7 +213,7 @@ public class TransferController extends ProcessController{
 	/**
 	 * Get the amount to transfer.
 	 *
-	 * @return true, if successful getting amount to transfer, otherwise return false.
+	 * @return true, if get amount to transfer successfully, otherwise return false.
 	 */
 	private boolean getAmountToTransfer() {		
 		String amountToTransfer ="";

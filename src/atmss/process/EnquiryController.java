@@ -14,13 +14,13 @@ import atmss.Session;
  */
 public class EnquiryController extends ProcessController{
 	
-	/** The failed from bams. */
+	/** The display message when failure from bams. */
 	private final String FAILED_FROM_BAMS = "Failure: no response from BAMS";
 	
-	/** The failed from keypad. */
+	/** The display message when failure from keypad. */
 	private final String FAILED_FROM_KEYPAD = "Failure: no response from BAMS";
 	
-	/** The canceled. */
+	/** The cancellation from user. */
 	private final String CANCELED = "Failure: cancellation from user";
 	
 	/** The account number. */
@@ -32,25 +32,25 @@ public class EnquiryController extends ProcessController{
 	/** The time out limit. */
 	private final int    TIME_OUT_LIMIT = 30;
 	
-	/** The failed from display. */
+	/** The display message when failure from display. */
 	private final String FAILED_FROM_DISPLAY = "Failure: no response from display";
 	
-	/** The failed from printer. */
+	/** The display message when failure from printer. */
 	private final String FAILED_FROM_PRINTER = "Failure: no response from advice printer";
 	
-	/** The prompt for account. */
+	/** The message prompt for account. */
 	private final String PROMPT_FOR_ACCOUNT = "Please choose your account to Enquiry";
 	
-	/** The show success. */
+	/** The success message. */
 	private final String SHOW_SUCCESS = "Your balance is $";
 	
-	/** The print note selection. */
+	/** The options of printing advice. */
 	private final String[] PRINT_NOTE_SELECTION = {
 			 "Press 1 -> Print advice", "Press 2 -> Quit without printing"
 	};
 	
 	/**
-	 * Prints the operation cache.
+	 * Print the operation cache.
 	 */
 	public void printOpCache(){
 		for(Operation op: operationCache){
@@ -59,18 +59,18 @@ public class EnquiryController extends ProcessController{
 	}
 	
 	/**
-	 * Instantiates a new enquiry controller.
+	 * Instantiate a new enquiry controller.
 	 *
-	 * @param session the session
+	 * @param session the session communicates between classes
 	 */
 	public EnquiryController(Session session) {
 		super(session);
 	}
 	
 	/**
-	 * Do enquiry.
+	 * Process enquire operation
 	 *
-	 * @return true if the operation is successful.
+	 * @return true, if the operation is successful, otherwise return false.
 	 */
 	public Boolean doEnquiry() {	
 		if (!this._atmssHandler.doDisClearAll()) {
@@ -113,7 +113,7 @@ public class EnquiryController extends ProcessController{
 	/**
 	 * Gets the account number.
 	 *
-	 * @return true if can get account number successfully.
+	 * @return true if get account number successfully, otherwise return false.
 	 */
 	private boolean getAccountNumber() {		
 		if (!this._atmssHandler.doDisClearAll()) {
@@ -164,7 +164,7 @@ public class EnquiryController extends ProcessController{
 	/**
 	 * Do print receipt.
 	 *
-	 * @return true if can print receipt successfully.
+	 * @return true if print receipt successfully, otherwise return false.
 	 */
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
@@ -181,23 +181,23 @@ public class EnquiryController extends ProcessController{
 	}
 	
 	/**
-	 * Record operation.
+	 * Record operation to operationCache.
 	 *
-	 * @param operation the operation
+	 * @param operation the operation that to be added
 	 * @param type the code of operation result
-	 * @param result the result of operation
+	 * @param result the detailed description of operation result
 	 */
 	private void recordOperation(String operation, int type, String result){
 		operationCache.add(new Operation(operation, type, result));
 	}
 	
 	/**
-	 * Fail process.
+	 * Process essential tasks when a process fails.
 	 *
 	 * @param operation the operation
 	 * @param int the code of error
 	 * @param String the error information
-	 * @return true if can fail the process successful.
+	 * @return false indicates the failure of the process
 	 */
 	private boolean failProcess(String operation, int type, String desc){
 		recordOperation(operation, type, desc);
