@@ -21,7 +21,7 @@ public class EnvelopDispenserView extends HardwareView {
 	/**
 	 * Instantiates a new envelop dispenser view.
 	 *
-	 * @param envelopDispenser the envelop dispenser
+	 * @param envelopDispenser the EnvelopDispenser emulator
 	 */
 	public EnvelopDispenserView(EnvelopDispenser envelopDispenser) {
 		this.envelopDispenser = envelopDispenser;
@@ -51,7 +51,7 @@ public class EnvelopDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -63,7 +63,7 @@ public class EnvelopDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -74,7 +74,7 @@ public class EnvelopDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -85,7 +85,7 @@ public class EnvelopDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

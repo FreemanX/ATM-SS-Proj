@@ -19,14 +19,14 @@ public class DepositCollectorView extends HardwareView {
 
 	/** The deposit collector. */
 	private DepositCollector depositCollector;
-	
+
 	/** The mbox. */
 	private MBox mbox = new MBox("DepositCollectorView");
 
 	/**
 	 * Instantiates a new deposit collector view.
 	 *
-	 * @param depositCollector the deposit collector
+	 * @param depositCollector the DepositCollector emulator
 	 */
 	public DepositCollectorView(DepositCollector depositCollector) {
 		this.depositCollector = depositCollector;
@@ -68,8 +68,6 @@ public class DepositCollectorView extends HardwareView {
 					throwException(402); // failed to close slot
 
 				return !depositCollector.isSlotOpen();
-			} else {
-				// something else...
 			}
 		}
 		return false;
@@ -96,7 +94,7 @@ public class DepositCollectorView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -108,7 +106,7 @@ public class DepositCollectorView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -119,7 +117,7 @@ public class DepositCollectorView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -130,7 +128,7 @@ public class DepositCollectorView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

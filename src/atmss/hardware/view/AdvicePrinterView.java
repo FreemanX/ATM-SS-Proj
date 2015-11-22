@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.view;
 
@@ -16,21 +16,21 @@ import java.util.Date;
  * @author freeman
  */
 public class AdvicePrinterView extends HardwareView {
-	
+
 	/** The _advice printer. */
 	private AdvicePrinter _advicePrinter;
 
 	/**
 	 * Instantiates a new advice printer view.
 	 *
-	 * @param ap the ap
+	 * @param ap the AdvicePrinter emulator
 	 */
 	public AdvicePrinterView(AdvicePrinter ap) {
 		this._advicePrinter = ap;
 	}
 
 	/**
-	 * Prints the.
+	 * Prints the advice.
 	 *
 	 * @param advice the advice
 	 * @return true, if successful
@@ -69,7 +69,7 @@ public class AdvicePrinterView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -84,7 +84,7 @@ public class AdvicePrinterView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -95,7 +95,7 @@ public class AdvicePrinterView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -106,7 +106,7 @@ public class AdvicePrinterView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.view;
 
@@ -16,17 +16,17 @@ import hwEmulators.Msg;
  * @author freeman
  */
 public class KeypadView extends HardwareView {
-	
+
 	/** The _keypad. */
 	private Keypad _keypad;
-	
+
 	/** The keypad view m box. */
 	private MBox keypadViewMBox;
 
 	/**
 	 * Instantiates a new keypad view.
 	 *
-	 * @param KP the kp
+	 * @param KP the Keypad emulator
 	 */
 	public KeypadView(Keypad KP) {
 		this._keypad = KP;
@@ -37,15 +37,15 @@ public class KeypadView extends HardwareView {
 	/**
 	 * Read user input.
 	 *
-	 * @param Duration the duration
+	 * @param timeout the timeout duration
 	 * @return the string
 	 * @throws KeypadException the keypad exception
 	 */
-	public String readUserInput(long Duration) throws KeypadException {
+	public String readUserInput(long timeout) throws KeypadException {
 		checkStatus();
 		String buf = "";
 		Timer timer = Timer.getTimer();
-		timer.initTimer(Duration, this.keypadViewMBox);
+		timer.initTimer(timeout, this.keypadViewMBox);
 
 		long inputId = System.currentTimeMillis();
 		this._keypad.setKeypadEnable(true, inputId);
@@ -67,12 +67,6 @@ public class KeypadView extends HardwareView {
 				this._keypad.setKeypadEnable(false, 0);
 				buf = msg.getDetails();
 				break;
-			} else {
-				// Some other method interrupts user input
-				// May add a handler method later
-				// Now we just ignore other msg and seek for either input
-				// or time out
-				continue;
 			}
 		}
 
@@ -81,7 +75,7 @@ public class KeypadView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -94,7 +88,7 @@ public class KeypadView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -105,7 +99,7 @@ public class KeypadView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -115,7 +109,7 @@ public class KeypadView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

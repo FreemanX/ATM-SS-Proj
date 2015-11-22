@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.view;
 
@@ -16,17 +16,17 @@ import hwEmulators.Msg;
  * @author freeman
  */
 public class CardReaderView extends HardwareView {
-	
+
 	/** The _card reader. */
 	private CardReader _cardReader;
-	
+
 	/** The card reader view m box. */
 	private MBox cardReaderViewMBox = new MBox("cardReaderView");
 
 	/**
 	 * Instantiates a new card reader view.
 	 *
-	 * @param CR the cr
+	 * @param CR the CardReader emulator
 	 */
 	public CardReaderView(CardReader CR) {
 		// TODO Auto-generated constructor stub
@@ -55,7 +55,7 @@ public class CardReaderView extends HardwareView {
 	 * @return the card numer
 	 * @throws CardReaderException the card reader exception
 	 */
-	public String getCardNumer() throws CardReaderException {
+	public String getCardNumber() throws CardReaderException {
 		checkStatus();
 		return this._cardReader.getCard();
 	}
@@ -95,7 +95,7 @@ public class CardReaderView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 	@Override
@@ -108,7 +108,7 @@ public class CardReaderView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -119,7 +119,7 @@ public class CardReaderView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -130,7 +130,7 @@ public class CardReaderView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override

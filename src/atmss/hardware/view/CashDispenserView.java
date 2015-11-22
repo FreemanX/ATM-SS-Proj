@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.view;
 
@@ -16,17 +16,17 @@ import hwEmulators.Msg;
  * @author freeman
  */
 public class CashDispenserView extends HardwareView {
-	
+
 	/** The _cash dispenser. */
 	private CashDispenser _cashDispenser;
-	
+
 	/** The cash dispenser m box. */
 	MBox cashDispenserMBox;
 
 	/**
 	 * Instantiates a new cash dispenser view.
 	 *
-	 * @param CD the cd
+	 * @param CD the CashDispenser emulator
 	 */
 	public CashDispenserView(CashDispenser CD) {
 		// TODO Auto-generated constructor stub
@@ -87,7 +87,7 @@ public class CashDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.view.HardwareView#checkStatus()
 	 */
 	@Override
@@ -101,7 +101,7 @@ public class CashDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.view.HardwareView#reset()
 	 */
 	@Override
@@ -112,7 +112,7 @@ public class CashDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.view.HardwareView#shutdown()
 	 */
 	@Override
@@ -123,7 +123,7 @@ public class CashDispenserView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.view.HardwareView#throwException(int)
 	 */
 	@Override

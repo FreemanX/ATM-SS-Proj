@@ -23,7 +23,7 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Instantiates a new display view.
 	 *
-	 * @param display the display
+	 * @param display the Display emulator
 	 */
 	public DisplayView(Display display) {
 		this.display = display;
@@ -31,7 +31,7 @@ public class DisplayView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#checkStatus()
 	 */
 
@@ -78,7 +78,7 @@ public class DisplayView extends HardwareView {
 		checkStatus();
 		List<String> list = display.getUpperContentList();
 		list.add(line);
-		display.displayUpper(list.toArray(new String[0]));
+		display.displayUpper(list.toArray(new String[list.size()]));
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class DisplayView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#reset()
 	 */
 	@Override
@@ -133,7 +133,7 @@ public class DisplayView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#shutdown()
 	 */
 	@Override
@@ -144,7 +144,7 @@ public class DisplayView extends HardwareView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.hw.Hardware#throwException(int, java.lang.String)
 	 */
 	@Override
