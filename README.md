@@ -4,8 +4,8 @@ Hi, we are group 5 in the course COMP4007 2015 in Hong Kong Baptist Univeristy
 
 This is project that built in the latest version of eclipse (Version: Mars.1 Release (4.5.1)).
 
-# How to run the project
-## Server part
+## How to run the project
+### Server part
 
 1. Set up a server that support PHP and put everything in php/ to your server.
 
@@ -13,10 +13,10 @@ This is project that built in the latest version of eclipse (Version: Mars.1 Rel
 
 3. Change the value of prefix in atmss.bams.BAMSCommunicator to your own server.
 
-## Local part
+### Local part
 
 Import the project into eclipse compile and run.
 
-#Notice
+##Notice
 
 The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.
