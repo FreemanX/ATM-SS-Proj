@@ -66,7 +66,7 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Do transfer.
+	 * Process transfer operation.
 	 *
 	 * @return true if the operation is successful.
 	 */
@@ -105,9 +105,9 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Gets the source account number.
+	 * Get the source account number.
 	 *
-	 * @return true if can get source account number successfully.
+	 * @return true, if successful getting the source account, otherwise return false.
 	 */
 	private boolean getSrcAccountNumber() {
 		if(!this._atmssHandler.doDisClearAll()) {
@@ -155,9 +155,9 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Gets the destination account number.
+	 * Get the destination account number.
 	 *
-	 * @return true if can get destination account number successfully.
+	 * @return true, if successful getting the destination account number, otherwise return false.
 	 */
 	private boolean getDesAccountNumber() {
 		String desAccountNumber ="";
@@ -211,9 +211,9 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Gets the amount to transfer.
+	 * Get the amount to transfer.
 	 *
-	 * @return true if can get the amount to transfer successfully.
+	 * @return true, if successful getting amount to transfer, otherwise return false.
 	 */
 	private boolean getAmountToTransfer() {		
 		String amountToTransfer ="";
@@ -301,7 +301,7 @@ public class TransferController extends ProcessController{
 	}
 	
 	/**
-	 * Do print receipt.
+	 * Print advice when the process ends.
 	 */
 	private void doPrintReceipt(){
 		boolean result = _atmssHandler .doAPPrintStrArray(new String[] {
