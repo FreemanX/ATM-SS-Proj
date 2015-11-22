@@ -38,7 +38,7 @@ public abstract class ProcessController {
 	}
 
 	/**
-	 * Instantiates a new process controller.
+	 * Instantiate a new process controller.
 	 *
 	 * @param CurrentSession the current session
 	 */
@@ -50,9 +50,9 @@ public abstract class ProcessController {
 	}
 	
 	/**
-	 * Gets the operation cache.
+	 * Get the operation cache.
 	 *
-	 * @return the operation cache
+	 * @return the operation cache records all the detailed opderations
 	 */
 	public LinkedList<Operation> getOperationCache() {
 		return this.operationCache;
@@ -61,9 +61,9 @@ public abstract class ProcessController {
 	/**
 	 * Creates the option list.
 	 *
-	 * @param Header the header
-	 * @param Body the body
-	 * @return the string[]
+	 * @param Header the header of the option list
+	 * @param Body the body of all options
+	 * @return the string[] contains the content displayed on the screen
 	 */
 	String[] createOptionList(String Header, String[] Body) {
 		String[] lines = new String[Body.length + 1];
@@ -75,10 +75,10 @@ public abstract class ProcessController {
 	}
 	
 	/**
-	 * Record.
+	 * Record the operation
 	 *
 	 * @param OperationName the operation name
-	 * @param Type the type
+	 * @param Type the error type
 	 */
 	void record(String OperationName, String Type) {
 		switch(Type) {
@@ -96,20 +96,20 @@ public abstract class ProcessController {
 	}
 	
 	/**
-	 * Record success.
+	 * Record when succeed.
 	 *
 	 * @param OperationName the operation name
-	 * @param detail the detail
+	 * @param detail the detailed description of the operation
 	 */
 	private void recordSuccess(String OperationName, String detail) {
 		operationCache.add(new Operation(OperationName, 0, "Success: "+detail));
 	}
 	
 	/**
-	 * Record failure.
+	 * Record when fail.
 	 *
 	 * @param OperationName the operation name
-	 * @param Type the type
+	 * @param Type the error type
 	 */
 	private void recordFailure(String OperationName, int Type) {
 		String description;

@@ -92,15 +92,9 @@ public class DepositController extends ProcessController {
 	 *
 	 * @return  true if the process succeeds, otherwise return false
 	 */
-	public Boolean doDeposit() {
-		// boolean isSuccess = false;
-		/*
-		 * Implement the process here.
-		 */
+	public boolean doDeposit() {
+
 		// prompt for account to deposit
-		
-		//this.operationCache.add(new Operation("User selects enters DEPOSIT process", 0 , "Success"));
-		
 		if (!this.doGetAccountToDeposit())
 			return false;
 		this.operationCache.add(new Operation("DEPOSIT: select account",0, this.accountToDeposit));
@@ -242,7 +236,6 @@ public class DepositController extends ProcessController {
 		String userInputAmountToDeposit ="";
 		
 		 while (!confirmAmountToDeposit){
-			//System.out.println("new turn=========================================");
 			if(!this._atmssHandler.doDisClearAll())
 				return failProcess("get amount", 5,this.FAILED_FROM_DISPLAY);
 			if(!this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_AMOUNT}))
@@ -349,7 +342,6 @@ public class DepositController extends ProcessController {
 	private String[] linesToPrintWhenFailed(Operation lastOp){
 		String[] lines = new String[2];
 		lines[0] = "Operation Name: "+ lastOp.getName();
-		//lines[1] = "Card Number    : " + this._session.getCardNo();
 		lines[1] = lastOp.getDes();
 				
 		return lines;

@@ -72,7 +72,7 @@ public class EnquiryController extends ProcessController{
 	 *
 	 * @return true, if the operation is successful, otherwise return false.
 	 */
-	public Boolean doEnquiry() {	
+	public boolean doEnquiry() {	
 		if (!this._atmssHandler.doDisClearAll()) {
 			return failProcess("Enquiry : display accounts", 5, FAILED_FROM_DISPLAY);
 		}
@@ -127,7 +127,7 @@ public class EnquiryController extends ProcessController{
 		}
 		recordOperation("Enquiry : get accounts from BAMS", 0, "Success");
 
-		//==================================================
+
 		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_ACCOUNT, allAccountsInCard))) {
 			failProcess("Enquiry : display accounts",5, FAILED_FROM_DISPLAY);
 			return false;

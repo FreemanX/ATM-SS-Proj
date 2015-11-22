@@ -70,7 +70,7 @@ public class TransferController extends ProcessController{
 	 *
 	 * @return true if the operation is successful.
 	 */
-	public Boolean doTransfer() {
+	public boolean doTransfer() {
 		if(!this._atmssHandler.doDisClearAll()) {
 			record(OPERATION_NAME+": clear the display", "Dis");
 			return false;
