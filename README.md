@@ -9,9 +9,9 @@ This is project that built in the latest version of eclipse (Version: Mars.1 Rel
 
 1. Set up a server that support PHP and put everything in php/ to your server.
 
-2. Set up mysql database server and run the script in sql_dump/ to build a test database with the necessary tables and records.
+2. Set up mysql database server and run the script in sql_dump/ to build a test database with the necessary tables and records. E.g., *<code>mysql -u \<username\> -p \<db_name\> << group05_dmp.sql</code>*
 
-3. Change the value of prefix in atmss.bams.BAMSCommunicator to your own server.
+3. Change the value of prefix in *atmss.bams.BAMSCommunicator* and *php/settings.php* to match with your server.
 
 ### Local part
 
@@ -28,6 +28,7 @@ The system will record 3 log files during the run time.
 ##Notice
 
 1. The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.
+
 	Databash infomation(22/11/2015):
 		MariaDB [group05]> show tables;
 		+-------------------+
@@ -61,3 +62,4 @@ The system will record 3 log files during the run time.
 	Card Reader provides the first 2 cards if you want to play with the 3rd one, you need to type in manaualy.
 	
 2. For more details of the project please refer to Java documnet in doc/
+
