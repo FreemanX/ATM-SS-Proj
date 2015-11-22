@@ -1,7 +1,7 @@
 <?php
 /* Author: Ting Ho Shing
  * Http handler for enquiry request.
- * Requires 4 query parameters,
+ * Requires 3 query parameters,
  * 		cardNo,
  *		accNo,
  *		cred,
