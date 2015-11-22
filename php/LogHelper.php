@@ -14,9 +14,7 @@ class LogHelper {
 	}
 
 	public function getLogs() {
-
 		$logLines = array();
-		
 		$logFile = fopen($this->logDir."log", "r");
 
 		if ($logFile) {
@@ -26,7 +24,6 @@ class LogHelper {
 			fclose($logFile);
 		}
 		
-
 		return $logLines;
 	}
 
@@ -46,6 +43,5 @@ class LogHelper {
 
 		return $s;
 	}
-
 }
 ?>

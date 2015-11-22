@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.view;
 
@@ -23,7 +23,7 @@ public abstract class HardwareView{
 	/**
 	 * Check status.
 	 *
-	 * @return the int
+	 * @return the status code
 	 * @throws HardwareException the hardware exception
 	 */
 	public abstract int checkStatus() throws HardwareException;
@@ -48,7 +48,7 @@ public abstract class HardwareView{
 	/**
 	 * Throw exception.
 	 *
-	 * @param Code the code
+	 * @param Code the exception code
 	 * @throws HardwareException the hardware exception
 	 */
 	// This method here is not necessary, just my current thoughts -- Freeman

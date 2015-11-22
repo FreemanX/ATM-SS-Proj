@@ -45,5 +45,4 @@ $log = new LogHelper();
 $log->write("enquiry.php", $_get_lower, $requestResult);
 
 mysql_close($conn);
-
 ?>

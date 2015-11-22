@@ -34,9 +34,11 @@ if (!empty($cardNo) && !empty($cred)) {
 
                 if (mysql_num_rows($result) > 0) { // at least one account found
                         $requestResult = "";
+
                         while ($account = mysql_fetch_array($result)[0]) {
                                 $requestResult .= $account.",";
                         }
+                        
                         $requestResult = rtrim($requestResult, ",");
                 }
         }

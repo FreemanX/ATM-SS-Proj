@@ -23,7 +23,7 @@ public class DepositCollectorController extends HardwareController {
 	/**
 	 * Instantiates a new deposit collector controller.
 	 *
-	 * @param depositCollector the deposit collector
+	 * @param depositCollector the DepositCollectorView
 	 */
 	public DepositCollectorController(DepositCollector depositCollector) {
 		depositCollectorView = new DepositCollectorView(depositCollector);
@@ -47,7 +47,7 @@ public class DepositCollectorController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
@@ -67,7 +67,7 @@ public class DepositCollectorController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -78,7 +78,7 @@ public class DepositCollectorController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -89,7 +89,7 @@ public class DepositCollectorController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
 	 * exceptioins.HardwareException)
 	 */

@@ -23,7 +23,7 @@ public class DisplayController extends HardwareController {
 	/**
 	 * Instantiates a new display controller.
 	 *
-	 * @param display the display
+	 * @param display the DisplayView
 	 */
 	public DisplayController(Display display) {
 		displayView = new DisplayView(display);
@@ -167,7 +167,7 @@ public class DisplayController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
@@ -189,7 +189,7 @@ public class DisplayController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -200,7 +200,7 @@ public class DisplayController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -211,7 +211,7 @@ public class DisplayController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
 	 * exceptioins.HardwareException)
 	 */

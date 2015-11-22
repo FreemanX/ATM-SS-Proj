@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.controller;
 
@@ -16,17 +16,17 @@ import hwEmulators.Msg;
  * @author freeman
  */
 public class CardReaderController extends HardwareController {
-	
+
 	/** The card number. */
 	private String cardNumber = "";
-	
+
 	/** The card reader view. */
 	private CardReaderView cardReaderView;
 
 	/**
 	 * Instantiates a new card reader controller.
 	 *
-	 * @param CR the cr
+	 * @param CR the CardReaderView
 	 */
 	public CardReaderController(CardReader CR) {
 		this.cardReaderView = new CardReaderView(CR);
@@ -34,7 +34,7 @@ public class CardReaderController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 
@@ -71,7 +71,7 @@ public class CardReaderController extends HardwareController {
 	public String getCardNumber() throws Exception {
 		// TODO not finished
 		try {
-			return this.cardReaderView.getCardNumer();
+			return this.cardReaderView.getCardNumber();
 		} catch (CardReaderException e) {
 			HandleException(e);
 			return null;
@@ -130,7 +130,7 @@ public class CardReaderController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -141,7 +141,7 @@ public class CardReaderController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -152,7 +152,7 @@ public class CardReaderController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
 	 * exceptioins.HardwareException)
 	 */

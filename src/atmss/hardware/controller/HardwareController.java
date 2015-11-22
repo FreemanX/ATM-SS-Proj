@@ -17,7 +17,7 @@ public abstract class HardwareController {
 
 	/** The status. */
 	int status;
-	
+
 	/** The _maincontroller m box. */
 	MBox _maincontrollerMBox;
 
@@ -83,7 +83,7 @@ public abstract class HardwareController {
 	/**
 	 * Report to main controller.
 	 *
-	 * @param ex the ex
+	 * @param ex the HardwareException
 	 * @param type the type
 	 */
 	void reportToMainController(HardwareException ex, String type) {

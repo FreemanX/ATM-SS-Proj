@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.controller;
 
@@ -16,14 +16,14 @@ import hwEmulators.Msg;
  * @author freeman
  */
 public class KeypadController extends HardwareController {
-	
+
 	/** The keypad view. */
 	private KeypadView keypadView;
 
 	/**
 	 * Instantiates a new keypad controller.
 	 *
-	 * @param KP the kp
+	 * @param KP the KeypadView
 	 */
 	public KeypadController(Keypad KP) {
 		this.keypadView = new KeypadView(KP);
@@ -47,7 +47,7 @@ public class KeypadController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
@@ -68,7 +68,7 @@ public class KeypadController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -79,7 +79,7 @@ public class KeypadController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -90,7 +90,7 @@ public class KeypadController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
 	 * exceptioins.HardwareException)
 	 */
