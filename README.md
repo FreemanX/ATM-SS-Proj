@@ -19,4 +19,5 @@ Import the project into eclipse compile and run.
 
 ##Notice
 
-The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.
+1. The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.
+2. For more details of the project please refer to Java documnet in doc/
