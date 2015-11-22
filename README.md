@@ -21,9 +21,9 @@ Import the project into eclipse compile and run.
 
 The system will record 3 log files during the run time.
 
-###1. atmss_log(local) --> in the form of xml records all the operations that the user interact with hardware emulators.
-###2. SessionLog(local) --> records the user behaviors after the user successfully log into the system.
-###3. Server log(server) --> records all the requests from ATM machiens, can be viewd by log.html with the password of group05 log in password
+####1. atmss_log(local) --> in the form of xml records all the operations that the user interact with hardware emulators.
+####2. SessionLog(local) --> records the user behaviors after the user successfully log into the system.
+####3. Server log(server) --> records all the requests from ATM machiens, can be viewd by log.html with the password of group05 log in password
 
 ##Notice
 
