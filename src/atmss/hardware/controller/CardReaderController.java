@@ -26,7 +26,7 @@ public class CardReaderController extends HardwareController {
 	/**
 	 * Instantiates a new card reader controller.
 	 *
-	 * @param CR the cr
+	 * @param CR the CardReaderView
 	 */
 	public CardReaderController(CardReader CR) {
 		this.cardReaderView = new CardReaderView(CR);

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package atmss.hardware.controller;
 
@@ -26,7 +26,7 @@ public class AdvicePrinterController extends HardwareController {
 	/**
 	 * Instantiates a new advice printer controller.
 	 *
-	 * @param AP the ap
+	 * @param AP the AdvicePrinter view
 	 */
 	public AdvicePrinterController(AdvicePrinter AP) {
 		// TODO Auto-generated constructor stub
@@ -57,7 +57,7 @@ public class AdvicePrinterController extends HardwareController {
 	/**
 	 * Prints the str array.
 	 *
-	 * @param toPrint the to print
+	 * @param toPrint the array to print
 	 * @return true, if successful
 	 * @throws Exception the exception
 	 */
@@ -78,7 +78,7 @@ public class AdvicePrinterController extends HardwareController {
 	/**
 	 * Check inventory.
 	 *
-	 * @return the int
+	 * @return the inventory count
 	 * @throws Exception the exception
 	 */
 	public int checkInventory() throws Exception {
@@ -93,7 +93,7 @@ public class AdvicePrinterController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
@@ -113,7 +113,7 @@ public class AdvicePrinterController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -125,7 +125,7 @@ public class AdvicePrinterController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -136,7 +136,7 @@ public class AdvicePrinterController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#HandleException()
 	 */
 	@Override

@@ -23,7 +23,7 @@ public class EnvelopDispenserController extends HardwareController {
 	/**
 	 * Instantiates a new envelop dispenser controller.
 	 *
-	 * @param envelopDispenser the envelop dispenser
+	 * @param envelopDispenser the EnvelopDispenserView
 	 */
 	public EnvelopDispenserController(EnvelopDispenser envelopDispenser) {
 		this.envelopDispenserView = new EnvelopDispenserView(envelopDispenser);
@@ -61,7 +61,7 @@ public class EnvelopDispenserController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#updateStatus()
 	 */
 	@Override
@@ -83,7 +83,7 @@ public class EnvelopDispenserController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#reset()
 	 */
 	@Override
@@ -94,7 +94,7 @@ public class EnvelopDispenserController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#shutdonw()
 	 */
 	@Override
@@ -105,7 +105,7 @@ public class EnvelopDispenserController extends HardwareController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atmss.hardware.HardwareController#HandleException(atmss.hardware.hw.
 	 * exceptioins.HardwareException)
 	 */
