@@ -1,8 +1,12 @@
 <?php
+/* Author: Ting Ho Shing
+ * Helper class for log operations.
+ */
 class LogHelper {
 
 	private $logDir = "../bams_logs/";
 
+	// write new log entry into log file
 	public function write($ident, $param, $result) {
 		date_default_timezone_set("Asia/Hong_Kong");
 		$msg = date("Y-m-d H:i:s")." | ".$ident.", param:".$this->arrToString($param).", result:".$result;
@@ -13,6 +17,7 @@ class LogHelper {
 		fclose($logFile);
 	}
 
+	// get all log entries from log file
 	public function getLogs() {
 		$logLines = array();
 		$logFile = fopen($this->logDir."log", "r");
@@ -27,6 +32,7 @@ class LogHelper {
 		return $logLines;
 	}
 
+	// remove all logs from log file
 	public function clear() {
 		fclose(fopen($this->logDir."log", "w"));
 	}

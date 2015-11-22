@@ -1,7 +1,7 @@
 <?php
 /* Author: Ting Ho Shing
  * Http handler for cash password change request.
- * Requires 4 query parameters,
+ * Requires 3 query parameters,
  * 		cardNo,
  *		cred,
  *		newPin
