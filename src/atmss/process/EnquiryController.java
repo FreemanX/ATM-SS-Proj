@@ -50,7 +50,7 @@ public class EnquiryController extends ProcessController{
 	};
 	
 	/**
-	 * Prints the op cache.
+	 * Prints the operation cache.
 	 */
 	public void printOpCache(){
 		for(Operation op: operationCache){
@@ -70,7 +70,7 @@ public class EnquiryController extends ProcessController{
 	/**
 	 * Do enquiry.
 	 *
-	 * @return the boolean
+	 * @return true if the operation is successful.
 	 */
 	public Boolean doEnquiry() {	
 		if (!this._atmssHandler.doDisClearAll()) {
@@ -113,7 +113,7 @@ public class EnquiryController extends ProcessController{
 	/**
 	 * Gets the account number.
 	 *
-	 * @return the account number
+	 * @return true if can get account number successfully.
 	 */
 	private boolean getAccountNumber() {		
 		if (!this._atmssHandler.doDisClearAll()) {
@@ -164,7 +164,7 @@ public class EnquiryController extends ProcessController{
 	/**
 	 * Do print receipt.
 	 *
-	 * @return true, if successful
+	 * @return true if can print receipt successfully.
 	 */
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler.doAPPrintStrArray(new String[] {
@@ -184,8 +184,8 @@ public class EnquiryController extends ProcessController{
 	 * Record operation.
 	 *
 	 * @param operation the operation
-	 * @param type the type
-	 * @param result the result
+	 * @param type the code of operation result
+	 * @param result the result of operation
 	 */
 	private void recordOperation(String operation, int type, String result){
 		operationCache.add(new Operation(operation, type, result));
@@ -195,9 +195,9 @@ public class EnquiryController extends ProcessController{
 	 * Fail process.
 	 *
 	 * @param operation the operation
-	 * @param type the type
-	 * @param desc the desc
-	 * @return true, if successful
+	 * @param int the code of error
+	 * @param String the error information
+	 * @return true if can fail the process successful.
 	 */
 	private boolean failProcess(String operation, int type, String desc){
 		recordOperation(operation, type, desc);

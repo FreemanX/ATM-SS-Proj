@@ -20,7 +20,7 @@ public class BAMSCommunicator extends BAMSHandler {
 	/** The Constant prefix. */
 	private final static String prefix = "http://cs6063.comp.hkbu.edu.hk/~group05/";
 	
-	/** The maincontroller box. */
+	/** The main controller box. */
 	private MBox maincontrollerBox  = null;
 	
 	/** The timeout. */
@@ -29,12 +29,13 @@ public class BAMSCommunicator extends BAMSHandler {
 	/**
 	 * Instantiates a new BAMS communicator.
 	 *
-	 * @param maincontrollerBox the maincontroller box
+	 * @param maincontrollerBox the main controller box
 	 */
 	public BAMSCommunicator(MBox maincontrollerBox) {
 		super(prefix);
 		this.maincontrollerBox = maincontrollerBox;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#login(java.lang.String, java.lang.String)
@@ -46,6 +47,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		return "ERROR";
 	}
 
+
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#cashWithdraw(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -55,6 +57,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		}
 		return -1;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#deposit(java.lang.String, java.lang.String, java.lang.String, int)
@@ -66,6 +69,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		return -1;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#enquiry(java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -75,6 +79,7 @@ public class BAMSCommunicator extends BAMSHandler {
 		}
 		return -1;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see atmss.bams.BAMSHandler#transfer(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)

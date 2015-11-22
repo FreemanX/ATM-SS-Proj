@@ -13,41 +13,42 @@ import java.util.logging.Logger;
  * The Class AdvicePrinter.
  */
 public class AdvicePrinter extends Thread implements EmulatorActions {
-	
+
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
+
 	/** The text area. */
 	private JTextArea textArea = null;
-	
+
 	/** The my frame. */
 	private MyFrame myFrame = null;
-	
+
 	/** The my panel. */
 	private MyPanel myPanel = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 1;
-	
+
 	/** The status. */
 	private int status = 100;
-	
+
 	/** The resource. */
 	private int resource = 10000;
 
 	/**
 	 * Instantiates a new advice printer.
 	 *
-	 * @param id the id
+	 * @param id
+	 *            the id
 	 */
 	public AdvicePrinter(String id) {
 		this.id = id;
@@ -82,7 +83,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	/**
 	 * Sets the AP status.
 	 *
-	 * @param Status the new AP status
+	 * @param Status
+	 *            the new AP status
 	 */
 	protected void setAPStatus(int Status) {
 		System.out.println(status + " vs. " + Status);
@@ -112,7 +114,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	/**
 	 * Sets the atmss.
 	 *
-	 * @param newAtmss the new atmss
+	 * @param newAtmss
+	 *            the new atmss
 	 */
 	public void setATMSS(ATMSS newAtmss) {
 		atmss = newAtmss;
@@ -123,7 +126,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	/**
 	 * Prints the.
 	 *
-	 * @param str the str
+	 * @param str
+	 *            the str
 	 */
 	// print
 	public void print(String str) {
@@ -141,7 +145,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	/**
 	 * Println.
 	 *
-	 * @param str the str
+	 * @param str
+	 *            the str
 	 */
 	// println
 	public void println(String str) {
@@ -155,7 +160,9 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	} // println
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see hwEmulators.EmulatorActions#shutdown()
 	 */
 	@Override
@@ -166,14 +173,17 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		setUIEnable(false, true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see hwEmulators.EmulatorActions#restart()
 	 */
 	@Override
 	public void restart() {
 		shutdown();
 		// reset all stuffs
-		long ms = new Random(new Date().getTime()).nextInt(1500) + 200; // 200 - 1700
+		long ms = new Random(new Date().getTime()).nextInt(1500) + 200; // 200 -
+																		// 1700
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
@@ -185,7 +195,9 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		textArea.setText("");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see hwEmulators.EmulatorActions#fatalHalt()
 	 */
 	@Override
@@ -198,7 +210,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	/**
 	 * Sets the UI enable.
 	 *
-	 * @param isEnable the new UI enable
+	 * @param isEnable
+	 *            the new UI enable
 	 */
 	private void setUIEnable(boolean isEnable) {
 		setUIEnable(isEnable, true);
@@ -207,8 +220,10 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable
+	 *            should the UI enable?
+	 * @param isShutdown
+	 *            should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
@@ -252,7 +267,8 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 		/**
 		 * Instantiates a new my frame.
 		 *
-		 * @param title the title
+		 * @param title
+		 *            the title
 		 */
 		// MyFrame
 		public MyFrame(String title) {
