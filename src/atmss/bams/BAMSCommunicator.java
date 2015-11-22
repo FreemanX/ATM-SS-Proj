@@ -20,7 +20,7 @@ public class BAMSCommunicator extends BAMSHandler {
 	/** The Constant prefix. */
 	private final static String prefix = "http://cs6063.comp.hkbu.edu.hk/~group05/";
 	
-	/** The maincontroller box. */
+	/** The main controller box. */
 	private MBox maincontrollerBox  = null;
 	
 	/** The timeout. */
@@ -29,7 +29,7 @@ public class BAMSCommunicator extends BAMSHandler {
 	/**
 	 * Instantiates a new BAMS communicator.
 	 *
-	 * @param maincontrollerBox the maincontroller box
+	 * @param maincontrollerBox the main controller box
 	 */
 	public BAMSCommunicator(MBox maincontrollerBox) {
 		super(prefix);

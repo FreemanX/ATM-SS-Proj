@@ -14,16 +14,16 @@ import java.util.List;
  */
  public class Session {
 
-	/** The sid. */
+	/** The sid session ID. */
 	private long sid = -1;
 	
-	/** The cred. */
+	/** The cred credential of current session. */
 	private String cred = "";
 	
-	/** The card no. */
+	/** The card number. */
 	private String cardNo = "";
 	
-	/** The ops. */
+	/** The ops operations of current session. */
 	private List<Operation> ops;
 	
 	/**
@@ -41,36 +41,36 @@ import java.util.List;
 	}
 
 	/**
-	 * Adds the op.
+	 * Adds the operation.
 	 *
-	 * @param op the op
+	 * @param op the operation
 	 */
 	public void addOp(Operation op) {
 		ops.add(op);
 	}
 
 	/**
-	 * Gets the last op.
+	 * Gets the last operation.
 	 *
-	 * @return the last op
+	 * @return the last operation
 	 */
 	public Operation getLastOp() {
 		return ops.get(ops.size() - 1);
 	}
 
 	/**
-	 * Gets the ops.
+	 * Gets the operations.
 	 *
-	 * @return the ops
+	 * @return the operations
 	 */
 	public List<Operation> getOps() {
 		return ops;
 	}
 
 	/**
-	 * Gets the card no.
+	 * Gets the card number.
 	 *
-	 * @return the card no
+	 * @return the card number
 	 */
 	public String getCardNo() {
 		return cardNo;

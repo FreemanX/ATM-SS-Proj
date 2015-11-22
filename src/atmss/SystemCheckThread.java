@@ -51,14 +51,14 @@ class SystemCheckThread extends Thread {
 	/**
 	 * Instantiates a new system check thread.
 	 *
-	 * @param ap the ap
-	 * @param cr the cr
-	 * @param cd the cd
-	 * @param dc the dc
-	 * @param dp the dp
-	 * @param ed the ed
-	 * @param kp the kp
-	 * @param ba the ba
+	 * @param ap the Advice Printer controller
+	 * @param cr the Card Reader controller
+	 * @param cd the Cash dispenser controller
+	 * @param dc the Deposit collector controller
+	 * @param dp the Display controller
+	 * @param ed the Envelop Dispenser controller
+	 * @param kp the keypad controller
+	 * @param ba the BAMSCommunicator
 	 */
 	public SystemCheckThread(AdvicePrinterController ap, CardReaderController cr, CashDispenserController cd,
 			DepositCollectorController dc, DisplayController dp, EnvelopDispenserController ed, KeypadController kp,

@@ -10,22 +10,25 @@ package atmss;
  * @author freeman
  */
 public class Operation {
-	
-	/** The name. */
+
+	/** The name of operation. */
 	private String name;
-	
-	/** The type. */
+
+	/** The type of operation. */
 	private int type;
-	
-	/** The description. */
+
+	/** The description of operation. */
 	private String description;
 
 	/**
 	 * Instantiates a new operation.
 	 *
-	 * @param Name the name
-	 * @param Type the type
-	 * @param Description the description
+	 * @param Name
+	 *            the name of operation
+	 * @param Type
+	 *            the type of operation
+	 * @param Description
+	 *            the description of operation
 	 */
 	public Operation(String Name, int Type, String Description) {
 		this.name = Name;
@@ -52,15 +55,17 @@ public class Operation {
 	}
 
 	/**
-	 * Gets the des.
+	 * Gets the description.
 	 *
-	 * @return the des
+	 * @return the description
 	 */
 	public String getDes() {
 		return this.description;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {

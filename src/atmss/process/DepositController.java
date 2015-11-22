@@ -25,53 +25,53 @@ public class DepositController extends ProcessController {
 	/** The amount to deposit. */
 	private int amountToDeposit;
 
-	/** The failed from display. */
+	/** The failure from display. */
 	//private final String OPERATION_NAME = "DEPOSIT: ";
 	private final String FAILED_FROM_DISPLAY = "Failure: no response from display";
 	
-	/** The failed from keypad. */
+	/** The failure from keypad. */
 	private final String FAILED_FROM_KEYPAD = "Failure: no response from the keypad";
 	
-	/** The failed from envelopdispenser. */
+	/** The failure from envelop dispenser. */
 	private final String FAILED_FROM_ENVELOPDISPENSER = "Failure: no response from envelop dispenser";
 	
-	/** The failed from depositcollector. */
+	/** The failure from deposit collector. */
 	private final String FAILED_FROM_DEPOSITCOLLECTOR = "Failure: no response from deposit collector";
 	
-	/** The failed from adviceprinter. */
+	/** The failure from advice printer. */
 	private final String FAILED_FROM_ADVICEPRINTER = "Failure: no response from advice printer";
 	
-	/** The failed from bams. */
+	/** The failure from BAMS. */
 	private final String FAILED_FROM_BAMS = "Failure: no response from bank system (BAMS)";
 	
-	/** The prompt for account. */
+	/** The message prompt for account. */
 	private final String PROMPT_FOR_ACCOUNT = "Please choose an account to deposit:";
 	
-	/** The prompt for amount. */
+	/** The message prompt for amount. */
 	private final String PROMPT_FOR_AMOUNT = "Please input your deposit amount:";
 	
-	/** The PROMP t_ fo r_ confir m1. */
+	/** The message prompt for confirmation line1. */
 	private final String PROMPT_FOR_CONFIRM1 = "Press 1 -> Confirm your deposit amount";
 	
-	/** The PROMP t_ fo r_ confir m2. */
+	/** The message prompt for confirmation line2. */
 	private final String PROMPT_FOR_CONFIRM2 = "Press 2 -> Reinput your deposit amount";
 	
-	/** The PROMP t_ fo r_ confir m3. */
+	/** The message prompt for confirmation line3. */
 	private final String PROMPT_FOR_CONFIRM3 = "Press CANCEL -> Quit process";
 	
-	/** The prompt for collect envelop. */
+	/** The message prompt for collecting envelop. */
 	private final String PROMPT_FOR_COLLECT_ENVELOP = "Please collect the envelop and put cheque/cash and receipt into the envelop";
 	
 	/** The prompt for return envelop. */
 	private final String PROMPT_FOR_RETURN_ENVELOP = "Please put the envelop with cheque/cash to deposit collector";
 	
-	/** The canceled. */
+	/** The cancellation from. */
 	private final String CANCELED = "Failure: cancellation from user";
 	
 	/**
 	 * Instantiates a new deposit controller.
 	 *
-	 * @param Session the session
+	 * @param Session the session communicates between different parts.
 	 */
 	public DepositController(Session Session) {
 		// TODO Auto-generated constructor stub
@@ -79,7 +79,7 @@ public class DepositController extends ProcessController {
 	}
 
 	/**
-	 * Prints the op cache.
+	 * Prints the whole operation cache.
 	 */
 	public void printOpCache(){
 		for(Operation op: operationCache){
@@ -88,9 +88,9 @@ public class DepositController extends ProcessController {
 	}
 	
 	/**
-	 * Do deposit.
+	 * Process deposit operation.
 	 *
-	 * @return the boolean
+	 * @return  true if the process succeeds, otherwise return false
 	 */
 	public Boolean doDeposit() {
 		// boolean isSuccess = false;
@@ -127,9 +127,9 @@ public class DepositController extends ProcessController {
 	}
 	
 	/**
-	 * Do eat envelop.
+	 * Eat envelop
 	 *
-	 * @return true, if successful
+	 * @return true if successful eating the envelop, otherwise return false
 	 */
 	private boolean doEatEnvelop(){
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_RETURN_ENVELOP}))
@@ -142,9 +142,9 @@ public class DepositController extends ProcessController {
 	}
 	
 	/**
-	 * Do eject envelop.
+	 * Eject envelop
 	 *
-	 * @return true, if successful
+	 * @return true, if successful ejecting an envelop, otherwise return false
 	 */
 	private boolean doEjectEnvelop(){
 		if(!this._atmssHandler.doDisClearAll() || !this._atmssHandler.doDisDisplayUpper(new String[] {PROMPT_FOR_COLLECT_ENVELOP}))
@@ -158,9 +158,9 @@ public class DepositController extends ProcessController {
 	
 		
 	/**
-	 * Do print receipt.
+	 * Print receipt
 	 *
-	 * @return true, if successful
+	 * @return true, if successful printing the receipt, otherwise return false
 	 */
 	private boolean doPrintReceipt(){
 		if(!this._atmssHandler .doAPPrintStrArray(new String[] {"Account to deposit: "+accountToDeposit, "Amount to deposit: $"+ Integer.toString(this.amountToDeposit)}))
@@ -169,9 +169,9 @@ public class DepositController extends ProcessController {
 	}
 	
 	/**
-	 * Do get account to deposit.
+	 * Prompt for the account to deposit
 	 *
-	 * @return true, if successful
+	 * @return true, if successful getting the account, otherwise false.
 	 */
 	private boolean doGetAccountToDeposit() {
 
@@ -225,9 +225,9 @@ public class DepositController extends ProcessController {
 	}
 
 	/**
-	 * Do get amount to deposit.
+	 * Prompt for the amount to deposit.
 	 *
-	 * @return true, if successful
+	 * @return true, if successful getting the amount
 	 */
 	private boolean doGetAmountToDeposit() {
 		
@@ -284,7 +284,9 @@ public class DepositController extends ProcessController {
 
 	
 	/**
-	 * Prints the last operation.
+	 * Prints the advice after the whole process end.
+	 * If deposit succeed, user choose to print or not
+	 * If fail, print the advice automatically
 	 */
 	void printLastOperation(){
 		Operation lastOperation = this.operationCache.getLast();
@@ -316,10 +318,10 @@ public class DepositController extends ProcessController {
 
 	
 	/**
-	 * Lines to print when succeeded.
+	 * Generate lines to print when the process succeeds.
 	 *
-	 * @param lastOp the last op
-	 * @return the string[]
+	 * @param lastOp the last operation in the operationCache
+	 * @return the string[] that contains the content to print
 	 */
 	private String[] linesToPrintWhenSucceeded(Operation lastOp){
 		String[] lines = new String[4];
@@ -334,10 +336,10 @@ public class DepositController extends ProcessController {
 	}
 	
 	/**
-	 * Lines to print when failed.
+	 * Generate lines to print when the process fails.
 	 *
-	 * @param lastOp the last op
-	 * @return the string[]
+	 * @param lastOperation the last operation in the operationCache
+	 * @return the string[] that contains the content to print
 	 */
 	private String[] linesToPrintWhenFailed(Operation lastOp){
 		String[] lines = new String[2];
@@ -350,12 +352,12 @@ public class DepositController extends ProcessController {
 	
 	
 	/**
-	 * Fail process.
+	 * To process essential tasks when a process fails.
 	 *
-	 * @param failedStep the failed step
-	 * @param type the type
-	 * @param desc the desc
-	 * @return true, if successful
+	 * @param failedStep the specific failed step
+	 * @param type the error type of the failure
+	 * @param desc the detailed description of the failure
+	 * @return false indicates the fail of the process
 	 */
 	private boolean failProcess(String failedStep, int type, String desc){
 		this.operationCache.add(new Operation("DEPOSIT: "+failedStep, type, desc));

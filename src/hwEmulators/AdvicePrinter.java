@@ -162,7 +162,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see hwEmulators.EmulatorActions#shutdown()
 	 */
 	@Override
@@ -175,7 +175,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see hwEmulators.EmulatorActions#restart()
 	 */
 	@Override
@@ -197,7 +197,7 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see hwEmulators.EmulatorActions#fatalHalt()
 	 */
 	@Override
@@ -221,9 +221,9 @@ public class AdvicePrinter extends Thread implements EmulatorActions {
 	 * Sets the ui enable.
 	 *
 	 * @param isEnable
-	 *            the is enable
+	 *            should the UI enable?
 	 * @param isShutdown
-	 *            the is shutdown
+	 *            should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";

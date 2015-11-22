@@ -10,16 +10,16 @@ import java.util.logging.Logger;
  */
 // MBox
 public class MBox {
-	
+
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The mqueue. */
 	private ArrayList<Msg> mqueue = new ArrayList<Msg>();
-	
+
 	/** The msg cnt. */
 	private int msgCnt = 0;
 
@@ -34,7 +34,7 @@ public class MBox {
 		this.id = id;
 		log = ATMKickstarter.getLogger();
 	} // MBox
-	
+
 	/**
 	 * Clear box.
 	 */
@@ -60,9 +60,9 @@ public class MBox {
 
 	// ------------------------------------------------------------
 	/**
-	 * Receive.
+	 * Receive message frm MBox.
 	 *
-	 * @return the msg
+	 * @return the message
 	 */
 	// receive
 	public final synchronized Msg receive() {
@@ -94,14 +94,9 @@ public class MBox {
 	} // receive
 
 	/**
-	 * Receive temp.
+	 * Reveive message from MBox.
 	 *
-	 * @return the msg
-	 */
-	/*
-	 * DO NOT USE THIS,
-	 * this is only used in NewExceptionEmu. for temporally solution
-	 * - Tony
+	 * @return the message
 	 */
 	public final synchronized Msg receiveTemp() {
 		try {

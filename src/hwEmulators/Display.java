@@ -17,34 +17,34 @@ import java.util.logging.Logger;
  * The Class Display.
  */
 public class Display extends Thread implements EmulatorActions {
-	
+
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
+
 	/** The upper area. */
 	private JTextArea upperArea = null;
-	
+
 	/** The lower area. */
 	private JTextArea lowerArea = null;
-	
+
 	/** The my frame. */
 	private MyFrame myFrame = null;
-	
+
 	/** The my panel. */
 	private MyPanel myPanel = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 5;
-	
+
 	/** The status. */
 	private int status = 500;
 
@@ -273,8 +273,8 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable should the UI enable?
+	 * @param isShutdown should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
@@ -324,7 +324,7 @@ public class Display extends Thread implements EmulatorActions {
 	private class MyFrame extends JFrame {
 		// ----------------------------------------
 		/**
-		 * Instantiates a new my frame.
+		 * Instantiates a new frame.
 		 *
 		 * @param title the title
 		 */
@@ -348,7 +348,7 @@ public class Display extends Thread implements EmulatorActions {
 	private class MyPanel extends JPanel {
 		// ----------------------------------------
 		/**
-		 * Instantiates a new my panel.
+		 * Instantiates a new panel.
 		 */
 		// MyPanel
 		public MyPanel() {

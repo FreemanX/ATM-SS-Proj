@@ -19,34 +19,34 @@ public class DepositCollector extends Thread implements EmulatorActions {
 
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
+
 	/** The msg text area. */
 	private JTextArea msgTextArea = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 4;
-	
+
 	/** The status. */
 	private int status = 400;
-	
+
 	/** The slot is open. */
 	private boolean slotIsOpen = false;
-	
+
 	/** The has envelop. */
 	private boolean hasEnvelop = false;
-	
+
 	/** The my frame. */
 	private MyFrame myFrame = null;
-	
+
 	/** The my panel. */
 	private MyPanel myPanel = null;
 
@@ -214,8 +214,8 @@ public class DepositCollector extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable should the UI enable?
+	 * @param isShutdown should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";

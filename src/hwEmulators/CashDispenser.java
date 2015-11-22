@@ -13,58 +13,58 @@ import java.util.logging.Logger;
  * The Class CashDispenser.
  */
 public class CashDispenser extends Thread implements EmulatorActions {
-	
+
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
+
 	/** The view box. */
 	private MBox viewBox = null;
-	
+
 	/** The text area. */
 	private JTextArea textArea = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 3;
-	
+
 	/** The ready2 take. */
 	private boolean ready2Take = false;
-	
+
 	/** The status. */
 	private int status = 300;
-	
+
 	/** The num of100. */
 	private int numOf100 = 100000;
-	
+
 	/** The num of500. */
 	private int numOf500 = 100000;
-	
+
 	/** The num of1000. */
 	private int numOf1000 = 100000;
-	
+
 	/** The eject num of100. */
 	private int ejectNumOf100 = 0;
-	
+
 	/** The eject num of500. */
 	private int ejectNumOf500 = 0;
-	
+
 	/** The eject num of1000. */
 	private int ejectNumOf1000 = 0;
-	
+
 	/** The eject cash amount. */
 	private int ejectCashAmount = 100 * ejectNumOf100 + 500 * ejectNumOf500 + 1000 * ejectNumOf1000;
-	
+
 	/** The my frame. */
 	private MyFrame myFrame = null;
-	
+
 	/** The my panel. */
 	private MyPanel myPanel = null;
 
@@ -323,8 +323,8 @@ public class CashDispenser extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable should the UI enable?
+	 * @param isShutdown should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
@@ -390,7 +390,7 @@ public class CashDispenser extends Thread implements EmulatorActions {
 	 * The Class MyPanel.
 	 */
 	private class MyPanel extends JPanel {
-		
+
 		/**
 		 * Instantiates a new my panel.
 		 */

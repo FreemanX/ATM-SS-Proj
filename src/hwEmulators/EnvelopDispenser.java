@@ -15,34 +15,34 @@ import java.util.logging.Logger;
  */
 // EnvelopDispenser
 public class EnvelopDispenser extends Thread implements EmulatorActions {
-	
+
 	/** The id. */
 	private String id;
-	
+
 	/** The log. */
 	private Logger log = null;
-	
+
 	/** The atmss. */
 	private ATMSS atmss = null;
-	
+
 	/** The atmss m box. */
 	private MBox atmssMBox = null;
-	
+
 	/** The msg text area. */
 	private JTextArea msgTextArea = null;
-	
+
 	/** The Constant type. */
 	public final static int type = 6;
-	
+
 	/** The status. */
 	private int status = 600;
-	
+
 	/** The num of envelop. */
 	private int numOfEnvelop = 10000;
-	
+
 	/** The my frame. */
 	private MyFrame myFrame = null;
-	
+
 	/** The my panel. */
 	private MyPanel myPanel = null;
 
@@ -62,18 +62,18 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	} // EnvelopDispenser
 
 	/**
-	 * Gets the ED status.
+	 * Gets the EnvelopDispenser status.
 	 *
-	 * @return the ED status
+	 * @return the EnvelopDispenser status
 	 */
 	public int getEDStatus() {
 		return status;
 	}
 
 	/**
-	 * Sets the ED status.
+	 * Sets the EnvelopDispenser status.
 	 *
-	 * @param Status the new ED status
+	 * @param Status the EnvelopDispenser status
 	 */
 	protected void setEDStatus(int Status) {
 		if (status != Status) {
@@ -194,8 +194,8 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable the is enable
-	 * @param isShutdown the is shutdown
+	 * @param isEnable should the UI enable?
+	 * @param isShutdown should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
@@ -238,7 +238,7 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	 */
 	// MyFrame
 	private class MyFrame extends JFrame {
-		
+
 		/** The Constant serialVersionUID. */
 		public static final long serialVersionUID = 1L;
 
@@ -266,7 +266,7 @@ public class EnvelopDispenser extends Thread implements EmulatorActions {
 	 * The Class MyPanel.
 	 */
 	private class MyPanel extends JPanel {
-		
+
 		/** The Constant serialVersionUID. */
 		public static final long serialVersionUID = 1L;
 
