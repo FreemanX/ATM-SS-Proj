@@ -9,7 +9,7 @@ This is project that built in the latest version of eclipse (Version: Mars.1 Rel
 
 1. Set up a server that support PHP and put everything in php/ to your server.
 
-2. Set up mysql database server and run the script in sql_dump/ to build a test database with the necessary tables and records. E.g., *mysql -u <username> -p <db_name> << group05_dmp.sql*
+2. Set up mysql database server and run the script in sql_dump/ to build a test database with the necessary tables and records. E.g., *<code>mysql -u \<username\> -p \<db_name\> << group05_dmp.sql</code>*
 
 3. Change the value of prefix in *atmss.bams.BAMSCommunicator* and *php/settings.php* to match with your server.
 
