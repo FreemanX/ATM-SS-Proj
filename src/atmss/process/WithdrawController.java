@@ -13,62 +13,76 @@ import atmss.Session;
  */
 public class WithdrawController extends ProcessController{
 
-	/** The prompt for choice header. */
+	/** The display message when prompting for choice header. */
 	private final String PROMPT_FOR_CHOICE_HEADER = "Please choose your withdraw account:";
 	
-	/** The prompt for choice err header. */
+	/** The display message when prompting for choice err header. */
 	private final String PROMPT_FOR_CHOICE_ERR_HEADER = "Not a valid choice! Please choose your account:";
 	
-	/** The prompt for amount. */
+	/** The display message when prompting for amount. */
 	private final String[] PROMPT_FOR_AMOUNT = {"You can only withdraw 100, 500, 1000 notes.","Please input your withdraw amount:"};
 	
-	/** The prompt for amount err. */
-	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must be divisible by 100 and less or equal to 10000","Please input your withdraw amount again:"};
+	/** The display message when prompting for amount err. */
+	private final String[] PROMPT_FOR_AMOUNT_ERR = {"Invalid amount!","The withdraw amount must be divisible by 100 and less or equal to $10000","Please input your withdraw amount again:"};
 	
-	/** The prompt for collection. */
+	/** The display message when prompting for collection. */
 	private final String[] PROMPT_FOR_COLLECTION = {"Operatoin succeeded!", "Please collect your money."};
 	
-	/** The show please wait. */
+	/** The display message when showing please wait. */
 	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
 	
-	/** The failed from bams loading accounts. */
+	/** The display message when failed from BAMS loading accounts. */
 	private final String[] FAILED_FROM_BAMS_LOADING_ACCOUNTS = {"Failed to read account information"};
 	
-	/** The failed from keypad. */
+	/** The display message when failed from keypad. */
 	private final String[] FAILED_FROM_KEYPAD = {"No response from the keypad"};
 	
-	/** The failed from cash dispenser. */
+	/** The display message when failed from cash dispenser. */
 	private final String[] FAILED_FROM_CASHDISPENSER = {"No response from the cash dispenser"};
 	
-	/** The failed from user cancelling. */
+	/** The display message when failed from user cancelling. */
 	private final String[] FAILED_FROM_USER_CANCELLING = {"The operation has been cancelled"};
 	
-	/** The failed from balance. */
+	/** The display message when failed from balance. */
 	private final String[] FAILED_FROM_BALANCE = {"Not enough balance to withdraw", "You can only withdraw $"};
 	
-	/** The failed from inventory. */
+	/** The display message when failed from inventory. */
 	private final String[] FAILED_FROM_INVENTORY = {"Not enough inventory to withdraw"};
 	
-	/** The time limit. */
-	private final int TIME_LIMIT = 20; // seconds
+	/** The time limit for key press in seconds. */
+	private final long TIME_LIMIT = 20;
 	
-	/** The amount limit. */
+	/** The withdraw amount limit per operation. */
 	private final int AMOUNT_LIMIT = 10000;
 	
-	/** The kp cancel. */
+	/** The key value for cancel. */
 	private final String KP_CANCEL = "CANCEL";
 	
 	/** The operation name. */
 	private final String OPERATION_NAME = "Withdraw";
 	
-	/** The _current step. */
+	/** The current step. */
 	private String currentStep = OPERATION_NAME;
+	
+	/** The account numbers associated with the card. */
 	private String[] accountNumbers;
+	
+	/** The chosen withdraw account. */
 	private String accountNumber = "";
+	
+	/** The withdraw amount. */
 	private int withdrawAmount = 0;
+	
+	/** The balance in the account. */
 	private double balance = 0;
+	
+	/** The cash inventory in the cash dispenser, [0] for 100 note, [1] for 500 note, [2] for 1000 note. */
 	private int[] cashInventory;
+	
+	/** The withdraw plan for the cash dispenser, [0] for 100 note, [1] for 500 note, [2] for 1000 note. */
 	private int[] withdrawPlan;
+	
+	/** The overall result. */
 	private boolean result = false;
 
 	/**
@@ -81,9 +95,10 @@ public class WithdrawController extends ProcessController{
 	}
 
 	/**
-	 * Do withdraw.
+	 * Do withdraw cash, the core method in WithdrawController.
+	 * The method will access all the instance variables through several private methods.
 	 *
-	 * @return the boolean
+	 * @return true, if all the relevant hardwares work fine, the user does not cancel or get time out, and the process can get approval from the banking system over the network; otherwise return false.
 	 */
 	public Boolean doWithdraw() {
 		if (!doLoadAccounts()) return false;
@@ -97,6 +112,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do load accounts, a step of the overall process.
+	 * It will change the current step, and access the accountNumbers.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the accountNumbers gets a new value;
+	 */
 	private boolean doLoadAccounts() {
 		currentStep = OPERATION_NAME+": loading accounts";
 		accountNumbers = _atmssHandler.doBAMSGetAccounts(_session);
@@ -113,6 +135,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do get account choice, a step of the overall process.
+	 * It will change the current step, and access the accountNumbers and accountNumber.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the accountNumber is chosen by the user;
+	 */
 	private boolean doGetAccountChoice() {
 		currentStep = OPERATION_NAME+": getting account choice from user";
 		if (!_atmssHandler.doDisDisplayUpper(createOptionList(PROMPT_FOR_CHOICE_HEADER,accountNumbers))) {
@@ -152,6 +181,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do get withdraw amount, a step of the overall process.
+	 * It will change the current step, and access the withdrawAmount.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the withdrawAmount gets a new value;
+	 */
 	private boolean doGetWithdrawAmount() {
 		currentStep = OPERATION_NAME+": getting withdraw amount from user";
 		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_AMOUNT)) {
@@ -191,6 +227,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do check balance, a step of the overall process.
+	 * It will change the current step, and access the balance.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the balance is enough for withdraw;
+	 */
 	private boolean doCheckBalance() {
 		currentStep = OPERATION_NAME+": checking withdraw amount against balance";
 		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
@@ -211,6 +254,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do check inventory, a step of the overall process.
+	 * It will change the current step, and access the cashInventory.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the cashInventory is enough for withdraw;
+	 */
 	private boolean doCheckInventory() {
 		currentStep = OPERATION_NAME+": checking cash inventory";
 		cashInventory = _atmssHandler.doCDCheckCashInventory();
@@ -227,6 +277,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do get withdraw plan, a step of the overall process.
+	 * It will change the current step, and access the withdrawPlan.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the withdrawPlan is valid for the cash dispenser;
+	 */
 	private boolean doGetWithdrawPlan() {
 		currentStep = OPERATION_NAME+": getting withdraw plan";
 		withdrawPlan = getWithdrawPlan(cashInventory, withdrawAmount);
@@ -243,6 +300,13 @@ public class WithdrawController extends ProcessController{
 		return true;
 	}
 	
+	/**
+	 * Do dispense cash, a step of the overall process.
+	 * It will change the current step, and access the result.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the cash is collected by the user before timeout;
+	 */
 	private boolean doDispenseCash() {
 		currentStep = OPERATION_NAME+": waiting for collecting cash";
 		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_COLLECTION)) {
@@ -264,10 +328,9 @@ public class WithdrawController extends ProcessController{
 	}
 	
 	/**
-	 * Ask for printing.
-	 *
-	 * @param accountNumber the account number
-	 * @param withdrawAmount the amount
+	 * Do print advice, a step of the overall process.
+	 * It will change the current step, and ask user for printing the advice.
+	 * It will record the current step before return.
 	 */
 	private void doPrintAdvice(){
 		currentStep = OPERATION_NAME+": printing advice";
@@ -300,18 +363,18 @@ public class WithdrawController extends ProcessController{
 	}
 	
 	/**
-	 * Record.
+	 * Record operation.
 	 *
-	 * @param resultType the type
+	 * @param resultType the type of result of the current step
 	 */
 	private void record(String resultType) {
 		super.record(currentStep, resultType);
 	}
 		
 	/**
-	 * Pause.
+	 * Pause the process
 	 *
-	 * @param waitingTimeInSeconds the seconds
+	 * @param waitingTimeInSeconds the pause time in seconds
 	 */
 	private void pause(int waitingTimeInSeconds) {
 		long startTime = System.currentTimeMillis();
@@ -319,10 +382,10 @@ public class WithdrawController extends ProcessController{
 	}
 	
 	/**
-	 * Do kp get choice.
+	 * Do keypad get choice.
 	 *
-	 * @param waitingTimeInSeconds the duration
-	 * @return the string
+	 * @param waitingTimeInSeconds the time limit for each key press
+	 * @return the number choice in String format
 	 */
 	private String doKPGetChoice(long waitingTimeInSeconds) {
 		while (true) {
@@ -344,8 +407,8 @@ public class WithdrawController extends ProcessController{
 	/**
 	 * Choice from string.
 	 *
-	 * @param userInput the user input
-	 * @return the int
+	 * @param userInput the user input string
+	 * @return the integer converted from the input string; -1 if the input string is invalid
 	 */
 	private int choiceFromString(String userInput) {
 		try {
@@ -358,8 +421,8 @@ public class WithdrawController extends ProcessController{
 	/**
 	 * Amount from string.
 	 *
-	 * @param userInput the user input
-	 * @return the int
+	 * @param userInput the user input string
+	 * @return the integer converted from the input string; 0 if the input string is invalid
 	 */
 	private int amountFromString(String userInput, int amountLimit) {
 		try {
@@ -376,8 +439,10 @@ public class WithdrawController extends ProcessController{
 	
 	/**
 	 * Gets the withdraw plan.
+	 * Both inventory and withdrawPlan are integer arrays of size 3.
+	 * [0] for 100 note, [1] for 500 note, [2] for 1000 note
 	 *
-	 * @param inventory the inventory
+	 * @param inventory the cash inventory of the cash dispenser
 	 * @param withdrawAmount the withdraw amount
 	 * @return the withdraw plan
 	 */

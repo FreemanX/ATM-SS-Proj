@@ -13,138 +13,184 @@ import atmss.Session;
  */
 public class ChangePasswdController extends ProcessController {
 
+	/** The display message when prompting for new password. */
+	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please input your new password:"};
+	
+	/** The display message when prompting for new password err. */
+	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please input your new password:"};
+	
+	/** The display message when prompting for confirm password. */
+	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please input your new password again:"};
+	
+	/** The display message when showing please wait. */
+	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
+	
+	/** The display message when failed from BAMS updating password. */
+	private final String[] FAILED_FROM_BAMS_UPDATING_PW = {"Cannot get approval from BAMS", "The password may not be changed"};
+	
+	/** The display message when failed from keypad. */
+	private final String[] FAILED_FROM_KEYPAD = {"No response from the keypad"};
+	
+	/** The display message when failed from user cancelling. */
+	private final String[] FAILED_FROM_USER_CANCELLING = {"The operation has been cancelled"};
+	
+	/** The time limit for key press in seconds. */
+	private final long TIME_LIMIT = 20;
+	
+	/** The key value for cancel. */
+	private final String KP_CANCEL = "CANCEL";
+	
 	/** The operation name. */
 	private final String OPERATION_NAME = "Change Password";
 	
-	/** The failed from bams updating pw. */
-	private final String FAILED_FROM_BAMS_UPDATING_PW = "Cannot get approval from BAMS";
+	/** The current step. */
+	private String currentStep = OPERATION_NAME;
 	
-	/** The failed from keypad. */
-	private final String FAILED_FROM_KEYPAD = "No response from the keypad";
+	/** The new password. */
+	private String newPassword = "";
 	
-	/** The failed from user cancelling. */
-	private final String FAILED_FROM_USER_CANCELLING = "The operation has been cancelled";
+	/** The confirm password. */
+	private String confirmPassword = "";
 	
-	/** The prompt for new password. */
-	private final String[] PROMPT_FOR_NEW_PASSWORD = {"Please input your new password:"};
+	/** The overall result. */
+	private boolean result = false;
 	
-	/** The prompt for new password err. */
-	private final String[] PROMPT_FOR_NEW_PASSWORD_ERR = {"The new passwords do not equal", "Please input your new password:"};
-	
-	/** The prompt for confirm password. */
-	private final String[] PROMPT_FOR_CONFIRM_PASSWORD = {"Please input your new password again:"};
-	
-	/** The show please wait. */
-	private final String[] SHOW_PLEASE_WAIT = {"Processing, please wait..."};
-	
-	/** The time limit. */
-	private final long TIME_LIMIT = 20; // seconds
-	
-	/** The kp cancel. */
-	private final String KP_CANCEL = "CANCEL";
-	
-	/** The _current step. */
-	private String _currentStep = OPERATION_NAME;
-
 	/**
-	 * Instantiates a new change passwd controller.
+	 * Instantiates a new change password controller.
 	 *
 	 * @param CurrentSession the current session
 	 */
 	public ChangePasswdController(Session CurrentSession) {
 		super(CurrentSession);
 	}
-
+	
 	/**
-	 * Do change password.
-	 *
-	 * @return true, if successful
+	 * Do change password, The core method in ChangePasswdController.
+	 * The method will access all the instance variables through several private methods.
+	 * 
+	 * @return true, if all the relevant hardwares work fine, the user does not cancel or get time out, and the process can get approval from the banking system over the network; otherwise return false.
 	 */
 	public boolean doChangePasswd() {
-		String newPassword = "";
-		String confirmPassword = "";
-		boolean result = false;
-		
-		// -> preparing the necessary information
-		_currentStep = OPERATION_NAME+": getting new password";
-		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD)) {
-			record("Dis");
-			return false;
-		}
 		while (true) {
-			newPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
-			if (newPassword == null) {
-				record("KP");
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
-					record("Dis");
-					return false;
-				}
-				pause(3);
-				return false;
-			} else if (newPassword.equals(KP_CANCEL)) {
-				record("USER");
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
-					record("Dis");
-					return false;
-				}
-				pause(3);
-				return false;
-			}
-			record("new password typed");
-			
-			_currentStep = OPERATION_NAME+": getting confirm password";
-			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_CONFIRM_PASSWORD)) {
+			if (!doGetNewPassword()) return false;
+			if (!doGetConfirmPassword()) return false;
+			if (doCheckNewPassword()) break;
+		}
+		if (!doGetApproval()) return false;
+		doPrintAdvice();
+		return true;
+	}
+	
+	/**
+	 * Do get new password, a step of the overall process.
+	 * It will change the current step, and access the newPassword.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the newPassword gets a new value;
+	 */
+	private boolean doGetNewPassword() {
+		currentStep = OPERATION_NAME+": getting new password";
+		if (newPassword.isEmpty()) {
+			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD)) {
 				record("Dis");
 				return false;
 			}
-			confirmPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
-			if (confirmPassword == null) {
-				record("KP");
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_KEYPAD})) {
-					record("Dis");
-					return false;
-				}
-				pause(3);
-				return false;
-			} else if (confirmPassword.equals(KP_CANCEL)) {
-				record("USER");
-				if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_USER_CANCELLING})) {
-					record("Dis");
-					return false;
-				}
-				pause(3);
-				return false;
-			}
-			record("confirm password typed");
-			 
-			// check new password
-			if (newPassword.equals(confirmPassword)) break; 
-			
-			_currentStep = OPERATION_NAME+": getting new password";
+		} else {
 			if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_NEW_PASSWORD_ERR)) {
 				record("Dis");
 				return false;
 			}
 		}
+		newPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
+		if (newPassword == null) {
+			record("KP");
+			if (!_atmssHandler.doDisDisplayUpper(FAILED_FROM_KEYPAD)) {
+				record("Dis");
+				return false;
+			}
+			pause(3);
+			return false;
+		} else if (newPassword.equals(KP_CANCEL)) {
+			record("USER");
+			if (!_atmssHandler.doDisDisplayUpper(FAILED_FROM_USER_CANCELLING)) {
+				record("Dis");
+				return false;
+			}
+			pause(3);
+			return false;
+		}
+		record("new password typed");
+		return true;
+	}
+	
+	/**
+	 * Do get confirm password, a step of the overall process.
+	 * It will change the current step, and access the confirmPassword.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the confirmPassword gets a new value;
+	 */
+	private boolean doGetConfirmPassword() {
+		currentStep = OPERATION_NAME+": getting confirm password";
+		if (!_atmssHandler.doDisDisplayUpper(PROMPT_FOR_CONFIRM_PASSWORD)) {
+			record("Dis");
+			return false;
+		}
+		confirmPassword = _atmssHandler.doKPGetPasswd(TIME_LIMIT);
+		if (confirmPassword == null) {
+			record("KP");
+			if (!_atmssHandler.doDisDisplayUpper(FAILED_FROM_KEYPAD)) {
+				record("Dis");
+				return false;
+			}
+			pause(3);
+			return false;
+		} else if (confirmPassword.equals(KP_CANCEL)) {
+			record("USER");
+			if (!_atmssHandler.doDisDisplayUpper(FAILED_FROM_USER_CANCELLING)) {
+				record("Dis");
+				return false;
+			}
+			pause(3);
+			return false;
+		}
+		record("confirm password typed");
+		return true;
+	}
+	
+	/**
+	 * Do check new password, a step of the overall process.
+	 * It will access the newPassword and the confirmPassword.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the newPassword is equal to the confirmPassword;
+	 */
+	private boolean doCheckNewPassword() {
+		if (!newPassword.equals(confirmPassword)) return false;
 		record("new password checked");
-		// <- preparing the necessary information
-		
-		// contact BAMS now
-		_currentStep = OPERATION_NAME+": getting approval from BAMS";
+		return true;
+	}
+	
+	/**
+	 * Do get approval, a step of the overall process.
+	 * It will change the current step, and ask for approval from the BAMS.
+	 * It will record the current step before return.
+	 *
+	 * @return true, if the BAMS approves the change;
+	 */
+	private boolean doGetApproval() {
+		currentStep = OPERATION_NAME+": getting approval from BAMS";
 		if (!_atmssHandler.doDisDisplayUpper(SHOW_PLEASE_WAIT)) {
 			record("Dis");
 			return false;
 		}
 		result = _atmssHandler.doBAMSUpdatePasswd(newPassword, _session);
-		
-		// display the result
 		if (result) {
 			record("password changed");
-			askForPrinting();
 			return true;
 		} else {
 			record("BAMS");
-			if (!_atmssHandler.doDisDisplayUpper(new String[]{FAILED_FROM_BAMS_UPDATING_PW,"The password may not be changed"})) {
+			if (!_atmssHandler.doDisDisplayUpper(FAILED_FROM_BAMS_UPDATING_PW)) {
 				record("Dis");
 				return false;
 			}
@@ -154,28 +200,12 @@ public class ChangePasswdController extends ProcessController {
 	}
 	
 	/**
-	 * Pause.
-	 *
-	 * @param Seconds the seconds
+	 * Do print advice, a step of the overall process.
+	 * It will change the current step, and ask user for printing the advice.
+	 * It will record the current step before return.
 	 */
-	private void pause(int Seconds) {
-		long startTime = System.currentTimeMillis();
-		while(System.currentTimeMillis()-startTime < Seconds*1000){}
-	}
-	
-	/**
-	 * Record.
-	 *
-	 * @param Type the type
-	 */
-	private void record(String Type) {
-		super.record(_currentStep, Type);
-	}
-	
-	/**
-	 * Ask for printing.
-	 */
-	private void askForPrinting(){
+	private void doPrintAdvice(){
+		currentStep = OPERATION_NAME+": printing advice";
 		String[] toDisplay = {
 				"Operation succeeded!",
 				"You have changed your password",
@@ -201,5 +231,24 @@ public class ChangePasswdController extends ProcessController {
 				return;
 			}
 		}
+	}
+	
+	/**
+	 * Record operation.
+	 *
+	 * @param resultType the type of result of the current step
+	 */
+	private void record(String resultType) {
+		super.record(currentStep, resultType);
+	}
+		
+	/**
+	 * Pause the process
+	 *
+	 * @param waitingTimeInSeconds the pause time in seconds
+	 */
+	private void pause(int waitingTimeInSeconds) {
+		long startTime = System.currentTimeMillis();
+		while(System.currentTimeMillis()-startTime < waitingTimeInSeconds*1000){}
 	}
 }
