@@ -30,6 +30,7 @@ The system will record 3 log files during the run time.
 1. The ATM-SS_Demo_V1.0.jar we provide is a runnable java program and it will connect to our server.
 
 	Databash infomation(22/11/2015):
+	
 		MariaDB [group05]> show tables;
 		+-------------------+
 		| Tables_in_group05 |
