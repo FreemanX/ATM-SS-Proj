@@ -23,7 +23,8 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Instantiates a new display view.
 	 *
-	 * @param display the Display emulator
+	 * @param display
+	 *            the Display emulator
 	 */
 	public DisplayView(Display display) {
 		this.display = display;
@@ -38,8 +39,10 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Display upper.
 	 *
-	 * @param lines the lines
-	 * @throws DisplayException the display exception
+	 * @param lines
+	 *            the lines
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void displayUpper(String[] lines) throws DisplayException {
 		checkStatus();
@@ -49,8 +52,10 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Display upper.
 	 *
-	 * @param line the line
-	 * @throws DisplayException the display exception
+	 * @param line
+	 *            the line
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void displayUpper(String line) throws DisplayException {
 		checkStatus();
@@ -60,8 +65,10 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Display lower.
 	 *
-	 * @param line the line
-	 * @throws DisplayException the display exception
+	 * @param line
+	 *            the line
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void displayLower(String line) throws DisplayException {
 		checkStatus();
@@ -71,8 +78,10 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Append upper.
 	 *
-	 * @param line the line
-	 * @throws DisplayException the display exception
+	 * @param line
+	 *            the line
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void appendUpper(String line) throws DisplayException {
 		checkStatus();
@@ -84,8 +93,10 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Append lower.
 	 *
-	 * @param str the str
-	 * @throws DisplayException the display exception
+	 * @param str
+	 *            the str
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void appendLower(String str) throws DisplayException {
 		display.displayLower(display.getLowerContent() + str);
@@ -94,7 +105,8 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Clear upper.
 	 *
-	 * @throws DisplayException the display exception
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void clearUpper() throws DisplayException {
 		display.displayUpper(new String[0]);
@@ -103,14 +115,17 @@ public class DisplayView extends HardwareView {
 	/**
 	 * Clear lower.
 	 *
-	 * @throws DisplayException the display exception
+	 * @throws DisplayException
+	 *             the display exception
 	 */
 	public void clearLower() throws DisplayException {
 		checkStatus();
 		display.displayLower("");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see atmss.hardware.view.HardwareView#checkStatus()
 	 */
 	@Override

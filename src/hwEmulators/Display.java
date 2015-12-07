@@ -54,7 +54,8 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Instantiates a new display.
 	 *
-	 * @param id the id
+	 * @param id
+	 *            the id
 	 */
 	public Display(String id) {
 		this.id = id;
@@ -80,7 +81,8 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Sets the dis status.
 	 *
-	 * @param Status the new dis status
+	 * @param Status
+	 *            the new dis status
 	 */
 	protected void setDisStatus(int Status) {
 		if (status != Status) {
@@ -105,7 +107,8 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Sets the atmss.
 	 *
-	 * @param newAtmss the new atmss
+	 * @param newAtmss
+	 *            the new atmss
 	 */
 	// setATMSS
 	public void setATMSS(ATMSS newAtmss) {
@@ -116,7 +119,8 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Display upper.
 	 *
-	 * @param lines the lines
+	 * @param lines
+	 *            the lines
 	 */
 	// upper --------------------------------------------------
 	public void displayUpper(String[] lines) {
@@ -147,14 +151,16 @@ public class Display extends Thread implements EmulatorActions {
 	}
 	// --------------------------------------------------------
 
-
 	/**
 	 * Display lower.
 	 *
-	 * @param line the line
+	 * @param line
+	 *            the line
 	 */
 	// lower --------------------------------------------------
-	public void displayLower(String line) { lowerArea.setText(line); }
+	public void displayLower(String line) {
+		lowerArea.setText(line);
+	}
 
 	/**
 	 * Gets the lower content.
@@ -165,7 +171,9 @@ public class Display extends Thread implements EmulatorActions {
 		return lowerArea.getText();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see hwEmulators.EmulatorActions#shutdown()
 	 */
 	@Override
@@ -175,13 +183,16 @@ public class Display extends Thread implements EmulatorActions {
 		setUIEnable(false, true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see hwEmulators.EmulatorActions#restart()
 	 */
 	@Override
 	public void restart() {
 		shutdown();
-		long ms = new Random(new Date().getTime()).nextInt(1500) + 200; // 200 - 1700
+		long ms = new Random(new Date().getTime()).nextInt(1500) + 200; // 200 -
+																		// 1700
 		try {
 			sleep(ms);
 		} catch (InterruptedException e) {
@@ -210,22 +221,24 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Sets the blue screen.
 	 *
-	 * @param infos the new blue screen
+	 * @param infos
+	 *            the new blue screen
 	 */
 	public void setBlueScreen(List<ATMSS.HWFailureInfo> infos) {
-		String[] componentName = new String[]{"AdvicePrinter", "CardReader", "CashDispenser", "DepositCollector", "Display", "EnvelopDispenser", "Keypad", "Network"};
+		String[] componentName = new String[] { "AdvicePrinter", "CardReader", "CashDispenser", "DepositCollector",
+				"Display", "EnvelopDispenser", "Keypad", "Network" };
 		String msg = "A problem has been detected and ATM has been shut down to prevent damage.\n\n"
 				+ "If this is the first time you've seen this Stop error screen,\n"
-				+ "contact a technician, +852 5174-0740\n"
-				+ "If you are a technician, follow these steps:\n"
+				+ "contact a technician, +852 5174-0740\n" + "If you are a technician, follow these steps:\n"
 				+ "Check log details for failed component(s). Reset the component and restart the ATM.\n\n"
 				+ "Technical information [" + infos.size() + "]:\n";
 
 		isBlueScreen = true;
 
 		for (ATMSS.HWFailureInfo info : infos) {
-			msg += "*** Component type:  " + String.format("0x%08x", info.getType()) + " (" + componentName[info.getType() - 1] + ")" + ", code: " + String.format("0x%08x", info.getCode()) + " (" + info.getCode() + ")\n"
-					+ "    message: " + info.getMessage() + "\n\n";
+			msg += "*** Component type:  " + String.format("0x%08x", info.getType()) + " ("
+					+ componentName[info.getType() - 1] + ")" + ", code: " + String.format("0x%08x", info.getCode())
+					+ " (" + info.getCode() + ")\n" + "    message: " + info.getMessage() + "\n\n";
 		}
 
 		myFrame.getContentPane().removeAll(); // remove existing content
@@ -242,7 +255,8 @@ public class Display extends Thread implements EmulatorActions {
 		StyleConstants.setForeground(style, Color.white);
 		try {
 			doc.insertString(doc.getLength(), msg, style);
-		} catch (BadLocationException e) {}
+		} catch (BadLocationException e) {
+		}
 
 		panel.add(textPane);
 		myFrame.getContentPane().add(panel);
@@ -251,7 +265,9 @@ public class Display extends Thread implements EmulatorActions {
 		myFrame.getContentPane().repaint();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see hwEmulators.EmulatorActions#fatalHalt()
 	 */
 	@Override
@@ -264,7 +280,8 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Sets the UI enable.
 	 *
-	 * @param isEnable the new UI enable
+	 * @param isEnable
+	 *            the new UI enable
 	 */
 	private void setUIEnable(boolean isEnable) {
 		setUIEnable(isEnable, true);
@@ -273,8 +290,10 @@ public class Display extends Thread implements EmulatorActions {
 	/**
 	 * Sets the ui enable.
 	 *
-	 * @param isEnable should the UI enable?
-	 * @param isShutdown should the UI shutdown?
+	 * @param isEnable
+	 *            should the UI enable?
+	 * @param isShutdown
+	 *            should the UI shutdown?
 	 */
 	private void setUIEnable(boolean isEnable, boolean isShutdown) {
 		String msg = "";
@@ -316,7 +335,9 @@ public class Display extends Thread implements EmulatorActions {
 	 *
 	 * @return true, if is blue screen
 	 */
-	public boolean isBlueScreen() { return isBlueScreen; }
+	public boolean isBlueScreen() {
+		return isBlueScreen;
+	}
 
 	/**
 	 * The Class MyFrame.
@@ -326,7 +347,8 @@ public class Display extends Thread implements EmulatorActions {
 		/**
 		 * Instantiates a new frame.
 		 *
-		 * @param title the title
+		 * @param title
+		 *            the title
 		 */
 		// MyFrame
 		public MyFrame(String title) {
@@ -352,9 +374,9 @@ public class Display extends Thread implements EmulatorActions {
 		 */
 		// MyPanel
 		public MyPanel() {
-			//JScrollPane upperPane = new JScrollPane(upperArea);
+			// JScrollPane upperPane = new JScrollPane(upperArea);
 			add(upperArea);
-			//JScrollPane lowerPane = new JScrollPane(upperArea);
+			// JScrollPane lowerPane = new JScrollPane(upperArea);
 			add(lowerArea);
 		} // MyPanel
 	} // MyPanel

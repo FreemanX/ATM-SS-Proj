@@ -116,6 +116,7 @@ public class MainController extends Thread {
 		private void endSession() {
 			this.isInProcess = false;
 			numOfWrongPassed = 0;
+			atmssHandler.doDisClearAll();
 		}
 
 		/**
