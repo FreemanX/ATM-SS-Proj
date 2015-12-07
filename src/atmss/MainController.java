@@ -133,8 +133,8 @@ public class MainController extends Thread {
 		private void clearLines() {
 			for (int j = 0; j < lines.length; j++) {
 				lines[j] = "";
-
 			}
+			atmssHandler.doDisClearAll();
 		}
 
 		/**
